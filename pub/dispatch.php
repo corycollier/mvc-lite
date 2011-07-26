@@ -1,6 +1,17 @@
 <?php
+/**
+ * the application bootstrapping file. 
+ * 
+ * This file acts as the main entry point to the application
+ * 
+ * @file dispatch.php
+ * @package App
+ * @subpackage Dispatch
+ * @category MVCLite
+ */
+
 // require the autoloader
-require '../lib/loader.class.inc';
+require '../lib/loader.php';
 
 // define the root path
 defined('ROOT')
@@ -22,18 +33,17 @@ defined('LIB_PATH')
 ;
 // set the include path to be the library, then the application, then the rest
 set_include_path(implode(PATH_SEPARATOR, array(
-    LIB_PATH,
-    APP_PATH,
+    ROOT,
     get_include_path(),
 )));
 
 // ensure the autoloader is ready
-$loader = Loader::getInstance();
+$loader = Lib_Loader::getInstance();
 
 // setup the request
-$request = Request::getInstance();
-$request->setParams(Request::buildFromString(@$_GET['q']));
+$request = Lib_Request::getInstance();
+$request->setParams(Lib_Request::buildFromString(@$_GET['q']));
 
 // if this isn't being called from cli, then run it
-if ( PHP_SAPI != 'cli' ) Dispatcher::getInstance()->dispatch();
+if ( PHP_SAPI != 'cli' ) Lib_Dispatcher::getInstance()->dispatch();
 
