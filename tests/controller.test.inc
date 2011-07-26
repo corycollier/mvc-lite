@@ -1,4 +1,15 @@
 <?php
+/**
+ * @file controller.test.inc
+ * @package Tests
+ * @subpackage Controller
+ * @category MVCLite
+ */
+/**
+ * @package Tests
+ * @subpackage Controller
+ * @category MVCLite 
+ */
 
 class ControllerTest
 extends PHPUnit_Framework_TestCase
@@ -9,7 +20,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function setUp ( )
     {
-        $this->fixture = new Controller;
+        $this->fixture = new Lib_Controller;
         
     } // END function setup
     
