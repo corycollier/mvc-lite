@@ -1,7 +1,7 @@
 a { color: #000090; text-decoration: none; }
 a:hover, a:active, a:focus { color: highlighttext; background-color: highlight; text-decoration: none; }
 
-body { background: #FFFFFF; }
+body { background : #FFFFFF; }
 body, table { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; }
 
 a img { border: 0px; }
@@ -17,10 +17,7 @@ a img { border: 0px; }
 .evenrow { border: 1px solid #AAAAAA; padding: .5em; margin-bottom: 1em}
 
 .page-body { max-width: 800px; margin: auto; }
-.tree { white-space: nowrap; font: icon }
-.tree dd { margin-left: 19px }
-.tree dl { margin: 0px }
-.tree-icon { 	vertical-align: middle; border: 0px; margin-right: 3px }
+.tree { }
 
 /* Index formatting classes */
 
@@ -41,11 +38,9 @@ a img { border: 0px; }
 .redefinitions { font-size: 8pt; padding-left: 0em; margin-left: 2em; }
 .package { font-weight: bold; }
 .package-title { font-weight: bold; font-size: 14pt; border-bottom: 1px solid black }
-.package-details { font-size: 85%; }
 .sub-package { font-weight: bold; }
 .tutorial { border-width: thin; border-color: #0066ff; }
 .tutorial-nav-box { width: 100%; border: 1px solid #999999; background-color: #F8F8F8; }
-.folder-title { font-style: italic; font-family: Verdana, Arial, Helvetica, sans-serif }
 
 /* Generic formatting */
 
@@ -131,9 +126,7 @@ a img { border: 0px; }
 .author { font-style: italic; font-weight: bold }
 .author-blurb { margin: .5em 0em .5em 2em; font-size: 85%; font-weight: normal; font-style: normal }
 .example { border: 1px dashed #999999; background-color: #EEEEEE; padding: .5em; }
-*[class="example"] { line-height : 1.0em; }
 .listing { border: 1px dashed #999999; background-color: #EEEEEE; padding: .5em; white-space: nowrap; }
-*[class="listing"] { line-height : 1.0em; }
 .release-info { font-size: 85%; font-style: italic; margin: 1em 0em }
 .ref-title-box {  }
 .ref-title {  }
@@ -143,4 +136,46 @@ a img { border: 0px; }
 .cmd-synopsis { margin: 1em 0em }
 .cmd-title { font-weight: bold }
 .toc { margin-left: 2em; padding-left: 0em }
+
+/*------------------------------------------------------------------------------
+    webfx-tree
+------------------------------------------------------------------------------*/
+
+.webfx-tree-container {
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap;
+	font: icon;
+}
+
+.webfx-tree-item {
+	padding: 0px;
+	margin: 0px;
+	color: black;
+	white-space: nowrap;
+	font: icon;
+}
+
+.webfx-tree-item a {
+	margin-left: 3px;
+	padding: 1px 2px 1px 2px;
+	color: black;
+	text-decoration: none;
+}
+
+.webfx-tree-item a:hover, .webfx-tree-item a:active { 
+	color: highlighttext; 
+	background: highlight; 
+	text-decoration: none 
+}
+
+.webfx-tree-item img {
+	vertical-align: middle;
+	border: 0px;
+}
+
+.webfx-tree-icon {
+	width: 16px;
+	height: 16px;
+}
 

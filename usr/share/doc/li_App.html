@@ -2,91 +2,256 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
-			<!-- template designed by Marco Von Ballmoos -->
+			<!-- template designed by Marco Von Ballmoos  -->
 			<title></title>
 			<link rel="stylesheet" href="media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
-		</head>
+						<script src="media/lib/classTree.js"></script>
+									<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+									<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "media/images/plus.png";
+				imgMinus.src = "media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
 		<body>
-						<div class="package-title">App</div>
-<div class="package-details">
-			
-	<dl class="tree">
-		
-		<dt class="folder-title">Description</dt>
-		<dd>
-			<a href='classtrees_App.html' target='right'>Class trees</a><br />
-			<a href='elementindex_App.html' target='right'>Index of elements</a><br />
-					</dd>
+						<h3 class="package-title">App</h3>
+<div class="tree">
+<script language="Javascript">
+if (document.getElementById) {
+			var tree = new WebFXTree('<span class="package">App</span>');
+		tree.setBehavior('classic');
+		tree.openIcon = 'media/images/package.png';
+		tree.icon = 'media/images/package.png';
 	
-							
-							
-																												
+		
+		var class_trees = new WebFXTreeItem('Class trees', 'classtrees_App.html');
+		class_trees.openIcon = 'media/images/Index.png';
+		class_trees.icon = 'media/images/Index.png';
+		tree.add(class_trees);
+
+		var elements = new WebFXTreeItem('Index of elements', 'elementindex_App.html');
+		elements.openIcon = 'media/images/Index.png';
+		elements.icon = 'media/images/Index.png';
+		tree.add(elements);
+
+		var parent_node;
+
+		
+		
+		
+			
+		
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">Controller</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+					var subpackagetree_classe = new WebFXTreeItem('Class(es)', '');
+			subpackagetree_classe.openIcon = 'media/images/class_folder.png';
+			subpackagetree_classe.icon = 'media/images/class_folder.png';
+			
+							var classe = new WebFXTreeItem('App_Controller_Error', 'App/Controller/App_Controller_Error.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
+							var classe = new WebFXTreeItem('App_Controller_Index', 'App/Controller/App_Controller_Index.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
 						
-							
-											
-				<dt class="sub-package"><img class="tree-icon" src="media/images/package.png" alt="Sub-package">Controller</dt>
-				<dd>
-					<dl class="tree">
-																			<dt class="folder-title"><img class="tree-icon" src="media/images/class_folder.png" alt=" ">Classes</dt>
-															<dd><img class="tree-icon" src="media/images/Class.png" alt="Class"><a href='App/Controller/App_Controller_Error.html' target='right'>App_Controller_Error</a></dd>
-															<dd><img class="tree-icon" src="media/images/Class.png" alt="Class"><a href='App/Controller/App_Controller_Index.html' target='right'>App_Controller_Index</a></dd>
-																																<dt class="folder-title"><img class="tree-icon" src="media/images/folder.png" alt=" ">Files</dt>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/Controller/_app---controller---error.php.html' target='right'>error.php</a></dd>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/Controller/_app---controller---index.php.html' target='right'>index.php</a></dd>
-																		</dl>
-				</dd>
-								
+			subpackagetree.add(subpackagetree_classe);
+		
+				
+					var subpackagetree_file = new WebFXTreeItem('File(s)', '');
+			subpackagetree_file.openIcon = 'media/images/folder.png';
+			subpackagetree_file.icon = 'media/images/folder.png';
+			
+							var file = new WebFXTreeItem('error.php', 'App/Controller/_app---controller---error.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+							var file = new WebFXTreeItem('index.php', 'App/Controller/_app---controller---index.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+					
+			subpackagetree.add(subpackagetree_file);
+			
+	  tree.add(subpackagetree);
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">Dispatch</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+		
+				
+					var subpackagetree_file = new WebFXTreeItem('File(s)', '');
+			subpackagetree_file.openIcon = 'media/images/folder.png';
+			subpackagetree_file.icon = 'media/images/folder.png';
+			
+							var file = new WebFXTreeItem('dispatch.php', 'App/Dispatch/_pub---dispatch.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+					
+			subpackagetree.add(subpackagetree_file);
+			
+	  tree.add(subpackagetree);
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">Model</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+					var subpackagetree_classe = new WebFXTreeItem('Class(es)', '');
+			subpackagetree_classe.openIcon = 'media/images/class_folder.png';
+			subpackagetree_classe.icon = 'media/images/class_folder.png';
+			
+							var classe = new WebFXTreeItem('App_Model_Test', 'App/Model/App_Model_Test.html');
+				classe.openIcon = 'media/images/Class.png';
+				classe.icon = 'media/images/Class.png';
+				subpackagetree_classe.add(classe);
 						
-							
-											
-				<dt class="sub-package"><img class="tree-icon" src="media/images/package.png" alt="Sub-package">Dispatch</dt>
-				<dd>
-					<dl class="tree">
-																															<dt class="folder-title"><img class="tree-icon" src="media/images/folder.png" alt=" ">Files</dt>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/Dispatch/_pub---dispatch.php.html' target='right'>dispatch.php</a></dd>
-																		</dl>
-				</dd>
-								
-						
-							
-											
-				<dt class="sub-package"><img class="tree-icon" src="media/images/package.png" alt="Sub-package">Model</dt>
-				<dd>
-					<dl class="tree">
-																			<dt class="folder-title"><img class="tree-icon" src="media/images/class_folder.png" alt=" ">Classes</dt>
-															<dd><img class="tree-icon" src="media/images/Class.png" alt="Class"><a href='App/Model/App_Model_Test.html' target='right'>App_Model_Test</a></dd>
-																																<dt class="folder-title"><img class="tree-icon" src="media/images/folder.png" alt=" ">Files</dt>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/Model/_app---model---test.php.html' target='right'>test.php</a></dd>
-																		</dl>
-				</dd>
-								
-						
-							
-											
-				<dt class="sub-package"><img class="tree-icon" src="media/images/package.png" alt="Sub-package">View_Layouts</dt>
-				<dd>
-					<dl class="tree">
-																															<dt class="folder-title"><img class="tree-icon" src="media/images/folder.png" alt=" ">Files</dt>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/View_Layouts/_app---views---layouts---default.phtml.html' target='right'>default.phtml</a></dd>
-																		</dl>
-				</dd>
-								
-						
-							
-											
-				<dt class="sub-package"><img class="tree-icon" src="media/images/package.png" alt="Sub-package">View_Scripts</dt>
-				<dd>
-					<dl class="tree">
-																															<dt class="folder-title"><img class="tree-icon" src="media/images/folder.png" alt=" ">Files</dt>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/View_Scripts/_app---views---scripts---error---error.phtml.html' target='right'>error.phtml</a></dd>
-															<dd><img class="tree-icon" src="media/images/Page.png" alt="File"><a href='App/View_Scripts/_app---views---scripts---index---index.phtml.html' target='right'>index.phtml</a></dd>
-																		</dl>
-				</dd>
-								
-						
-			</dl>
+			subpackagetree.add(subpackagetree_classe);
+		
+				
+					var subpackagetree_file = new WebFXTreeItem('File(s)', '');
+			subpackagetree_file.openIcon = 'media/images/folder.png';
+			subpackagetree_file.icon = 'media/images/folder.png';
+			
+							var file = new WebFXTreeItem('test.php', 'App/Model/_app---model---test.php.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+					
+			subpackagetree.add(subpackagetree_file);
+			
+	  tree.add(subpackagetree);
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">View_Layouts</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+		
+				
+					var subpackagetree_file = new WebFXTreeItem('File(s)', '');
+			subpackagetree_file.openIcon = 'media/images/folder.png';
+			subpackagetree_file.icon = 'media/images/folder.png';
+			
+							var file = new WebFXTreeItem('default.phtml', 'App/View_Layouts/_app---views---layouts---default.phtml.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+					
+			subpackagetree.add(subpackagetree_file);
+			
+	  tree.add(subpackagetree);
+							var subpackagetree = new WebFXTreeItem('<span class="sub-package">View_Scripts</span>', '');
+		
+		subpackagetree.openIcon = 'media/images/package.png';
+		subpackagetree.icon = 'media/images/package.png';
+
+			
+		
+				
+					var subpackagetree_file = new WebFXTreeItem('File(s)', '');
+			subpackagetree_file.openIcon = 'media/images/folder.png';
+			subpackagetree_file.icon = 'media/images/folder.png';
+			
+							var file = new WebFXTreeItem('error.phtml', 'App/View_Scripts/_app---views---scripts---error---error.phtml.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+							var file = new WebFXTreeItem('index.phtml', 'App/View_Scripts/_app---views---scripts---index---index.phtml.html');
+				file.openIcon = 'media/images/Page.png';
+				file.icon = 'media/images/Page.png';
+				subpackagetree_file.add(file);
+					
+			subpackagetree.add(subpackagetree_file);
+			
+	  tree.add(subpackagetree);
+	
+document.write(tree);
+}
+</script>
 </div>
-<p class="notes"><a href="http://www.phpdoc.org" target="_blank">phpDocumentor v <span class="field">1.4.3</span></a></p>
-</BODY>
-</HTML>
+<p class="notes">
+	Generated by 
+	<a href="http://www.phpdoc.org" target="_blank">phpDocumentor <span class="field">1.4.3</span></a>
+</p>
+</body>
+</html>
