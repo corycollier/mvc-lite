@@ -40,7 +40,6 @@ extends Lib_Object
      */
     private function __construct ( )
     {
-        unset($_GET['q']);
         $this->_params = array_merge($this->_params, $_COOKIE);
         $this->_params = array_merge($this->_params, $_POST);
         $this->_params = array_merge($this->_params, $_GET);
