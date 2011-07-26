@@ -2,11 +2,87 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
-			<!-- template designed by Marco Von Ballmoos -->
+			<!-- template designed by Marco Von Ballmoos  -->
 			<title>Docs For Class Lib_Response</title>
 			<link rel="stylesheet" href="../../media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
-		</head>
+						<script src="../../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../../media/images/plus.png";
+				imgMinus.src = "../../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
 		<body>
 			<div class="page-body">			
 <h2 class="class-name"><img src="../../media/images/Class_logo.png"
@@ -24,11 +100,13 @@
 					</div>
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Base Response</p>
 	<ul class="tags">
+				<li><span class="field">author:</span> Cory Collier &lt;<a href="mailto:corycollier@corycollier.com">corycollier@corycollier.com</a>&gt;</li>
 				<li><span class="field">since:</span> Class available since release 1.0.1</li>
 			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_lib---response.php.html">/lib/response.php</a> (line <span class="field">15</span>)
+			Located in <a class="field" href="_lib---response.php.html">/lib/response.php</a> (line <span class="field">21</span>)
 		</p>
 		
 				
@@ -51,43 +129,50 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																				<div class="method-definition">
+																																			
+				<div class="method-definition">
 					<img src="../../media/images/StaticMethod.png" alt=" "/>
-											static <span class="method-result"><a href="../../Lib/Response/Lib_Response.html">Lib_Response</a></span>
+					static 						<span class="method-result"><a href="../../Lib/Response/Lib_Response.html">Lib_Response</a></span>
 										<a href="#getInstance" title="details" class="method-name">getInstance</a>
 										()
 									</div>
-																																												<div class="method-definition">
+																																											
+				<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">string</span>
 										<a href="#getBody" title="details" class="method-name">getBody</a>
 										()
 									</div>
-																<div class="method-definition">
+															
+				<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">string</span>
 										<a href="#getHeader" title="details" class="method-name">getHeader</a>
 											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
 									</div>
-																<div class="method-definition">
+															
+				<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">array</span>
 										<a href="#getHeaders" title="details" class="method-name">getHeaders</a>
 										()
 									</div>
-																								<div class="method-definition">
+																							
+				<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result"><a href="../../Lib/Response/Lib_Response.html">Lib_Response</a></span>
 										<a href="#sendHeaders" title="details" class="method-name">sendHeaders</a>
 										()
 									</div>
-																<div class="method-definition">
+															
+				<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">Response</span>
 										<a href="#setBody" title="details" class="method-name">setBody</a>
 											(<span class="var-type">string</span>&nbsp;<span class="var-name">$string</span>)
 									</div>
-																<div class="method-definition">
+															
+				<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result"><a href="../../Lib/Response/Lib_Response.html">Lib_Response</a></span>
 										<a href="#setHeader" title="details" class="method-name">setHeader</a>
@@ -103,7 +188,7 @@
 		<div class="info-box-title">Methods</div>
 		<div class="nav-bar">
 			<a href="#sec-description">Description</a> |
-													<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
 						
 		</div>
 		<div class="info-box-body">
@@ -113,7 +198,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/StaticMethod.png" />
-		<span class="method-title">static getInstance</span> (line <span class="line-number">53</span>)
+		<span class="method-title">static getInstance</span> (line <span class="line-number">59</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -123,7 +208,7 @@
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result"><a href="../../Lib/Response/Lib_Response.html">Lib_Response</a></span>
+		static <span class="method-result"><a href="../../Lib/Response/Lib_Response.html">Lib_Response</a></span>
 		<span class="method-name">
 			getInstance
 		</span>
@@ -138,7 +223,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">getBody</span> (line <span class="line-number">135</span>)
+		<span class="method-title">getBody</span> (line <span class="line-number">141</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -163,7 +248,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">getHeader</span> (line <span class="line-number">84</span>)
+		<span class="method-title">getHeader</span> (line <span class="line-number">90</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -193,7 +278,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">getHeaders</span> (line <span class="line-number">95</span>)
+		<span class="method-title">getHeaders</span> (line <span class="line-number">101</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -218,7 +303,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">sendHeaders</span> (line <span class="line-number">106</span>)
+		<span class="method-title">sendHeaders</span> (line <span class="line-number">112</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -244,7 +329,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setBody</span> (line <span class="line-number">122</span>)
+		<span class="method-title">setBody</span> (line <span class="line-number">128</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -275,7 +360,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setHeader</span> (line <span class="line-number">70</span>)
+		<span class="method-title">setHeader</span> (line <span class="line-number">76</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -322,7 +407,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 26 Jul 2011 16:29:13 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 26 Jul 2011 18:05:32 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>
