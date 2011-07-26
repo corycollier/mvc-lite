@@ -1,15 +1,21 @@
 <?php
 /**
+ * Base Request
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Request
  * @since       File available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base Request
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Request
  * @since       Class available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Request

@@ -1,15 +1,21 @@
 <?php
 /**
+ * Autoloader class
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Loader
  * @since       File available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Autoloader class
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Loader
  * @since       Class available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Loader

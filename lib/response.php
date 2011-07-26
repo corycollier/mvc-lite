@@ -1,15 +1,21 @@
 <?php
 /**
+ * Base Response
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Response
  * @since       File available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base Response
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Response
  * @since       Class available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Response
