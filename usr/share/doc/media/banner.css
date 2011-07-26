@@ -10,8 +10,7 @@ body
 .banner {  }
 
 .banner-menu 
-{
-	text-align: right;
+{ 
 	clear: both;
 	padding: .5em;
 	border-top: 2px solid #AAAAAA;	

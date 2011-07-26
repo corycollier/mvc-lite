@@ -2,11 +2,87 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
-			<!-- template designed by Marco Von Ballmoos -->
+			<!-- template designed by Marco Von Ballmoos  -->
 			<title>Docs for page dispatcher.php</title>
 			<link rel="stylesheet" href="../../media/stylesheet.css" />
-			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
-		</head>
+						<script src="../../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../../media/images/plus.png";
+				imgMinus.src = "../../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
 		<body>
 			<div class="page-body">			
 <h2 class="file-name"><img src="../../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/lib/dispatcher.php</h2>
@@ -20,7 +96,9 @@
 														</div>
 	<div class="info-box-body">	
 		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Base Dispatcher</p>
 	<ul class="tags">
+				<li><span class="field">author:</span> Cory Collier &lt;<a href="mailto:corycollier@corycollier.com">corycollier@corycollier.com</a>&gt;</li>
 				<li><span class="field">since:</span> File available since release 1.0.1</li>
 			</ul>
 		
@@ -48,7 +126,7 @@
 						<a href="../../Lib/Dispatcher/Lib_Dispatcher.html">Lib_Dispatcher</a>
 					</td>
 					<td>
-											
+											Base Dispatcher
 										</td>
 				</tr>
 							</table>
@@ -60,7 +138,7 @@
 	
 	
 	<p class="notes" id="credit">
-		Documentation generated on Tue, 26 Jul 2011 16:29:12 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Tue, 26 Jul 2011 18:05:30 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>
