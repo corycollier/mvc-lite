@@ -1,15 +1,21 @@
 <?php
 /**
+ * Base Dispatcher
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base Dispatcher
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Dispatcher
  * @since       Class available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Dispatcher

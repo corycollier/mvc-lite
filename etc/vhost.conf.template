@@ -1,10 +1,9 @@
-
+# VirtualHost configuration for SERVER_NAME
 <VirtualHost *:80>
-    ServerName {SERVER_NAME}
-    ServerAlias {SERVER_ALIAS}
-    ServerAdmin {SERVER_ADMIN}
+    ServerName SERVER_NAME
+    ServerAdmin SERVER_ADMIN
     
-    DocumentRoot {DOCUMENT_ROOT}
+    DocumentRoot DOCUMENT_ROOT
     
     <Directory />
         AllowOverride All

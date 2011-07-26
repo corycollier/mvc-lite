@@ -1,15 +1,21 @@
 <?php
 /**
+ * Base Exception
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Exception
  * @since       File available since release 1.0.5
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base Exception
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Exception
  * @since       File available since release 1.0.5
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Exception

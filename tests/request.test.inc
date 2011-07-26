@@ -1,15 +1,21 @@
 <?php
 /**
+ * Unit tests for the Lib_Request class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Request
  * @since       File available since release 1.0.6
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Unit tests for the Lib_Request class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Request
  * @since       Class available since release 1.0.6
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class RequestTest

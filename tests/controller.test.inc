@@ -1,15 +1,21 @@
 <?php
 /**
+ * Unit tests for the Lib_Controller class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Controller
  * @since       File available since release 1.0.2
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Unit tests for the Lib_Controller class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Controller
  * @since       Class available since release 1.0.2
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class ControllerTest
