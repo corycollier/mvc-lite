@@ -28,6 +28,7 @@ extends Lib_Controller
      */
     public function indexAction ( )
     {
+        $model = new App_Model_Test;
         
     } // END function indexAction
     
