@@ -1,14 +1,15 @@
 <?php
 /**
- * @file controller.php
- * @package Lib
- * @subpackage Controller
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Controller
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Controller
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Controller
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Controller
@@ -18,7 +19,7 @@ extends Lib_Object
     /**
      * getter for the view property
      * 
-     * @return View
+     * @return Lib_View
      */
     public function getView ( )
     {
@@ -29,7 +30,7 @@ extends Lib_Object
     /**
      * Utility method to get the response instance
      * 
-     * @return Response
+     * @return Lib_Response
      */
     public function getResponse ( )
     {
@@ -40,7 +41,7 @@ extends Lib_Object
     /**
      * Utility method to get the request instance
      * 
-     * @return Request
+     * @return Lib_Request
      */
     public function getRequest ( )
     {
@@ -49,7 +50,6 @@ extends Lib_Object
     } // END function getRequest
     
     /**
-     * 
      * Hook run immediately after the constructing of a controller
      */
     public function init ( )
@@ -70,7 +70,6 @@ extends Lib_Object
     } // END function init
     
     /**
-     * 
      * Hook run before the dispatching of a request is started
      */
     public function preDispatch ( )
@@ -79,7 +78,6 @@ extends Lib_Object
     } // END function preDispatch
     
     /**
-     * 
      * Hook run after the dispatching of a request is completed
      */
     public function postDispatch ( )

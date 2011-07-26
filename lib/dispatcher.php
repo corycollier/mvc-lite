@@ -1,14 +1,15 @@
 <?php
 /**
- * @file dispatcher.php
- * @package Lib
- * @subpackage Dispatcher
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Dispatcher
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Dispatcher
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Dispatcher
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Dispatcher

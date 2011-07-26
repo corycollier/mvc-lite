@@ -1,14 +1,15 @@
 <?php
 /**
- * @file dispatcher.test.inc
- * @package Tests
- * @subpackage Dispatcher
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Dispatcher
+ * @since       File available since release 1.0.2
  */
 /**
- * @package Tests
- * @subpackage Dispatcher
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Dispatcher
+ * @since       Class available since release 1.0.2
  */
 
 class DispatcherTest

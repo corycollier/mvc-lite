@@ -1,14 +1,15 @@
 <?php
 /**
- * @file object.php
- * @package Lib
- * @subpackage Object
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Object
+ * @since       File available since release 1.0.5
  */
 /**
- * @package Lib
- * @subpackage Object
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Object
+ * @since       Class available since release 1.0.5
  */
 
 class Lib_Object

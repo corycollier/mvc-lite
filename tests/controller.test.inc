@@ -1,14 +1,15 @@
 <?php
 /**
- * @file controller.test.inc
- * @package Tests
- * @subpackage Controller
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Controller
+ * @since       File available since release 1.0.2
  */
 /**
- * @package Tests
- * @subpackage Controller
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Controller
+ * @since       Class available since release 1.0.2
  */
 
 class ControllerTest
@@ -39,7 +40,7 @@ extends PHPUnit_Framework_TestCase
     {
         $request = $this->fixture->getRequest();
         
-        $this->assertInstanceOf('Request', $request);
+        $this->assertInstanceOf('Lib_Request', $request);
         
     } // END function test_getRequest
 
@@ -50,7 +51,7 @@ extends PHPUnit_Framework_TestCase
     {
         $response = $this->fixture->getResponse();
         
-        $this->assertInstanceOf('Response', $response);
+        $this->assertInstanceOf('Lib_Response', $response);
         
     } // END function test_getResponse
     
@@ -61,7 +62,7 @@ extends PHPUnit_Framework_TestCase
     {
         $view = $this->fixture->getView();
         
-        $this->assertInstanceOf('View', $view);
+        $this->assertInstanceOf('Lib_View', $view);
         
     } // END function test_getView
     
