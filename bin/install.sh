@@ -32,7 +32,7 @@ SERVER_ADMIN=`echo "${SERVER_ADMIN}" | awk '{print tolower($0)}'`
 WEB_USER=`echo "${WEB_USER}" | awk '{print tolower($0)}'`
 
 # copy the virtual host template, and update placeholder values
-cp ./etc/virtual_host.conf "./etc/${SERVER_NAME}.conf"
+cp ./etc/vhost.conf.template "./etc/${SERVER_NAME}.conf"
 perl -pi -e "s/SERVER_NAME/${SERVER_NAME}/g" "./etc/${SERVER_NAME}.conf"
 perl -pi -e "s/SERVER_ADMIN/${SERVER_ADMIN}/g" "./etc/${SERVER_NAME}.conf"
 perl -pi -e "s:DOCUMENT_ROOT:${DOCUMENT_ROOT}:g" "./etc/${SERVER_NAME}.conf"
