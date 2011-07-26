@@ -1,0 +1,23 @@
+# VirtualHost configuration for SERVER_NAME
+<VirtualHost *:80>
+    ServerName SERVER_NAME
+    ServerAdmin SERVER_ADMIN
+    
+    DocumentRoot DOCUMENT_ROOT
+    
+    <Directory />
+        AllowOverride All
+        Allow From All
+        Order allow,deny
+    </Directory>
+    
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+    </IfModule>
+    
+    <IfModule mod_php5.c>
+        # SetEnv APPLICATION_ENV "production"
+        SetEnv APPLICATION_ENV "development"
+    </IfModule>
+
+</VirtualHost>
