@@ -1,4 +1,15 @@
 <?php
+/**
+ * @file dispatcher.test.inc
+ * @package Tests
+ * @subpackage Dispatcher
+ * @category MVCLite
+ */
+/**
+ * @package Tests
+ * @subpackage Dispatcher
+ * @category MVCLite 
+ */
 
 class DispatcherTest
 extends PHPUnit_Framework_TestCase
@@ -8,6 +19,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function setUp ( )
     {
+        $this->fixture = Lib_Dispatcher::getInstance();
         
     } // END function setUp
     
@@ -25,18 +37,14 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_getInstance ( )
     {
-        $dispatcher = Dispatcher::getInstance();
-        
-        $this->assertInstanceOf('Dispatcher', $dispatcher);
+        $this->assertInstanceOf('Lib_Dispatcher', $this->fixture);
         
     } // END function test_getInstance
     
     public function test_dispatch ( )
     {
-        $dispatcher = Dispatcher::getInstance();
-        
         ob_start();
-        $dispatcher->dispatch();
+        $this->fixture->dispatch();
         $contents = ob_get_clean();
         
         $this->assertTrue(is_string($contents));

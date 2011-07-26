@@ -1,20 +1,30 @@
 <?php
+/**
+ * @file loader.test.inc
+ * @package Tests
+ * @subpackage Loader
+ * @category MVCLite
+ */
+/**
+ * @package Tests
+ * @subpackage Loader
+ * @category MVCLite 
+ */
 
 class LoaderTest
 extends PHPUnit_Framework_TestCase
 {
     /**
-     * 
-     * Enter description here ...
+     * The setup method, called before each test
      */
     public function setUp ( )
     {
+        $this->fixture = Lib_Loader::getInstance();
         
     } // END function setUp
     
     /**
-     * 
-     * Enter description here ...
+     * The tear down method, called after each test
      */
     public function tearDown ( )
     {
@@ -27,26 +37,20 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_getInstance ( )
     {
-        $loader = Loader::getInstance();
-        
-        $this->assertInstanceOf('Loader', $loader);
+        $this->assertInstanceOf('Lib_Loader', $this->fixture);
         
     } // END function test_getInstance
     
     /**
-     * 
      * test that the autoload method works
      */
     public function test_autoload ( )
     {
-        $loader = Loader::getInstance();
-        
         $this->setExpectedException('Exception');
-        $result = $loader->autoload('NotGonnaFindThisClass');
+        $result = $this->fixture->autoload('NotGonnaFindThisClass');
         
-        $this->assertFalse($result instanceOf Loader);
+        $this->assertFalse($result instanceOf Lib_Loader);
         
     } // END function test_autoload
-    
     
 } // END class LoaderTest
