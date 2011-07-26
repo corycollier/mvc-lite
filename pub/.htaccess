@@ -1,0 +1,7 @@
+
+RewriteEngine On
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+# RewriteCond %{SCRIPT_FILENAME} !-d
+
+RewriteRule ^.*$ dispatch.php/?q=$0 [L]
