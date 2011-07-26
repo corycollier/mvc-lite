@@ -1,15 +1,21 @@
 <?php
 /**
+ * Unit tests for the Lib_Object class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Object
  * @since       File available since release 1.0.6
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Unit tests for the Lib_Object class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Object
  * @since       Class available since release 1.0.6
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class ObjectTest

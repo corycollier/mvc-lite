@@ -1,15 +1,21 @@
 <?php
 /**
+ * Unit tests for the Lib_Loader class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Loader
  * @since       File available since release 1.0.2
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Unit tests for the Lib_Loader class
+ * 
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Loader
  * @since       Class available since release 1.0.2
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class LoaderTest

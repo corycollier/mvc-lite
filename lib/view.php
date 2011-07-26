@@ -1,15 +1,21 @@
 <?php
 /**
+ * Base View Class
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  View
  * @since       File available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base View Class
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  View
  * @since       Class available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_View

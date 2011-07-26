@@ -1,15 +1,21 @@
 <?php
 /**
+ * Base Controller
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Controller
  * @since       File available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base Controller
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Controller
  * @since       Class available since release 1.0.1
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Controller

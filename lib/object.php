@@ -1,15 +1,23 @@
 <?php
 /**
+ * Base Object Class
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Object
  * @since       File available since release 1.0.5
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
+ * Base Object Class
+ * 
+ * All classes in the MVCLite framework extends this class
+ * 
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Object
  * @since       Class available since release 1.0.5
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class Lib_Object
