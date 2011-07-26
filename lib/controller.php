@@ -1,14 +1,15 @@
 <?php
 /**
- * @file controller.php
- * @package Lib
- * @subpackage Controller
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Controller
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Controller
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Controller
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Controller

@@ -1,14 +1,15 @@
 <?php
 /**
- * @file view.php
- * @package Lib
- * @subpackage View
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  View
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage View
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  View
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_View

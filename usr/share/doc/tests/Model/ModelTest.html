@@ -3,7 +3,7 @@
   <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
 			<!-- template designed by Marco Von Ballmoos -->
-			<title>Docs For Class LoaderTest</title>
+			<title>Docs For Class ModelTest</title>
 			<link rel="stylesheet" href="../../media/stylesheet.css" />
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
@@ -12,7 +12,7 @@
 <h2 class="class-name"><img src="../../media/images/Class_logo.png"
 														alt=" Class"
 														title=" Class"
-														style="vertical-align: middle"> LoaderTest</h2>
+														style="vertical-align: middle"> ModelTest</h2>
 
 <a name="sec-description"></a>
 <div class="info-box">
@@ -25,16 +25,16 @@
 	<div class="info-box-body">
         		<!-- ========== Info from phpDoc block ========= -->
 	<ul class="tags">
-				<li><span class="field">since:</span> Class available since release 1.0.2</li>
+				<li><span class="field">since:</span> Class available since release 1.0.6</li>
 			</ul>
 		<p class="notes">
-			Located in <a class="field" href="_tests---loader.test.inc.html">/tests/loader.test.inc</a> (line <span class="field">15</span>)
+			Located in <a class="field" href="_tests---model.test.inc.html">/tests/model.test.inc</a> (line <span class="field">15</span>)
 		</p>
 		
 				
 		<pre>PHPUnit_Framework_TestCase
    |
-   --LoaderTest</pre>
+   --ModelTest</pre>
 	
 			</div>
 </div>
@@ -51,7 +51,7 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																<div class="method-definition">
+																																																																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
 										<a href="#setUp" title="details" class="method-name">setUp</a>
@@ -66,13 +66,25 @@
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#test_autoload" title="details" class="method-name">test_autoload</a>
+										<a href="#test_create" title="details" class="method-name">test_create</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#test_getInstance" title="details" class="method-name">test_getInstance</a>
+										<a href="#test_delete" title="details" class="method-name">test_delete</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#test_read" title="details" class="method-name">test_read</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#test_update" title="details" class="method-name">test_update</a>
 										()
 									</div>
 											</div>
@@ -95,7 +107,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">setUp</span> (line <span class="line-number">21</span>)
+		<span class="method-title">setUp</span> (line <span class="line-number">22</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -120,11 +132,11 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">tearDown</span> (line <span class="line-number">30</span>)
+		<span class="method-title">tearDown</span> (line <span class="line-number">31</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">The tear down method, called after each test</p>
+<p class="short-description">The tear down hook, called after each test</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -140,16 +152,16 @@
 		
 			
 	</div>
-<a name="methodtest_autoload" id="test_autoload"><!-- --></a>
+<a name="methodtest_create" id="test_create"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">test_autoload</span> (line <span class="line-number">48</span>)
+		<span class="method-title">test_create</span> (line <span class="line-number">39</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">test that the autoload method works</p>
+<p class="short-description">Test the creation of data using the model's create method</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -157,7 +169,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			test_autoload
+			test_create
 		</span>
 				()
 			</div>
@@ -165,16 +177,16 @@
 		
 			
 	</div>
-<a name="methodtest_getInstance" id="test_getInstance"><!-- --></a>
+<a name="methodtest_delete" id="test_delete"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">test_getInstance</span> (line <span class="line-number">39</span>)
+		<span class="method-title">test_delete</span> (line <span class="line-number">72</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Test that the getInstance method works</p>
+<p class="short-description">Test the deletion of data using the model's delete method</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
@@ -182,7 +194,57 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			test_getInstance
+			test_delete
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtest_read" id="test_read"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">test_read</span> (line <span class="line-number">50</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test the reading of data using the model's read method</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			test_read
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtest_update" id="test_update"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">test_update</span> (line <span class="line-number">61</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Test the updating of data using the model's update method</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			test_update
 		</span>
 				()
 			</div>

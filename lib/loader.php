@@ -1,14 +1,15 @@
 <?php
 /**
- * @file loader.php
- * @package Lib
- * @subpackage Loader
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Loader
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Loader
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Loader
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Loader

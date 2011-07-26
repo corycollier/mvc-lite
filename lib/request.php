@@ -1,14 +1,15 @@
 <?php
 /**
- * @file request.php
- * @package Lib
- * @subpackage Request
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Request
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Request
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Request
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Request

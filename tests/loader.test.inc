@@ -1,14 +1,15 @@
 <?php
 /**
- * @file loader.test.inc
- * @package Tests
- * @subpackage Loader
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Loader
+ * @since       File available since release 1.0.2
  */
 /**
- * @package Tests
- * @subpackage Loader
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Loader
+ * @since       Class available since release 1.0.2
  */
 
 class LoaderTest
@@ -46,7 +47,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_autoload ( )
     {
-        $this->setExpectedException('Exception');
+        $this->setExpectedException('Lib_Exception');
         $result = $this->fixture->autoload('NotGonnaFindThisClass');
         
         $this->assertFalse($result instanceOf Lib_Loader);

@@ -1,14 +1,15 @@
 <?php
 /**
- * @file exception.php
- * @package Lib
- * @subpackage Exception
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Exception
+ * @since       File available since release 1.0.5
  */
 /**
- * @package Lib
- * @subpackage Exception
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Exception
+ * @since       File available since release 1.0.5
  */
 
 class Lib_Exception
