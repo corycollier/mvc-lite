@@ -26,7 +26,7 @@ extends Lib_Object
      * 
      * @var array
      */
-    private $_params;
+    private $_params = array();
 
     /**
      * instance variable used to enforce the singleton pattern
@@ -40,6 +40,10 @@ extends Lib_Object
      */
     private function __construct ( )
     {
+        unset($_GET['q']);
+        $this->_params = array_merge($this->_params, $_COOKIE);
+        $this->_params = array_merge($this->_params, $_POST);
+        $this->_params = array_merge($this->_params, $_GET);
         
     } // END function __construct
     
@@ -100,7 +104,7 @@ extends Lib_Object
      */
     public function setParams ($params = array())
     {
-        $this->_params = (array)$params;
+        $this->_params = array_merge($this->_params, (array)$params);
         
         return $this;
         
@@ -143,5 +147,20 @@ extends Lib_Object
         return $this;
         
     } // END function setParam
+    
+    /**
+     * Determines if the request is post or not
+     * 
+     * @return boolean
+     */
+    public function isPost ( )
+    {   // if there is data in the _post property, return true
+        if (count($_POST)) {
+            return true;
+        }
+        
+        return false;
+        
+    } // END function isPost
     
 } // END class Request
