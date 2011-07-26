@@ -14,14 +14,7 @@ class Dispatcher
      * @var Dispatcher
      */
     private static $_instance;
-    
-    /**
-     * The request instance, managed by the dispatcher
-     * 
-     * @var Request
-     */
-    private $_request;
-    
+
     /**
      * Privatize the constructor to enforce the singleton pattern
      */
@@ -47,33 +40,6 @@ class Dispatcher
     } // END function getInstance
     
     /**
-     * Method to set the request.
-     * 
-     * this should be done prior to dispatching the request
-     * 
-     * @param array $params
-     * @return Dispatcher $this for a fluent interface
-     */
-    public function setRequest (Request $request)
-    {
-        $this->_request = $request;
-        
-        return $this;
-        
-    } // END function setRequest
-    
-    /**
-     * Accessor to get the request params
-     * 
-     * @return array
-     */
-    public function getRequest ( )
-    {
-        return $this->_request;
-        
-    } // END function getRequest
-    
-    /**
      * dispatch
      * 
      * This is the main entry point for dispatching a request
@@ -82,8 +48,9 @@ class Dispatcher
      */
     public function dispatch ( )
     {
-        $controller = ucwords($this->getRequest()->getParam('controller'));
-        $action = $this->getRequest()->getParam('action');
+        $request = Request::getInstance();
+        $controller = ucwords($request->getParam('controller'));
+        $action = $request->getParam('action');
         
         $controller = "{$controller}_Controller";
         $action = "{$action}Action";
@@ -93,8 +60,8 @@ class Dispatcher
             $controller = new $controller;
         }
         catch (Exception $exception) {
-            $this->getRequest()->setParam('controller', 'error');
-            $this->getRequest()->setParam('action', 'error');
+            $request->setParam('controller', 'error');
+            $request->setParam('action', 'error');
             $controller = new Error_Controller;
             $action = 'errorAction';
         }
@@ -102,8 +69,8 @@ class Dispatcher
         // if the action requested isn't callable on the controller, 
         // use the error controller
         if (! method_exists($controller, $action)) {
-            $this->getRequest()->setParam('controller', 'error');
-            $this->getRequest()->setParam('action', 'error');
+            $request->setParam('controller', 'error');
+            $request->setParam('action', 'error');
             $controller = new Error_Controller;
             $action = 'errorAction';
         }
@@ -121,9 +88,13 @@ class Dispatcher
         $controller->postDispatch();
         
         // send the response
-        $response = $controller->getResponse();
+        $response = Response::getInstance();
         $response->setBody($controller->getView()->render());
-        $response->sendHeaders();
+        
+        // if this is an actual request, not a unit test, send headers
+        if ( PHP_SAPI != 'cli' ) $response->sendHeaders();
+        
+        // echo the body
         echo $response->getBody();
         
     } // END function dispatch
