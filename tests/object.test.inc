@@ -12,7 +12,7 @@
  * @since       Class available since release 1.0.6
  */
 
-class ModelTest
+class ObjectTest
 extends PHPUnit_Framework_TestCase
 {
     
