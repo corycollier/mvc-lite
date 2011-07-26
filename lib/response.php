@@ -1,14 +1,15 @@
 <?php
 /**
- * @file response.php
- * @package Lib
- * @subpackage Response
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Response
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Response
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Response
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Response

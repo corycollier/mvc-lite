@@ -1,14 +1,15 @@
 <?php
 /**
- * @file request.php
- * @package Lib
- * @subpackage Request
- * @category MVCLite
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Request
+ * @since       File available since release 1.0.1
  */
 /**
- * @package Lib
- * @subpackage Request
- * @category MVCLite 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Request
+ * @since       Class available since release 1.0.1
  */
 
 class Lib_Request
@@ -46,47 +47,27 @@ extends Lib_Object
     public static function buildFromString ($string = '', $separator = '/')
     {   // create a list of parts by separator
         $parts = explode($separator, $string);
+        $results = array();
+        
+        $results['controller'] = @$parts[0] 
+            ? $parts[0]
+            : 'Index';
+            
+        $results['action'] = @$parts[1]
+            ? $parts[1]
+            : 'index';
         
         // iterate over the parts, reformatting them as necessary
         foreach ($parts as $key => $value) {
-            // destroy the numeric index
-            unset($parts[$key]);
-            
-            // the first key is always the controller
-            if ($key === 0) {
-                $key = 'controller';
+            if (($key < 2) || ($key % 2)) {
+                continue;
             }
             
-            // the second key is always the action
-            if ($key === 1) {
-                $key = 'action';
-            }
-            
-            // all other keys are the params
-            if ($key > 1) {
-                $param = @$parts[$key + 1];
-                $key = $value;
-                $value = $param;
-                unset($parts[$key+1]);
-            }
-
-            // if there's a key, then reset it
-            if ($key) {
-                $parts[$key] = $value;
-            }
+            $results[$value] = @$parts[$key + 1];
         }
-        
-        // ensure that the controller and action parts are set
-        $parts['controller'] = @$parts['controller']
-            ? $parts['controller']
-            : 'Index';
-            
-        $parts['action'] = @$parts['action']
-            ? $parts['action']
-            : 'index';
 
         // return parts
-        return $parts;
+        return $results;
         
     } // END function buildFromString
     
