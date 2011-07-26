@@ -1,0 +1,224 @@
+@CHARSET "UTF-8";
+
+body
+{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #000;
+    color: #fff;
+    font: 76%/2em verdana,tahoma,arial,sans-serif;
+}
+
+a
+{
+    color: #933;
+    text-decoration: none;    
+}
+
+a:hover
+{
+    color: #f00;
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6, h7
+{
+    color: #933;
+}
+
+h1
+{
+    font-size: 3em;
+    line-height: 3em;
+}
+
+h2
+{
+    font-size: 2.5em;
+    line-height: 2.5em;
+}
+
+h3
+{
+    font-size: 2em;
+    line-height: 2em;
+}
+
+.container
+{
+    max-width: 950px;
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.header
+{
+    width: 100%;
+    float: left;
+}
+
+.content
+{
+    width: 100%;
+    float: left;
+}
+
+.footer
+{
+    width: 100%;
+    float: left;
+}
+
+.error
+{
+    background: rgba(255,0,0,0.1);
+    color: #c00;    
+}
+
+table
+{
+    width: 100%;    
+}
+
+th
+{
+    font-weight: bold;    
+}
+
+select
+{
+    font-size: 1.5em;
+    padding: 5px 10px;
+    
+}
+
+input
+{
+    font-size: 1.5em;
+    padding: 5px;
+    
+}
+
+input[type=checkbox]
+{
+    
+}
+
+input[type=radio]
+{
+    
+}
+
+input[type=submit]
+{
+    
+}
+
+.form-element
+{
+    width: 100%;
+    padding: 5px;
+    margin: 5px;   
+}
+
+.form-element-username label
+, .form-element-time label
+, .form-element-reps label
+, .form-element-wod label
+{
+    display: none;   
+}
+
+.form-element-reps
+, .form-element-time
+{
+    display: none;
+}
+
+.autocomplete
+{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    display: none;
+    margin-left: 350px;
+    position: absolute;
+    width: 250px;
+    z-index: 9999;   
+}
+
+.navigation-header
+{
+    float: left;
+    font-size: 0.9em;
+    line-height: 28px;
+    margin: 0 auto 20px;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    
+    background: -moz-linear-gradient(#e8e8e8, #cccccc); /* FF 3.6+ */  
+    background: -ms-linear-gradient(#e8e8e8, #cccccc); /* IE10 */  
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e8e8e8), color-stop(100%, #cccccc)); /* Safari 4+, Chrome 2+ */  
+    background: -webkit-linear-gradient(#e8e8e8, #cccccc); /* Safari 5.1+, Chrome 10+ */  
+    background: -o-linear-gradient(#e8e8e8, #cccccc); /* Opera 11.10 */  
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e8e8e8', endColorstr='#cccccc'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#e8e8e8', endColorstr='#cccccc')"; /* IE8+ */  
+    background: linear-gradient(#e8e8e8, #cccccc); /* the standard */
+    
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    
+}
+
+.navigation-header a
+{
+    color: #000;
+    font-weight: bold;
+	display: block;
+    width: 235px;    
+}
+
+.navigation-header a:hover
+{
+    background: -moz-linear-gradient(#cccccc, #e8e8e8); /* FF 3.6+ */  
+    background: -ms-linear-gradient(#cccccc, #e8e8e8); /* IE10 */  
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccccc), color-stop(100%, #e8e8e8)); /* Safari 4+, Chrome 2+ */  
+    background: -webkit-linear-gradient(#cccccc, #e8e8e8); /* Safari 5.1+, Chrome 10+ */  
+    background: -o-linear-gradient(#cccccc, #e8e8e8); /* Opera 11.10 */  
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#e8e8e8'); /* IE6 & IE7 */  
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#e8e8e8')"; /* IE8+ */  
+    background: linear-gradient(#cccccc, #e8e8e8); /* the standard */
+
+}
+
+.navigation-header li
+{
+    float: left;
+}
+
+.striped
+{
+	background: rgba(255,255,255,0.1);
+}
+
+.rank
+{
+
+}
+
+.username
+{
+	text-align: left;
+}
+
+.overall
+{
+
+}
+
+.score
+{
+
+}
