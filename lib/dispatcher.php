@@ -77,6 +77,15 @@ extends Lib_Object
             }
         }
         catch (Exception $exception) {
+            
+            var_dump(Lib_Request::getInstance()->getParams());
+            
+            var_dump(array(
+                $controller,
+                $action,
+            ));
+            die;
+            
             $request->setParam('controller', 'error');
             $request->setParam('action', 'error');
             $controller = new App_Controller_Error;
@@ -139,6 +148,17 @@ extends Lib_Object
      */
     private function _translateActionName ($action = '')
     {
+        $words = explode('-', $action);
+        foreach ($words as $i => $word) {
+            if (! $i) {
+                $words[$i] = strtolower($word);
+                continue;
+            }
+            $words[$i] = ucwords($word);
+        }
+        
+        $action = implode('', $words);
+        
         return "{$action}Action";
         
     } // END function _translateActionName
