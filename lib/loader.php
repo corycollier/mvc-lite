@@ -41,6 +41,18 @@ class Lib_Loader
     {   // register this class's autload method as the spl autoloader
         spl_autoload_register(array($this, 'autoload'));
         
+        require implode(DIRECTORY_SEPARATOR, array(
+            LIB_PATH,
+            'object.php',
+        ));
+        require implode(DIRECTORY_SEPARATOR, array(
+            LIB_PATH,
+            'filter.php',
+        ));
+        
+        $this->_resources['Lib_Object'] = true;
+        $this->_resources['Lib_Filter'] = true;
+        
     } // END function __construct
     
     /**
@@ -99,7 +111,15 @@ class Lib_Loader
      * @return string the relative pathname for including the class
      */
     public function getFilenameFromClassname ($class) 
-    {   // return a relative path name based on the class name
+    {   
+        $classParts = explode('_', $class);
+        $replaceTerm = end($classParts);
+        $localname = Lib_Filter::camelCaseToDash($replaceTerm);
+        
+        $classParts[count($classParts) - 1] = $localname;
+        $class = implode('_', $classParts);
+        
+        // return a relative path name based on the class name
         return strtolower(strtr($class, array(
             '_' => DIRECTORY_SEPARATOR,
         ))) . ".php";
