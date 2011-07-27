@@ -77,15 +77,6 @@ extends Lib_Object
             }
         }
         catch (Exception $exception) {
-            
-            var_dump(Lib_Request::getInstance()->getParams());
-            
-            var_dump(array(
-                $controller,
-                $action,
-            ));
-            die;
-            
             $request->setParam('controller', 'error');
             $request->setParam('action', 'error');
             $controller = new App_Controller_Error;
