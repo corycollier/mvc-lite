@@ -60,26 +60,32 @@ extends Lib_Object
     public function dispatch ( )
     {
         $request = Lib_Request::getInstance();
-        $controller = ucwords($request->getParam('controller'));
-        $action = $request->getParam('action');
+        $controller = $this->_translateControllerName(
+            $request->getParam('controller')
+        );
         
-        $controller = "App_Controller_{$controller}";
-        $action = "{$action}Action";
+        $action = $this->_translateActionName($request->getParam('action'));
         
-        // If the controller doesn't exist, use the error controller
+        // If the controller doesn't exist, or the action isn't callable, 
+        // use the error controller
         try {
             $controller = new $controller;
+            if (! method_exists($controller, $action)) {
+                throw new Lib_Exception(
+                    'Action not available'
+                );
+            }
         }
         catch (Exception $exception) {
-            $request->setParam('controller', 'error');
-            $request->setParam('action', 'error');
-            $controller = new App_Controller_Error;
-            $action = 'errorAction';
-        }
-        
-        // if the action requested isn't callable on the controller, 
-        // use the error controller
-        if (! method_exists($controller, $action)) {
+            
+            var_dump(Lib_Request::getInstance()->getParams());
+            
+            var_dump(array(
+                $controller,
+                $action,
+            ));
+            die;
+            
             $request->setParam('controller', 'error');
             $request->setParam('action', 'error');
             $controller = new App_Controller_Error;
@@ -109,5 +115,52 @@ extends Lib_Object
         echo $response->getBody();
         
     } // END function dispatch
+    
+    /**
+     * Translates a raw request param for a controller into a class name
+     * 
+     * @param string $controller
+     * @return string
+     */
+    private function _translateControllerName ($controller = '')
+    {
+        // create a string of upper cased words by replacing hyphens
+        $controller = ucwords(strtr($controller, array(
+            '-' => ' ',
+        )));
+        
+        // remove the spaces, creating a camelcased word
+        $controller = strtr($controller, array(
+            ' ' => '',
+        ));
+        
+        // return the controller name, prefixed with App_Controller_
+        return "App_Controller_{$controller}";
+        
+    } // END function _translateControllerName
+    
+    /**
+     * 
+     * Translates a raw request param for an action into an action name
+     * 
+     * @param string $action
+     * @return string
+     */
+    private function _translateActionName ($action = '')
+    {
+        $words = explode('-', $action);
+        foreach ($words as $i => $word) {
+            if (! $i) {
+                $words[$i] = strtolower($word);
+                continue;
+            }
+            $words[$i] = ucwords($word);
+        }
+        
+        $action = implode('', $words);
+        
+        return "{$action}Action";
+        
+    } // END function _translateActionName
     
 } // END function dispatcher
