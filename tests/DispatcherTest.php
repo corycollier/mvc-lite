@@ -58,13 +58,13 @@ extends PHPUnit_Framework_TestCase
         $this->assertTrue(strlen($contents) > 0);
 
         // test the exception handling of bogus controllers
-        Request::getInstance()->setParam('controller', 'non-existant');
+        Lib_Request::getInstance()->setParam('controller', 'non-existant');
         $this->setExpectedException('Lib_Exception');
         $this->fixture->dispatch();
 
 
         // test the exception handling of bogus actions 
-        Request::getInstance()->setParam('action', 'non-existant');
+        Lib_Request::getInstance()->setParam('action', 'non-existant');
         $this->setExpectedException('Lib_Exception');
         $this->fixture->dispatch();
 
