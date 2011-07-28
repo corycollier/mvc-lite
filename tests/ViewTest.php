@@ -42,7 +42,7 @@ extends PHPUnit_Framework_TestCase
     /**
      * tests the filter method of the view object
      */
-    public funciton test_filter ( )
+    public function test_filter ( )
     {
         $unfiltered = 'asdasdfads';
 
