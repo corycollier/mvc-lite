@@ -11,7 +11,9 @@
  */
 
 // require the autoloader
-require '../lib/loader.php';
+require implode(DIRECTORY_SEPARATOR, array(
+    dirname(__FILE__), '..', 'lib', 'loader.php'
+));
 
 // define the root path
 defined('ROOT')
