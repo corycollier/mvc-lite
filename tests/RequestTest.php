@@ -81,8 +81,12 @@ extends PHPUnit_Framework_TestCase
         );
         
         $this->fixture->setParams($params);
+
+        $result = $this->fixture->getParams();
         
-        $this->assertSame($this->fixture->getParams(), $params);
+        foreach ($params as $key => $value) {
+            $this->assertSame($value, $result[$key]);
+        }
         
     } // END function test_getParams
     
