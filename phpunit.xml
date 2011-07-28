@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="../pub/dispatch.php">
+<phpunit bootstrap="./pub/dispatch.php">
 <php>
     <const name="APPLICATION_ENV" value="testing" />
 </php>
