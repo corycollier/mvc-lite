@@ -21,22 +21,38 @@
 class ViewTest
 extends PHPUnit_Framework_TestCase
 {
-    
+
     /**
      * The setup method, called before each test
      */
     public function setUp ( )
     {
         $this->fixture = Lib_View::getInstance();
-        
+
     } // END function setup
-    
+
     /**
      * The tear down hook, called after each test
      */
     public function tearDown ( )
     {
-        
+
     } // END function tearDown
+
+    /**
+     * tests the filter method of the view object
+     */
+    public funciton test_filter ( )
+    {
+        $unfiltered = 'asdasdfads';
+
+        $expected = 'asdasdfads';
+
+        $result = $this->fixture->filter($unfiltered);
+
+        $this->assertSame($expected, $result);
+
+    } // END function test_filter
+
 
 } // END class ModelTest
