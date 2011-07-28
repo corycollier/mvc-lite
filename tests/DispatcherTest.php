@@ -60,13 +60,16 @@ extends PHPUnit_Framework_TestCase
         // test the exception handling of bogus controllers
         Lib_Request::getInstance()->setParam('controller', 'non-existant');
         $this->setExpectedException('Lib_Exception');
+        ob_start();
         $this->fixture->dispatch();
-
+        $contents = ob_get_clean();
 
         // test the exception handling of bogus actions 
         Lib_Request::getInstance()->setParam('action', 'non-existant');
         $this->setExpectedException('Lib_Exception');
+        ob_start();
         $this->fixture->dispatch();
+        $contents = ob_get_clean();
 
     } // END function test_dispatch
 
