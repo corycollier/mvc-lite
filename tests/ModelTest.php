@@ -27,7 +27,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function setUp ( )
     {
-        $this->fixture = new Lib_Model;
+        //$this->fixture = new Lib_Model;
         
     } // END function setup
     
