@@ -27,17 +27,17 @@ extends PHPUnit_Framework_TestCase
     public function setUp ( )
     {
         $this->fixture = Lib_Loader::getInstance();
-        
+
     } // END function setUp
-    
+
     /**
      * The tear down method, called after each test
      */
     public function tearDown ( )
     {
-        
+
     } // END function tearDown
-    
+
     /**
      * 
      * Test that the getInstance method works
@@ -45,9 +45,9 @@ extends PHPUnit_Framework_TestCase
     public function test_getInstance ( )
     {
         $this->assertInstanceOf('Lib_Loader', $this->fixture);
-        
+
     } // END function test_getInstance
-    
+
     /**
      * test that the autoload method works
      */
@@ -55,9 +55,9 @@ extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Lib_Exception');
         $result = $this->fixture->autoload('NotGonnaFindThisClass');
-        
+
         $this->assertFalse($result instanceOf Lib_Loader);
-        
+
     } // END function test_autoload
-    
+
 } // END class LoaderTest
