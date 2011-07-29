@@ -51,12 +51,20 @@ extends PHPUnit_Framework_TestCase
     /**
      * test that the autoload method works
      */
-    public function test_autoload ( )
+    public function test_autoloadException ( )
     {
         $this->setExpectedException('Lib_Exception');
         $result = $this->fixture->autoload('NotGonnaFindThisClass');
-
         $this->assertFalse($result instanceOf Lib_Loader);
+    }
+
+    /**
+     * test that the autoload method works
+     */
+    public function test_autoload ( )
+    {
+        $result = $this->fixture->autoload('Lib_Filter');
+        $this->assertTrue($result instanceOf Lib_Loader);
 
     } // END function test_autoload
 

@@ -61,9 +61,9 @@ extends Lib_Object
         if (! self::$_instance) {
             self::$_instance = new Lib_Response;
         }
-        
+
         return self::$_instance;
-        
+
     } // END function getInstance
 
     /**
@@ -76,11 +76,27 @@ extends Lib_Object
     public function setHeader ($name, $value = '')
     {
         $this->_headers[$name] = $value;
-        
+
         return $this;
-        
+
     } // END function setHeader
-    
+
+    /**
+     * Set multiple headers at one time
+     *
+     * @param array $headers
+     * @return Lib_Response $this for a fluent interface
+     */
+    public function setHeaders ($headers = array())
+    {
+        foreach ($headers as $name => $value) {
+            $this->setHeader($name, $value);
+        }
+
+        return $this;
+
+    } // END function setHeaders
+
     /**
      * gets the header by name
      * 
@@ -90,9 +106,9 @@ extends Lib_Object
     public function getHeader ($name)
     {
         return @$this->_headers[$name];
-        
+
     } // END function getHeader
-    
+
     /**
      * Returns all of the headers
      * 
@@ -101,9 +117,9 @@ extends Lib_Object
     public function getHeaders ( )
     {
         return $this->_headers;
-        
+
     } // END function getHeaders
-    
+
     /**
      * Function to return a formatted header string
      * 
