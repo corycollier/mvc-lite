@@ -55,4 +55,39 @@ extends PHPUnit_Framework_TestCase
     } // END function test_filter
 
 
+
+    /**
+     * test the setting and getting of variables to the view
+     * @dataProvider provideVariables
+     */
+    public function test_setAndGet ($variables = array())
+    {
+        foreach ($variables as $name => $value) {
+            $this->fixture->set($name, $value);
+        }
+
+        foreach ($variables as $name => $value) {
+            $this->assertSame($this->fixture->get($name), $value);
+        }
+
+    } // END function test_setAndGet
+
+    /**
+     * method to provide data for test methods
+     */
+    public function provideVariables ( )
+    {
+        return array(
+            array(
+                array(
+                    'var1'  => 'val1',
+                    'var2'  => 'val2',
+                    'var3'  => 'val3',
+                ),
+
+            )
+        );
+
+    } // END function provideVariables
+
 } // END class ModelTest
