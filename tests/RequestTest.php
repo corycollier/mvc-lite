@@ -106,5 +106,13 @@ extends PHPUnit_Framework_TestCase
         $this->assertSame($this->fixture->getParam('var1'), $params['var1']);
         
     } // END function test_getParam
+    
+    /**
+     * tests the request's ability to determine if a request is post
+     */
+    public function test_isPost ( )
+    {
+        $this->assertFalse($this->fixture->isPost());
 
+    } // END function test_isPost
 } // END class ModelTest
