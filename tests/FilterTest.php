@@ -1,24 +1,24 @@
 <?php
 /**
- * Unit tests for the Lib_View class
+ * Unit tests for the Lib_Filter class
  * 
  * @category    MVCLite
  * @package     Tests
- * @subpackage  View
+ * @subpackage  Filter
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 /**
- * Unit tests for the Lib_View class
+ * Unit tests for the Lib_Filter class
  * 
  * @category    MVCLite
  * @package     Tests
- * @subpackage  View
+ * @subpackage  Filter
  * @since       Class available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewTest
+class FilterTest
 extends PHPUnit_Framework_TestCase
 {
 
