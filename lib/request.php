@@ -36,6 +36,13 @@ extends Lib_Object
     private static $_instance;
     
     /**
+     * associative array of the headers sent from the client
+     * 
+     * @var array
+     */
+    private $_headers = array();
+
+    /**
      * Privatizing the constructor to enforce the singleton pattern
      */
     private function __construct ( )
@@ -43,9 +50,26 @@ extends Lib_Object
         $this->_params = array_merge($this->_params, $_COOKIE);
         $this->_params = array_merge($this->_params, $_POST);
         $this->_params = array_merge($this->_params, $_GET);
-        
+        $this->_setHeaders();
+
     } // END function __construct
     
+    /**
+     * 
+     * Method to set the headers
+     */
+    protected function _setHeaders ( )
+    {   // iterate over the $_SERVER superglobal values
+        foreach($_SERVER as $key => $value) {
+            if(substr($key, 0, 5) != 'HTTP_') {
+                continue;
+            }
+            $key = Lib_Filter::ucaseUnderscoreToPcaseDash($key);
+            $this->_headers[$key] = $value;
+        }
+        
+    } // END function _setHeaders
+
     /**
      * Build an associative array from a string
      * 
@@ -57,15 +81,15 @@ extends Lib_Object
     {   // create a list of parts by separator
         $parts = explode($separator, $string);
         $results = array();
-        
+
         $results['controller'] = @$parts[0] 
             ? $parts[0]
             : 'Index';
-            
+
         $results['action'] = @$parts[1]
             ? $parts[1]
             : 'index';
-        
+
         // iterate over the parts, reformatting them as necessary
         foreach ($parts as $key => $value) {
             if (($key < 2) || ($key % 2)) {
@@ -77,9 +101,9 @@ extends Lib_Object
 
         // return parts
         return $results;
-        
+
     } // END function buildFromString
-    
+
     /**
      * Method used to enforce the singleton pattern 
      *
@@ -90,11 +114,11 @@ extends Lib_Object
         if (! self::$_instance) {
             self::$_instance = new Lib_Request;
         }
-        
+
         return self::$_instance;
-        
+
     } // END function getInstance
-    
+
     /**
      * setter for the params property
      * 
@@ -104,11 +128,11 @@ extends Lib_Object
     public function setParams ($params = array())
     {
         $this->_params = array_merge($this->_params, (array)$params);
-        
+
         return $this;
-        
+
     } // END function setParams
-    
+
     /**
      * getter for the params property
      * 
@@ -116,10 +140,18 @@ extends Lib_Object
      */
     public function getParams ( )
     {
-        return $this->_params;
+        $params = $this->_params;
         
+        foreach ($params as $key => $value) {
+            if (! $key || ! $value || $key === 'q') {
+                unset($params[$key]);
+            }
+        }
+        
+        return $params;
+
     } // END function getParams
-    
+
     /**
      * Gets a single param from the params array
      * 
@@ -129,9 +161,9 @@ extends Lib_Object
     public function getParam ($param)
     {
         return @$this->_params[$param];
-        
+
     } // END function getParam
-    
+
     /**
      * method to set a param manually
      * 
@@ -142,11 +174,11 @@ extends Lib_Object
     public function setParam ($param, $value = '')
     {
         $this->_params[$param] = $value;
-        
+
         return $this;
-        
+
     } // END function setParam
-    
+
     /**
      * Determines if the request is post or not
      * 
@@ -157,9 +189,47 @@ extends Lib_Object
         if (count($_POST)) {
             return true;
         }
+
+        return false;
+
+    } // END function isPost
+    
+    /**
+     * getter for the headers property
+     * 
+     * @return array
+     */
+    public function getHeaders ( )
+    {
+        return $this->_headers;
+        
+    } // END function getHeaders
+    
+    /**
+     * method to get the value for a single header
+     * 
+     * @param string $header
+     */
+    public function getHeader ($header = '')
+    {
+        return @$this->_headers[$header];
+        
+    } // END function getHeader
+    
+    /**
+     * Method to indicate whether the current request is AJAX or not
+     * 
+     * @return boolean
+     */
+    public function isAjax ( )
+    {
+        // if the request is ajax, don't load the layout
+        if ($this->getHeader('X-Requested-With') == 'XMLHttpRequest') {
+            return true;
+        }
         
         return false;
         
-    } // END function isPost
-    
+    } // END function isAjax
+
 } // END class Request

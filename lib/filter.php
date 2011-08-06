@@ -29,7 +29,11 @@ extends Lib_Object
      */
     public static function dashToCamelCase ($string = '')
     {
-        
+        $words = explode('-', $string);
+        $words = array_map('ucwords', $words);
+        $words[0] = strtolower($words[0]);
+        return implode('', $words);
+
     } // END function dashToCamelCase
     
     /**
@@ -75,5 +79,20 @@ extends Lib_Object
     {
         
     } // END funciton underscoreToCamelCase
+    
+    /**
+     * 
+     * translates a string from all uppercase word separated by underscores, 
+     * into proper cased words separated by dashes
+     * 
+     * @param string $string
+     * @return string
+     */
+    public static function ucaseUnderscoreToPcaseDash ($string = '')
+    {
+        return str_replace(' ', '-', 
+            ucwords(str_replace('_', ' ', strtolower(substr($string, 5))))
+        );
+    } // END function ucaseUnderscoreToPcaseDash
     
 } // END function Lib_Filter

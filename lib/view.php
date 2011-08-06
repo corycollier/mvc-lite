@@ -32,31 +32,31 @@ extends Lib_Object
      * Instance variable to enforce the singleton pattern
      * 
      * @var Lib_View $_instance
-     */    
+     */
     private static $_instance;
-    
+
     /**
      * The name of the view script to be used
      * 
      * @var string
      */
     protected $_script;
-    
+
     /**
      * The name of the layout script to be used
      * 
      * @var string
      */
     protected $_layout;
-    
+
     /**
      * Privatize the constructor to enforce the singleton pattern
      */
     private function __construct ( )
     {
-        
+
     } // END function __construct
-    
+
     /**
      * Accessor to the instance property, used for the singleton pattern
      * 
@@ -67,13 +67,13 @@ extends Lib_Object
         if (! self::$_instance) {
             self::$_instance = new Lib_View;
         }
-        
+
         // return the instance property
         return self::$_instance;
-        
+
     } // END function getInstance
-    
-    
+
+
     /**
      * Method to set the script attrubute
      * 
@@ -83,11 +83,11 @@ extends Lib_Object
     public function setScript ($path)
     {
         $this->_script = (string)$path;
-        
+
         return $this;
-        
+
     } // END function setScript
-    
+
     /**
      * Method to get the script attribute
      * 
@@ -96,9 +96,9 @@ extends Lib_Object
     public function getScript ( )
     {
         return $this->_script;
-        
+
     } // END function getScript
-    
+
     /**
      * Method to set the layout attribute
      * 
@@ -108,11 +108,11 @@ extends Lib_Object
     public function setLayout ($path)
     {
         $this->_layout = (string)$path;
-        
+
         return $this;
-        
+
     } // END function setLayout
-    
+
     /**
      * Returns the layout script name
      * 
@@ -121,16 +121,16 @@ extends Lib_Object
     public function getLayout ( )
     {
         return $this->_layout;
-        
+
     } // END function getLayout
-    
+
     /**
      * Method to render the view
      */
     public function render ( )
     {
         ob_start();
-        
+
         extract($this->_vars);
         include implode(DIRECTORY_SEPARATOR, array(
             APP_PATH,
@@ -140,6 +140,11 @@ extends Lib_Object
         ));
         $content = ob_get_clean();
         
+        // if there is no layout, then return the content
+        if (! $this->getLayout()) {
+            return $this->filter($content);
+        }
+
         ob_start();
         include(implode(DIRECTORY_SEPARATOR, array(
             APP_PATH,
@@ -148,11 +153,11 @@ extends Lib_Object
             $this->getLayout() . ".phtml",
         )));
         $contents = ob_get_clean();
-        
+
         return $this->filter($contents);
-        
+
     } // END function render
-    
+
     /**
      * Method to filter string input
      * 
@@ -162,9 +167,9 @@ extends Lib_Object
     public function filter ($string)
     {
         return $string;
-        
+
     } // END function filter
-    
+
     /**
      * setter for the _vars property
      * 
@@ -175,11 +180,11 @@ extends Lib_Object
     public function set ($var, $value = '')
     {
         $this->_vars[$var] = $value;
-        
+
         return $this;
-        
+
     } // END function set
-    
+
     /**
      * getter for the _vars property
      * 
@@ -189,7 +194,7 @@ extends Lib_Object
     public function get ($var)
     {
         return @$this->_vars[$var];
-        
+
     } // END function get
-    
+
 } // END class View
