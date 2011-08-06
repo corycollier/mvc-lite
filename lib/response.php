@@ -27,30 +27,30 @@ extends Lib_Object
      * @var Lib_Response
      */
     private static $_instance;
-    
+
     /**
      * A list of headers to be output
      * 
      * @var array
      */
     private $_headers = array();
-    
+
     /**
      * The body of the response
      * 
      * @var string
      */
     private $_body = '';
-    
+
     /**
      * Privatizing the constructor to enforce the singleton pattern
      */
     private function __construct ( )
     {
         $this->setHeader('X-Powered-By', 'lightness');
-        
+
     } // END function __construct
-    
+
     /**
      * Method to get the instance of the response object
      * 
@@ -130,11 +130,11 @@ extends Lib_Object
         foreach ($this->getHeaders() as $name => $value) {
             header("{$name}: {$value}");
         }
-        
+
         return $this;
-        
+
     } // END function getHeaderString
-    
+
     /**
      * set the body of the response
      * 
@@ -144,11 +144,11 @@ extends Lib_Object
     public function setBody ($string)
     {
         $this->_body = (string)$string;
-        
+
         return $this;
-        
+
     } // END function setBody
-    
+
     /**
      * gets the response body
      * 
@@ -157,7 +157,7 @@ extends Lib_Object
     public function getBody ( )
     {
         return $this->_body;
-        
+
     } // END function getBody
-    
+
 } // END class Response

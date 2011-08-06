@@ -60,8 +60,9 @@ extends Lib_Object
      */
     public function init ( )
     {
-        $controller = $this->getRequest()->getParam('controller');
-        $action = $this->getRequest()->getParam('action');
+        $request = $this->getRequest();
+        $controller = $request->getParam('controller');
+        $action = $request->getParam('action');
         
         // setup the view
         $this->getView()->setScript(implode(DIRECTORY_SEPARATOR, array(
@@ -69,7 +70,10 @@ extends Lib_Object
             $action,
         )));
         
-        $this->getView()->setLayout('default');
+        // if the request is not ajax, then setup the layout
+        if (!$request->isAjax()) {
+            $this->getView()->setLayout('default');
+        }
 
         $response = $this->getResponse();
         
@@ -80,6 +84,9 @@ extends Lib_Object
      */
     public function preDispatch ( )
     {
+        $this->getResponse()->setHeader('X-Page-Identifier',
+            Lib_Filter::dashToCamelCase(implode('-', $this->getRequest()->getParams()))
+        );
         
     } // END function preDispatch
     

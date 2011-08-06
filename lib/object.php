@@ -34,9 +34,9 @@ class Lib_Object
     final public function __get ($name)
     {
         throw new Lib_Exception(Lib_Exception::ERR_MAGIC_METHOD);
-        
+
     } // END function __get
-    
+
     /**
      * Overriding the __set magic method
      * 
@@ -50,9 +50,9 @@ class Lib_Object
     final public function __set ($name, $value = '')
     {
         throw new Lib_Exception(Lib_Exception::ERR_MAGIC_METHOD);
-        
+
     } // END function __set
-    
+
     /**
      * Overriding the __call magic method
      * 
@@ -66,7 +66,7 @@ class Lib_Object
     final public function __call ($method, $args = array())
     {
         throw new Lib_Exception(Lib_Exception::ERR_MAGIC_METHOD);
-        
+
     } // END function __call
-    
+
 } // END class Lib_Object
