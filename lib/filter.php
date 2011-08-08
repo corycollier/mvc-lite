@@ -88,7 +88,7 @@ extends Lib_Object
      * @param string $string
      * @return string
      */
-    public static function ucaseUnderscoreToPcaseDash ($string = '')
+    public static function serverVarsToHeaderTypes ($string = '')
     {
         return str_replace(' ', '-', 
             ucwords(str_replace('_', ' ', strtolower(substr($string, 5))))

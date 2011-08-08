@@ -64,7 +64,7 @@ extends Lib_Object
             if(substr($key, 0, 5) != 'HTTP_') {
                 continue;
             }
-            $key = Lib_Filter::ucaseUnderscoreToPcaseDash($key);
+            $key = Lib_Filter::serverVarsToHeaderTypes($key);
             $this->_headers[$key] = $value;
         }
         

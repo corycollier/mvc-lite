@@ -28,14 +28,14 @@ implements Iterator
      * @var array
      */
     protected $_data = array();
-
+    
     /**
      * Cursor to indicate the position of the _data property
      * 
      * @var integer
      */
     protected $_cursor = 0;
-
+    
     /**
      * Defining a read method required to be implemented by children
      * 
@@ -63,7 +63,7 @@ implements Iterator
      * @param array $params
      */
     abstract public function delete ($params = array());
-
+    
     /**
      * Defining a create method required to be implemented by children
      * 
@@ -78,9 +78,9 @@ implements Iterator
     public function current ( )
     {   // return the data at the current cursor value
         return $this->_data[$this->_cursor];
-
+        
     } // END function current
-
+    
     /**
      * (non-PHPdoc)
      * @see Iterator::key()
@@ -88,9 +88,9 @@ implements Iterator
     public function key ( )
     {
         return $this->_cursor;
-
+        
     } // END function key
-
+    
     /**
      * (non-PHPdoc)
      * @see Iterator::next()
@@ -98,9 +98,9 @@ implements Iterator
     public function next ( )
     {
         ++$this->_cursor;
-
+        
     } // END function next
-
+    
     /**
      * (non-PHPdoc)
      * @see Iterator::rewind()
@@ -108,9 +108,9 @@ implements Iterator
     public function rewind ( )
     {
         $this->_cursor = 0;
-
+        
     } // END function rewind
-
+    
     /**
      * (non-PHPdoc)
      * @see Iterator::valid()
@@ -118,7 +118,7 @@ implements Iterator
     public function valid ( )
     {
         return valid($this->_data[$this->_cursor]);
-
+        
     } // END function valid
 
 } // END class Model
