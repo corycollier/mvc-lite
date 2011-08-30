@@ -27,7 +27,7 @@ extends Lib_Object
      * @var array
      */
     protected $_vars = array();
-
+    
     /**
      * Instance variable to enforce the singleton pattern
      * 
@@ -132,7 +132,7 @@ extends Lib_Object
         if (! $this->getScript()) {
             return null;
         }
-
+        
         ob_start();
 
         extract($this->_vars);
@@ -143,7 +143,7 @@ extends Lib_Object
             $this->getScript() . ".phtml",
         ));
         $content = ob_get_clean();
-
+        
         // if there is no layout, then return the content
         if (! $this->getLayout()) {
             return $this->filter($content);

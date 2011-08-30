@@ -33,7 +33,10 @@ class Lib_Object
      */
     final public function __get ($name)
     {
-        throw new Lib_Exception(Lib_Exception::ERR_MAGIC_METHOD);
+        $self = get_called_class();
+        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_GET, array(
+            '!explain'  => "{$self}->{$name}",
+        )));
 
     } // END function __get
 
@@ -49,7 +52,10 @@ class Lib_Object
      */
     final public function __set ($name, $value = '')
     {
-        throw new Lib_Exception(Lib_Exception::ERR_MAGIC_METHOD);
+        $self = get_called_class();
+        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_SET, array(
+            '!explain'  => "{$self}->{$name} = {$value}",
+        )));
 
     } // END function __set
 
@@ -65,8 +71,11 @@ class Lib_Object
      */
     final public function __call ($method, $args = array())
     {
-        throw new Lib_Exception(Lib_Exception::ERR_MAGIC_METHOD);
+        $self = get_called_class();
+        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_CALL, array(
+            '!explain'  => "{$self}::{$method}(" . @implode(',', $args) . ')',
+        )));
 
     } // END function __call
-
+    
 } // END class Lib_Object

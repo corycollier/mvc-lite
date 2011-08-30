@@ -19,52 +19,30 @@
  */
 
 class Lib_Response
-extends Lib_Object
+extends Lib_Object_Singleton
 {
-    /**
-     * The instance property, used to enforce the singleton pattern
-     * 
-     * @var Lib_Response
-     */
-    private static $_instance;
-
     /**
      * A list of headers to be output
      * 
      * @var array
      */
-    private $_headers = array();
+    protected $_headers = array();
 
     /**
      * The body of the response
      * 
      * @var string
      */
-    private $_body = '';
+    protected $_body = '';
 
     /**
      * Privatizing the constructor to enforce the singleton pattern
      */
-    private function __construct ( )
+    protected function __construct ( )
     {
         $this->setHeader('X-Powered-By', 'lightness');
 
     } // END function __construct
-
-    /**
-     * Method to get the instance of the response object
-     * 
-     * @return Lib_Response
-     */
-    public static function getInstance ( )
-    {   // if the instance property isn't already set, set it
-        if (! self::$_instance) {
-            self::$_instance = new Lib_Response;
-        }
-
-        return self::$_instance;
-
-    } // END function getInstance
 
     /**
      * Set's a header value
