@@ -42,7 +42,7 @@ extends Lib_Object_Singleton
         if ( PHP_SAPI != 'cli' ) {
             session_start();
             $this->_data = $_SESSION;
-            unset($_SESSION);
+//            unset($_SESSION);
         }
 
     } // END function __construct
@@ -80,6 +80,7 @@ extends Lib_Object_Singleton
     public function setParam ($param, $value = '')
     {
         $this->_data[$param] = $value;
+        $_SESSION = $this->_data;
         
         // return $this for a fluent interface
         return $this;

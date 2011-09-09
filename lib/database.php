@@ -41,7 +41,7 @@ extends Lib_Object_Singleton
     protected function __construct ( )
     {
         $database = App_Registry::getInstance()->get('database');
-
+        
         $this->_handle = new mysqli(
             $database['host'],
             $database['user'],
@@ -87,7 +87,7 @@ extends Lib_Object_Singleton
             '!order'    => $this->_buildOrder($order),
             '!limit'    => $this->_buildLimit($limit),
         ));
-
+        
         $this->_result = $this->_handle->query($sql);
 
         return $this;
@@ -111,8 +111,14 @@ extends Lib_Object_Singleton
             '!where'    => $this->_buildWhere($where),
         ));
         
-        var_dump($sql);
-        die;
+        if (! $this->_handle->query($sql)) {
+            throw new Lib_Exception(
+                'Query Failure: ' . $this->_handle->error
+                , $this->_handle->errno
+            );
+        }
+
+        return $this;
         
     } // END function update
     
@@ -136,12 +142,63 @@ extends Lib_Object_Singleton
         if (! $this->_handle->query($sql)) {
             throw new Lib_Exception(
                 'Query Failure: ' . $this->_handle->error
+                , $this->_handle->errno
             );
         }
 
         return $this;
         
     } // END function insert
+    
+    /**
+     * 
+     * method to allow the deletion of records
+     * 
+     * @param string $table
+     * @param array $params
+     * @return Lib_Database $this for a fluent interface
+     */
+    public function delete ($table, $params = array())
+    {
+        $sql = "DELETE FROM !table !where";
+        $sql = strtr($sql, array(
+            '!table'    => $table,
+            '!where'    => $this->_deleteWhere($params),
+        ));
+        
+        // if the SQL failed, throw an exception
+        if (! $this->_handle->query($sql)) {
+            throw new Lib_Exception(
+                'Query Failure: ' . $this->_handle->error
+                , $this->_handle->errno
+            );die;
+        }
+
+        return $this;
+        
+    } // END function delete
+    
+    /**
+     * builds a where string to be used by the delete method
+     * 
+     * @param array $params
+     * @return string
+     */
+    protected function _deleteWhere ($params = array())
+    {   // use the _buildWhere method to get the initial where string
+        $where = $this->_buildWhere($params);
+        
+        // if there is no where string, throw an exception (dont delete all the data)
+        if (! $where) {
+            throw new Lib_Exception(
+                'The where clause of a delete statement is REQUIRED'
+            );
+        }
+        
+        // return the where clause
+        return $where;
+        
+    } // END function _deleteWhere
     
     /**
      * 
@@ -233,11 +290,21 @@ extends Lib_Object_Singleton
         // iterate over the provided params as key/value pairs
         foreach ($params as $column => $value) {
             unset($params[$column]);
+            
+            if (is_array($value)) {
+                foreach ($value as $i => $childValue) {
+                    $value[$i] = $this->_handle->escape_string($childValue);
+                }
+                $params[$column] = "{$column} IN ('" . implode(',', $value) . "')";
+                continue;
+            }
+            
             $params[$column] = "{$column}='" . $this->_handle->escape_string($value) . "'";
         }
 
-        return ' WHERE ' . implode(', ', $params);
+        return ' WHERE ' . implode(' AND ', $params);
     }
+    
 
     /**
      * method to build an order by string

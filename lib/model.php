@@ -117,7 +117,10 @@ implements Iterator
      */
     public function valid ( )
     {
-        return valid($this->_data[$this->_cursor]);
+        if (! @$this->_data[$this->_cursor]) {
+            return false;
+        }
+        return (bool)current($this->_data[$this->_cursor]);
         
     } // END function valid
 

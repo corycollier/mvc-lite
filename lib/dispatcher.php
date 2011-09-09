@@ -32,10 +32,7 @@ extends Lib_Object_Singleton
      * This is the main entry point for dispatching a request
      */
     public function dispatch ( )
-    {
-        // this method MUST be implemented in the app_dispatcher, or else this will fail!
-        $this->init();
-
+    { 
         $response = Lib_Response::getInstance();
         $request = Lib_Request::getInstance();
         $controller = $this->_translateControllerName(

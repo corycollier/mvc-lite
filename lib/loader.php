@@ -61,6 +61,7 @@ extends Lib_Object_Singleton
 
         // iterate through the include paths, looking for the file
         $includePaths = explode(PATH_SEPARATOR, get_include_path());
+        
         foreach ($includePaths as $includePath) {
             $file = realpath(implode(DIRECTORY_SEPARATOR, array(
                 $includePath,
@@ -73,8 +74,21 @@ extends Lib_Object_Singleton
                 require $file;
                 return $this;
             }
+            
+            // last chance to try to find the file
+            $file = realpath(implode(DIRECTORY_SEPARATOR, array(
+                $includePath, 
+                "{$class}.php",
+            )));
+            
+            // if we've found the file, set it to the property, require it, quit
+            if ($file) {
+                $this->_resources[$class] = true;
+                require $file;
+                return $this;
+            }
         }
-
+        
         // hopefully we're not here. throw an exception if we are
         throw new Lib_Exception(
             "{$class} not found in include path"
