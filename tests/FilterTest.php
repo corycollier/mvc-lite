@@ -70,4 +70,20 @@ extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('not ready yet');
 
     } // END function test_underscoreToCamelCase
+    
+    /**
+     * tests the ucaseUnderscoreToPcaseDash method of the filter class
+     */
+    public function test_serverVarsToHeaderTypes ( )
+    {
+        $string = 'HTTP_VALUE_TESTING';
+        
+        $result = Lib_Filter::serverVarsToHeaderTypes($string);
+        
+        $expected = 'Value-Testing';
+        
+        $this->assertSame($result, $expected);
+        
+    } // END function test_serverVarsToHeaderTypes
+    
 } // END class ModelTest

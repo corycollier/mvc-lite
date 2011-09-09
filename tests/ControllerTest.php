@@ -72,4 +72,15 @@ extends PHPUnit_Framework_TestCase
         
     } // END function test_getView
     
+    /**
+     * test the getter for the session object in the controller
+     */
+    public function test_getSession ( )
+    {
+        $session = $this->fixture->getSession();
+        
+        $this->assertInstanceOf('Lib_Session', $session);
+        
+    } // END function test_getSession
+    
 } // END class ControllerTest

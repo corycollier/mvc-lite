@@ -27,14 +27,14 @@ extends Lib_Object
      * @var array
      */
     protected $_vars = array();
-    
+
     /**
      * a list of previously loaded view helpers
      * 
      * @var array
      */
     protected $_helpers = array();
-    
+
     /**
      * Instance variable to enforce the singleton pattern
      * 
@@ -139,7 +139,7 @@ extends Lib_Object
         if (! $this->getScript()) {
             return null;
         }
-        
+
         ob_start();
 
         extract($this->_vars);
@@ -150,7 +150,7 @@ extends Lib_Object
             $this->getScript() . ".phtml",
         ));
         $content = ob_get_clean();
-        
+
         // if there is no layout, then return the content
         if (! $this->getLayout()) {
             return $this->filter($content);
@@ -207,7 +207,7 @@ extends Lib_Object
         return @$this->_vars[$var];
 
     } // END function get
-    
+
     /**
      * getter for a view helper instance
      * 
@@ -219,19 +219,19 @@ extends Lib_Object
         if (@$this->_helpers[$name]) {
             return $this->_helpers[$name];
         }
-        
+
         // create the full class name
         $className = "App_View_Helper_" . ucfirst("{$name}");
-        
+
         // try to load the class
         Lib_Loader::getInstance()->autoload($className);
-        
+
         // set the local instance of the class
         $this->_helpers[$name] = new $className;
-        
+
         // return the stored instance of the class
         return $this->_helpers[$name];
-        
+
     } // END function getHelper
 
 } // END class View
