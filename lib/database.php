@@ -41,7 +41,6 @@ extends Lib_Object_Singleton
     protected function __construct ( )
     {
         $database = App_Registry::getInstance()->get('database');
-
         $this->_handle = new mysqli(
             $database['host'],
             $database['user'],
@@ -92,7 +91,7 @@ extends Lib_Object_Singleton
 
         return $this;
     }
-    
+
     /**
      * Method to allow updates on a database
      * 
@@ -104,18 +103,24 @@ extends Lib_Object_Singleton
     public function update ($table, $fields = array(), $where = array())
     {
         $sql = "UPDATE !table SET !fields !where";
-        
+
         $sql = strtr($sql, array(
             '!table'    => $table,
             '!fields'   => $this->_updateFields($fields),
             '!where'    => $this->_buildWhere($where),
         ));
-        
-        var_dump($sql);
-        die;
-        
+
+        if (! $this->_handle->query($sql)) {
+            throw new Lib_Exception(
+                'Query Failure: ' . $this->_handle->error
+                , $this->_handle->errno
+            );
+        }
+
+        return $this;
+
     } // END function update
-    
+
     /**
      * 
      * Method to allow users to insert new data
@@ -126,25 +131,74 @@ extends Lib_Object_Singleton
     public function insert ($table, $values = array())
     {
         $sql = "INSERT INTO !table \n(!fields)\n values \n(!values)";
-        
+
         $sql = strtr($sql, array(
             '!table'    => $table,
             '!fields'   => implode(', ', array_keys($values)),
             '!values'   => $this->_insertValues($values),
         ));
-        
+
         if (! $this->_handle->query($sql)) {
             throw new Lib_Exception(
                 'Query Failure: ' . $this->_handle->error
+                , $this->_handle->errno
             );
         }
 
         return $this;
-        
+
     } // END function insert
-    
+
     /**
+     * method to allow the deletion of records
      * 
+     * @param string $table
+     * @param array $params
+     * @return Lib_Database $this for a fluent interface
+     */
+    public function delete ($table, $params = array())
+    {
+        $sql = "DELETE FROM !table !where";
+        $sql = strtr($sql, array(
+            '!table'    => $table,
+            '!where'    => $this->_deleteWhere($params),
+        ));
+
+        // if the SQL failed, throw an exception
+        if (! $this->_handle->query($sql)) {
+            throw new Lib_Exception(
+                'Query Failure: ' . $this->_handle->error
+                , $this->_handle->errno
+            );die;
+        }
+
+        return $this;
+
+    } // END function delete
+
+    /**
+     * builds a where string to be used by the delete method
+     * 
+     * @param array $params
+     * @return string
+     */
+    protected function _deleteWhere ($params = array())
+    {   // use the _buildWhere method to get the initial where string
+        $where = $this->_buildWhere($params);
+
+        // if there is no where string, throw an exception (dont delete all the data)
+        if (! $where) {
+            throw new Lib_Exception(
+                'The where clause of a delete statement is REQUIRED'
+            );
+        }
+
+        // return the where clause
+        return $where;
+
+    } // END function _deleteWhere
+
+    /**
      * Method to translate an array of values to an insert string
      * 
      * @param array $values
@@ -155,11 +209,11 @@ extends Lib_Object_Singleton
         foreach ($values as $i => $value) {
             $values[$i] = $this->_handle->escape_string($value);
         }
-        
+
         return "'" .  implode("', '", $values) . "'";
-        
+
     } // END function _insertValues
-    
+
     /**
      * Method to build a setting string for update statements
      * 
@@ -170,12 +224,11 @@ extends Lib_Object_Singleton
     {   // iterate over the fields array
         foreach ($fields as $column => $value) {
             unset($fields[$column]);
-            
             $fields[$column] = strtr("{$column}='!value'", array(
                 '!value'    => $this->_handle->escape_string($value),
             ));
         }
-        
+
         return implode(', ', $fields);
     }
 
@@ -233,10 +286,18 @@ extends Lib_Object_Singleton
         // iterate over the provided params as key/value pairs
         foreach ($params as $column => $value) {
             unset($params[$column]);
+            if (is_array($value)) {
+                foreach ($value as $i => $childValue) {
+                    $value[$i] = $this->_handle->escape_string($childValue);
+                }
+                $params[$column] = "{$column} IN ('" . implode(',', $value) . "')";
+                continue;
+            }
+
             $params[$column] = "{$column}='" . $this->_handle->escape_string($value) . "'";
         }
 
-        return ' WHERE ' . implode(', ', $params);
+        return ' WHERE ' . implode(' AND ', $params);
     }
 
     /**

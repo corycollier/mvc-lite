@@ -27,5 +27,11 @@ extends Exception
      * @var string
      */
     const ERR_MAGIC_METHOD =  'Magic Methods defeat the purpose of this framework >_<';
-    
+
+    const ERR_MAGIC_METHOD_GET = 'Cannot use __get in the MVCLite framework: !explain';
+
+    const ERR_MAGIC_METHOD_SET = 'Cannot use __set in the MVCLite framework: !explain';
+
+    const ERR_MAGIC_METHOD_CALL = 'Cannot use __call in the MVCLite framework: !explain';
+
 } // END class Lib_Exception

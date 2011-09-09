@@ -62,414 +62,414 @@
 
 // Start of our jQuery Plugin
 (function($)
-{	// Create our Plugin function, with $ as the argument (we pass the jQuery object over later)
-	// More info: http://docs.jquery.com/Plugins/Authoring#Custom_Alias
+{    // Create our Plugin function, with $ as the argument (we pass the jQuery object over later)
+    // More info: http://docs.jquery.com/Plugins/Authoring#Custom_Alias
 
-	// Debug
-	if (typeof console === 'undefined') {
-		console = typeof window.console !== 'undefined' ? window.console : {};
-	}
-	console.log			= console.log 			|| function(){};
-	console.debug		= console.debug 		|| console.log;
-	console.warn		= console.warn			|| console.log;
-	console.error		= console.error			|| function(){var args = [];for (var i = 0; i < arguments.length; i++) { args.push(arguments[i]); } alert(args.join("\n")); };
-	console.trace		= console.trace			|| console.log;
-	console.group		= console.group			|| console.log;
-	console.groupEnd	= console.groupEnd		|| console.log;
-	console.profile		= console.profile		|| console.log;
-	console.profileEnd	= console.profileEnd	|| console.log;
+    // Debug
+    if (typeof console === 'undefined') {
+        console = typeof window.console !== 'undefined' ? window.console : {};
+    }
+    console.log            = console.log             || function(){};
+    console.debug        = console.debug         || console.log;
+    console.warn        = console.warn            || console.log;
+    console.error        = console.error            || function(){var args = [];for (var i = 0; i < arguments.length; i++) { args.push(arguments[i]); } alert(args.join("\n")); };
+    console.trace        = console.trace            || console.log;
+    console.group        = console.group            || console.log;
+    console.groupEnd    = console.groupEnd        || console.log;
+    console.profile        = console.profile        || console.log;
+    console.profileEnd    = console.profileEnd    || console.log;
 
-	// Declare our class
-	$.History = {
-		// Our Plugin definition
+    // Declare our class
+    $.History = {
+        // Our Plugin definition
 
-		// -----------------
-		// Options
+        // -----------------
+        // Options
 
-		options: {
-			debug: false
-		},
-
-		// -----------------
-		// Variables
-
-		state:		'',
-		$window:	null,
-		$iframe:	null,
-		handlers:	{
-			generic:	[],
-			specific:	{}
-		},
-
-		// --------------------------------------------------
-		// Functions
-
-		/**
-		 * Format a hash into a proper state
-		 * @param {String} hash
-		 */
-		format: function ( hash ) {
-			// Format the hash
-			hash = hash
-				.replace(/^.*#/g, '') /* strip anything before the anchor in case we were passed a url */
-				;
-
-			// Return the hash
-			return hash;
-		},
-
-		/**
-		 * Get the current state of the application
-		 */
-        getState: function ( ) {
-			var History = $.History;
-
-			// Get the current state
-			return History.state;
+        options: {
+            debug: false
         },
-		/**
-		 * Set the current state of the application
-		 * @param {String} hash
-		 */
-		setState: function ( state ) {
-			var History = $.History;
-			// Format the state
-			state = History.format(state)
 
-			// Apply the state
-			History.state = state;
+        // -----------------
+        // Variables
 
-			// Return the state
-			return History.state;
-		},
+        state:        '',
+        $window:    null,
+        $iframe:    null,
+        handlers:    {
+            generic:    [],
+            specific:    {}
+        },
 
-		/**
-		 * Get the current hash of the browser
-		 */
-		getHash: function ( ) {
-			var History = $.History;
+        // --------------------------------------------------
+        // Functions
 
-			// Get the hash
-			var hash = History.format(window.location.hash || location.hash);
+        /**
+         * Format a hash into a proper state
+         * @param {String} hash
+         */
+        format: function ( hash ) {
+            // Format the hash
+            hash = hash
+                .replace(/^.*#/g, '') /* strip anything before the anchor in case we were passed a url */
+                ;
 
-			// Return the hash
-			return hash;
-		},
+            // Return the hash
+            return hash;
+        },
 
-		/**
-		 * Set the current hash of the browser and iframe if present
-		 * @param {String} hash
-		 */
-		setHash: function ( hash ) {
-			var History = $.History;
+        /**
+         * Get the current state of the application
+         */
+        getState: function ( ) {
+            var History = $.History;
 
-			// Prepare hash
-			hash = History.format(hash);
+            // Get the current state
+            return History.state;
+        },
+        /**
+         * Set the current state of the application
+         * @param {String} hash
+         */
+        setState: function ( state ) {
+            var History = $.History;
+            // Format the state
+            state = History.format(state)
 
-			// Write hash
-			if ( typeof window.location.hash !== 'undefined' ) {
-				if ( window.location.hash !== hash ) {
-					window.location.hash = hash;
-				}
-			} else if ( location.hash !== hash ) {
-				location.hash = hash;
-			}
+            // Apply the state
+            History.state = state;
 
-			// Done
-			return hash;
-		},
+            // Return the state
+            return History.state;
+        },
 
-		/**
-		 * Go to the specific state - does not force a history entry like setHash
-		 * @param {String} to
-		 */
-		go: function ( to ) {
-			var History = $.History;
+        /**
+         * Get the current hash of the browser
+         */
+        getHash: function ( ) {
+            var History = $.History;
 
-			// Format
-			to = History.format(to);
+            // Get the hash
+            var hash = History.format(window.location.hash || location.hash);
 
-			// Get current
-			var hash = History.getHash();
-			var state = History.getState();
+            // Return the hash
+            return hash;
+        },
 
-			// Has the hash changed
-			if ( to !== hash ) {
-				// Yes, update the hash
-				// And wait for the next automatic fire
-				History.setHash(to);
-			} else {
-				// Hash the state changed?
-				if ( to !== state ) {
-					// Yes, Update the state
-					History.setState(to);
-				}
+        /**
+         * Set the current hash of the browser and iframe if present
+         * @param {String} hash
+         */
+        setHash: function ( hash ) {
+            var History = $.History;
 
-				// Trigger our change
-				History.trigger();
-			}
+            // Prepare hash
+            hash = History.format(hash);
 
-			// Done
-			return true;
-		},
+            // Write hash
+            if ( typeof window.location.hash !== 'undefined' ) {
+                if ( window.location.hash !== hash ) {
+                    window.location.hash = hash;
+                }
+            } else if ( location.hash !== hash ) {
+                location.hash = hash;
+            }
 
-		/**
-		 * Handle when the hash has changed
-		 * @param {Event} e
-		 */
-		hashchange: function ( e ) {
-			var History = $.History;
+            // Done
+            return hash;
+        },
 
-			// Get Hash
-			var hash = History.getHash();
+        /**
+         * Go to the specific state - does not force a history entry like setHash
+         * @param {String} to
+         */
+        go: function ( to ) {
+            var History = $.History;
 
-			// Handle the new hash
-			History.go(hash);
+            // Format
+            to = History.format(to);
 
-			// All done
-			return true;
-		},
+            // Get current
+            var hash = History.getHash();
+            var state = History.getState();
 
-		/**
-		 * Bind a handler to a hash
-		 * @param {Object} state
-		 * @param {Object} handler
-		 */
-		bind: function ( state, handler ) {
-			var History = $.History;
+            // Has the hash changed
+            if ( to !== hash ) {
+                // Yes, update the hash
+                // And wait for the next automatic fire
+                History.setHash(to);
+            } else {
+                // Hash the state changed?
+                if ( to !== state ) {
+                    // Yes, Update the state
+                    History.setState(to);
+                }
 
-			//
-			if ( handler ) {
-				// We have a state specific handler
-				// Prepare
-				if ( typeof History.handlers.specific[state] === 'undefined' )
-				{	// Make it an array
-					History.handlers.specific[state] = [];
-				}
-				// Push new handler
-				History.handlers.specific[state].push(handler);
-			}
-			else {
-				// We have a generic handler
-				handler = state;
-				History.handlers.generic.push(handler);
-			}
+                // Trigger our change
+                History.trigger();
+            }
 
-			// Done
-			return true;
-		},
+            // Done
+            return true;
+        },
 
-		/**
-		 * Trigger a handler for a state
-		 * @param {String} state
-		 */
-		trigger: function ( state ) {
-			var History = $.History;
+        /**
+         * Handle when the hash has changed
+         * @param {Event} e
+         */
+        hashchange: function ( e ) {
+            var History = $.History;
 
-			// Prepare
-			if ( typeof state === 'undefined' ) {
-				// Use current
-				state = History.getState();
-			}
-			var i, n, handler, list;
+            // Get Hash
+            var hash = History.getHash();
 
-			// Fire specific
-			if ( typeof History.handlers.specific[state] !== 'undefined' ) {
-				// We have specific handlers
-				list = History.handlers.specific[state];
-				for ( i = 0, n = list.length; i < n; ++i ) {
-					// Fire the specific handler
-					handler = list[i];
-					handler(state);
-				}
-			}
+            // Handle the new hash
+            History.go(hash);
 
-			// Fire generics
-			list = History.handlers.generic;
-			for ( i = 0, n = list.length; i < n; ++i ) {
-				// Fire the specific handler
-				handler = list[i];
-				handler(state);
-			}
+            // All done
+            return true;
+        },
 
-			// Done
-			return true;
-		},
+        /**
+         * Bind a handler to a hash
+         * @param {Object} state
+         * @param {Object} handler
+         */
+        bind: function ( state, handler ) {
+            var History = $.History;
 
-		// --------------------------------------------------
-		// Constructors
+            //
+            if ( handler ) {
+                // We have a state specific handler
+                // Prepare
+                if ( typeof History.handlers.specific[state] === 'undefined' )
+                {    // Make it an array
+                    History.handlers.specific[state] = [];
+                }
+                // Push new handler
+                History.handlers.specific[state].push(handler);
+            }
+            else {
+                // We have a generic handler
+                handler = state;
+                History.handlers.generic.push(handler);
+            }
 
-		/**
-		 * Construct our application
-		 */
-		construct: function ( ) {
-			var History = $.History;
+            // Done
+            return true;
+        },
 
-			// Modify the document
-			$(document).ready(function() {
-				// Prepare the document
-				History.domReady();
-			});
+        /**
+         * Trigger a handler for a state
+         * @param {String} state
+         */
+        trigger: function ( state ) {
+            var History = $.History;
 
-			// Done
-			return true;
-		},
+            // Prepare
+            if ( typeof state === 'undefined' ) {
+                // Use current
+                state = History.getState();
+            }
+            var i, n, handler, list;
 
-		/**
-		 * Configure our application
-		 * @param {Object} options
-		 */
-		configure: function ( options ) {
-			var History = $.History;
+            // Fire specific
+            if ( typeof History.handlers.specific[state] !== 'undefined' ) {
+                // We have specific handlers
+                list = History.handlers.specific[state];
+                for ( i = 0, n = list.length; i < n; ++i ) {
+                    // Fire the specific handler
+                    handler = list[i];
+                    handler(state);
+                }
+            }
 
-			// Set options
-			History.options = $.extend(History.options, options);
+            // Fire generics
+            list = History.handlers.generic;
+            for ( i = 0, n = list.length; i < n; ++i ) {
+                // Fire the specific handler
+                handler = list[i];
+                handler(state);
+            }
 
-			// Done
-			return true;
-		},
+            // Done
+            return true;
+        },
 
-		domReadied: false,
-		domReady: function ( ) {
-			var History = $.History;
+        // --------------------------------------------------
+        // Constructors
 
-			// Runonce
-			if ( History.domRedied ) {
-				return;
-			}
-			History.domRedied = true;
+        /**
+         * Construct our application
+         */
+        construct: function ( ) {
+            var History = $.History;
 
-			// Define window
-			History.$window = $(window);
+            // Modify the document
+            $(document).ready(function() {
+                // Prepare the document
+                History.domReady();
+            });
 
-			// Apply the hashchange function
-			History.$window.bind('hashchange', this.hashchange);
+            // Done
+            return true;
+        },
 
-			// Force hashchange support for all browsers
-			setTimeout(History.hashchangeLoader, 200);
+        /**
+         * Configure our application
+         * @param {Object} options
+         */
+        configure: function ( options ) {
+            var History = $.History;
 
-			// All done
-			return true;
-		},
+            // Set options
+            History.options = $.extend(History.options, options);
 
-		/**
-		 * Enable hashchange for all browsers
-		 */
-		hashchangeLoader: function () {
-			var History = $.History;
+            // Done
+            return true;
+        },
 
-			// More is needed for non IE8 browsers
-			if ( !($.browser.msie && parseInt($.browser.version) >= 8) ) {
-				// We are not IE8
+        domReadied: false,
+        domReady: function ( ) {
+            var History = $.History;
 
-				// State our checker function, it is used to constantly check the location to detect a change
-				var checker;
+            // Runonce
+            if ( History.domRedied ) {
+                return;
+            }
+            History.domRedied = true;
 
-				// Handle depending on the browser
-				if ( $.browser.msie ) {
-					// We are still IE
-					// IE6, IE7, etc
+            // Define window
+            History.$window = $(window);
 
-					// Append and $iframe to the document, as $iframes are required for back and forward
-					// Create a hidden $iframe for hash change tracking
-					History.$iframe = $('<iframe id="jquery-history-iframe" style="display: none;"></$iframe>').prependTo(document.body)[0];
+            // Apply the hashchange function
+            History.$window.bind('hashchange', this.hashchange);
 
-					// Create initial history entry
-					History.$iframe.contentWindow.document.open();
-					History.$iframe.contentWindow.document.close();
+            // Force hashchange support for all browsers
+            setTimeout(History.hashchangeLoader, 200);
 
-					// Define the checker function (for bookmarks)
-					var iframeHit = false;
-					checker = function ( ) {
+            // All done
+            return true;
+        },
 
-						// Fetch
-						var hash = History.getHash();
-						var state = History.getState();
-						var iframeHash = History.format(History.$iframe.contentWindow.document.location.hash);
+        /**
+         * Enable hashchange for all browsers
+         */
+        hashchangeLoader: function () {
+            var History = $.History;
 
-						// Check if the browser hash is different
-						if ( state !== hash ) {
-							// Browser hash is different
+            // More is needed for non IE8 browsers
+            if ( !($.browser.msie && parseInt($.browser.version) >= 8) ) {
+                // We are not IE8
 
-							// Check if we need to update the iframe
-							if ( !iframeHit ) {
-								// Write a iframe/history entry in the browsers back and forward
-								// alert('update iframe entry');
-								History.$iframe.contentWindow.document.open();
-								History.$iframe.contentWindow.document.close();
-								// alert('update iframe entry.');
+                // State our checker function, it is used to constantly check the location to detect a change
+                var checker;
 
-								// Update the iframe hash
-								// alert('update iframe hash');
-								History.$iframe.contentWindow.document.location.hash = hash;
-								// alert('update iframe hash.');
-							}
+                // Handle depending on the browser
+                if ( $.browser.msie ) {
+                    // We are still IE
+                    // IE6, IE7, etc
 
-							// Reset
-							iframeHit = false;
+                    // Append and $iframe to the document, as $iframes are required for back and forward
+                    // Create a hidden $iframe for hash change tracking
+                    History.$iframe = $('<iframe id="jquery-history-iframe" style="display: none;"></$iframe>').prependTo(document.body)[0];
 
-							// Fire
-							// alert('hashchange');
-							History.$window.trigger('hashchange');
-							// alert('hashchange.');
-						}
-						else {
-							// Browser hash is not different
+                    // Create initial history entry
+                    History.$iframe.contentWindow.document.open();
+                    History.$iframe.contentWindow.document.close();
 
-							// Check if the iframe hash is different from the iframe state
-							if ( state !== iframeHash ) {
-								// Specify we were hit from the iframe
-								iframeHit = true;
+                    // Define the checker function (for bookmarks)
+                    var iframeHit = false;
+                    checker = function ( ) {
 
-								// Update the browser hash
-								// alert('set hash from iframe');
-								History.setHash(iframeHash);
-								// alert('set hash from iframe.');
-							}
-						}
+                        // Fetch
+                        var hash = History.getHash();
+                        var state = History.getState();
+                        var iframeHash = History.format(History.$iframe.contentWindow.document.location.hash);
 
-					};
-				}
-				else {
-					// We are not IE
-					// Firefox, Opera, Etc
+                        // Check if the browser hash is different
+                        if ( state !== hash ) {
+                            // Browser hash is different
 
-					// Define the checker function (for bookmarks, back, forward)
-					checker = function ( ) {
-						var hash = History.getHash();
-						var state = History.getState();
-						// Check
-						if ( state !== hash ) {
-							// State change
-							History.$window.trigger('hashchange');
-						}
-					};
-				}
+                            // Check if we need to update the iframe
+                            if ( !iframeHit ) {
+                                // Write a iframe/history entry in the browsers back and forward
+                                // alert('update iframe entry');
+                                History.$iframe.contentWindow.document.open();
+                                History.$iframe.contentWindow.document.close();
+                                // alert('update iframe entry.');
 
-				// Apply the checker function
-				setInterval(checker, 200);
-			}
-			else {
-				// We are IE8
+                                // Update the iframe hash
+                                // alert('update iframe hash');
+                                History.$iframe.contentWindow.document.location.hash = hash;
+                                // alert('update iframe hash.');
+                            }
 
-				// Fire the initial
-				var hash = History.getHash();
-				if ( hash ) {
-					History.$window.trigger('hashchange');
-				}
-			}
+                            // Reset
+                            iframeHit = false;
 
-			// Done
-			return true;
-		}
+                            // Fire
+                            // alert('hashchange');
+                            History.$window.trigger('hashchange');
+                            // alert('hashchange.');
+                        }
+                        else {
+                            // Browser hash is not different
 
-	}; // We have finished extending/defining our Plugin
+                            // Check if the iframe hash is different from the iframe state
+                            if ( state !== iframeHash ) {
+                                // Specify we were hit from the iframe
+                                iframeHit = true;
 
-	// --------------------------------------------------
-	// Finish up
+                                // Update the browser hash
+                                // alert('set hash from iframe');
+                                History.setHash(iframeHash);
+                                // alert('set hash from iframe.');
+                            }
+                        }
 
-	// Instantiate
-	$.History.construct();
+                    };
+                }
+                else {
+                    // We are not IE
+                    // Firefox, Opera, Etc
+
+                    // Define the checker function (for bookmarks, back, forward)
+                    checker = function ( ) {
+                        var hash = History.getHash();
+                        var state = History.getState();
+                        // Check
+                        if ( state !== hash ) {
+                            // State change
+                            History.$window.trigger('hashchange');
+                        }
+                    };
+                }
+
+                // Apply the checker function
+                setInterval(checker, 200);
+            }
+            else {
+                // We are IE8
+
+                // Fire the initial
+                var hash = History.getHash();
+                if ( hash ) {
+                    History.$window.trigger('hashchange');
+                }
+            }
+
+            // Done
+            return true;
+        }
+
+    }; // We have finished extending/defining our Plugin
+
+    // --------------------------------------------------
+    // Finish up
+
+    // Instantiate
+    $.History.construct();
 
 // Finished definition
 

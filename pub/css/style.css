@@ -1,7 +1,13 @@
 @CHARSET "UTF-8";
 
+html
+{
+    height: 100%;    
+}
+
 body
 {
+    height: 100%;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -19,6 +25,7 @@ a:hover
 
 h1, h2, h3, h4, h5, h6, h7
 {
+    
 }
 
 h1
@@ -42,6 +49,7 @@ h3
 .container
 {
     width: 90%;
+    height: 100%;
     margin: 0 auto;
     overflow: hidden;
 }

@@ -21,27 +21,22 @@
  */
 
 class Lib_Session
-extends Lib_Object
+extends Lib_Object_Singleton
 {
     /**
-     * property to contain all of the session information
-     * @var array
+     * property to store the data of the session
+     *
+     * @var array $_data
      */
     private $_data = array();
-    
-    /**
-     * Property used to enforce the singleton pattern
-     * @var Lib_Session
-     */
-    private static $_instance;
-    
+
     /**
      * Privatizing the constructor to enforce the singleton pattern
      * 
      * Initialize the _data property, and unset the _SESSION superglobal to 
      * prevent anything else from using it
      */
-    private function __construct ( )
+    protected function __construct ( )
     {
         // if this isn't being called from cli, then run it
         if ( PHP_SAPI != 'cli' ) {
@@ -49,26 +44,9 @@ extends Lib_Object
             $this->_data = $_SESSION;
             unset($_SESSION);
         }
-        
+
     } // END function __construct
-    
-    /**
-     * Method to enforce the singleton pattern
-     * 
-     * Used to retrieve the single instance of the session object
-     * @return Lib_Session
-     */
-    public static function getInstance ( )
-    {   // if the _instance property hasn't already been set, set it
-        if (! self::$_instance) {
-            self::$_instance = new Lib_Session;
-        }
-        
-        // return the _instance proeperty
-        return self::$_instance;
-        
-    } // END function getInstance
-    
+
     /**
      * Method to retrieve the _data param
      * 
@@ -77,9 +55,9 @@ extends Lib_Object
     public function getParams ( )
     {
         return @$this->_data;
-        
+
     } // END function getData
-    
+
     /**
      * Method to return a single parameter by name
      * 
@@ -89,9 +67,9 @@ extends Lib_Object
     public function getParam ($param)
     {
         return @$this->_data[$param];
-        
+
     } // END function getParam
-    
+
     /**
      * Method to set a single parameter value
      * 
@@ -102,11 +80,12 @@ extends Lib_Object
     public function setParam ($param, $value = '')
     {
         $this->_data[$param] = $value;
-        
+        $_SESSION = $this->_data;
+
         // return $this for a fluent interface
         return $this;
     }
-    
+
     /**
      * Utility method to allow for the setting of multiple parameters 
      * 
@@ -118,10 +97,10 @@ extends Lib_Object
         foreach ($params as $param => $value) {
             $this->setParam($param, $value);
         }
-        
+
         // return $this for a fluent interface
         return $this;
-        
+
     } // END function setParams
 
     /**
@@ -130,23 +109,24 @@ extends Lib_Object
     public function destroy ( )
     {
         $this->_data = null;
-        
+
         // if this isn't being called from cli, then run it
         if ( PHP_SAPI != 'cli' ) {
             session_destroy();
         }
-        
+
         $this->__destruct();
-        
+
     } // END function destroy
-    
+
     /**
      * Implementation of the magic method __destruct, to save state 
      */
     public function __destruct ( )
     {
         $_SESSION = $this_>_data;
-        
+
     } // END function __destruct
-    
+
 } // END class Lib_Request
+

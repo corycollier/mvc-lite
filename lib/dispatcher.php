@@ -19,46 +19,21 @@
  */
 
 class Lib_Dispatcher
-extends Lib_Object
+extends Lib_Object_Singleton
 {
-    /**
-     * The instance of self used for the singleton pattern
-     * 
-     * @var Lib_Dispatcher
-     */
-    private static $_instance;
-
-    /**
-     * Privatize the constructor to enforce the singleton pattern
-     */
-    private function __construct ( ) 
+    public function init ( )
     {
-        
-    } // END function __construct
-    
-    /**
-     * Method to access the single instance of this class
-     * 
-     * @return Lib_Dispatcher
-     */
-    public static function getInstance ( )
-    {   // if the instance property isn't already set, then set it
-        if (! self::$_instance) {
-            self::$_instance = new Lib_Dispatcher;
-        }
-        
-        // return the instance property
-        return self::$_instance;
-        
-    } // END function getInstance
-    
+        throw new Lib_Exception('This method must be implemented in the app');
+    }
+
     /**
      * dispatch
      * 
      * This is the main entry point for dispatching a request
      */
     public function dispatch ( )
-    {
+    { 
+        $response = Lib_Response::getInstance();
         $request = Lib_Request::getInstance();
         $controller = $this->_translateControllerName(
             $request->getParam('controller')
@@ -96,7 +71,6 @@ extends Lib_Object
         $controller->postDispatch();
         
         // send the response
-        $response = Lib_Response::getInstance();
         $response->setBody($controller->getView()->render());
         
         // if this is an actual request, not a unit test, send headers

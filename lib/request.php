@@ -19,41 +19,35 @@
  */
 
 class Lib_Request
-extends Lib_Object
+extends Lib_Object_Singleton
 {
     /**
      * associative array representing the request params
      * 
      * @var array
      */
-    private $_params = array();
+    protected $_params = array();
 
-    /**
-     * instance variable used to enforce the singleton pattern
-     * 
-     * @var Lib_Request
-     */
-    private static $_instance;
-    
     /**
      * associative array of the headers sent from the client
      * 
      * @var array
      */
-    private $_headers = array();
+    protected $_headers = array();
 
     /**
      * Privatizing the constructor to enforce the singleton pattern
      */
-    private function __construct ( )
+    protected function __construct ( )
     {
+        parent::__construct();
         $this->_params = array_merge($this->_params, $_COOKIE);
         $this->_params = array_merge($this->_params, $_POST);
         $this->_params = array_merge($this->_params, $_GET);
         $this->_setHeaders();
 
     } // END function __construct
-    
+
     /**
      * 
      * Method to set the headers
@@ -67,7 +61,7 @@ extends Lib_Object
             $key = Lib_Filter::serverVarsToHeaderTypes($key);
             $this->_headers[$key] = $value;
         }
-        
+
     } // END function _setHeaders
 
     /**
@@ -84,7 +78,7 @@ extends Lib_Object
 
         $results['controller'] = @$parts[0] 
             ? $parts[0]
-            : 'Index';
+            : 'index';
 
         $results['action'] = @$parts[1]
             ? $parts[1]
@@ -103,21 +97,6 @@ extends Lib_Object
         return $results;
 
     } // END function buildFromString
-
-    /**
-     * Method used to enforce the singleton pattern 
-     *
-     * @return Lib_Request
-     */
-    public static function getInstance ( )
-    {   // if the instance property isn't already set, set it
-        if (! self::$_instance) {
-            self::$_instance = new Lib_Request;
-        }
-
-        return self::$_instance;
-
-    } // END function getInstance
 
     /**
      * setter for the params property

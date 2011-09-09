@@ -17,8 +17,11 @@
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+require_once 'object.php';
+require_once 'object/singleton.php';
 
 class Lib_Loader
+extends Lib_Object_Singleton
 {
     /**
      * list of registered resources
@@ -28,47 +31,22 @@ class Lib_Loader
     private $_resources = array();
 
     /**
-     * property to maintain the single instance of this class
-     *
-     * @var Lib_Loader
-     */
-    private static $_instance;
-
-    /**
      * Privatizing the constructor to enforce the singleton pattern
      */
-    private function __construct ( )
+    protected function __construct ( )
     {   // register this class's autload method as the spl autoloader
         spl_autoload_register(array($this, 'autoload'));
 
-        require implode(DIRECTORY_SEPARATOR, array(
-            LIB_PATH,
-            'object.php',
-        ));
         require implode(DIRECTORY_SEPARATOR, array(
             LIB_PATH,
             'filter.php',
         ));
 
         $this->_resources['Lib_Object'] = true;
+        $this->_resources['Lib_Object_Singleton'] = true;
         $this->_resources['Lib_Filter'] = true;
 
     } // END function __construct
-
-    /**
-     * Method to get the single instance of this class (singleton)
-     * 
-     * @return Lib_Loader
-     */
-    public static function getInstance ( )
-    {   // if the instance property isn't set, set it
-        if (! self::$_instance) {
-            self::$_instance = new Lib_Loader;
-        }
-
-        return self::$_instance;
-
-    } // END function getInstance
 
     /**
      * Method to try to load a class
@@ -83,6 +61,7 @@ class Lib_Loader
 
         // iterate through the include paths, looking for the file
         $includePaths = explode(PATH_SEPARATOR, get_include_path());
+        
         foreach ($includePaths as $includePath) {
             $file = realpath(implode(DIRECTORY_SEPARATOR, array(
                 $includePath,
@@ -95,8 +74,21 @@ class Lib_Loader
                 require $file;
                 return $this;
             }
+            
+            // last chance to try to find the file
+            $file = realpath(implode(DIRECTORY_SEPARATOR, array(
+                $includePath, 
+                "{$class}.php",
+            )));
+            
+            // if we've found the file, set it to the property, require it, quit
+            if ($file) {
+                $this->_resources[$class] = true;
+                require $file;
+                return $this;
+            }
         }
-
+        
         // hopefully we're not here. throw an exception if we are
         throw new Lib_Exception(
             "{$class} not found in include path"

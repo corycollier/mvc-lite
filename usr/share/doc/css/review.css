@@ -156,7 +156,7 @@
 }
 
 .tooltip {
-	padding-bottom: 3px;
+    padding-bottom: 3px;
 }
 
 .tooltip .title{
@@ -165,12 +165,12 @@
     line-height: 20px;
     vertical-align: middle;
     width: 100%;
-	padding: 3px;
+    padding: 3px;
 }
 .tooltip .text{
     padding: 3px;
     border-bottom: 1px solid #E7E7E7;
-	font-size: 12px;
+    font-size: 12px;
 }
 
 /**
