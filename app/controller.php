@@ -2,7 +2,7 @@
 /**
  * App Controller
  * 
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Controller
  * @since       File available since release 1.0.1
@@ -13,7 +13,7 @@
  * 
  * This controller specifies all of the application specific logic for requests
  * 
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Controller
  * @since       Class available since release 1.0.1

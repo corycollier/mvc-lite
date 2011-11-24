@@ -2,7 +2,7 @@
 /**
  * App Dispatcher
  * 
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.x
@@ -13,7 +13,7 @@
  *
  * Local override of the lib dispatcher. Anything custom goes in here 
  *
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Dispatcher
  * @since       Class available since release 1.0.x
