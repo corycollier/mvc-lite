@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_Response class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Response
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_Response class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Response
@@ -63,31 +63,53 @@ extends PHPUnit_Framework_TestCase
 
     /**
      * test the setting of headers
+     *
+     * @dataProvider provide_setHeader
      */
-    public function test_setHeader ( )
+    public function test_setHeader ($headers = array())
     {
-        $header = array(
-            'Content-type' => 'text/plain',
-        );
+        $this->fixture->setHeader($headers['name'], $headers['value']);
 
-        $this->fixture->setHeader('Content-type', $header['Content-type']);
-
-        $this->assertSame($header['Content-type'], $this->fixture->getHeader('Content-type'));
+        $this->assertSame($headers['value'], $this->fixture->getHeader($headers['name']));
 
     } // END function test_setHeader
 
     /**
+     * provider for the $helper->setHeader() method
+     *
+     * @return array
+     */
+    public function provide_setHeader ( )
+    {
+        return array(
+            array(array(
+                'name' => 'Content-Type',
+                'value' => 'text/plain',
+            )),
+            array(array(
+                'name' => 'Content-Type',
+                'value' => 'text/csv',
+            )),
+            array(array(
+                'name'  => 'X-Testing',
+                'value' => 'testing value',
+            )),
+        );
+
+    } // END function provide_setHeader
+
+    /**
      * Function to provide arguments to tests
+     *
+     * @return array
      */
     public function headerProvider ( )
     {
         return array(
-            array(
-                array(
-                    'Content-type' => 'text/plain',
-                    'X-Testing'     => 'testing value',
-                )
-            )
+            array(array(
+                'Content-type' => 'text/plain',
+                'X-Testing'     => 'testing value',
+            )),
         );
 
     } // END function headerProvider
@@ -103,8 +125,6 @@ extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Lib_Response', $result);
 
         $result = $this->fixture->getHeaders();
-
-        print_r($result);
 
         foreach ($headers as $name => $value) {
             $this->assertSame($value, $result[$name]);

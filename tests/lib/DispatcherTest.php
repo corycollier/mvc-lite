@@ -26,7 +26,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function setUp ( )
     {
-        $this->fixture = Lib_Dispatcher::getInstance();
+        $this->fixture = App_Dispatcher::getInstance();
 
     } // END function setUp
 
@@ -44,10 +44,13 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_getInstance ( )
     {
-        $this->assertInstanceOf('Lib_Dispatcher', $this->fixture);
+        $this->assertInstanceOf('App_Dispatcher', $this->fixture);
 
     } // END function test_getInstance
 
+    /**
+     * 
+     */
     public function test_dispatch ( )
     {
         ob_start();

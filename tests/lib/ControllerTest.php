@@ -21,7 +21,6 @@
 class ControllerTest
 extends PHPUnit_Framework_TestCase
 {
-    
     /**
      * The setup method, called before each test
      */
