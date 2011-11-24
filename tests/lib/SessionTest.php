@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class SessionTest
+class Tests_Lib_SessionTest
 extends PHPUnit_Framework_TestCase
 {
     

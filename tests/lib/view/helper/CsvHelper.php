@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_View_Helper_CsvTest
+class Tests_Lib_View_Helper_CsvTest
 extends PHPUnit_Framework_TestCase
 {
     /**

@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterTest
+class Tests_Lib_FilterTest
 extends PHPUnit_Framework_TestCase
 {
 

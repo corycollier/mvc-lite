@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ObjectTest
+class Tests_Lib_ObjectTest
 extends PHPUnit_Framework_TestCase
 {
     

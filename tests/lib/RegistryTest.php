@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class RegistryTest
+class Tests_Lib_RegistryTest
 extends PHPUnit_Framework_TestCase
 {
     /**

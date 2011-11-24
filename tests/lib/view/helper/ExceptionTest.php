@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_View_Helper_ExceptionTest
+class Tests_Lib_View_Helper_ExceptionTest
 extends PHPUnit_Framework_TestCase
 {
     /**

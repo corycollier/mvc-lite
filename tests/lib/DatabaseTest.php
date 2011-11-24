@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class DatabaseTest
+class Tests_Lib_DatabaseTest
 extends PHPUnit_Framework_TestCase
 {
     /**

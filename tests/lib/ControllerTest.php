@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ControllerTest
+class Test_Lib_ControllerTest
 extends PHPUnit_Framework_TestCase
 {
     /**

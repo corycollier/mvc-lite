@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class LoaderTest
+class Tests_Lib_LoaderTest
 extends PHPUnit_Framework_TestCase
 {
     /**

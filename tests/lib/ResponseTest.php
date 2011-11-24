@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ResponseTest
+class Tests_Lib_ResponseTest
 extends PHPUnit_Framework_TestCase
 {
 

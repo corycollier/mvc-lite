@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class RequestTest
+class Tests_Lib_RequestTest
 extends PHPUnit_Framework_TestCase
 {
     

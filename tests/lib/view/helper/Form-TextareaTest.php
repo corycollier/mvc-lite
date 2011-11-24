@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_View_Helper_FormTextareaTest
+class Tests_Lib_View_Helper_FormTextareaTest
 extends PHPUnit_Framework_TestCase
 {
     /**

@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class DispatcherTest
+class Tests_Lib_DispatcherTest
 extends PHPUnit_Framework_TestCase
 {
     /**

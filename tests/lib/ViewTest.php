@@ -18,7 +18,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewTest
+class Tests_Lib_ViewTest
 extends PHPUnit_Framework_TestCase
 {
 
@@ -53,8 +53,6 @@ extends PHPUnit_Framework_TestCase
         $this->assertSame($expected, $result);
 
     } // END function test_filter
-
-
 
     /**
      * test the setting and getting of variables to the view
