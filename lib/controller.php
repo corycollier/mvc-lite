@@ -1,7 +1,7 @@
 <?php
 /**
  * Base Controller
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Controller
@@ -10,7 +10,7 @@
  */
 /**
  * Base Controller
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Controller
@@ -23,7 +23,7 @@ extends Lib_Object
 {
     /**
      * getter for the view property
-     * 
+     *
      * @return Lib_View
      */
     public function getView ( )
@@ -34,7 +34,7 @@ extends Lib_Object
 
     /**
      * Utility method to get the response instance
-     * 
+     *
      * @return Lib_Response
      */
     public function getResponse ( )
@@ -45,7 +45,7 @@ extends Lib_Object
 
     /**
      * Utility method to get the request instance
-     * 
+     *
      * @return Lib_Request
      */
     public function getRequest ( )
@@ -56,7 +56,7 @@ extends Lib_Object
 
     /**
      * Utility method to get the session instance
-     * 
+     *
      * @return Lib_Session
      */
     public function getSession ( )
@@ -75,10 +75,11 @@ extends Lib_Object
         $action = $request->getParam('action');
 
         // setup the view
-        $this->getView()->setScript(implode(DIRECTORY_SEPARATOR, array(
-            $controller,
-            $action,
+        $this->getView()->addViewScriptPath(implode(DIRECTORY_SEPARATOR, array(
+            APP_PATH, 'view', 'scripts', $controller,
         )));
+
+        $this->getView()->setScript($action);
 
         // if the request is not ajax, then setup the layout
         if (!$request->isAjax()) {
@@ -96,9 +97,6 @@ extends Lib_Object
      */
     public function preDispatch ( )
     {
-        $this->getResponse()->setHeader('X-Page-Identifier',
-            Lib_Filter::dashToCamelCase(implode('-', $this->getRequest()->getParams()))
-        );
 
     } // END function preDispatch
 
@@ -111,4 +109,3 @@ extends Lib_Object
     } // END function postDispatch
 
 } // END class Controller
-

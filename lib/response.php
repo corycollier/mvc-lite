@@ -36,13 +36,13 @@ extends Lib_Object_Singleton
     protected $_body = '';
 
     /**
-     * Privatizing the constructor to enforce the singleton pattern
+     * method to start the database up
      */
-    protected function __construct ( )
+    public static function init ( )
     {
-        $this->setHeader('X-Powered-By', 'lightness');
+        self::getInstance();
 
-    } // END function __construct
+    } // END function init
 
     /**
      * Set's a header value

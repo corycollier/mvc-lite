@@ -36,17 +36,35 @@ extends Lib_Object_Singleton
     protected $_headers = array();
 
     /**
+     * stores the original request uri
+     *
+     * @var string
+     */
+    protected $_uri;
+
+    /**
      * Privatizing the constructor to enforce the singleton pattern
      */
     protected function __construct ( )
     {
         parent::__construct();
+
+        $this->_uri = $_SERVER['REQUEST_URI'];
         $this->_params = array_merge($this->_params, $_COOKIE);
         $this->_params = array_merge($this->_params, $_POST);
         $this->_params = array_merge($this->_params, $_GET);
         $this->_setHeaders();
 
     } // END function __construct
+
+    /**
+     * method to start the database up
+     */
+    public static function init ( )
+    {
+        self::getInstance();
+
+    } // END function init
 
     /**
      * 
@@ -210,5 +228,16 @@ extends Lib_Object_Singleton
         return false;
         
     } // END function isAjax
+
+    /**
+     * getter for the uri value
+     *
+     * @return string
+     */
+    public function getUri ( )
+    {
+        return $this->_uri;
+        
+    } // END function getUri
 
 } // END class Request

@@ -43,7 +43,7 @@ extends Lib_Object_Singleton
 
         return $this;
 
-    }
+    } // END function set
 
     /**
      * getter for data stored
@@ -54,7 +54,7 @@ extends Lib_Object_Singleton
     public function get ($name)
     {
         return @$this->_data[$name];
-    }
 
-}
+    } // END function get
 
+} // END class Lib_Registry

@@ -1,7 +1,7 @@
 <?php
 /**
  * Base Database adapter
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Database
@@ -10,7 +10,7 @@
  */
 /**
  * Base Database adapter
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Database
@@ -36,11 +36,19 @@ extends Lib_Object_Singleton
     protected $_result;
 
     /**
+     * property to store the last query
+     *
+     * @var string
+     */
+    protected $_query;
+
+    /**
      * local overriding of the constructor
      */
     protected function __construct ( )
     {
         $database = App_Registry::getInstance()->get('database');
+
         $this->_handle = new mysqli(
             $database['host'],
             $database['user'],
@@ -56,6 +64,15 @@ extends Lib_Object_Singleton
     }
 
     /**
+     * method to start the database up
+     */
+    public static function init ( )
+    {
+        self::getInstance();
+
+    } // END function init
+
+    /**
      * Method to return the mysqli instance
      *
      * @return MySQLi
@@ -64,6 +81,22 @@ extends Lib_Object_Singleton
     {
         return $this->_handle;
     }
+
+    /**
+     * passthrough method for querying the database
+     *
+     * @param string $sql
+     * @return Lib_Database
+     */
+    public function query ($sql)
+    {
+        $this->_query = $sql;
+
+        $this->_result = $this->getHandle()->query($this->_query);
+
+        return $this;
+
+    } // END function query
 
     /**
      * Method to get data from the database
@@ -79,7 +112,7 @@ extends Lib_Object_Singleton
     {
         $sql = "select !fields from !table !where !order !limit";
 
-        $sql = strtr($sql, array(
+        $this->_query = strtr($sql, array(
             '!table'    => $table,
             '!fields'   => $this->_buildFields($fields),
             '!where'    => $this->_buildWhere($where),
@@ -87,14 +120,14 @@ extends Lib_Object_Singleton
             '!limit'    => $this->_buildLimit($limit),
         ));
 
-        $this->_result = $this->_handle->query($sql);
+        $this->_result = $this->getHandle()->query($this->_query);
 
         return $this;
     }
 
     /**
      * Method to allow updates on a database
-     * 
+     *
      * @param string $table
      * @param array $fields
      * @param array|string $where
@@ -104,16 +137,16 @@ extends Lib_Object_Singleton
     {
         $sql = "UPDATE !table SET !fields !where";
 
-        $sql = strtr($sql, array(
+        $this->_query = strtr($sql, array(
             '!table'    => $table,
             '!fields'   => $this->_updateFields($fields),
             '!where'    => $this->_buildWhere($where),
         ));
 
-        if (! $this->_handle->query($sql)) {
+        if (! $this->getHandle()->query($this->_query)) {
             throw new Lib_Exception(
-                'Query Failure: ' . $this->_handle->error
-                , $this->_handle->errno
+                'Query Failure: ' . $this->getHandle()->error
+                , $this->getHandle()->errno
             );
         }
 
@@ -122,26 +155,32 @@ extends Lib_Object_Singleton
     } // END function update
 
     /**
-     * 
+     *
      * Method to allow users to insert new data
-     * 
+     *
      * @param string $table
      * @param array $values
      */
     public function insert ($table, $values = array())
     {
+        if (! count($values)) {
+            throw new Lib_Exception(
+                'Empty dataset provided. Nothing created'
+            );
+        }
+
         $sql = "INSERT INTO !table \n(!fields)\n values \n(!values)";
 
-        $sql = strtr($sql, array(
+        $this->_query = strtr($sql, array(
             '!table'    => $table,
             '!fields'   => implode(', ', array_keys($values)),
             '!values'   => $this->_insertValues($values),
         ));
 
-        if (! $this->_handle->query($sql)) {
+        if (! $this->getHandle()->query($this->_query)) {
             throw new Lib_Exception(
-                'Query Failure: ' . $this->_handle->error
-                , $this->_handle->errno
+                'Query Failure: ' . $this->getHandle()->error
+                , $this->getHandle()->errno
             );
         }
 
@@ -150,8 +189,9 @@ extends Lib_Object_Singleton
     } // END function insert
 
     /**
+     *
      * method to allow the deletion of records
-     * 
+     *
      * @param string $table
      * @param array $params
      * @return Lib_Database $this for a fluent interface
@@ -159,17 +199,17 @@ extends Lib_Object_Singleton
     public function delete ($table, $params = array())
     {
         $sql = "DELETE FROM !table !where";
-        $sql = strtr($sql, array(
+        $this->_query = strtr($sql, array(
             '!table'    => $table,
             '!where'    => $this->_deleteWhere($params),
         ));
 
         // if the SQL failed, throw an exception
-        if (! $this->_handle->query($sql)) {
+        if (! $this->getHandle()->query($this->_query)) {
             throw new Lib_Exception(
-                'Query Failure: ' . $this->_handle->error
-                , $this->_handle->errno
-            );die;
+                'Query Failure: ' . $this->getHandle()->error
+                , $this->getHandle()->errno
+            );
         }
 
         return $this;
@@ -178,7 +218,7 @@ extends Lib_Object_Singleton
 
     /**
      * builds a where string to be used by the delete method
-     * 
+     *
      * @param array $params
      * @return string
      */
@@ -199,15 +239,16 @@ extends Lib_Object_Singleton
     } // END function _deleteWhere
 
     /**
+     *
      * Method to translate an array of values to an insert string
-     * 
+     *
      * @param array $values
      * @return string
      */
     protected function _insertValues ($values = array())
     {   // iterate over the values provided
         foreach ($values as $i => $value) {
-            $values[$i] = $this->_handle->escape_string($value);
+            $values[$i] = $this->getHandle()->escape_string($value);
         }
 
         return "'" .  implode("', '", $values) . "'";
@@ -216,7 +257,7 @@ extends Lib_Object_Singleton
 
     /**
      * Method to build a setting string for update statements
-     * 
+     *
      * @param array $fields
      * @return string
      */
@@ -224,8 +265,9 @@ extends Lib_Object_Singleton
     {   // iterate over the fields array
         foreach ($fields as $column => $value) {
             unset($fields[$column]);
+
             $fields[$column] = strtr("{$column}='!value'", array(
-                '!value'    => $this->_handle->escape_string($value),
+                '!value'    => $this->getHandle()->escape_string($value),
             ));
         }
 
@@ -235,7 +277,7 @@ extends Lib_Object_Singleton
     /**
      * method to retrieve all of the previously fetched database records
      *
-     * @return ArrayObject
+     * @return array
      */
     public function all ( )
     {
@@ -251,6 +293,21 @@ extends Lib_Object_Singleton
         return $result;
 
     } // END function all
+
+    /**
+     * returns the first record for a previously fetched database result
+     *
+     * @return array
+     */
+    public function first ( )
+    {
+        if ($this->_result) {
+            while($obj = $this->_result->fetch_object()) {
+                return array($obj);
+            }
+        }
+
+    } // END function first
 
     /**
      * Returns a list of fields to gather
@@ -286,19 +343,31 @@ extends Lib_Object_Singleton
         // iterate over the provided params as key/value pairs
         foreach ($params as $column => $value) {
             unset($params[$column]);
-            if (is_array($value)) {
-                foreach ($value as $i => $childValue) {
-                    $value[$i] = $this->_handle->escape_string($childValue);
-                }
-                $params[$column] = "{$column} IN ('" . implode(',', $value) . "')";
+            if (! $value) {
+                continue;
+            }
+            if ($value instanceOf stdClass) {
                 continue;
             }
 
-            $params[$column] = "{$column}='" . $this->_handle->escape_string($value) . "'";
+            if (is_array($value)) {
+                foreach ($value as $i => $childValue) {
+                    $value[$i] = $this->getHandle()->escape_string($childValue);
+                }
+                $params[$column] = "{$column} IN ('" . implode("','", $value) . "')";
+                continue;
+            }
+
+            $params[$column] = "{$column}='" . $this->getHandle()->escape_string($value) . "'";
+        }
+
+        if (! $params) {
+            return '';
         }
 
         return ' WHERE ' . implode(' AND ', $params);
     }
+
 
     /**
      * method to build an order by string
@@ -309,7 +378,7 @@ extends Lib_Object_Singleton
     protected function _buildOrder ($order = null)
     {
         if (is_array($order)) {
-           $order = implode(', ', $order); 
+           $order = implode(', ', $order);
         }
 
         if ($order) {
@@ -319,6 +388,12 @@ extends Lib_Object_Singleton
         return $order;
     }
 
+    /**
+     * builds a limit string
+     *
+     * @param array|string $limit
+     * @return string
+     */
     protected function _buildLimit ($limit = null)
     {
         if (is_array($limit)) {
@@ -331,5 +406,27 @@ extends Lib_Object_Singleton
 
         return $limit;
     }
+
+    /**
+     * returns the last auto-increment id value from the previous query
+     *
+     * @return integer
+     */
+    public function lastInsertId ( )
+    {
+        return $this->getHandle()->insert_id;
+
+    } // END function lastInsertId
+
+    /**
+     * Returns the last query executed
+     *
+     * @return string
+     */
+    public function getLastQuery ( )
+    {
+        return $this->_query;
+
+    } // END function getLastQuery
 
 } // END class Lib_Database

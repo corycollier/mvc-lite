@@ -1,7 +1,7 @@
 <?php
 /**
  * Autoloader class
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Loader
@@ -10,7 +10,7 @@
  */
 /**
  * Autoloader class
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Loader
@@ -28,7 +28,7 @@ extends Lib_Object_Singleton
      *
      * @var array
      */
-    private $_resources = array();
+    private static $_resources = array();
 
     /**
      * Privatizing the constructor to enforce the singleton pattern
@@ -42,9 +42,9 @@ extends Lib_Object_Singleton
             'filter.php',
         ));
 
-        $this->_resources['Lib_Object'] = true;
-        $this->_resources['Lib_Object_Singleton'] = true;
-        $this->_resources['Lib_Filter'] = true;
+        self::$_resources['Lib_Object'] = true;
+        self::$_resources['Lib_Object_Singleton'] = true;
+        self::$_resources['Lib_Filter'] = true;
 
     } // END function __construct
 
@@ -55,13 +55,39 @@ extends Lib_Object_Singleton
      */
     public function autoload ($class)
     {   // if the class is already recognized, return self
-        if (@$this->_resources[$class]) {
+        if (@self::$_resources[$class]) {
             return $this;
         }
 
+        $file = $this->findPath($class);
+
+        if (! $file) {
+            // hopefully we're not here. throw an exception if we are
+            throw new Lib_Exception(
+                "{$class} not found in include path"
+            );
+        }
+
+        self::$_resources[$class] = true;
+        require $file;
+        return $this;
+
+
+    } // END function autoload
+
+    /**
+     * method to return the full path a class can be found.
+     *
+     * If the class cannot be found, false is returned
+     *
+     * @param string $class
+     * @return string|boolean
+     */
+    public function findPath ($class)
+    {
         // iterate through the include paths, looking for the file
         $includePaths = explode(PATH_SEPARATOR, get_include_path());
-        
+
         foreach ($includePaths as $includePath) {
             $file = realpath(implode(DIRECTORY_SEPARATOR, array(
                 $includePath,
@@ -70,31 +96,13 @@ extends Lib_Object_Singleton
 
             // if we've found the file, set it to the property, require it, quit
             if ($file) {
-                $this->_resources[$class] = true;
-                require $file;
-                return $this;
-            }
-            
-            // last chance to try to find the file
-            $file = realpath(implode(DIRECTORY_SEPARATOR, array(
-                $includePath, 
-                "{$class}.php",
-            )));
-            
-            // if we've found the file, set it to the property, require it, quit
-            if ($file) {
-                $this->_resources[$class] = true;
-                require $file;
-                return $this;
+                return $file;
             }
         }
-        
-        // hopefully we're not here. throw an exception if we are
-        throw new Lib_Exception(
-            "{$class} not found in include path"
-        );
 
-    } // END function autoload
+        return false;
+
+    } // END function
 
     /**
      * Creates a relative filepath for a provided classname
@@ -102,7 +110,7 @@ extends Lib_Object_Singleton
      * @param string $class
      * @return string the relative pathname for including the class
      */
-    public function getFilenameFromClassname ($class) 
+    public function getFilenameFromClassname ($class)
     {
         $classParts = explode('_', $class);
         $replaceTerm = end($classParts);

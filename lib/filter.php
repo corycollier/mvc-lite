@@ -22,6 +22,61 @@ class Lib_Filter
 extends Lib_Object
 {
     /**
+     * holds the list of filters
+     * 
+     * @var array
+     */
+    protected $_filters = array();
+    
+    /**
+     * adds a filter to the chain
+     * 
+     * @param Lib_Filter_Abstract $filter
+     */
+    public function addFilter (Lib_Filter_Abstract $filter)
+    {
+        $this->_filters[] = $filter;
+        
+        return $this;
+        
+    } // END function addFilter
+    
+    /**
+     * method to return a filter instance
+     * 
+     * @param string $filterName
+     */
+    public static function factory ($filterName)
+    {   // iterate over the registered (haha) packages
+        foreach (array('App', 'Lib') as $package) {
+            try {
+                $class = "{$package}_Filter_{$filterName}";
+                Lib_Loader::getInstance()->autoload($class);
+                return new $class;
+            }
+            catch (Lib_Exception $exception) { }
+        }
+        // throw an exception if we get this far, 
+        throw new Lib_Exception("Requested filter [{$filter}] not found");
+    }
+    
+    /**
+     * filters a chain
+     * 
+     * @param string $word
+     */
+    public function filter ($word = '')
+    {   
+        // iterate through the filters, triming the word as defined
+        foreach ($this->_filters as $filter) {
+            $word = $filter->filter($word);
+        }
+        
+        return $word;
+        
+    } // END function filter
+    
+    /**
      * translates a string from dash separated to camelcase
      * 
      * @param string $string
@@ -56,29 +111,6 @@ extends Lib_Object
         return $result;
         
     } // END function camelCaseToDash
-    
-    /**
-     * translates a string from underscore separated to DIRECTORY_SEPARATOR 
-     * separated
-     * 
-     * @param string $string
-     * @return string
-     */
-    public static function underscoreToDirectorySeparator ($string = '')
-    {
-        
-    } // END funciton underscoreToDirectorySeparator
-    
-    /**
-     * translates a string from underscore separated to camelcased
-     * 
-     * @param string $string
-     * @return string
-     */
-    public static function underscoreToCamelCase ($string = '')
-    {
-        
-    } // END funciton underscoreToCamelCase
     
     /**
      * 

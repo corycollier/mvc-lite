@@ -77,5 +77,28 @@ class Lib_Object
         )));
 
     } // END function __call
+
+    /**
+     * returns a string representation of the object
+     */
+    public function __toString ( )
+    {
+        return get_class($this);
+
+    } // END function __toString
+
+    /**
+     * method used to identify the object instance
+     *
+     * @throws Lib_Exception
+     * @return string
+     */
+    public function identify ( )
+    {
+        throw new Lib_Exception(
+            'Descendents must implement the identify method'
+        );
+        
+    } // END function identify
     
 } // END class Lib_Object
