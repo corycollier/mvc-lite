@@ -2,7 +2,7 @@
 /**
  * Registry
  * 
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Registry
  * @since       File available since release 1.0.x
@@ -13,7 +13,7 @@
  * 
  * Data store for application level storage
  * 
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Registry
  * @since       Class available since release 1.0.x

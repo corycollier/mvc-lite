@@ -1,8 +1,8 @@
 <?php
 /**
- * User Model
+ * Base model
  * 
- * @category    Infidel-Throwdown
+ * @category    MVCLite
  * @package     App
  * @subpackage  Model
  * @since       File available since release 1.0.1
@@ -11,9 +11,9 @@
 /**
  * User Model
  * 
- * Model to contain logic related to users
+ * Model to contain logic that other applications models inherit
  * 
- * @category    Infidel-Throwdown 
+ * @category    MVCLite
  * @package     App
  * @subpackage  Model
  * @since       Class available since release 1.0.1
