@@ -36,6 +36,11 @@ extends Lib_Object
      */
     public function test ($filename)
     {
+        if (file_exists($filename)) {
+            return true;
+        }
+
+        return false;
         
     } // END function test
 
@@ -58,7 +63,7 @@ extends Lib_Object
      */
     public function load ($filename)
     {
-        $this->__checkFileExists($filename);
+        $this->_checkFileExists($filename);
 
         $this->_contents = file_get_contents($filename);
         

@@ -19,7 +19,7 @@
  */
  
 class Tests_Lib_CacheTest
-extends PHPUnit_FRamework_TestCase
+extends PHPUnit_Framework_TestCase
 {
     /**
      * setUp hook
