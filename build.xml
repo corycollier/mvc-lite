@@ -30,6 +30,7 @@
             <arg line="--output HTML:frames:DOM/earthli
                 --directory ${basedir}
                 --target ${basedir}/build/docs
+                --ignore-tags @dataProvider
                 --title 'MVCLite Documentation'
                 "/>
         </exec>

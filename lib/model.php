@@ -78,9 +78,14 @@ implements Iterator
      */
     public function isLoaded ( )
     {
+        if (!is_array($this->_data)) {
+            return false;
+        }
+
         if (count($this->_data)) {
             return true;
         }
+
         return false;
 
     } // END function isLoaded
@@ -227,17 +232,6 @@ implements Iterator
         return $model;
 
     } // END function factory
-
-    /**
-     * 
-     * 
-     * @param array $params
-     */
-    public function read ($params = array())
-    {
-        return $this->current();
-
-    } // END function read
 
     /**
      * method to get the value of a requested property

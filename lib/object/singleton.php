@@ -1,4 +1,22 @@
 <?php
+/**
+ * Defines the base singleton type
+ * 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Object
+ * @since       File available since release 2.0.0
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
+/**
+ * Defines the base singleton type
+ * 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  Object
+ * @since       File available since release 2.0.0
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
 
 class Lib_Object_Singleton
 extends Lib_Object

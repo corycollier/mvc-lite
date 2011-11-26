@@ -21,7 +21,6 @@
 class Tests_Lib_ResponseTest
 extends PHPUnit_Framework_TestCase
 {
-
     /**
      * The setup method, called before each test
      */
@@ -64,6 +63,7 @@ extends PHPUnit_Framework_TestCase
     /**
      * test the setting of headers
      *
+     * @param array $headers
      * @dataProvider provide_setHeader
      */
     public function test_setHeader ($headers = array())

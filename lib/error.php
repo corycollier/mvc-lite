@@ -17,6 +17,7 @@
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+ 
 class Lib_Error
 extends Lib_Object_Singleton
 {

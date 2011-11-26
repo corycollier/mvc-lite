@@ -4,10 +4,11 @@
  * 
  * This file acts as the main entry point to the application
  * 
- * @file dispatch.php
- * @package App
- * @subpackage Dispatch
- * @category MVCLite
+ * @category    MVCLite
+ * @package     App
+ * @subpackage  Dispatch
+ * @since       File available since release 1.0.0
+ * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 // require the autoloader
