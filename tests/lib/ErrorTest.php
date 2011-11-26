@@ -26,6 +26,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function setUp ( )
     {
+        $this->fixture = Lib_Error::getInstance();
         
     } // END function setUp
 
@@ -43,6 +44,12 @@ extends PHPUnit_Framework_TestCase
     public function test_handle ($errno, $errstr, $errfile = null, $errline = null, 
         $errcontext = array(), $isException = false)
     {
+        if ($errno == E_USER_ERROR) {
+            $this->setExceptedException('ErrorException');
+        }
+
+        $this->fixture->handle($errno, $errstr, $errfile, $errline, $errcontext);
+
         
     } // END function test_handle
 

@@ -21,7 +21,7 @@
  */
 
 class App_Controller_Index
-extends Lib_Controller
+extends App_Controller
 {
     /**
      * Home page action

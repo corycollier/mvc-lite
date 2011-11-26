@@ -31,12 +31,15 @@ extends Lib_Object_Singleton
      * handler for errors 
      */
     public static function handle ($errno, $errstr, $errfile = null, $errline = null, $errcontext = array())
-    {    // append the errors to the list of errors that have occured so far
-        self::getInstance()->_addError(array(
-            'errno'            => $errno,
+    {   
+        $self = get_called_class();
+
+        // append the errors to the list of errors that have occured so far
+        $self::getInstance()->_addError(array(
+            'errno'         => $errno,
             'errstr'        => $errstr,
-            'errfile'        => $errfile,
-            'errline'        => $errline,
+            'errfile'       => $errfile,
+            'errline'       => $errline,
             'errcontext'    => $errcontext,
         ));
 
@@ -80,6 +83,5 @@ extends Lib_Object_Singleton
         return $this->_errors;
         
     } // END function getErrors
-
 
 } // END class Lib_Error

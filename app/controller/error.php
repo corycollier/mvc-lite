@@ -21,15 +21,13 @@
  */
 
 class App_Controller_Error
-extends Lib_Controller
+extends App_Controller
 {
     /**
      * Error Action
      */
     public function errorAction ( )
     {
-        $this->getResponse()->setHeader('X-Test-Stuff', 'testing stuff');
-        $this->getView()->set('test', 'value');
         
     } // END function errorAction
     
