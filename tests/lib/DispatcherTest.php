@@ -39,6 +39,19 @@ extends PHPUnit_Framework_TestCase
     } // END function tearDown
 
     /**
+     * tests the init method of the lib dispatcher
+     */
+    public function test_init ( )
+    {
+        $this->setExpectedException('Lib_Exception');
+
+        $dispatcher = Lib_Dispatcher::getInstance();
+
+        $dispatcher->init();
+
+    } // END function test_init
+
+    /**
      * 
      * Enter description here ...
      */
@@ -49,13 +62,28 @@ extends PHPUnit_Framework_TestCase
     } // END function test_getInstance
 
     /**
-     * 
+     * tests the bootstrap method of the dispatcher
+     */
+    public function test_bootstrap ( )
+    {
+        $result = $this->fixture->bootstrap();
+
+        $this->assertInstanceOf('App_Dispatcher', $result);
+
+    } // END function test_bootstrap
+
+    /**
+     * tests the dispatch method of the dispatcher
      */
     public function test_dispatch ( )
     {
         ob_start();
+        $this->fixture->init();
+        $this->fixture->bootstrap();
         $this->fixture->dispatch();
         $contents = ob_get_clean();
+
+        print_r($contents); return;
 
         $this->assertTrue(is_string($contents));
         $this->assertTrue(strlen($contents) > 0);

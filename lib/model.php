@@ -67,9 +67,7 @@ implements Iterator
      */
     public function __toString ( )
     {
-        throw new Lib_Exception(
-            '__toString method must be implemeted on this class'
-        );
+        return get_class($this);
 
     } // END function __toString
 

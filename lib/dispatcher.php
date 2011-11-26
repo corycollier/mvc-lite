@@ -62,9 +62,9 @@ extends Lib_Object_Singleton
      */
     public function dispatch ( )
     {
-        if ( PHP_SAPI == 'cli' ) {
-            return;
-        }
+        // if ( PHP_SAPI == 'cli' ) {
+        //     return;
+        // }
 
         $response = Lib_Response::getInstance();
         $request = Lib_Request::getInstance();

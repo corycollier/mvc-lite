@@ -79,7 +79,9 @@ extends PHPUnit_Framework_TestCase
             $this->setExpectedException('Lib_Exception');
         }
 
-        $this->fixture->load($filename);
+        $result = $this->fixture->load($filename);
+
+        $this->assertInstanceOf('Lib_File', $result);
 
         $property = new ReflectionProperty('Lib_File', '_contents');
         $property->setAccessible(true);
@@ -142,5 +144,54 @@ extends PHPUnit_Framework_TestCase
         );
         
     } // END function provide_getContents
+
+    /**
+     * Tests the file class's ability to save data
+     *
+     * @param string $filename
+     * @param string $oldContents
+     * @param string $newContents
+     * @dataProvider provide_save
+     */
+    public function test_save ($filename, $oldContents = '', $newContents)
+    {
+        // if the directory containing the file doesn't exist, expect an error
+        if (! file_exists(dirname($filename))) {
+            $this->setExpectedException('Lib_Exception');
+        } else {
+            file_put_contents($filename, $oldContents);
+        }
+
+        $this->fixture->setContents($newContents);
+        
+        $this->fixture->save($filename);
+        
+        $this->assertEquals($newContents, file_get_contents($filename));        
+        
+    } // END function 
+
+    /**
+     * provides data to use for testing the file class's ability to save data
+     *
+     * @return array
+     */
+    public function provide_save ( )
+    {
+        return array(
+            array(implode(DIRECTORY_SEPARATOR, array(
+                ROOT, 'tests', 'lib', '_file', 'test1'
+            )), '', 'test content'),
+            
+            array(implode(DIRECTORY_SEPARATOR, array(
+                ROOT, 'tests', 'lib', '_file', 'test2'
+            )), 'old content', 'new content'),
+            
+            array(implode(DIRECTORY_SEPARATOR, array(
+                ROOT, 'tests', 'lib', '_file', '_test_', 'new-file'
+            )), 'old content', 'new content'),
+
+        );
+        
+    } // END function provide_save
 
 } // END class Tests_Lib_FileTest

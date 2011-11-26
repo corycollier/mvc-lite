@@ -47,7 +47,7 @@ extends Lib_View_Helper_Abstract
         $results = array();
         
         foreach ($model->getFields() as $column => $info) {
-            $results[$column] = $info['label'];
+            $results[$column] = @$info['label'];
         }
         
         return $results;

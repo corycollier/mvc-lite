@@ -52,6 +52,15 @@ extends Lib_Object
      */
     public function save ($filename)
     {
+        if (! file_exists(dirname($filename))) {
+            throw new Lib_Exception(
+                "Directory [{$filename}] does not exist. Cannot save file"
+            );
+        }
+
+        file_put_contents($filename, $this->getContents());
+
+        return $this;
         
     } // END function save
 
@@ -65,7 +74,9 @@ extends Lib_Object
     {
         $this->_checkFileExists($filename);
 
-        $this->_contents = file_get_contents($filename);
+        $this->setContents(file_get_contents($filename));
+
+        return $this;
         
     } // END function load
 
@@ -77,7 +88,11 @@ extends Lib_Object
      */
     public function delete ($filename)
     {
-        $this->__checkFileExists($filename);
+        $this->_checkFileExists($filename);
+
+        unlink($filename);
+
+        return $this;
         
     } // END function delete
 
@@ -93,13 +108,27 @@ extends Lib_Object
     } // END function getContents
 
     /**
+     * setter for the _contents property
+     *
+     * @param string|null $contents
+     * @return Lib_File $this for a fluent interface
+     */
+    public function setContents ($contents = null)
+    {
+        $this->_contents = $contents;
+
+        return $this;
+        
+    } // END function setContents
+
+    /**
      * method to throw an exception if a given filename doesn't exist
      *
      * @param string $filename
      */
     protected function _checkFileExists ($filename)
     {
-        if (! file_exists($filename)) {
+        if (! $this->test($filename)) {
             throw new Lib_Exception(
                 "File doesn't exist"
             );
