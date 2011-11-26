@@ -83,8 +83,6 @@ extends PHPUnit_Framework_TestCase
         $this->fixture->dispatch();
         $contents = ob_get_clean();
 
-        print_r($contents); return;
-
         $this->assertTrue(is_string($contents));
         $this->assertTrue(strlen($contents) > 0);
 
