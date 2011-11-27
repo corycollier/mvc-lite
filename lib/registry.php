@@ -57,4 +57,21 @@ extends Lib_Object_Singleton
 
     } // END function get
 
+    /**
+     * assigns multiple values to the registry in a single method call
+     *
+     * @param array $values
+     * @return Lib_Registry $this
+     */
+    public function setAll ($params = array())
+    {
+        // itereate through the built results, setting their values to registry
+        foreach ($params as $setting => $values) {
+            $this->set($setting, $values);
+        }
+
+        return $this;
+        
+    } // END function setAll
+
 } // END class Lib_Registry

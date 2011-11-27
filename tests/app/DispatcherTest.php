@@ -39,9 +39,11 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_init ( )
     {
-        $this->fixture->init();
+        $this->fixture->init($override);
 
         $this->assertTrue((APPLICATION_ENV != ''));
+
+        $this->assertSame(APPLICATION_ENV, 'testing');
         
     } // END function test_init
 

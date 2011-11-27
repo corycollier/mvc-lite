@@ -26,7 +26,10 @@ extends PHPUnit_Framework_TestCase
      */
     public function setup ( )
     {
+        App_Dispatcher::getInstance()->init();
+        App_Dispatcher::getInstance()->bootstrap();
         $this->fixture = Lib_Database::getInstance();
+        $this->fixture->init();
         
     } // END function setUp
     
@@ -43,6 +46,27 @@ extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('mysqli', $this->fixture->getHandle());
         
     } // END function test_getHandle
+
+    /**
+     * tests the database's query method
+     */
+    public function test_query ( )
+    {
+        $sql = 'SELECT * FROM users';
+        $this->fixture->query($sql);
+
+        $queryProperty = new ReflectionProperty('Lib_Database', '_query');
+        $queryProperty->setAccessible(true);
+        $queryValue = $queryProperty->getValue($this->fixture);
+        $this->assertSame($sql, $queryValue);
+
+        $resultProperty = new ReflectionProperty('Lib_Database', '_result');
+        $resultProperty->setAccessible(true);
+        $resultValue = $resultProperty->getValue($this->fixture);
+        $this->assertInstanceOf('MySQLi_Result', $resultValue);
+
+        
+    } // END function test_query
     
     /**
      * Method to test the update method of the database class
@@ -51,17 +75,18 @@ extends PHPUnit_Framework_TestCase
      * @param array $params
      * @dataProvider provide_update
      */
-    public function test_update ($table, $updateParams = array(), $existingParams = array())
+    public function test_update ($table, $updateParams = array(), 
+        $existingParams = array())
     {
         if (! count($existingParams)) {
             $this->setExpectedException('Lib_Exception');
         }
 
-        $result = $this->fixture->update($table, $updateParams, $existingParams);
-        
+        $result = $this->fixture->update($table, $updateParams, 
+            $existingParams
+        );
         
         $this->assertInstanceOf('Lib_Database', $result);
-        
         
     } // END function test_update
     
@@ -73,16 +98,24 @@ extends PHPUnit_Framework_TestCase
     public function provide_update ( )
     {
         return array(
-            array('users', array(
-                'email' => 'test@test.com', 
-                ), array(
-                'id' => '5',
-            )),
-            array('users', array(
-                'email' => 'test@test.com', 
-                ), array(
-//                'id' => '1',
-            )),
+            array(
+                'users', 
+                array(
+                    'email' => 'test@test.com', 
+                ), 
+                array(
+                    'id' => '5',
+                )
+            ),
+            // array(
+            //     'users', 
+            //     array(
+            //         'email' => 'test@test.com', 
+            //     ), 
+            //     array(
+            //         'id' => '1',
+            //     )
+            // ),
         );
         
     } // END function provide_update
@@ -222,5 +255,31 @@ extends PHPUnit_Framework_TestCase
     {
         
     } // END function test_all
+
+    /**
+     * tests the database's ability to return the last query it performed
+     */
+    public function test_getLastQuery ( )
+    {
+        $sql = 'SELECT * FROM users';
+        $property = new ReflectionProperty('Lib_Database', '_query');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, $sql);
+
+        $this->assertSame($sql, $this->fixture->getLastQuery());
+        
+    } // END function test_getLastQuery
+
+    /**
+     * tests the database class's ability to return the id of the last item
+     * that it inserted
+     */
+    public function test_lastInsertId ( )
+    {
+        $handle = $this->fixture->getHandle();
+
+        $this->assertSame($handle->insert_id, $this->fixture->lastInsertId());
+        
+    } // END function test_lastInsertId
     
 } // END class DatabaseTest

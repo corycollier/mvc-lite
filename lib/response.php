@@ -38,9 +38,8 @@ extends Lib_Object_Singleton
     /**
      * method to start the database up
      */
-    public static function init ( )
+    public function init ( )
     {
-        self::getInstance();
 
     } // END function init
 

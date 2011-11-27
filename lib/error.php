@@ -31,7 +31,8 @@ extends Lib_Object_Singleton
     /**
      * handler for errors 
      */
-    public static function handle ($errno, $errstr, $errfile = null, $errline = null, $errcontext = array())
+    public static function handle ($errno, $errstr, $errfile = null, 
+        $errline = null, $errcontext = array())
     {   
         $self = get_called_class();
 
@@ -52,7 +53,9 @@ extends Lib_Object_Singleton
             case E_CORE_WARNING:
             case E_USER_ERROR:
                 // figure out something appropriate to do
-                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+                throw new ErrorException(
+                    $errstr, 0, $errno, $errfile, $errline
+                );
 
             // the default stuff
             default:

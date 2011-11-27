@@ -62,6 +62,37 @@ extends PHPUnit_Framework_TestCase
                 'array', range(0,10),
             )
         );
-    }
+
+    } // END function provide_setAndGet
+
+    /**
+     * method to test the registry's ability to set multiple values at once
+     *
+     * @param array $params
+     * @dataProvider provide_setAll
+     */
+    public function test_setAll ($params)
+    {
+        $this->markTestIncomplete('still working on this one');
+
+    } // END function test_setAll
+
+    /**
+     * provides data to use for testing the registry's ability to set multiple
+     * values with a single method call (setAll)
+     *
+     * @return array
+     */
+    public function provide_setAll ( )
+    {
+        return array(
+            array(array(
+                'test1' => array(),
+                'test2' => array(),
+                'test4' => array(),
+            )),
+        );
+        
+    } // END function provide_setAll
     
 } // END class RegistryTest

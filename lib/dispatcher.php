@@ -21,6 +21,53 @@
 class Lib_Dispatcher
 extends Lib_Object_Singleton
 {
+    /**
+     * an overridable list of environments allowed for configuration
+     *
+     * @var array $_environments
+     */
+    protected $_environments = array(
+        'production',
+        'staging',
+        'development',
+        'testing',
+    );
+
+    /**
+     * placeholder for the request object
+     *
+     * @var Lib_Request
+     */
+    protected $_request;
+
+    /**
+     * placeholder for the response object
+     *
+     * @var Lib_Response
+     */
+    protected $_response;
+
+    /**
+     * placeholder for the database object
+     *
+     * @var Lib_Database
+     */
+    protected $_database;
+    
+    /**
+     * placeholder for the view object
+     *
+     * @var Lib_View
+     */
+    protected $_view;
+
+    /**
+     * placeholder for the controller object
+     *
+     * @var Lib_Controller
+     */
+    protected $_controller;
+
 
     public function init ( )
     {
@@ -34,18 +81,20 @@ extends Lib_Object_Singleton
      */
     public function bootstrap ( )
     {
-        // setup the request
-        Lib_Request::init();
-        $request = Lib_Request::getInstance();
-        $request->setParams(Lib_Request::buildFromString(@$_GET['q']));
+        // setup the singletons
+        $this->_request = Lib_Request::getInstance();
+        $this->_response = Lib_Response::getInstance();
+        $this->_database = Lib_Database::getInstance();
+        $this->_view = Lib_View::getInstance();
 
         try {
-            Lib_Database::init();
-            Lib_Response::init();
-            Lib_View::init();
+            $this->_request->init();
+            $this->_database->init();
+            $this->_response->init();
+            $this->_view->init();
         }
         catch (Exception $exception) {
-            $request->setParams(array(
+            $this->_request->setParams(array(
                 'controller'    => 'error',
                 'action'        => 'database',
             ));
@@ -66,20 +115,18 @@ extends Lib_Object_Singleton
         //     return;
         // }
 
-        $response = Lib_Response::getInstance();
-        $request = Lib_Request::getInstance();
         $controller = $this->_translateControllerName(
-            $request->getParam('controller')
+            $this->_request->getParam('controller')
         );
 
         $action = strtolower(
-            $this->_translateActionName($request->getParam('action'))
+            $this->_translateActionName($this->_request->getParam('action'))
         );
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
         try {
-            $controller = new $controller;
+            $this->_controller = new $controller;
             if (! method_exists($controller, $action)) {
                 throw new Lib_Exception(
                     'Action not available'
@@ -87,34 +134,32 @@ extends Lib_Object_Singleton
             }
         }
         catch (Exception $exception) {
-            $request->setParam('controller', 'error');
-            $request->setParam('action', 'error');
-            $controller = new App_Controller_Error;
+            $this->_request->setParam('controller', 'error');
+            $this->_request->setParam('action', 'error');
+            $this->_controller = new App_Controller_Error;
             $action = 'errorAction';
         }
 
         // run the init hook
-        $controller->init();
+        $this->_controller->init();
 
         // run the preDispatch hook
-        $controller->preDispatch();
-
-        // var_dump(Lib_Error::getInstance()->getErrors()); die;
+        $this->_controller->preDispatch();
 
         // run the requested action on the requested controller
-        call_user_func(array($controller, $action));
+        call_user_func(array($this->_controller, $action));
 
         // run the postDispatch hook
-        $controller->postDispatch();
+        $this->_controller->postDispatch();
 
         // send the response
-        $response->setBody($controller->getView()->render());
+        $this->_response->setBody($this->_controller->getView()->render());
 
         // if this is an actual request, not a unit test, send headers
-        if ( PHP_SAPI != 'cli' ) $response->sendHeaders();
+        if ( PHP_SAPI != 'cli' ) $this->_response->sendHeaders();
 
         // echo the body
-        echo $response->getBody();
+        echo $this->_response->getBody();
 
     } // END function dispatch
 
@@ -188,5 +233,21 @@ extends Lib_Object_Singleton
         return $results;
 
     } // END function parseConfiguration
+
+    /**
+     * returns the provide value, if it's in the _environments list
+     * 
+     * @param string $value
+     * @return string
+     */
+    public function getApplicationEnv ($value = null)
+    {
+        if (in_array($value, $this->_environments)) {
+            return $value;
+        } 
+
+        return current($this->_environments);
+
+    } // END function getApplicationEnv
 
 } // END function dispatcher

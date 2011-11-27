@@ -194,6 +194,7 @@ implements Iterator
      *
      * @param array $params
      * @throws Lib_Exception
+     * @return Lib_Model $this
      */
     public function loadReferences ($params = array())
     {   // iterate through the fields, and load references as required
@@ -216,7 +217,10 @@ implements Iterator
                 $foreignKey => $this->get($column),
             ));
         }
-    }
+
+        return $this;
+
+    } // END function loadReferences
 
     /**
      * A quick way to create a model and load it

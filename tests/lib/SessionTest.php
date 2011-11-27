@@ -50,9 +50,27 @@ extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Lib_Session', $session);
         
     } // END function test_getInstance
+
+    /**
+     * tests the init method of the lib_session object
+     */
+    public function test_init ( )
+    {
+        define('PHP_SAPI', 'notcli');
+
+        $this->fixture->init();
+
+        $property = new ReflectionProperty('Lib_Session', '_data');
+        $property->setAccessible(true);
+        $result = $property->getValue($this->fixture);
+
+        $this->assertEquals($_SESSION, $result);
+        
+    } // END function test_init
     
     /**
      * test the set params method of the session object
+     * 
      * @dataProvider _provideParams
      */
     public function test_setParams ($param, $value = '')

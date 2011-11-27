@@ -43,9 +43,9 @@ extends Lib_Object_Singleton
     protected $_query;
 
     /**
-     * local overriding of the constructor
+     * method to start the database up
      */
-    protected function __construct ( )
+    public function init ( )
     {
         $database = App_Registry::getInstance()->get('database');
 
@@ -61,14 +61,6 @@ extends Lib_Object_Singleton
                 'Connection failure: ' . mysqli_connect_error()
             );
         }
-    }
-
-    /**
-     * method to start the database up
-     */
-    public static function init ( )
-    {
-        self::getInstance();
 
     } // END function init
 

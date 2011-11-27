@@ -23,39 +23,28 @@
 class App_Dispatcher
 extends Lib_Dispatcher
 {
-
     /**
      * Local implementation of the init method
+     *
+     * @return App_Dispatcher
      */
-    public function init ( )
+    public function init ()
     {   // either the APPLICATION_ENV constant is already defined, or we need to
-        defined ('APPLICATION_ENV')
-            or define ('APPLICATION_ENV', $_SERVER['APPLICATION_ENV']);
+        $applicationEnv = $this->getApplicationEnv($_SERVER['APPLICATION_ENV']);
+
+        if (! defined('APPLICATION_ENV')) {
+            define('APPLICATION_ENV', $applicationEnv);
+        }
             
         $config = parse_ini_file(implode(DIRECTORY_SEPARATOR, array(
             ROOT, 'etc', 'application.ini',
         )), true);
         
-        $config = $config[APPLICATION_ENV];
-        
-        $results = array();
+        App_Registry::getInstance()->setAll(
+            $this->parseConfiguration($config[APPLICATION_ENV])
+        );
 
-        // iterate through the parsed INI file
-        foreach ($config as $key => $values) {
-            $parts = explode('.', $key);
-            if (! array_key_exists($parts[0], $results)) {
-                $results[$parts[0]] = array();
-            }
-            
-            $results[$parts[0]][$parts[1]] = $values;
-        }
-        
-        // itereate through the built results, setting their values to registry
-        foreach ($results as $setting => $values) {
-            App_Registry::getInstance()->set($setting, $values);
-        }
-        
-        $database = Lib_Database::getInstance();
+        return $this;
         
     } // END function init
     

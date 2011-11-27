@@ -24,4 +24,4 @@ class App_Registry
 extends Lib_Registry
 {
 
-}
+} // END class App_Registry

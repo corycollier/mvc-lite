@@ -56,9 +56,9 @@ extends Lib_Object_Singleton
     protected $_viewScriptPaths = array();
 
     /**
-     * Privatize the constructor to enforce the singleton pattern
+     * method to start the database up
      */
-    protected function __construct ( )
+    public function init ( )
     {
         $this->addViewScriptPath(implode(DIRECTORY_SEPARATOR, array(
             APP_PATH,
@@ -66,15 +66,6 @@ extends Lib_Object_Singleton
             'scripts',
             'default',
         )));
-
-    } // END function __construct
-
-    /**
-     * method to start the database up
-     */
-    public static function init ( )
-    {
-        self::getInstance();
 
     } // END function init
 

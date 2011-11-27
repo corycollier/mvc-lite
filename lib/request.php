@@ -43,26 +43,16 @@ extends Lib_Object_Singleton
     protected $_uri;
 
     /**
-     * Privatizing the constructor to enforce the singleton pattern
+     * method to start the database up
      */
-    protected function __construct ( )
+    public function init ( )
     {
-        parent::__construct();
-
         $this->_uri = $_SERVER['REQUEST_URI'];
         $this->_params = array_merge($this->_params, $_COOKIE);
         $this->_params = array_merge($this->_params, $_POST);
         $this->_params = array_merge($this->_params, $_GET);
         $this->_setHeaders();
-
-    } // END function __construct
-
-    /**
-     * method to start the database up
-     */
-    public static function init ( )
-    {
-        self::getInstance();
+        $this->setParams($this->buildFromString(@$_GET['q']));
 
     } // END function init
 
@@ -89,7 +79,7 @@ extends Lib_Object_Singleton
      * @param string $separator
      * @return array
      */
-    public static function buildFromString ($string = '', $separator = '/')
+    public function buildFromString ($string = '', $separator = '/')
     {   // create a list of parts by separator
         $parts = explode($separator, $string);
         $results = array();

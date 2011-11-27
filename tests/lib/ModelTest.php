@@ -262,7 +262,191 @@ extends PHPUnit_Framework_TestCase
         
     } // END function test_delete
 
+    /**
+     * test the model's ability to find records
+     *
+     * @param array $params
+     * @dataProvider provide_find
+     */
+    public function test_find ($params = array())
+    {
+        $result = $this->fixture->find($params);
+
+        $this->assertInstanceOf('Lib_Model', $result);
+        
+    } // END function test_find
+
+    /**
+     * provides data to use for testing the find method of the model
+     *
+     * @return array
+     */
+    public function provide_find ( )
+    {
+        return array(
+            array(array()),
+        );
+        
+    } // END function provide_find
+
+    /**
+     * test the load method of the model class
+     *
+     * @param array $params
+     * @dataProvivder provide_load
+     */
+    public function test_load ($params = array())
+    {
+        $result = $this->fixture->load($params);
+
+        $this->assertInstanceOf('Lib_Model', $result);
+        
+    } // END function test_load
+
+    /**
+     * provides data to use for testing the load method of the model
+     *
+     * @return array
+     */
+    public function provide_load ( )
+    {
+        return array(
+            array(array()),
+        );
+        
+    } // END function provide_load
+
+    /**
+     * tests the model's ability to run queries directly
+     */
+    public function test_query ( )
+    {
+        $sql = 'SELECT * FROM users';
+
+        $result = $this->fixture->query($sql);
+
+        $this->assertInstanceOf('Lib_Model', $result);
+        
+    } // END function test_query
+
+    /**
+     * tests the model's ability to get the property value for the current item
+     * in iteration
+     *
+     * @param array $data
+     * @param string $property
+     * @param string $expected
+     * @param boolean $isException
+     * @dataProvider provide_get
+     */
+    public function test_get ($data, $property, $expected, $isException = false)
+    {
+        $dataProperty = new ReflectionProperty('Lib_Model', '_data');
+        $dataProperty->setAccessible(true);
+        $dataProperty->setValue($this->fixture, $data);
+
+        $result = $this->fixture->get($property);
+
+        $this->assertSame($expected, $result);
+
+    } // END function test_get
+
+    /**
+     * Provides data to use for testing the model's abilty to get the property
+     * value for the current item in iteration
+     *
+     * @return array
+     */
+    public function provide_get ( )
+    {
+        return array(
+            array(array(
+                (object)array(
+                    'id'    => 1,
+                )
+            ), 'id', 1),
+
+        );
+        
+    } // END function provide_get
+
+    /**
+     * test the factory method of the model
+     *
+     * @param string $class
+     * @param array $params
+     * @dataProvider provide_factory
+     */
+    public function test_factory ($class, $params = array())
+    {
+        $result = $this->fixture->factory($class, $params);
+
+        $this->assertInstanceOf($class, $result);
+        
+    } // END function test_factory
+
+    /**
+     * provides data to use for testing the factory method of the model
+     *
+     * @return array
+     */
+    public function provide_factory ( )
+    {
+        return array(
+            array('Lib_Model_Test', array(
+                'id'    => 1,
+            )),
+        );
+        
+    } // END function provide_factory
+
+    /**
+     * tests the model's ability to return the current item in iteration
+     *
+     * @param string $class
+     * @param array $data
+     * @dataProvider provide_current
+     */
+    public function test_current ($class, $data = array())
+    {
+        $property = new ReflectionProperty('Lib_Model', '_data');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, $data);
+
+        $result = $this->fixture->current();
+
+        $this->assertInstanceOf($class, $result);
+        
+    } // END function test_current
+
+    /**
+     * provides data to use for testing the model's ability to return the
+     * current item in iteration
+     *
+     * @return array
+     */
+    public function provide_current ( )
+    {
+        return array(
+            array('Lib_Model_Test', array(
+                array(
+                    'id'    => 5,
+                ),
+            )),
+        );
+
+    } // END function provide_current
+
 } // END class ModelTest
 
+/**
+ * Fixture model to use for testing
+ * 
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Model
+ * @since       Class available since release 2.1.0
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
 class Lib_Model_Test
 extends Lib_Model { }

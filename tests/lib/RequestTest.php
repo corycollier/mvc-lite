@@ -78,15 +78,20 @@ extends PHPUnit_Framework_TestCase
             'var1'   => 'val1',
             'var2'   => 'val2',
             'var3'   => 'val3',
+            'q'     => '/asdf/asdf/asdf/',
         );
         
         $this->fixture->setParams($params);
 
         $result = $this->fixture->getParams();
+
+        unset($params['q']);
         
         foreach ($params as $key => $value) {
             $this->assertSame($value, $result[$key]);
         }
+
+        $this->assertFalse(array_key_exists('q', $result));
         
     } // END function test_getParams
     
@@ -114,5 +119,67 @@ extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->fixture->isPost());
 
+        $_POST = array(
+            'var'   => 'value'
+        );
+
+        $this->assertTrue($this->fixture->isPost());
+
     } // END function test_isPost
-} // END class ModelTest
+
+    /**
+     * Tests the request class's ability to return the headers
+     * 
+     * @param array $headers
+     * @dataProvider provide_getHeaders
+     */
+    public function test_getHeaders ($headers = array())
+    {
+        $property = new ReflectionProperty('Lib_Request', '_headers');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, $headers);
+
+        $this->assertSame($headers, $this->fixture->getHeaders());
+        
+    } // END function test_getHeaders
+
+    /**
+     * Provides data to use for testing the request objects ability to return
+     * the headers it was given
+     *
+     * @return array
+     */
+    public function provide_getHeaders ( )
+    {
+        return array(
+            array(array(
+                'Cache-Content' => false,
+                'X-Test'        => true,
+                'X-Identifier'  => 'asdfasdfasdf',
+            )),
+            array(array(
+
+            )),
+        );
+        
+    } // END function provide_getHeaders
+
+    /**
+     * tests the request instance's ability to determine if it's an ajax request
+     */
+    public function test_isAjax ( )
+    {
+        $this->assertFalse($this->fixture->isAjax());
+
+        $property = new ReflectionProperty('Lib_Request', '_headers');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, array(
+            'X-Requested-With' => 'XMLHttpRequest'
+        ));
+
+        $this->assertTrue($this->fixture->isAjax());
+
+
+    } // END function test_isAjax
+
+} // END class Tests_Lib_RequestTest

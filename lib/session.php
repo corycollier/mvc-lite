@@ -31,12 +31,9 @@ extends Lib_Object_Singleton
     protected $_data = array();
 
     /**
-     * Privatizing the constructor to enforce the singleton pattern
-     * 
-     * Initialize the _data property, and unset the _SESSION superglobal to 
-     * prevent anything else from using it
+     * method to start the database up
      */
-    protected function __construct ( )
+    public function init ( )
     {
         // if this isn't being called from cli, then run it
         if ( PHP_SAPI != 'cli' ) {
@@ -44,15 +41,6 @@ extends Lib_Object_Singleton
             $this->_data = $_SESSION;
            // unset($_SESSION);
         }
-
-    } // END function __construct
-
-    /**
-     * method to start the database up
-     */
-    public static function init ( )
-    {
-        self::getInstance();
 
     } // END function init
 

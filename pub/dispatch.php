@@ -43,10 +43,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
 // ensure the autoloader is ready
 $loader = Lib_Loader::getInstance();
 
-// setup the request
-$request = Lib_Request::getInstance();
-$request->setParams(Lib_Request::buildFromString(@$_GET['q']));
+$dispatcher = App_Dispatcher::getInstance();
+
+$dispatcher->init()->bootstrap();
 
 // if this isn't being called from cli, then run it
-if ( PHP_SAPI != 'cli' ) Lib_Dispatcher::getInstance()->dispatch();
+if ( PHP_SAPI != 'cli' ) $dispatcher->dispatch();
 

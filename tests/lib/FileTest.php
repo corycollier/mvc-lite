@@ -194,4 +194,49 @@ extends PHPUnit_Framework_TestCase
         
     } // END function provide_save
 
+    /**
+     * tests the file class's ability to delete files
+     *
+     * @param string $filename
+     * @dataProvider provide_delete
+     */
+    public function test_delete ($filename)
+    {
+        // if the directory containing the file doesn't exist, expect an error
+        if (! file_exists(dirname($filename))) {
+            $this->setExpectedException('Lib_Exception');
+        } else {
+            file_put_contents($filename, '');
+        }
+
+        $this->fixture->delete($filename);
+        
+        $this->assertFalse(file_exists($filename)); 
+        
+    } // END function test_delete
+
+    /**
+     * provides data to use for testing the file class's ability to delete files
+     *
+     * @return array
+     */
+    public function provide_delete ( )
+    {
+        return array(
+
+            array(implode(DIRECTORY_SEPARATOR, array(
+                ROOT, 'tests', 'lib', '_file', 'test1'
+            ))),
+            
+            array(implode(DIRECTORY_SEPARATOR, array(
+                ROOT, 'tests', 'lib', '_file', 'test2'
+            ))),
+            
+            array(implode(DIRECTORY_SEPARATOR, array(
+                ROOT, 'tests', 'lib', '_file', '_test_', 'new-file'
+            ))),
+        );
+        
+    } // END function provide_delete
+
 } // END class Tests_Lib_FileTest
