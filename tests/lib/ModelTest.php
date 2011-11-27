@@ -231,14 +231,50 @@ extends PHPUnit_Framework_TestCase
 
     /**
      * Test the creation of data using the model's create method
+     *
+     * @param array $params
+     * @dataProvider provide_create
      */
-    public function test_create ( )
+    public function test_create ($params = array())
     {
-        $this->markTestIncomplete(
-            "Test not yet implemented. Model functionality still forthcoming"
-        );
+        // Create a stub for the SomeClass class.
+        $databaseMock = $this->getMockBuilder('Lib_Database')
+                             ->disableOriginalConstructor()
+                             ->getMock();
+        
+        $modelMock = $this->getMock('Lib_Model_Test', array(
+            'getDatabase',
+            'load',
+        ));
+
+        $modelMock->expects($this->any())
+            ->method('getDatabase')
+            ->will($this->returnValue($databaseMock));
+
+        $modelMock->expects($this->any())
+            ->method('load')
+            ->will($this->returnValue(new Lib_Model_Test($params)));
+
+        $result = $modelMock->create($params);
+
+        $this->assertInstanceOf('Lib_Model', $result);
         
     } // END function test_create
+
+    /**
+     * Provides data to use for testing the model's ability to create data
+     *
+     * @return array
+     */
+    public function provide_create ( )
+    {
+        return array(
+            array(array(
+                'name'  => 'value',
+                'email' => 'email value',
+            )),
+        );
+    }
 
     /**
      * Test the updating of data using the model's update method
@@ -437,6 +473,86 @@ extends PHPUnit_Framework_TestCase
 
     } // END function provide_current
 
+    /**
+     * tests the model's ability to return it's _fields property
+     *
+     * @param array $fields
+     * @dataProvider provide_getFields
+     */
+    public function test_getFields ($fields = array())
+    {
+        $property = new ReflectionProperty('Lib_Model', '_fields');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, $fields);
+
+        $this->assertEquals($fields, $this->fixture->getFields());
+        
+    } // END function test_getFields
+
+    /**
+     * Provides data to use for testing the model's ability to return it's 
+     * _fields property
+     *
+     * @return array
+     */
+    public function provide_getFields ( )
+    {
+        return array(
+            array(array(
+                'prop1' => 'val1',
+                'prop2' => 'val2',
+                'prop3' => 'val3', 
+            )),
+
+            array(array(
+                'prop1' => array(),
+                'prop2' => new stdClass,
+                'prop3' => '', 
+            )),
+        );
+
+    } // END function provide_getFields
+
+    /**
+     * tests the model's ability to return it's _fields property
+     *
+     * @param array $fields
+     * @dataProvider provide_getFields
+     */
+    public function test_getData ($data = array())
+    {
+        $property = new ReflectionProperty('Lib_Model', '_data');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, $data);
+
+        $this->assertEquals($data, $this->fixture->getData());
+        
+    } // END function test_getData
+
+    /**
+     * Provides data to use for testing the model's ability to return it's 
+     * _fields property
+     *
+     * @return array
+     */
+    public function provide_getData ( )
+    {
+        return array(
+            array(array(
+                'prop1' => 'val1',
+                'prop2' => 'val2',
+                'prop3' => 'val3', 
+            )),
+
+            array(array(
+                'prop1' => array(),
+                'prop2' => new stdClass,
+                'prop3' => '', 
+            )),
+        );
+
+    } // END function provide_getData
+
 } // END class ModelTest
 
 /**
@@ -449,4 +565,7 @@ extends PHPUnit_Framework_TestCase
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 class Lib_Model_Test
-extends Lib_Model { }
+extends Lib_Model 
+{ 
+    protected $_table = 'test';
+}
