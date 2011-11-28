@@ -133,7 +133,7 @@ implements Iterator
         )->first();
 
         $this->loadReferences($this->_data[$this->_cursor]);
-        // $this->loadCollections($this->_data[$this->_cursor]);
+        $this->loadCollections($this->_data[$this->_cursor]);
 
         return $this;
 
@@ -148,31 +148,43 @@ implements Iterator
     public function loadCollections ($params = array())
     {   // iterate through the collections property, loading collections
         foreach ($this->_collections as $collection => $definition) {
-            $model = new $definition['model'];
-
-            // if the collection is via join table
-            if (@$definition['join']) {
-                
-
+            if ($definition['type'] != 'many-to-many') {
                 continue;
             }
 
-            // $model->{$collection} = $model->find(array(
-            //     $definition['foreign_key'] => $this->get($definition['local_key']),
-            // ));
-
-            var_dump(array(
-                $definition['foreign_key'] => $this->get($definition['local_key']),
-            ));
-            var_dump($model->find(array(
-                $definition['foreign_key'] => $this->get($definition['local_key']),
-            )));
-            die;
+            $this->loadCollection($collection, $definition);
         }
 
         return $this;
         
     } // END function loadCollections
+
+    /**
+     * Loads a single collection by provided collection information
+     *
+     * @param string $collection
+     * @param array $definition
+     * @return Lib_Model $this
+     */
+    public function loadCollection ($collection, $definition = array())
+    {
+        $referenceModel = new $definition['reference']['model'];
+        $referenceModel->find(array(
+            $definition['reference']['remote_key'] => $this->get(
+                $definition['reference']['local_key']
+            ),
+        ));
+
+        $model = new $definition['model'];
+        $this->{$collection} = $model->find(array(
+            $definition['foreign_key'] => $referenceModel->values(
+                $definition['reference']['foreign_key']
+            )
+        ));
+
+        return $this;
+        
+    } // END function loadCollection
 
     /**
      * direct query access

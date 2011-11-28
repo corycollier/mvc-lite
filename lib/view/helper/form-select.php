@@ -39,10 +39,9 @@ extends Lib_View_Helper_Abstract
         $template = implode(PHP_EOL, array(
             '<label for="!id" class="form-select">',
             '<span class="label">!label</span>',
-            '<input type="text" !displayAttribs />',
-            '<input type="hidden" !attribs />',
-            '<ul>!options</ul>',
-            '</label>',
+            '<select !attribs />',
+            '!options',
+            '</select>',
         ));
 
         $attribs['name'] = $name;
@@ -66,7 +65,7 @@ extends Lib_View_Helper_Abstract
      */
     protected function _buildOptions ($options = array())
     {
-        $template = '<li><a href="!value">!label</a></li>';
+        $template = '<option value="!value">!label</option>';
 
         // iterate through the options, turning them into strings
         foreach ($options as $value => $label) {

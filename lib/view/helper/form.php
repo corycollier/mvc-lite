@@ -49,7 +49,7 @@ extends Lib_View_Helper_Abstract
      *
      * @param array $params
      */
-    public function elementFactory ($column, App_Model $model, $params = array())
+    public function elementFactory ($column, Lib_Model $model, $params = array())
     {
         if (@$params['primary']) {
             return '';

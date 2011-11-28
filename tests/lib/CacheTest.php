@@ -3,8 +3,8 @@
  * Class to test the Lib_Cache object
  * 
  * @category    MVCLite
- * @package     Lib
- * @subpackage  Tests
+ * @package     Tests
+ * @subpackage  Lib_Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -12,8 +12,8 @@
  * Class to test the Lib_Cache object
  * 
  * @category    MVCLite
- * @package     Lib
- * @subpackage  Tests
+ * @package     Tests
+ * @subpackage  Lib_Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */

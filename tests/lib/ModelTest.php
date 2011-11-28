@@ -21,13 +21,12 @@
 class Tests_Lib_ModelTest
 extends PHPUnit_Framework_TestCase
 {
-    
     /**
      * The setup method, called before each test
      */
     public function setUp ( )
     {
-        $this->fixture = new Lib_Model_Test;
+        $this->fixture = new Tests_Lib_Model_Test;
         
     } // END function setup
     
@@ -47,7 +46,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test___construct ($data)
     {
-        $this->fixture = new Lib_Model_Test;
+        $this->fixture = new Tests_Lib_Model_Test;
 
         $property = new ReflectionProperty('Lib_Model', '_database');
         $property->setAccessible(true);
@@ -98,7 +97,7 @@ extends PHPUnit_Framework_TestCase
     public function provide___toString ( )
     {
         return array(
-            array(new Lib_Model_Test),
+            array(new Tests_Lib_Model_Test),
         );
         
     } // END function provide___toString
@@ -112,7 +111,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_isLoaded ($data, $expected = true)
     {
-        $property = new ReflectionProperty('Lib_Model_Test', '_data');
+        $property = new ReflectionProperty('Tests_Lib_Model_Test', '_data');
         $property->setAccessible(true);
         $property->setValue($this->fixture, $data);
 
@@ -148,11 +147,11 @@ extends PHPUnit_Framework_TestCase
      */
     public function test__filterParams ($fields, $params)
     {
-        $property = new ReflectionProperty('Lib_Model_Test', '_fields');
+        $property = new ReflectionProperty('Tests_Lib_Model_Test', '_fields');
         $property->setAccessible(true);
         $property->setValue($this->fixture, $fields);
 
-        $method = new ReflectionMethod('Lib_Model_Test', '_filterParams');
+        $method = new ReflectionMethod('Tests_Lib_Model_Test', '_filterParams');
         $method->setAccessible(true);
         $result = $method->invoke($this->fixture, $params);
 
@@ -190,7 +189,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->fixture->rewind();
 
-        $property = new ReflectionProperty('Lib_Model_Test', '_cursor');
+        $property = new ReflectionProperty('Tests_Lib_Model_Test', '_cursor');
         $property->setAccessible(true);
         $result = $property->getValue($this->fixture);
 
@@ -204,7 +203,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_next ( )
     {
-        $property = new ReflectionProperty('Lib_Model_Test', '_cursor');
+        $property = new ReflectionProperty('Tests_Lib_Model_Test', '_cursor');
         $property->setAccessible(true);
         $originalValue = $property->getValue($this->fixture);
 
@@ -221,7 +220,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_key ( )
     {
-        $property = new ReflectionProperty('Lib_Model_Test', '_cursor');
+        $property = new ReflectionProperty('Tests_Lib_Model_Test', '_cursor');
         $property->setAccessible(true);
         $result = $property->getValue($this->fixture);
 
@@ -242,7 +241,7 @@ extends PHPUnit_Framework_TestCase
                              ->disableOriginalConstructor()
                              ->getMock();
         
-        $modelMock = $this->getMock('Lib_Model_Test', array(
+        $modelMock = $this->getMock('Tests_Lib_Model_Test', array(
             'getDatabase',
             'load',
         ));
@@ -253,7 +252,7 @@ extends PHPUnit_Framework_TestCase
 
         $modelMock->expects($this->any())
             ->method('load')
-            ->will($this->returnValue(new Lib_Model_Test($params)));
+            ->will($this->returnValue(new Tests_Lib_Model_Test($params)));
 
         $result = $modelMock->create($params);
 
@@ -429,7 +428,7 @@ extends PHPUnit_Framework_TestCase
     public function provide_factory ( )
     {
         return array(
-            array('Lib_Model_Test', array(
+            array('Tests_Lib_Model_Test', array(
                 'id'    => 1,
             )),
         );
@@ -464,7 +463,7 @@ extends PHPUnit_Framework_TestCase
     public function provide_current ( )
     {
         return array(
-            array('Lib_Model_Test', array(
+            array('Tests_Lib_Model_Test', array(
                 array(
                     'id'    => 5,
                 ),
@@ -553,6 +552,287 @@ extends PHPUnit_Framework_TestCase
 
     } // END function provide_getData
 
+    /**
+     * Test the filter method of the model
+     *
+     * @param array $params
+     * @param array $expected
+     * @dataProvider provide_filter
+     */
+    public function test_filter ($params = array(), $expected = array())
+    {
+        $mock = $this->getMock('Lib_Model', array(
+            '_filterParams',
+        ));
+
+        $mock->expects($this->once())
+            ->method('_filterParams')
+            ->with($this->equalTo($params))
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $mock->filter($params));
+        
+    } // END function test_filter
+
+    /**
+     * Provides data to use for testing the model's ability to filter params
+     *
+     * @return array
+     */
+    public function provide_filter ( )
+    {
+        return array(
+            array(array(
+                'var1'  => 'val1',
+                'var2'  => 'val2',
+                'var3'  => 'val3',
+            ), array(
+                'var1'  => 1,
+                'var2'  => 'val',
+                'var3'  => 'val3',
+            )),
+            array(array(
+                'var1'  => array('val1'),
+                'var2'  => (object)array(
+                    'prop1' => 'prop1val',
+                ),
+                'var3'  => 'val3',
+            ), array(
+                'var1'  => 1,
+                'var2'  => 'prop1val',
+                'var3'  => 'val3',
+
+            )),
+        );
+        
+    } // END function provide_filter
+
+    /**
+     * Tests the toArray method of the lib model class
+     *
+     * @param integer $cursor
+     * @param array $data
+     * @param array $expected
+     * @dataProvider provide_toArray
+     */
+    public function test_toArray ($cursor, $data = array(), $expected = array())
+    {
+        $dataProperty = new ReflectionProperty('Lib_Model', '_data');
+        $dataProperty->setAccessible(true);
+        $dataProperty->setValue($this->fixture, $data);
+
+        $cursorProperty = new ReflectionProperty('Lib_Model', '_cursor');
+        $cursorProperty->setAccessible(true);
+        $cursorProperty->setValue($this->fixture, $cursor);
+
+        $this->assertEquals($expected, $this->fixture->toArray());
+        
+    } // END function test_toArray
+
+    /**
+     * Provides data to use for testing the toArray method of the model
+     *
+     * @return array
+     */
+    public function provide_toArray ( )
+    {
+        $data = array(
+            array(
+                'id'    => 1,
+                'name'  => 'test 1',
+            ), array(
+                'id'    => 2,
+                'name'  => 'test 2',
+            ), array(
+                'id'    => 3,
+                'name'  => 'test 3',
+            )
+        );
+
+        return array(
+            array(0, $data, array(
+                'id'    => 1,
+                'name'  => 'test 1',
+            )),
+            array(1, $data, array(
+                'id'    => 2,
+                'name'  => 'test 2',
+            )),
+            array(2, $data, array(
+                'id'    => 3,
+                'name'  => 'test 3',
+            )),
+        );
+        
+    } // END function provide_toArray
+
+    /**
+     * Tests the 'valid' method of the model
+     *
+     * @param boolean $expected
+     * @param integer $cursor
+     * @param array $data
+     * @dataProvider provide_valid
+     */
+    public function test_valid ($expected, $cursor, $data)
+    {
+        $dataProperty = new ReflectionProperty('Lib_Model', '_data');
+        $dataProperty->setAccessible(true);
+        $dataProperty->setValue($this->fixture, $data);
+
+        $cursorProperty = new ReflectionProperty('Lib_Model', '_cursor');
+        $cursorProperty->setAccessible(true);
+        $cursorProperty->setValue($this->fixture, $cursor);
+
+        $this->assertSame($expected, $this->fixture->valid());
+        
+    } // END function test_valid
+
+    /**
+     * Provides data to use for testing the 'valid' method of the model
+     *
+     * @return array 
+     */
+    public function provide_valid ( )
+    {
+        $data = array(
+            array(
+                'id'    => 1,
+                'name'  => 'test 1',
+            ), array(
+                'id'    => 2,
+                'name'  => 'test 2',
+            ), array(
+                'id'    => 3,
+                'name'  => 'test 3',
+            )
+        );
+
+        return array(
+            array(true, 0, $data),
+            array(true, 1, $data),
+            array(true, 2, $data),
+            array(false, 3, $data),
+        );
+
+    } // END function provide_valid
+
+    /**
+     * Tests the model's ability to return a list of values for a given property
+     *
+     * @param string $property
+     * @param array $data
+     * @param array $expected
+     * @dataProvider provide_values
+     */
+    public function test_values ($property, $data, $expected)
+    {
+        $dataProperty = new ReflectionProperty('Lib_Model', '_data');
+        $dataProperty->setAccessible(true);
+        $dataProperty->setValue($this->fixture, $data);
+
+        $this->assertSame($expected, $this->fixture->values($property));
+        
+    } // END function test_values
+
+    /**
+     * Provides data to use for testing the model's ability to return a list of
+     * values for a given property
+     *
+     * @return array
+     */
+    public function provide_values ( )
+    {
+        $data = array(
+            (object)array(
+                'id'    => 1,
+                'name'  => 'test 1',
+            ), (object)array(
+                'id'    => 2,
+                'name'  => 'test 2',
+            ), (object)array(
+                'id'    => 3,
+                'name'  => 'test 3',
+            )
+        );
+
+        return array(
+            array('id', $data, array(
+                1, 2, 3,
+            )),
+
+            array('name', $data, array(
+                'test 1', 'test 2', 'test 3'
+            )),
+        );
+        
+    } // END function provide_values
+
+    /**
+     * tests the model's abilty to load collections
+     *
+     * @param array $definitions
+     * @dataProvider provide_loadCollections
+     */
+    public function test_loadCollections ( )
+    {
+        $testMock = $this->getMock('Tests_Lib_Model_Test', array(
+            'loadCollection',
+        ));
+
+        $property = new ReflectionProperty('Lib_Model', '_collections');
+        $property->setAccessible(true);
+
+        $testMockCollectionsValue = $property->getValue($testMock);
+        $testMock->expects($this->exactly(count($testMockCollectionsValue)))
+            ->method('loadCollection');
+
+        $testMock->loadCollections();
+
+    } // END function test_loadCollections
+
+    /**
+     * Provides data to use for testing the model's ability to load collections
+     * of data as defined in a model
+     *
+     * @return array
+     */
+    public function provide_loadCollections ( )
+    {
+        return array(
+            array(array(
+                 
+            )),
+        );
+    }
+
+    /**
+     * tests the model's ability to load a single collection
+     *
+     * @param string $collection
+     * @param array $definition
+     * @dataProvider provide_loadCollection
+     */
+    public function test_loadCollection ($collection, $definition = array())
+    {
+        
+    } // END function test_collection
+
+    /**
+     * provides data to use for testing the loadCollection method of the model
+     *
+     * @return array
+     */
+    public function provide_loadCollection ( )
+    {
+        return array(
+            array('objects', array(
+
+            ))
+        );
+
+    } // END function provide_loadCollection
+
 } // END class ModelTest
 
 /**
@@ -564,8 +844,77 @@ extends PHPUnit_Framework_TestCase
  * @since       Class available since release 2.1.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Lib_Model_Test
+class Tests_Lib_Model_Test
 extends Lib_Model 
-{ 
+{
     protected $_table = 'test';
+
+    protected $_fields = array(
+        'id'    => array(
+            'type'      => 'int',
+            'primary'   => true,
+        ),
+    );
+
+    public $objects;
+
+    protected $_collections = array(
+        'objects' => array(
+            'property'      => 'objects',
+            'type'          => 'many-to-many',
+            'model'         => 'Tests_Lib_Model_Obj',
+            'reference'     => array(
+                'model'         => 'Tests_Lib_Model_ObjTest',
+                'local_key'     => 'id',
+                'remote_key'    => 'test_id',
+                'foreign_key'   => 'obj_id',
+            ),
+        ),
+    );
+}
+
+/**
+ * Fixture model to use for testing
+ * 
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Model
+ * @since       Class available since release 2.2.0
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
+class Tests_Lib_Model_Obj
+extends Lib_Model
+{
+    protected $_table = 'obj';
+
+    protected $_fields = array(
+        'id'    => array(
+            'type'      => 'int',
+            'primary'   => true,
+        ),
+    );
+}
+
+/**
+ * Fixture model to use for testing
+ * 
+ * @category    MVCLite
+ * @package     Tests
+ * @subpackage  Model
+ * @since       Class available since release 2.2.0
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
+class Tests_Lib_Model_ObjTest
+extends Lib_Model
+{
+    protected $_table = 'objs_tests';
+
+    protected $_fields = array(
+        'test_id'    => array(
+            'type'      => 'int',
+        ),
+        'obj_id'    => array(
+            'type'      => 'int',
+        ),
+    );
 }
