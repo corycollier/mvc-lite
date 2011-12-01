@@ -141,4 +141,60 @@ extends PHPUnit_Framework_TestCase
 
     } // END function test_getHeader
 
+    /**
+     * Tests the Lib_Response::setHeaders method
+     *
+     * @param array $headers
+     * @covers Lib_Response::setHeaders
+     * @dataProvider provide_setHeaders
+     */
+    public function test_setHeaders ($headers)
+    {
+        $class = get_class($this->fixture);
+
+        $method = new ReflectionMethod($class, '__construct');
+        $method->setAccessible(true);
+
+        $fixture = $this->getMockBuilder($class)
+            ->disableOriginalConstructor()
+            ->setMethods(array(
+                'setHeader',
+            ))
+            ->getMock();
+
+        $count = count($headers);
+
+        $fixture->expects($this->exactly($count))
+            ->method('setHeader');
+
+        // $fixture->expects($this->once())
+        //     ->method('setHeaders');
+
+        $fixture->setHeaders($headers);
+        
+    } // END function test_setHeaders
+
+    /**
+     * Provides data to use for testing the setHeaders method of the 
+     * Lib_Response::setHeaders method
+     *
+     * @return array
+     */
+    public function provide_setHeaders ( )
+    {
+        return array(
+            array(array(
+                'var'   => 'val',
+            )),
+
+            array(array(
+                'var1'   => 'val1',
+                'var2'   => 'val2',
+                'var3'   => 'val3',
+            )),
+
+        );
+        
+    } // END function provide_setHeaders
+
 } // END class ModelTest

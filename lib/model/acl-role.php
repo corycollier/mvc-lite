@@ -52,6 +52,7 @@ extends Lib_Model
 | role_parent_id | int(11)      | NO   |     | NULL    |                |
 +----------------+--------------+------+-----+---------+----------------+
 */
+
     /**
      * the field definitions for the model
      *

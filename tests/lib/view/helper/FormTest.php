@@ -35,6 +35,7 @@ extends PHPUnit_Framework_TestCase
      *
      * @param array $fields
      * @param array $attribs
+     * @covers Lib_View_Helper_Form::render
      * @dataProvider provide_render
      */
     public function test_render ($fields, $attribs = array())
@@ -120,6 +121,74 @@ extends PHPUnit_Framework_TestCase
             )),
         );
     }
+
+    /**
+     * Tests the elementFactory method of the form view helper
+     *
+     * @param string $column
+     * @param Lib_Model $model
+     * @param array $params
+     * @covers Lib_View_Helper_Form::elementFactory
+     * @dataProvider provide_elementFactory
+     */
+    public function test_elementFactory ($column, $model, $params, $value, $expected)
+    {
+        $model->expects($this->once())
+            ->method('get')
+            ->with($column)
+            ->will($this->returnValue($params['value']));
+
+        $helper = $this->getMock('Lib_View_Helper_Form', array(
+            'elementFactory',
+        ));
+
+        $result = $this->fixture->elementFactory($column, $model, $params);
+        
+        $this->assertSame($expected, $result);
+        
+    } // END function test_elementFactory
+
+    /**
+     *
+     *
+     *
+     */
+    public function provide_elementFactory ( )
+    {
+        $model = $this->getMockForAbstractClass('Lib_Model', array(
+            'get',
+            '_createReferenceElement',
+        ));
+
+        return array(
+            'primary' => array('id', $model, array(
+                'primary'   => true,
+                'type'      => 'int',
+            ), 1, ''),
+
+            'not primary' => array('name', $model, array(
+                'type'      => 'varchar',
+            ), 'the value', implode('', array(
+                '<label for="name" class="form-text">',
+                '<span class="label"></span>',
+                '<input type="text"  placeholder="" value="" name="name" id="name" />',
+                '</label>'
+            ))),
+
+            'text' => array('name', $model, array(
+                'type'      => 'text',
+            ), 'the name', implode(PHP_EOL, array(
+                '<label for="name" class="form-text">',
+                '<span class="label"></span>',
+                '<textarea type="text"  placeholder="" value="" name="name" id="name"></textarea>',
+                '</label>'
+            ))),
+
+
+
+        );
+        
+    } // END function provide_elementFactory
 
 } // END class Tests_Lib_View_Helper_FormTest
 
