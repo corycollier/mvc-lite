@@ -41,15 +41,18 @@ extends PHPUnit_Framework_TestCase
      * @param boolean $isException
      * @dataProvider provide_handle
      */
-    public function test_handle ($errno, $errstr, $errfile = null, $errline = null, 
-        $errcontext = array(), $isException = false)
+    public function test_handle ($errno, $errstr, $errfile = null, 
+        $errline = null,  $errcontext = array(), $isException = false)
     {
-        if ($errno == E_USER_ERROR) {
-            $this->setExceptedException('ErrorException');
+        if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_WARNING ))) {
+            $this->setExpectedException('ErrorException');
         }
 
-        $this->fixture->handle($errno, $errstr, $errfile, $errline, $errcontext);
+        $result = $this->fixture->handle(
+            $errno, $errstr, $errfile, $errline, $errcontext
+        );
 
+        $this->assertNull($result);
         
     } // END function test_handle
 
@@ -62,11 +65,73 @@ extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
+                E_USER_ERROR, 'fatal error',
+            ),
+            array(
+                E_WARNING, 'fatal error',
+            ),
+            array(
                 E_ERROR, 'fatal error',
-            )
+            ),
+            array(
+                E_ERROR, 'fatal error',
+            ),
         );
         
     } // END function provide_handle
 
+    /**
+     * Tests the getErrors method of the error handler
+     *
+     * @param array $expected
+     * @dataProvider provide_getErrors
+     */
+    public function test_getErrors ($expected = array())
+    {
+        $property = new ReflectionProperty('Lib_Error', '_errors');
+        $property->setAccessible(true);
+        $property->setValue($this->fixture, $expected);
+
+        $this->assertSame($expected, $this->fixture->getErrors());
+        
+    } // END function test_getErrors
+
+    /**
+     * Provides data for testing the getErrors method of the error handler
+     *
+     * @return array
+     */
+    public function provide_getErrors ( )
+    {
+        return array(
+            array(
+                array(array(
+                    'errno'         => E_ERROR,
+                    'errstr'        => 'the error',
+                    'errfile'       => 'file.php',
+                    'errline'       => 104,
+                )),
+                array(array(
+                    'errno'         => E_ERROR,
+                    'errstr'        => 'the error',
+                    'errfile'       => 'file.php',
+                    'errline'       => 4,
+                )),
+                array(array(
+                    'errno'         => E_WARNING,
+                    'errstr'        => 'the error',
+                    'errfile'       => 'file.php',
+                    'errline'       => 104,
+                )),
+                array(array(
+                    'errno'         => E_ERROR,
+                    'errstr'        => 'the error',
+                    'errfile'       => 'other.php',
+                    'errline'       => 104,
+                )),
+            ),
+        );
+        
+    } // END function provide_getErrors
 
 } // END class Tests_Lib_ErrorTest
