@@ -1,12 +1,30 @@
 <?php
+/**
+ * csv View Helper
+ * 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  View_Helper
+ * @since       File available since release 1.1.x
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
+/**
+ * csv View Helper class
+ * 
+ * @category    MVCLite
+ * @package     Lib
+ * @subpackage  View_Helper
+ * @since       Class available since release 1.1.x
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
 
 class Lib_View_Helper_Csv
 extends Lib_View_Helper_Abstract
 {
     /**
-     * 
-     * Enter description here ...
-     * @param unknown_type $items
+     * The render method for the csv view helper
+     *
+     * @param array $items
      */
     public function render ($items = array())
     {

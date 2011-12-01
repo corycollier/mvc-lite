@@ -33,8 +33,7 @@ extends PHPUnit_Framework_TestCase
         $result = $helper->render($name, $attribs);
         
         $this->assertSame(0, strpos($result, '<label for'));
-        
-        $this->assertTrue(strpos($result, '<input type="text"') > 0);
+        $this->assertTrue(strpos($result, '<select ') > 0);
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
         

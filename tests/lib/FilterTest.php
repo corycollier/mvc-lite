@@ -40,12 +40,30 @@ extends PHPUnit_Framework_TestCase
 
     /**
      * tests the filter's ability to change dashes to camel case
+     *
+     * @param string $expected
+     * @param string $unfiltered
+     * @dataProvider provide_dashToCamelCase
      */
-    public function test_dashToCamelCase ( )
+    public function test_dashToCamelCase ($expected, $unfiltered)
     {
-        $this->markTestIncomplete('not ready yet');
+        $this->assertSame($expected, Lib_Filter::dashToCamelCase($unfiltered));
 
     } // END function test_dashToCamelCase
+
+    /**
+     * provides data to use for testing the dashToCamelCase method
+     *
+     * @return array
+     */
+    public function provide_dashToCamelCase ( )
+    {
+        return array(
+            array('thisShouldBeCamelCase', 'this-should-be-camel-case'),
+            array('thisShouldBeCamel_case', 'this-should-be-camel_case'),
+        );
+
+    } // END function provide_dashToCamelCase
 
     public function test_camelCaseToDash ( )
     {
@@ -59,17 +77,6 @@ extends PHPUnit_Framework_TestCase
 
     } // END function test_camelCaseToDash
 
-    public function test_underscoreToDirectorySeparator ( )
-    {
-        $this->markTestIncomplete('not ready yet');
-
-    } // END function test_underscoreToDirectorySeparator
-
-    public function test_underscoreToCamelCase ( )
-    {
-        $this->markTestIncomplete('not ready yet');
-
-    } // END function test_underscoreToCamelCase
     
     /**
      * tests the ucaseUnderscoreToPcaseDash method of the filter class

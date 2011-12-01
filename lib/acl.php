@@ -39,6 +39,13 @@ extends Lib_Object_Singleton
      */
     public function isAllowed (Lib_Model $role, Lib_Model $resource)
     {
+        foreach ($role->resources as $allowedResources) {
+            if ($resource == $allowedResource) {
+                return true;
+            }
+        }
+        
+        return false;
         
     } // END function isAllowed
 
