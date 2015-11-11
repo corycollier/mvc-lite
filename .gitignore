@@ -1,8 +1,14 @@
+# Files
 *.project
 *.conf
 *.log
 *.settings
-build
-var/cache/*
+composer.lock
+cache.properties
 
-/vendor/
+# Folders
+vendor/
+build/
+!build/phpunit.xml
+!build/phpmd.xml
+!build/phpdox.xml
