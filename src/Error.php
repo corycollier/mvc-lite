@@ -1,25 +1,30 @@
 <?php
 /**
  * Class to handle errors throughout the site
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Error
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Class to handle errors throughout the site
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Error
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Lib_Error
-extends Lib_Object_Singleton
+
+class Error
+    extends Object\Singleton
 {
     /**
      * holder for all the errors that have occured for the request
@@ -29,11 +34,11 @@ extends Lib_Object_Singleton
     private $_errors = array();
 
     /**
-     * handler for errors 
+     * handler for errors
      */
-    public static function handle ($errno, $errstr, $errfile = null, 
+    public static function handle ($errno, $errstr, $errfile = null,
         $errline = null, $errcontext = array())
-    {   
+    {
         $self = get_called_class();
 
         // append the errors to the list of errors that have occured so far
@@ -61,7 +66,7 @@ extends Lib_Object_Singleton
             default:
                 return;
         }
-        
+
     } // END function handle
 
     /**
@@ -85,7 +90,7 @@ extends Lib_Object_Singleton
     public function getErrors ( )
     {
         return $this->_errors;
-        
+
     } // END function getErrors
 
 } // END class Lib_Error

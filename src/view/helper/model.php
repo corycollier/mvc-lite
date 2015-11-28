@@ -1,76 +1,82 @@
 <?php
 /**
  * Model View Helper
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace \MvcLite\View\Helper;
+
+use \MvcLite;
+use \MvcLite\View;
+use \MvcLite\Filter;
+
 /**
  * Model View Helper class
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_View_Helper_Model
-extends Lib_View_Helper_Abstract
+class Model
+    extends HelperAbstract
 {
     /**
      * returns the appropriate controller to handle requests for this model
      */
-    public function getController (Lib_Model $model)
+    public function getController(ModelAbstract $model)
     {
         $class = get_class($model);
-        $filter = new Lib_Filter;
-        $filter->addFilter(new Lib_Filter_ClassToCamelcase)
-            ->addFilter(new Lib_Filter_CamelcaseToDash)
-            ->addFilter(new Lib_Filter_Pluralize);
+        $filter = new FilterChain;
+        $filter->addFilter(new ClassToCamelcase)
+            ->addFilter(new CamelcaseToDash)
+            ->addFilter(new Pluralize);
 
         return $filter->filter($class);
-        
+
     } // END function getController
-    
+
     /**
      * returns an array of field values for the model
-     * 
-     * @param Lib_Model $model
+     *
+     * @param \MvcLite\ModelAbstract $model
      * @return array
      */
-    public function getColumns (Lib_Model $model)
+    public function getColumns(ModelAbstract $model)
     {
         $results = array();
-        
+
         foreach ($model->getFields() as $column => $info) {
             $results[$column] = @$info['label'];
         }
-        
+
         return $results;
-        
+
     } // END function getColumns
-    
+
     /**
      * method to return a human friendly name for a model
-     * 
-     * @param Lib_Model $model
+     *
+     * @param \MvcLite\ModelAbstract $model
      */
-    public function getName (Lib_Model $model)
+    public function getName(ModelAbstract $model)
     {
         $class = get_class($model);
-        $filter = new Lib_Filter;
-        $filter->addFilter(new Lib_Filter_ClassToCamelcase)
-            ->addFilter(new Lib_Filter_CamelcaseToDash);
-            
+        $filter = new FilterChain;
+        $filter->addFilter(new ClassToCamelcase)
+            ->addFilter(new CamelcaseToDash);
+
         //
         return ucwords(strtr($filter->filter($class), array(
             '-' => ' ',
         )));
-        
+
     } // END function getName
-    
+
 } // END class Lib_View_Helper_Model

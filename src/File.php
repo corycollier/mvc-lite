@@ -1,25 +1,28 @@
 <?php
 /**
  * Class to contain logic for accessing files
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  File
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Class to contain logic for accessing files
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  File
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Lib_File
-extends Lib_Object
+
+class File
+    extends Object
 {
     /**
      * property to contain the contents of the instance's file contents
@@ -41,7 +44,7 @@ extends Lib_Object
         }
 
         return false;
-        
+
     } // END function test
 
     /**
@@ -61,12 +64,12 @@ extends Lib_Object
         file_put_contents($filename, $this->getContents());
 
         return $this;
-        
+
     } // END function save
 
     /**
      * loads file information to the file instance
-     * 
+     *
      * @param string $filename
      * @return Lib_File $this for a fluent interface
      */
@@ -77,7 +80,7 @@ extends Lib_Object
         $this->setContents(file_get_contents($filename));
 
         return $this;
-        
+
     } // END function load
 
     /**
@@ -93,7 +96,7 @@ extends Lib_Object
         unlink($filename);
 
         return $this;
-        
+
     } // END function delete
 
     /**
@@ -104,7 +107,7 @@ extends Lib_Object
     public function getContents ( )
     {
         return $this->_contents;
-        
+
     } // END function getContents
 
     /**
@@ -118,7 +121,7 @@ extends Lib_Object
         $this->_contents = $contents;
 
         return $this;
-        
+
     } // END function setContents
 
     /**

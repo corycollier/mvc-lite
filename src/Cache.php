@@ -1,30 +1,34 @@
 <?php
 /**
  * Defines the caching mechanism
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Defines the caching mechanism
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Lib_Cache
-extends Lib_Object_Singleton
+class Cache
+    extends Object\Singleton
 {
     /**
      * property to store the configuration of the cache object
      *
-     * @var array $_config 
+     * @var array $_config
      */
     protected $_config;
 
@@ -100,7 +104,7 @@ extends Lib_Object_Singleton
         $data = unserialize(file_get_contents($file));
 
         return $data;
-        
+
     } // END function get
 
     /**
@@ -125,7 +129,7 @@ extends Lib_Object_Singleton
             get_class($object),
             $name,
         )));
-        
+
     } // END function _getNamespace
 
 } // END class Lib_Cache

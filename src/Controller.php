@@ -2,24 +2,26 @@
 /**
  * Base Controller
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Controller
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Base Controller
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Controller
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Controller
-extends Lib_Object
+class Controller
+    extends ObjectAbstract
 {
     /**
      * getter for the view property

@@ -1,27 +1,31 @@
 <?php
 /**
  * Registry
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Registry
  * @since       File available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Registry
- * 
+ *
  * Data store for application level storage
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Registry
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Registry
-extends Lib_Object_Singleton
+class Registry
+    extends Object\Singleton
 {
     /**
      * Where all the registry stuff goes
@@ -37,7 +41,7 @@ extends Lib_Object_Singleton
      * @param unknown_type $value
      * @return Lib_Registry $this
      */
-    public function set ($name, $value)
+    public function set($name, $value)
     {
         $this->_data[$name] = $value;
 
@@ -51,7 +55,7 @@ extends Lib_Object_Singleton
      * @param string $name
      * @return Lib_Registry $this
      */
-    public function get ($name)
+    public function get($name)
     {
         return @$this->_data[$name];
 
@@ -63,7 +67,7 @@ extends Lib_Object_Singleton
      * @param array $values
      * @return Lib_Registry $this
      */
-    public function setAll ($params = array())
+    public function setAll($params = array())
     {
         // itereate through the built results, setting their values to registry
         foreach ($params as $setting => $values) {
@@ -71,7 +75,7 @@ extends Lib_Object_Singleton
         }
 
         return $this;
-        
+
     } // END function setAll
 
 } // END class Lib_Registry

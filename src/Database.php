@@ -2,24 +2,28 @@
 /**
  * Base Database adapter
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Database
  * @since       File available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Base Database adapter
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Database
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Database
-extends Lib_Object_Singleton
+class Database
+    extends Object\Singleton
 {
     /**
      * property to store the Mysqli handle

@@ -1,8 +1,8 @@
 <?php
 /**
  * dash to underscore filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       File available since release 1.1.x
@@ -10,8 +10,8 @@
  */
 /**
  * dash to underscore filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       Class available since release 1.1.x
@@ -31,7 +31,7 @@ extends Lib_Filter_Abstract
         $words = array_map('ucwords', $words);
         $words[0] = strtolower($words[0]);
         return implode('', $words);
-        
+
     } // END function filter
-     
+
 } // END class Lib_Filter_DashToCamelcase

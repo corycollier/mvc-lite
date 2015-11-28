@@ -2,24 +2,28 @@
 /**
  * Base View Class
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Base View Class
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_View
-extends Lib_Object_Singleton
+class View
+    extends Object\Singleton
 {
     /**
      * Variables assigned to the view
@@ -58,7 +62,7 @@ extends Lib_Object_Singleton
     /**
      * method to start the database up
      */
-    public function init ( )
+    public function init()
     {
         $this->addViewScriptPath(implode(DIRECTORY_SEPARATOR, array(
             APP_PATH,
@@ -75,7 +79,7 @@ extends Lib_Object_Singleton
      * @param string $path
      * @return Lib_View $this for a fluent interface
      */
-    public function addViewScriptPath ($path)
+    public function addViewScriptPath($path)
     {
         if (strpos($path, APP_PATH) === false) {
             $path = implode(DIRECTORY_SEPARATOR, array(
@@ -91,7 +95,7 @@ extends Lib_Object_Singleton
      *
      * @return array
      */
-    public function getViewScriptPaths ( )
+    public function getViewScriptPaths()
     {
         return array_reverse($this->_viewScriptPaths);
     }
@@ -102,7 +106,7 @@ extends Lib_Object_Singleton
      * @param string $path
      * @return Lib_View $this for a fluent interface
      */
-    public function setScript ($path)
+    public function setScript($path)
     {
         $this->_script = (string)$path;
 
@@ -115,7 +119,7 @@ extends Lib_Object_Singleton
      *
      * @return string the name of the view script to use
      */
-    public function getScript ( )
+    public function getScript()
     {
         return $this->_script;
 
@@ -127,7 +131,7 @@ extends Lib_Object_Singleton
      * @param string $path
      * @return Lib_View $this for a fluent interface
      */
-    public function setLayout ($path)
+    public function setLayout($path)
     {
         $this->_layout = (string)$path;
 
@@ -140,7 +144,7 @@ extends Lib_Object_Singleton
      *
      * @return string The name of the layout script to use
      */
-    public function getLayout ( )
+    public function getLayout()
     {
         return $this->_layout;
 
@@ -163,7 +167,7 @@ extends Lib_Object_Singleton
     /**
      * Method to render the view
      */
-    public function render ( )
+    public function render()
     {
         if (! $this->getScript()) {
             return null;
@@ -199,20 +203,20 @@ extends Lib_Object_Singleton
      * @param $string the unfiltered output
      * @return string the filtered output
      */
-    public function filter ($string)
+    public function filter($string)
     {
         return $string;
 
     } // END function filter
 
     /**
-     * setter for the _vars property
+     * Setter for the _vars property.
      *
      * @param string $var
      * @param unknown_type $value
      * @return Lib_View $this for a fluent interface
      */
-    public function set ($var, $value = '')
+    public function set($var, $value = '')
     {
         $this->_vars[$var] = $value;
 
@@ -226,7 +230,7 @@ extends Lib_Object_Singleton
      * @param string $var
      * @return unknown_type
      */
-    public function get ($var)
+    public function get($var)
     {
         return @$this->_vars[$var];
 
@@ -238,7 +242,7 @@ extends Lib_Object_Singleton
      * @param string $name
      * @return Lib_View_Helper
      */
-    public function getHelper ($name)
+    public function getHelper($name)
     {   // if the helper has already been loaded, just return the instance
         if (@$this->_helpers[$name]) {
             return $this->_helpers[$name];

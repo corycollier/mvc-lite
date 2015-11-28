@@ -1,8 +1,8 @@
 <?php
 /**
  * string to upper filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       File available since release 1.1.x
@@ -10,8 +10,8 @@
  */
 /**
  * string to upper filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       Class available since release 1.1.x
@@ -28,7 +28,7 @@ extends Lib_Filter_Abstract
     public function filter ($word = '')
     {
         return strtoupper($word);
-        
+
     } // END function filter
-    
+
 } // END class Lib_Filter_StringToUpper

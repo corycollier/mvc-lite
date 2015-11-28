@@ -2,25 +2,27 @@
 /**
  * Base Model
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Model
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Base Model
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Model
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-abstract class Lib_Model
-extends Lib_Object
-implements Iterator
+abstract class ModelAbstract
+    extends ObjectAbstract
+    implements Iterator
 {
     protected $_database;
 
@@ -141,7 +143,7 @@ implements Iterator
 
     /**
      * method to load collections of information onto a single model record
-     * 
+     *
      * @var array $params
      * @return Lib_Model $this for a fluent interface
      */
@@ -156,7 +158,7 @@ implements Iterator
         }
 
         return $this;
-        
+
     } // END function loadCollections
 
     /**
@@ -183,7 +185,7 @@ implements Iterator
         ));
 
         return $this;
-        
+
     } // END function loadCollection
 
     /**
@@ -253,7 +255,7 @@ implements Iterator
      * method to get the value of a requested property
      *
      * @param string $property
-     * @return string|integer 
+     * @return string|integer
      */
     public function get ($property)
     {
@@ -264,7 +266,7 @@ implements Iterator
     /**
      *
      * returns the database object for the model
-     * 
+     *
      */
     public function getDatabase ( )
     {

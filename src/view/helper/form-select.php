@@ -2,24 +2,28 @@
 /**
  * Select Input View Helper
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace \MvcLite\View\Helper;
+
+use \MvcLite\View;
+
 /**
  * Select Input View Helper class
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_View_Helper_FormSelect
-extends Lib_View_Helper_Abstract
+class FormSelect
+    extends HelperAbstract
 {
     /**
      * Method to render a select element

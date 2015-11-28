@@ -1,36 +1,40 @@
 <?php
 /**
  * Base Request
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Request
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Base Request
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Request
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Request
-extends Lib_Object_Singleton
+class Request
+    extends Object\Singleton
 {
     /**
      * associative array representing the request params
-     * 
+     *
      * @var array
      */
     protected $_params = array();
 
     /**
      * associative array of the headers sent from the client
-     * 
+     *
      * @var array
      */
     protected $_headers = array();
@@ -45,7 +49,7 @@ extends Lib_Object_Singleton
     /**
      * method to start the database up
      */
-    public function init ( )
+    public function init()
     {
         $this->_uri = $_SERVER['REQUEST_URI'];
         $this->_params = array_merge($this->_params, $_COOKIE);
@@ -57,10 +61,10 @@ extends Lib_Object_Singleton
     } // END function init
 
     /**
-     * 
+     *
      * Method to set the headers
      */
-    protected function _setHeaders ( )
+    protected function _setHeaders()
     {   // iterate over the $_SERVER superglobal values
         foreach($_SERVER as $key => $value) {
             if(substr($key, 0, 5) != 'HTTP_') {
@@ -74,17 +78,17 @@ extends Lib_Object_Singleton
 
     /**
      * Build an associative array from a string
-     * 
+     *
      * @param string $string
      * @param string $separator
      * @return array
      */
-    public function buildFromString ($string = '', $separator = '/')
+    public function buildFromString($string = '', $separator = '/')
     {   // create a list of parts by separator
         $parts = explode($separator, $string);
         $results = array();
 
-        $results['controller'] = @$parts[0] 
+        $results['controller'] = @$parts[0]
             ? $parts[0]
             : 'index';
 
@@ -97,7 +101,7 @@ extends Lib_Object_Singleton
             if (($key < 2) || ($key % 2)) {
                 continue;
             }
-            
+
             $results[$value] = @$parts[$key + 1];
         }
 
@@ -108,11 +112,11 @@ extends Lib_Object_Singleton
 
     /**
      * setter for the params property
-     * 
+     *
      * @param $params
      * @return Request $this for a fluent interface
      */
-    public function setParams ($params = array())
+    public function setParams($params = array())
     {
         $this->_params = array_merge($this->_params, (array)$params);
 
@@ -122,30 +126,30 @@ extends Lib_Object_Singleton
 
     /**
      * getter for the params property
-     * 
+     *
      * @return array All of the request params (_GET, _POST, and _COOKIE)
      */
-    public function getParams ( )
+    public function getParams()
     {
         $params = $this->_params;
-        
+
         foreach ($params as $key => $value) {
             if (! $key || ! $value || $key === 'q') {
                 unset($params[$key]);
             }
         }
-        
+
         return $params;
 
     } // END function getParams
 
     /**
      * Gets a single param from the params array
-     * 
+     *
      * @param string $param
      * @return string
      */
-    public function getParam ($param)
+    public function getParam($param)
     {
         return @$this->_params[$param];
 
@@ -153,12 +157,12 @@ extends Lib_Object_Singleton
 
     /**
      * method to set a param manually
-     * 
+     *
      * @param string $param
      * @param string $value
      * @return Request $this for a fluent interface
      */
-    public function setParam ($param, $value = '')
+    public function setParam($param, $value = '')
     {
         $this->_params[$param] = $value;
 
@@ -168,10 +172,10 @@ extends Lib_Object_Singleton
 
     /**
      * Determines if the request is post or not
-     * 
+     *
      * @return boolean
      */
-    public function isPost ( )
+    public function isPost()
     {   // if there is data in the _post property, return true
         if (count($_POST)) {
             return true;
@@ -180,43 +184,43 @@ extends Lib_Object_Singleton
         return false;
 
     } // END function isPost
-    
+
     /**
      * getter for the headers property
-     * 
+     *
      * @return array
      */
-    public function getHeaders ( )
+    public function getHeaders()
     {
         return $this->_headers;
-        
+
     } // END function getHeaders
-    
+
     /**
      * method to get the value for a single header
-     * 
+     *
      * @param string $header
      */
-    public function getHeader ($header = '')
+    public function getHeader($header = '')
     {
         return @$this->_headers[$header];
-        
+
     } // END function getHeader
-    
+
     /**
      * Method to indicate whether the current request is AJAX or not
-     * 
+     *
      * @return boolean
      */
-    public function isAjax ( )
+    public function isAjax()
     {
         // if the request is ajax, don't load the layout
         if ($this->getHeader('X-Requested-With') == 'XMLHttpRequest') {
             return true;
         }
-        
+
         return false;
-        
+
     } // END function isAjax
 
     /**
@@ -224,10 +228,10 @@ extends Lib_Object_Singleton
      *
      * @return string
      */
-    public function getUri ( )
+    public function getUri()
     {
         return $this->_uri;
-        
+
     } // END function getUri
 
 } // END class Request

@@ -2,31 +2,36 @@
 /**
  * HTML Form View Helper
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace \MvcLite\View\Helper;
+
+use \MvcLite;
+use \MvcLite\View;
+
 /**
  * HTML Form View Helper class
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_View_Helper_Form
-extends Lib_View_Helper_Abstract
+class Form
+    extends HelperAbstract
 {
     /**
      * renders a form from a model
      *
-     * @param App_Model $model
+     * @param \MvcLite\ModelAbstract $model
      */
-    public function render (Lib_Model $model, $attribs = array())
+    public function render(ModelAbstract $model, $attribs = array())
     {
         $template = '<form !attribs><fieldset>!elements</fieldset></form>';
         $elements = '';
@@ -49,7 +54,7 @@ extends Lib_View_Helper_Abstract
      *
      * @param array $params
      */
-    public function elementFactory ($column, Lib_Model $model, $params = array())
+    public function elementFactory ($column, ModelAbstract $model, $params = array())
     {
         if (@$params['primary']) {
             return '';
@@ -71,11 +76,11 @@ extends Lib_View_Helper_Abstract
     /**
      * returns a form-select element for a given model
      *
-     * @param Lib_Model $model
+     * @param \MvcLite\ModelAbstract $model
      * @param array $params
      * @return string
      */
-    protected function _createReferenceElement ($column, Lib_Model $model, $params = array())
+    protected function _createReferenceElement ($column, ModelAbstract $model, $params = array())
     {
         $class = $params['reference']['model'];
         $referenceModel = new $class;
@@ -101,7 +106,7 @@ extends Lib_View_Helper_Abstract
      * @param array $params
      * @return string
      */
-    public function _createEnumElement ($column, Lib_Model $model, $params = array())
+    public function _createEnumElement ($column, ModelAbstract $model, $params = array())
     {
         return $this->_view->getHelper('FormSelect')
             ->render(
@@ -119,7 +124,7 @@ extends Lib_View_Helper_Abstract
      * @param array $params
      * @return string
      */
-    public function _createPasswordElement ($column, Lib_Model $model, $params = array())
+    public function _createPasswordElement ($column, ModelAbstract $model, $params = array())
     {
         return $this->_view->getHelper('FormPassword')->render($column, $params);
 
@@ -132,7 +137,7 @@ extends Lib_View_Helper_Abstract
      * @param array $params
      * @return string
      */
-    protected function _createIntElement ($column, Lib_Model $model, $params = array())
+    protected function _createIntElement ($column, ModelAbstract $model, $params = array())
     {
         return $this->_view->getHelper('FormText')->render($column, $params);
 
@@ -145,7 +150,7 @@ extends Lib_View_Helper_Abstract
      * @param array $params
      * @return string
      */
-    protected function _createTextElement ($column, Lib_Model $model, $params = array())
+    protected function _createTextElement ($column, ModelAbstract $model, $params = array())
     {
         return $this->_view->getHelper('FormTextarea')->render($column, $params);
 
@@ -158,7 +163,7 @@ extends Lib_View_Helper_Abstract
      * @param array $params
      * @return string
      */
-    protected function _createVarcharElement ($column, Lib_Model $model, $params = array())
+    protected function _createVarcharElement ($column, ModelAbstract $model, $params = array())
     {
         return $this->_view->getHelper('FormText')->render($column, $params);
 

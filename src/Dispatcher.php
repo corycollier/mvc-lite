@@ -2,24 +2,29 @@
 /**
  * Base Dispatcher
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Object\Singleton;
+
 /**
  * Base Dispatcher
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Dispatcher
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Dispatcher
-extends Lib_Object_Singleton
+class Dispatcher
+    extends Object\Singleton
 {
     /**
      * an overridable list of environments allowed for configuration
@@ -53,7 +58,7 @@ extends Lib_Object_Singleton
      * @var Lib_Database
      */
     protected $_database;
-    
+
     /**
      * placeholder for the view object
      *
@@ -236,7 +241,7 @@ extends Lib_Object_Singleton
 
     /**
      * returns the provide value, if it's in the _environments list
-     * 
+     *
      * @param string $value
      * @return string
      */
@@ -244,7 +249,7 @@ extends Lib_Object_Singleton
     {
         if (in_array($value, $this->_environments)) {
             return $value;
-        } 
+        }
 
         return current($this->_environments);
 

@@ -1,33 +1,35 @@
 <?php
 /**
  * Base Object Class
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Object
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Base Object Class
- * 
+ *
  * All classes in the MVCLite framework extends this class
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Object
  * @since       Class available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Object
+abstract class ObjectAbstract;
 {
     /**
      * Overriding the __get magic method
-     * 
-     * Magic Methods are expensive. To help ensure the performance of the 
+     *
+     * Magic Methods are expensive. To help ensure the performance of the
      * MVCLite Framework, we disable them here.
-     * 
+     *
      * @param string $name
      * @throws Lib_Exception
      */
@@ -42,10 +44,10 @@ class Lib_Object
 
     /**
      * Overriding the __set magic method
-     * 
-     * Magic Methods are expensive. To help ensure the performance of the 
+     *
+     * Magic Methods are expensive. To help ensure the performance of the
      * MVCLite Framework, we disable them here.
-     * 
+     *
      * @param string $name
      * @param unknown_type $value
      * @throws Lib_Exception
@@ -61,10 +63,10 @@ class Lib_Object
 
     /**
      * Overriding the __call magic method
-     * 
-     * Magic Methods are expensive. To help ensure the performance of the 
+     *
+     * Magic Methods are expensive. To help ensure the performance of the
      * MVCLite Framework, we disable them here.
-     * 
+     *
      * @param string $method
      * @param array $args
      * @throws Lib_Exception
@@ -98,7 +100,7 @@ class Lib_Object
         throw new Lib_Exception(
             'Descendents must implement the identify method'
         );
-        
+
     } // END function identify
-    
+
 } // END class Lib_Object

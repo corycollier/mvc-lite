@@ -1,8 +1,8 @@
 <?php
 /**
  * underscore to dash filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       File available since release 1.1.x
@@ -10,8 +10,8 @@
  */
 /**
  * underscore to dash filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       Class available since release 1.1.x
@@ -30,7 +30,7 @@ extends Lib_Filter_Abstract
         return strtr($word, array(
             '_' => '-',
         ));
-        
+
     } // END function filter
-    
+
 } // END class Lib_Filter_UnderscoreToDash

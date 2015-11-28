@@ -10,6 +10,5 @@ sophisticated application handling, consider a more robust framework, like
 Zend Framework, Laravel, or Symfony.
 
 
-
 Contact me for help at:
     corycollier@corycollier.com

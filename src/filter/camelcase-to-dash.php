@@ -2,7 +2,7 @@
 /**
  * camelcase to dash filter
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       File available since release 1.1.x
@@ -11,7 +11,7 @@
 /**
  * camelcase to dash filter
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       Class available since release 1.1.x

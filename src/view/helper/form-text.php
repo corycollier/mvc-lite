@@ -1,45 +1,53 @@
 <?php
 /**
  * Text Input View Helper
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace \MvcLite\View\Helper;
+
+use \MvcLite\View;
+
 /**
  * Text Input View Helper class
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Lib_View_Helper_FormText
-extends Lib_View_Helper_Abstract
+class FormText
+    extends HelperAbstract
 {
     /**
-     * method to render a input[type=text] element
-     * 
-     * @param array $attribs
-     * @return string
+     * Render a input[type=text] element.
+     *
+     * @param string $name The name of the text element.
+     * @param array $attribs An array of attributes.
+     * @return string The resulting HTML.
      */
-    public function render ($name, $attribs = array())
+    public function render($name, $attribs = array())
     {
-        $template = '<label for="!id" class="form-text"><span class="label">!label</span><input type="text" !attribs /></label>';
-        
+        $template = '<label for="!id" class="form-text">'
+            . '<span class="label">!label</span>'
+            . '<input type="text" !attribs />'
+            . '</label>';
+
         $attribs['name'] = $name;
         $attribs['id'] = $name;
-        
+
         return strtr($template, array(
             '!label'    => @$attribs['label'],
             '!id'       => $name,
             '!attribs'  => $this->_htmlAttribs($attribs),
         ));
-        
+
     } // END function render
 
 } // END class Lib_View_Helper_FormText

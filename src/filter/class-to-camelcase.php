@@ -1,8 +1,8 @@
 <?php
 /**
  * class to camelcase filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       File available since release 1.1.x
@@ -10,8 +10,8 @@
  */
 /**
  * class to camelcase filter
- * 
- * @category    MVCLite
+ *
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  Filter
  * @since       Class available since release 1.1.x
@@ -29,9 +29,9 @@ extends Lib_Filter_Abstract
     {
         $words = explode('_', $word);
         $word = end($words);
-        
+
         $result = '';
-        
+
         for($i = 0; $i < strlen($word); $i++) {
             if ($i === 0) {
                 $result .= strtolower($word{$i});
@@ -39,9 +39,9 @@ extends Lib_Filter_Abstract
             }
             $result .= $word{$i};
         }
-        
+
         return $result;
-        
+
     } // END function filter
-    
+
 } // END class Lib_Filter_ClassToCamelcase

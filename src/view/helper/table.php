@@ -2,24 +2,29 @@
 /**
  * Table View Helper
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace \MvcLite\View\Helper;
+
+use \MvcLite;
+use \MvcLite\View;
+
 /**
  * Table View Helper class
  *
- * @category    MVCLite
+ * @category    MvcLite
  * @package     Lib
  * @subpackage  View_Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_View_Helper_Table
-extends Lib_View_Helper_Abstract
+class Table
+    extends HelperAbstract
 {
     /**
      * method to return a list of table headers for a given array of data
@@ -27,7 +32,7 @@ extends Lib_View_Helper_Abstract
      * @param array $data
      * @return string
      */
-    public function getHeaders ($data = array())
+    public function getHeaders($data = array())
     {
         $template = '<th>!label</th>';
 
@@ -59,11 +64,11 @@ extends Lib_View_Helper_Abstract
      * @param string $label
      * @param string $column
      */
-    public function getSortHeader ($label, $column)
+    public function getSortHeader($label, $column)
     {
         $link = '<a href="!href">!label</a>';
 
-        $request = Lib_Request::getInstance();
+        $request = Request::getInstance();
 
         $params = array_intersect_key($request->getParams(), array(
             'controller'    => '',
@@ -91,10 +96,10 @@ extends Lib_View_Helper_Abstract
     /**
      * method to return a table row from a given array of data
      *
-     * @param Lib_Model $model
+     * @param \MvcLite\ModelAbstract $model
      * @return string
      */
-    public function getRow (Lib_Model $model)
+    public function getRow(ModelAbstract $model)
     {
         $template = '<td>!data</td>';
 
@@ -115,12 +120,12 @@ extends Lib_View_Helper_Abstract
                 }
             }
             $result .= strtr($template, array(
-                '!data'    => strip_tags($value),
+                '!data' => strip_tags($value),
             ));
         }
 
         $result .= strtr($template, array(
-            '!data'    => $this->getActions($model),
+            '!data' => $this->getActions($model),
         ));
 
         return implode(PHP_EOL, array(
@@ -132,9 +137,9 @@ extends Lib_View_Helper_Abstract
     /**
      * returns the actions available to a model
      *
-     * @param Lib_Model $model
+     * @param \MvcLite\ModelAbstract $model
      */
-    public function getActions (Lib_Model $model)
+    public function getActions(ModelAbstract $model)
     {
         $actions = array(
             'view', 'edit', 'delete',
@@ -150,8 +155,8 @@ extends Lib_View_Helper_Abstract
         // iterate through the actions
         foreach ($actions as $action) {
             $result .= $separator . strtr($template, array(
-                '!label'    => $action,
-                '!href'        => "/{$controller}/{$action}/id/" . $model->get('id'),
+                '!label' => $action,
+                '!href'  => "/{$controller}/{$action}/id/" . $model->get('id'),
             ));
             $separator = '|';
         }
