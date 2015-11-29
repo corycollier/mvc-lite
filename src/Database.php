@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Base Database adapter
@@ -22,8 +22,9 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Database extends Object\Singleton
+class Database extends ObjectAbstract
 {
+    use SingletonTrait;
 
     const MSG_ERROR_CONN = 'Connection failure: %s';
 

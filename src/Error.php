@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Class to handle errors throughout the site
@@ -23,8 +23,10 @@ use \MvcLite\Object\Singleton;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Error extends Object\Singleton
+class Error extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * Holder for all the errors that have occured for the request.
      *
@@ -45,7 +47,7 @@ class Error extends Object\Singleton
         $self = get_called_class();
 
         // append the errors to the list of errors that have occured so far
-        $self::getInstance()->_addError(array(
+        $self::getInstance()->addError(array(
             'errno'         => $errno,
             'errstr'        => $errstr,
             'errfile'       => $errfile,
@@ -71,26 +73,25 @@ class Error extends Object\Singleton
     }
 
     /**
-     * adds errors to the instance's error property
+     * Adds errors to the instance's error property.
      *
-     * @param array $error
-     * @return Lib_Error $this for object-chaining.
+     * @param array $error An array representing an error.
+     *
+     * @return \MvcLite\Error $this for object-chaining.
      */
     protected function addError($error = array())
     {
         $this->errors[] = $error;
         return $this;
-
     }
 
     /**
-     * getter for the _errors property
+     * Getter for the errors property.
      *
      * @return array
      */
     public function getErrors()
     {
         return $this->errors;
-
     }
 }

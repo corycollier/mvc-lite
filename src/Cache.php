@@ -11,8 +11,8 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
 use MvcLite\Filter;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Defines the caching mechanism
@@ -23,8 +23,10 @@ use MvcLite\Filter;
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Cache extends Object\Singleton
+class Cache extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * property to store the configuration of the cache object
      *
@@ -42,7 +44,6 @@ class Cache extends Object\Singleton
         $defaults = array('prefix' => 'cache');
         $this->config = array_merge($defaults, $data);
         return $this;
-
     }
 
     /**
@@ -96,7 +97,6 @@ class Cache extends Object\Singleton
         $data = unserialize(file_get_contents($file));
 
         return $data;
-
     }
 
     /**
@@ -122,6 +122,5 @@ class Cache extends Object\Singleton
             get_class($object),
             $name,
         )));
-
     }
 }

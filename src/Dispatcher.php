@@ -11,7 +11,11 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Database as DatabaseTrait;
+use \MvcLite\Traits\Request as RequestTrait;
+use \MvcLite\Traits\Response as ResponseTrait;
+use \MvcLite\Traits\Session as SessionTrait;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Base Dispatcher
@@ -23,8 +27,14 @@ use \MvcLite\Object\Singleton;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Dispatcher extends Object\Singleton
+class Dispatcher extends \MvcLite\ObjectAbstract
 {
+    use DatabaseTrait;
+    use RequestTrait;
+    use ResponseTrait;
+    use SessionTrait;
+    use SingletonTrait;
+
     /**
      * an overridable list of environments allowed for configuration
      *
@@ -36,34 +46,6 @@ class Dispatcher extends Object\Singleton
         'development',
         'testing',
     );
-
-    /**
-     * placeholder for the request object
-     *
-     * @var Lib_Request
-     */
-    protected $request;
-
-    /**
-     * placeholder for the response object
-     *
-     * @var Lib_Response
-     */
-    protected $response;
-
-    /**
-     * placeholder for the database object
-     *
-     * @var Lib_Database
-     */
-    protected $database;
-
-    /**
-     * placeholder for the view object
-     *
-     * @var Lib_View
-     */
-    protected $view;
 
     /**
      * placeholder for the controller object
@@ -79,19 +61,13 @@ class Dispatcher extends Object\Singleton
      */
     public function init()
     {
-        // setup the singletons
-        $this->request  = Request::getInstance();
-        $this->response = Response::getInstance();
-        $this->database = Database::getInstance();
-        $this->view     = View::getInstance();
-
         try {
-            $this->request->init();
-            $this->database->init();
-            $this->response->init();
-            $this->view->init();
+            $this->getRequest->init();
+            $this->getDatabase->init();
+            $this->getResponse->init();
+            $this->getView->init();
         } catch (Exception $exception) {
-            $this->request->setParams(array(
+            $this->getRequest()->setParams(array(
                 'controller'    => 'error',
                 'action'        => 'database',
             ));
@@ -113,6 +89,8 @@ class Dispatcher extends Object\Singleton
         $params     = $this->request->getParams();
         $controller = $this->translateControllerName($params['controller']);
         $action     = strtolower($this->translateActionName($params['action']));
+        $response = $this->getResponse();
+        $request = $this->getRequest();
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
@@ -122,8 +100,8 @@ class Dispatcher extends Object\Singleton
                 throw new Exception('Action not available');
             }
         } catch (Exception $exception) {
-            $this->request->setParam('controller', 'error');
-            $this->request->setParam('action', 'error');
+            $request->setParam('controller', 'error');
+            $request->setParam('action', 'error');
             $this->controller = new \App\ErrorController;
             $action = 'errorAction';
         }
@@ -141,15 +119,15 @@ class Dispatcher extends Object\Singleton
         $this->controller->postDispatch();
 
         // send the response
-        $this->response->setBody($this->controller->getView()->render());
+        $response->setBody($this->controller->getView()->render());
 
         // if this is an actual request, not a unit test, send headers
         if (PHP_SAPI != 'cli') {
-            $this->response->sendHeaders();
+            $response->sendHeaders();
         }
 
         // echo the body
-        echo $this->response->getBody();
+        echo $response->getBody();
 
     }
 
@@ -159,7 +137,7 @@ class Dispatcher extends Object\Singleton
      * @param string $controller
      * @return string
      */
-    private function translateControllerName($controller = '')
+    protected function translateControllerName($controller = '')
     {
         // create a string of upper cased words by replacing hyphens
         $controller = ucwords(strtr($controller, array(
@@ -173,7 +151,6 @@ class Dispatcher extends Object\Singleton
 
         // return the controller name, prefixed with App_Controller_
         return 'App\\' . $controller . 'Controller';
-
     }
 
     /**
@@ -183,7 +160,7 @@ class Dispatcher extends Object\Singleton
      * @param string $action
      * @return string
      */
-    private function translateActionName($action = '')
+    protected function translateActionName($action = '')
     {
         $words = explode('-', $action);
         foreach ($words as $i => $word) {

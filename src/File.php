@@ -20,11 +20,10 @@ namespace MvcLite;
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
 class File extends ObjectAbstract
 {
     /**
-     * property to contain the contents of the instance's file contents
+     * The contents of the instance's file.
      *
      * @var string $_contents
      */
@@ -43,14 +42,14 @@ class File extends ObjectAbstract
         }
 
         return false;
-
     }
 
     /**
-     * saves the content of the file to a provided filename
+     * Saves the content of the file to a provided filename.
      *
-     * @param string filename
-     * @return Lib_File $this for object-chaining.
+     * @param string $filename The full path and name of the file.
+     *
+     * @return \MvcLite\File $this for object-chaining.
      */
     public function save($filename)
     {
@@ -63,18 +62,18 @@ class File extends ObjectAbstract
         file_put_contents($filename, $this->getContents());
 
         return $this;
-
     }
 
     /**
      * loads file information to the file instance
      *
-     * @param string $filename
-     * @return Lib_File $this for object-chaining.
+     * @param string $filename The full path and name of the file.
+     *
+     * @return \MvcLite\File $this for object-chaining.
      */
     public function load($filename)
     {
-        $this->_checkFileExists($filename);
+        $this->checkFileExists($filename);
 
         $this->setContents(file_get_contents($filename));
 
@@ -83,36 +82,36 @@ class File extends ObjectAbstract
     }
 
     /**
-     * deletes a file by filename
+     * Deletes a file by filename.
      *
-     * @param string $filename
-     * @return Lib_File $this for object-chaining.
+     * @param string $filename The full path and name of the file.
+     *
+     * @return \MvcLite\File $this for object-chaining.
      */
     public function delete($filename)
     {
-        $this->_checkFileExists($filename);
+        $this->checkFileExists($filename);
 
         unlink($filename);
 
         return $this;
-
     }
 
     /**
-     * getter for the _contents property
+     * Getter for the _contents property
      *
      * @return string
      */
     public function getContents()
     {
         return $this->contents;
-
     }
 
     /**
-     * setter for the _contents property
+     * Setter for the contents property.
      *
      * @param string|null $contents
+     *
      * @return \MvcLite\File $this for object-chaining.
      */
     public function setContents($contents = null)
@@ -120,7 +119,6 @@ class File extends ObjectAbstract
         $this->contents = $contents;
 
         return $this;
-
     }
 
     /**
@@ -133,6 +131,5 @@ class File extends ObjectAbstract
         if (! $this->test($filename)) {
             throw new Exception("File doesn't exist");
         }
-
     }
 }

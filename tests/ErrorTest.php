@@ -20,17 +20,14 @@ namespace MvcLite;
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class ErrorTest
-    extends \PHPUnit_Framework_TestCase
+class ErrorTest extends TestCase
 {
     /**
      * setup hook to setup the error handling instance
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Error::getInstance();
-
+        $this->sut = Error::getInstance();
     }
 
     /**
@@ -42,21 +39,23 @@ class ErrorTest
      * @param integer|null $errline
      * @param array|null $errcontext
      * @param boolean $isException
-     * @dataProvider provide_handle
+     * @dataProvider provideHandle
      */
-    public function test_handle ($errno, $errstr, $errfile = null,
-        $errline = null,  $errcontext = array(), $isException = false)
-    {
+    public function testHandle(
+        $errno,
+        $errstr,
+        $errfile = null,
+        $errline = null,
+        $errcontext = array(),
+        $isException = false
+    ) {
         if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_WARNING ))) {
             $this->setExpectedException('\ErrorException');
         }
 
-        $result = $this->fixture->handle(
-            $errno, $errstr, $errfile, $errline, $errcontext
-        );
+        $result = $this->sut->handle($errno, $errstr, $errfile, $errline, $errcontext);
 
         $this->assertNull($result);
-
     }
 
     /**
@@ -64,7 +63,7 @@ class ErrorTest
      *
      * @return array
      */
-    public function provide_handle ( )
+    public function provideHandle()
     {
         return array(
             array(
@@ -80,23 +79,20 @@ class ErrorTest
                 E_ERROR, 'fatal error',
             ),
         );
-
     }
 
     /**
      * Tests the getErrors method of the error handler
      *
      * @param array $expected
-     * @dataProvider provide_getErrors
+     * @dataProvider provideGetErrors
      */
-    public function test_getErrors ($expected = array())
+    public function testGetErrors($expected = array())
     {
-        $property = new \ReflectionProperty('Error', '_errors');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, $expected);
+        $this->getReflectedProperty('\MvcLite\Error', 'errors')
+            ->setValue($this->sut, $expected);
 
-        $this->assertSame($expected, $this->fixture->getErrors());
-
+        $this->assertSame($expected, $this->sut->getErrors());
     }
 
     /**
@@ -104,7 +100,7 @@ class ErrorTest
      *
      * @return array
      */
-    public function provide_getErrors ( )
+    public function provideGetErrors()
     {
         return array(
             array(
@@ -134,7 +130,5 @@ class ErrorTest
                 )),
             ),
         );
-
     }
-
-} // END class Tests_Lib_ErrorTest
+}

@@ -30,9 +30,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testInit()
     {
         $sut = Dispatcher::getInstance();
-
-        $sut->init();
-
+        $result = $sut->init();
+        $this->assertInstanceOf('MvcLite\Dispatcher', $result);
     }
 
     /**
@@ -42,21 +41,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testGetInstance()
     {
         $sut = Dispatcher::getInstance();
-
         $this->assertInstanceOf('MvcLite\Dispatcher', $sut);
-
-    }
-
-    /**
-     * tests the bootstrap method of the dispatcher
-     */
-    public function testBootstrap()
-    {
-        $sut    = Dispatcher::getInstance();
-        $result = $sut->bootstrap();
-
-        $this->assertInstanceOf('MvcLite\Dispatcher', $result);
-
     }
 
     /**
@@ -70,7 +55,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('error', $request->getParam('controller'));
         $this->assertSame('error', $request->getParam('action'));
-
     }
 }
 

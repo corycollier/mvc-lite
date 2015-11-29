@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Base Request
@@ -22,8 +22,10 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Request extends Object\Singleton
+class Request extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * associative array representing the request params
      *
@@ -56,7 +58,6 @@ class Request extends Object\Singleton
         $this->params = array_merge($this->params, $_GET);
         $this->setHeaders();
         $this->setParams($this->buildFromString(@$_GET['q']));
-
     }
 
     /**
@@ -120,7 +121,6 @@ class Request extends Object\Singleton
         $this->params = array_merge($this->params, (array)$params);
 
         return $this;
-
     }
 
     /**
@@ -139,7 +139,6 @@ class Request extends Object\Singleton
         }
 
         return $params;
-
     }
 
     /**
@@ -151,7 +150,6 @@ class Request extends Object\Singleton
     public function getParam($param)
     {
         return @$this->params[$param];
-
     }
 
     /**
@@ -166,7 +164,6 @@ class Request extends Object\Singleton
         $this->params[$param] = $value;
 
         return $this;
-
     }
 
     /**
@@ -181,7 +178,6 @@ class Request extends Object\Singleton
         }
 
         return false;
-
     }
 
     /**
@@ -192,7 +188,6 @@ class Request extends Object\Singleton
     public function getHeaders()
     {
         return $this->headers;
-
     }
 
     /**
@@ -203,7 +198,6 @@ class Request extends Object\Singleton
     public function getHeader($header = '')
     {
         return @$this->headers[$header];
-
     }
 
     /**
@@ -219,7 +213,6 @@ class Request extends Object\Singleton
         }
 
         return false;
-
     }
 
     /**
@@ -230,7 +223,6 @@ class Request extends Object\Singleton
     public function getUri()
     {
         return $this->uri;
-
     }
 
 } // END class Request
