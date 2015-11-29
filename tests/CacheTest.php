@@ -38,7 +38,6 @@ class CacheTest
         $result = $property->getValue($sut);
 
         $this->assertSame($result, $config);
-
     }
 
     /**
@@ -58,7 +57,6 @@ class CacheTest
                 'directory' => '/tmp',
             )),
         );
-
     }
 
     /**
@@ -76,7 +74,6 @@ class CacheTest
         $sut->set($object, $name, $expected);
         $result = $sut->get($object, $name);
         $this->assertEquals($expected, $result);
-
     }
 
     /**
@@ -92,7 +89,6 @@ class CacheTest
             array($object, 'variable2', new \stdClass),
             array($object, 'variable3', 'array(new \stdClass)'),
         );
-
     }
 
     /**
@@ -106,7 +102,6 @@ class CacheTest
     public function testSet (ObjectAbstract $object, $name, $data = null)
     {
         $sut = Cache::getInstance();
-
     }
 
     /**
@@ -123,7 +118,6 @@ class CacheTest
             array($object, 'variable2', new \stdClass),
             array($object, 'variable3', 'array(new \stdClass)'),
         );
-
     }
 
     /**
@@ -142,7 +136,6 @@ class CacheTest
         $result = $method->invoke($sut, $object, $name);
 
         $this->assertSame($expected, $result);
-
     }
 
     /**
@@ -155,8 +148,5 @@ class CacheTest
         return array(
             array($object, 'var', '-' . $prefix . '-var')
         );
-
     }
-
-
-} // END class Tests_Lib_CacheTest
+}

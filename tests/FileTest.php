@@ -112,7 +112,7 @@ class FileTest extends TestCase
     }
 
     /**
-     * tests the file class's ability to return it's _contents property
+     * Tests the file class's ability to return it's contents property.
      *
      * @param string $contents
      * @dataProvider provideGetContents

@@ -103,5 +103,4 @@ class ControllerTest
         // Test it out.
         $sut->init();
     }
-
-} // END class ControllerTest
+}

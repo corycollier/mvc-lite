@@ -182,4 +182,4 @@ extends PHPUnit_Framework_TestCase
 
     }
 
-} // END class Tests_Lib_RequestTest
+}

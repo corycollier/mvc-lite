@@ -22,6 +22,8 @@ namespace MvcLite;
  */
 class FilterChain extends ObjectAbstract
 {
+    const MSG_ERR_FILTER_NOT_FOUND = "Requested filter [%s] not found";
+
     /**
      * holds the list of filters
      *
@@ -39,29 +41,6 @@ class FilterChain extends ObjectAbstract
         $this->filters[] = $filter;
 
         return $this;
-
-    }
-
-    /**
-     * Method to return a filter instance.
-     *
-     * @param string $filter
-     *
-     * @return FilterAbstract The filter instance (if found)
-     *
-     * @throws MvcLite\Exception If no filter is found, an exception is thrown.
-     */
-    public static function factory($filter)
-    {   // iterate over the registered (haha) packages
-        foreach (array('App', 'MvcLite') as $package) {
-            try {
-                $class = "\\{$package}\\Filter\\{$filter}";
-                return new $class;
-            }
-            catch (MvcLite\Exception $exception) { }
-        }
-        // throw an exception if we get this far,
-        throw new MvcLite\Exception("Requested filter [{$filter}] not found");
     }
 
     /**
@@ -77,7 +56,5 @@ class FilterChain extends ObjectAbstract
         }
 
         return $word;
-
     }
-
 }
