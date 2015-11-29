@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Base Response
@@ -22,22 +22,23 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Response
-    extends Object\Singleton
+class Response extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * A list of headers to be output
      *
      * @var array
      */
-    protected $_headers = array();
+    protected $headers = array();
 
     /**
      * The body of the response
      *
      * @var string
      */
-    protected $_body = '';
+    protected $body = '';
 
     /**
      * method to start the database up
@@ -52,21 +53,21 @@ class Response
      *
      * @param string $name
      * @param string $value
-     * @return Lib_Response $this for object-chaining.
+     *
+     * @return MvcLite\Response $this for object-chaining.
      */
     public function setHeader($name, $value = '')
     {
-        $this->_headers[$name] = $value;
-
+        $this->headers[$name] = $value;
         return $this;
-
     }
 
     /**
      * Set multiple headers at one time
      *
      * @param array $headers
-     * @return Lib_Response $this for object-chaining.
+     *
+     * @return MvcLite\Response $this for object-chaining.
      */
     public function setHeaders($headers = array())
     {
@@ -75,19 +76,18 @@ class Response
         }
 
         return $this;
-
     }
 
     /**
      * gets the header by name
      *
      * @param string $name
+     *
      * @return string
      */
     public function getHeader($name)
     {
-        return @$this->_headers[$name];
-
+        return $this->headers[$name];
     }
 
     /**
@@ -97,37 +97,36 @@ class Response
      */
     public function getHeaders()
     {
-        return $this->_headers;
+        return $this->headers;
 
     }
 
     /**
      * Function to return a formatted header string
      *
-     * @return Lib_Response $this for object-chaining.
+     * @return \MvcLite\Response $this for object-chaining.
      */
     public function sendHeaders()
-    {   // iterate over the headers, sending them out
+    {
+        // iterate over the headers, sending them out
         foreach ($this->getHeaders() as $name => $value) {
             header("{$name}: {$value}");
         }
 
         return $this;
-
     }
 
     /**
      * set the body of the response
      *
      * @param string $string
-     * @return Response $this for object-chaining.
+     *
+     * @return \MvcLite\Response $this for object-chaining.
      */
     public function setBody($string)
     {
-        $this->_body = (string)$string;
-
+        $this->body = (string)$string;
         return $this;
-
     }
 
     /**
@@ -137,8 +136,6 @@ class Response
      */
     public function getBody()
     {
-        return $this->_body;
-
+        return $this->body;
     }
-
-} // END class Response
+}
