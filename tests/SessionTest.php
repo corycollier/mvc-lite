@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_Session class
+ * Unit tests for the MvcLite\Session class
  *
  * @category    MVCLite
  * @package     Tests
@@ -8,8 +8,11 @@
  * @since       File available since release 1.1.3
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
- * Unit tests for the Lib_Session class
+ * Unit tests for the MvcLite\Session class
  *
  * @category    MVCLite
  * @package     Tests
@@ -18,125 +21,92 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_SessionTest
-extends PHPUnit_Framework_TestCase
+class SessionTest extends TestCase
 {
 
     /**
      * The setup method, called before each test
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Lib_Session::getInstance();
-
-    }
-
-    /**
-     * The tear down hook, called after each test
-     */
-    public function tearDown ( )
-    {
-        $this->fixture->destroy();
-
-    }
-
-    /**
-     * test the getInstance method of the session object
-     */
-    public function test_getInstance ( )
-    {
-        $session = Lib_Session::getInstance();
-
-        $this->assertInstanceOf('Lib_Session', $session);
-
+        $this->sut = Session::getInstance();
+        $this->sut->init();
     }
 
     /**
      * tests the init method of the lib_session object
+     *
+     * @param array $data An array of data.
+     *
+     * @dataProvider provideData
      */
-    public function test_init ( )
+    public function testInit(array $data = array())
     {
-        define('PHP_SAPI', 'notcli');
+        // define('PHP_SAPI', 'notcli');
 
-        $this->fixture->init();
+        $this->sut->init($data);
 
-        $property = new ReflectionProperty('Lib_Session', '_data');
-        $property->setAccessible(true);
-        $result = $property->getValue($this->fixture);
+        $result = $this->getReflectedProperty('\MvcLite\Session', 'data')
+            ->getValue($this->sut);
 
-        $this->assertEquals($_SESSION, $result);
-
+        $this->assertEquals($data, $result);
     }
 
     /**
-     * test the set params method of the session object
+     * test the set params method of the session object.
      *
-     * @dataProvider _provideParams
+     * @dataProvider provideParams
      */
-    public function test_setParams ($param, $value = '')
+    public function testSetParams($param, $value = '')
     {
         $params = array(
             $param => $value,
         );
 
-        $this->fixture->setParams($params);
-
-        $this->assertSame($this->fixture->getParam($param), $value);
-
+        $this->sut->setParams($params);
+        $this->assertSame($this->sut->getParam($param), $value);
     }
 
     /**
      * test the get params method of the session object
+     *
+     * @param array $data An array of data.
+     *
+     * @dataProvider provideData
      */
-    public function test_getParams ( )
+    public function testGetParams(array $data = array())
     {
-        $params = array(
-            'var1'  => 'test1',
-            'var2'  => 'test2',
-            'var3'  => 'test3',
-        );
-
-        $this->fixture->setParams($params);
-
-        $this->assertSame($params, $this->fixture->getParams());
-
+        $this->sut->setParams($data);
+        $this->assertSame($data, $this->sut->getParams());
     }
 
     /**
-     * test the set param method of the session object
-     * @dataProvider _provideParams
+     * test the set param method of the session object.
+     *
+     * @dataProvider provideParams
      */
-    public function test_setParam ($param, $value = '')
+    public function testSetParam($param, $value = '')
     {
-        $this->fixture->setParam($param, $value);
-
-        $this->assertSame($value, $this->fixture->getParam($param));
-
+        $this->sut->setParam($param, $value);
+        $this->assertSame($value, $this->sut->getParam($param));
     }
 
     /**
      * test the destroy method of the session object
+     *
+     * @dataProvider provideData
      */
-    public function test_destroy ( )
+    public function testDestroy(array $data = array())
     {
-        $params = array(
-            'var1'  => 'test1',
-            'var2'  => 'test2',
-            'var3'  => 'test3',
-        );
-
-        $this->fixture->setParams($params);
-
-        $this->fixture->destroy();
-
-        $this->assertNull($this->fixture->getParams());
-
+        $this->sut->setParams($data);
+        $this->sut->destroy();
+        $this->assertNull($this->sut->getParams());
     }
 
     /**
      * method to provide parameters to test against
      */
-    public function _provideParams ( )
+    public function provideParams()
     {
         return array(
             array(
@@ -149,7 +119,23 @@ extends PHPUnit_Framework_TestCase
                 'test3', 'value3',
             ),
         );
-
     }
 
-} // END class SessionTest
+    /**
+     * Provides data for associative array type needs.
+     *
+     * @return array An associative array.
+     */
+    public function provideData()
+    {
+        return array(
+            array(
+                'data'=> array(
+                    'var1'  => 'test1',
+                    'var2'  => 'test2',
+                    'var3'  => 'test3',
+                ),
+            ),
+        );
+    }
+}

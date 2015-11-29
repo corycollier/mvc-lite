@@ -98,7 +98,6 @@ class Response extends ObjectAbstract
     public function getHeaders()
     {
         return $this->headers;
-
     }
 
     /**
