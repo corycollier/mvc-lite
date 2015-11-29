@@ -8,6 +8,11 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Filter;
+
 /**
  * class to camelcase filter test
  *
@@ -18,8 +23,8 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_Filter_ClassToCamelcaseTest
-extends PHPUnit_Framework_TestCase
+class FilterClassToCamelcaseTest
+extends \MvcLite\TestCase
 {
     /**
      *
@@ -31,7 +36,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_filter ($unfiltered, $expected)
     {
-        $filter = new Lib_Filter_ClassToCamelcase;
+        $filter = new \MvcLite\Filter\ClassToCamelcase;
 
         $this->assertSame($expected, $filter->filter($unfiltered));
 
@@ -56,4 +61,4 @@ extends PHPUnit_Framework_TestCase
 
     }
 
-} // END class Tests_Lib_Filter_ClassToCamelcaseTest
+} // END class Tests_\MvcLite\Filter\ClassToCamelcaseTest

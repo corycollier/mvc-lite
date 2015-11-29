@@ -11,8 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
-
 /**
  * Password Input View Helper class
  *
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormPassword
-    extends HelperAbstract
+class FormPassword extends \MvcLite\View\HelperAbstract
 {
     /**
      * method to render a input[type=password] element
@@ -41,7 +38,7 @@ class FormPassword
         return strtr($template, array(
             '!id'       => $name,
             '!label'    => @$attribs['label'],
-            '!attribs'  => $this->_htmlAttribs($attribs),
+            '!attribs'  => $this->getHtmlAttribss($attribs),
         ));
 
 

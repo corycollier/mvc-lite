@@ -12,6 +12,7 @@
 namespace MvcLite\View;
 
 use MvcLite;
+use MvcLite\Traits\View as ViewTrait;
 
 /**
  * Base View Helper class
@@ -22,16 +23,9 @@ use MvcLite;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-abstract class HelperAbstract
-    extends ObjectAbstract
+abstract class HelperAbstract extends \MvcLite\ObjectAbstract
 {
-    /**
-     * property to hold a reference to the view that's calling the helper
-     *
-     * @var \MvcLite\View
-     */
-    protected $_view;
+    use ViewTrait;
 
     /**
      * Constructor for all view helpers.
@@ -41,10 +35,9 @@ abstract class HelperAbstract
     public function __construct(View $view = null)
     {
         if (! $view) {
-            $view = View::getInstance();
+            $view = \MvcLite\View::getInstance();
         }
-        $this->_view = $view;
-
+        $this->view = $view;
     }
 
     /**
@@ -53,7 +46,7 @@ abstract class HelperAbstract
      * @param array $attribs
      * @return string
      */
-    protected function _htmlAttribs ($attribs = array())
+    protected function getHtmlAttribs ($attribs = array())
     {
         // a list of acceptable html attributes
         $whiteListAttribs = array(
@@ -69,7 +62,5 @@ abstract class HelperAbstract
         }
         // return the pairs, imploded by a single space
         return ' ' . implode(' ', $attribs);
-
     }
-
-} // END class Lib_View_Helper_Abstract
+}

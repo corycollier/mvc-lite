@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormPassword class
+ * Unit tests for the Lib_View_Helper_FormSelect class
  *
  * @category    MVCLite
  * @package     Tests
@@ -8,8 +8,13 @@
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\View\Helper;
+
 /**
- * Unit tests for the Lib_View_Helper_FormPassword class
+ * Unit tests for the Lib_View_Helper_FormSelect class
  *
  * @category    MVCLite
  * @package     Tests
@@ -18,23 +23,21 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_View_Helper_FormPasswordTest
-extends PHPUnit_Framework_TestCase
+class ViewHelperFormSelectTest extends \MvcLite\TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormPassword
+     * tests the $helper->render() method of Lib_View_Helper_FormSelect
      *
      * @dataProvider provide_render
      */
     public function test_render ($name, $attribs = array())
     {
-        $helper = new Lib_View_Helper_FormPassword;
+        $helper = new FormSelect;
 
         $result = $helper->render($name, $attribs);
 
         $this->assertSame(0, strpos($result, '<label for'));
-
-        $this->assertTrue(strpos($result, '<input type="password"') > 0);
+        $this->assertTrue(strpos($result, '<select ') > 0);
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
 
@@ -59,4 +62,4 @@ extends PHPUnit_Framework_TestCase
 
     }
 
-} // END class Lib_View_Helper_FormPasswordTest
+} // END class Lib_View_Helper_FormSelectTest

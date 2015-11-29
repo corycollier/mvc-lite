@@ -77,7 +77,7 @@ class View extends ObjectAbstract
      * Method to add a path to the list of paths used to search for view scripts
      *
      * @param string $path
-     * @return Lib_View $this for object-chaining.
+     * @return \MvcLite\View $this for object-chaining.
      */
     public function addViewScriptPath($path)
     {
@@ -104,7 +104,8 @@ class View extends ObjectAbstract
      * Method to set the script attrubute
      *
      * @param string $path
-     * @return Lib_View $this for object-chaining.
+     *
+     * @return \MvcLite\View $this for object-chaining.
      */
     public function setScript($path)
     {
@@ -127,7 +128,8 @@ class View extends ObjectAbstract
      * Method to set the layout attribute
      *
      * @param string $path
-     * @return Lib_View $this for object-chaining.
+     *
+     * @return \MvcLite\View $this for object-chaining.
      */
     public function setLayout($path)
     {
@@ -213,12 +215,11 @@ class View extends ObjectAbstract
      *
      * @param string $var
      * @param unknown_type $value
-     * @return Lib_View $this for object-chaining.
+     * @return \MvcLite\View $this for object-chaining.
      */
     public function set($var, $value = '')
     {
         $this->vars[$var] = $value;
-
         return $this;
     }
 
@@ -237,7 +238,7 @@ class View extends ObjectAbstract
      * getter for a view helper instance
      *
      * @param string $name
-     * @return Lib_View_Helper
+     * @return \MvcLite\View_Helper
      */
     public function getHelper($name)
     {
@@ -246,13 +247,9 @@ class View extends ObjectAbstract
             return $this->helpers[$name];
         }
 
-        foreach (array('App', 'Lib') as $library) {
+        foreach (array('App', 'MvcLite') as $library) {
             // create the full class name
-            $className = "{$library}_View_Helper_" . ucfirst("{$name}");
-
-            if (! Lib_Loader::getInstance()->findPath($className)) {
-                continue;
-            }
+            $className = "\\{$library}\\View\\Helper\\" . ucfirst("{$name}");
 
             // set the local instance of the class
             $this->_helpers[$name] = new $className($this);

@@ -11,8 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
-
 /**
  * Submit Input View Helper class
  *
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormSubmit
-    extends HelperAbstract
+class FormSubmit extends \MvcLite\View\HelperAbstract
 {
     /**
      * renders a submit element
@@ -40,7 +37,7 @@ class FormSubmit
         ));
 
         return strtr($template, array(
-            '!attribs'  => $this->_htmlAttribs($attribs),
+            '!attribs'  => $this->getHtmlAttribss($attribs),
         ));
 
     }

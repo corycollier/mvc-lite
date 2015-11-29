@@ -11,8 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
-
 /**
  * Table View Helper class
  *
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Table
-    extends HelperAbstract
+class Table extends \MvcLite\View\HelperAbstract
 {
     /**
      * method to return a list of table headers for a given array of data

@@ -23,15 +23,14 @@ use \MvcLite\View\Helper;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FormTest
-    extends \PHPUnit_Framework_TestCase
+class FormTest extends \MvcLite\TestCase
 {
     /**
      * Local implementation ofthe setup hook
      */
     public function setUp ( )
     {
-        $this->fixture = new Form;
+        $this->sut = new Form;
     }
 
     /**
@@ -150,7 +149,7 @@ class FormTest
             'elementFactory',
         ));
 
-        $result = $this->fixture->elementFactory($column, $model, $params);
+        $result = $this->sut->elementFactory($column, $model, $params);
 
         $this->assertSame($expected, $result);
 

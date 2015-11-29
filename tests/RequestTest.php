@@ -8,6 +8,9 @@
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit tests for the Lib_Request class
  *
@@ -18,35 +21,25 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_RequestTest
-extends PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
 
     /**
      * The setup method, called before each test
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Lib_Request::getInstance();
-
-    }
-
-    /**
-     * The tear down hook, called after each test
-     */
-    public function tearDown ( )
-    {
-
+        $this->sut = Request::getInstance();
     }
 
     /**
      * Test the request object's build from string method
      */
-    public function test_buildFromString ( )
+    public function testBuildFromString()
     {
         $string = 'controller/action/param1/value1/param2/value2/param3';
 
-        $result = $this->fixture->buildFromString($string);
+        $result = $this->sut->buildFromString($string);
 
         $this->assertSame($result, array(
             'controller'    => 'controller',
@@ -55,24 +48,12 @@ extends PHPUnit_Framework_TestCase
             'param2'        => 'value2',
             'param3'        => null,
         ));
-
-    }
-
-    /**
-     * Test the getInstance method of the request object
-     */
-    public function test_getInstance ( )
-    {
-        $request = Lib_Request::getInstance();
-
-        $this->assertInstanceOf('Lib_Request', $request);
-
     }
 
     /**
      * test the request object's method for returning all params
      */
-    public function test_getParams ( )
+    public function testGetParams()
     {
         $params = array(
             'var1'   => 'val1',
@@ -81,9 +62,9 @@ extends PHPUnit_Framework_TestCase
             'q'     => '/asdf/asdf/asdf/',
         );
 
-        $this->fixture->setParams($params);
+        $this->sut->setParams($params);
 
-        $result = $this->fixture->getParams();
+        $result = $this->sut->getParams();
 
         unset($params['q']);
 
@@ -98,7 +79,7 @@ extends PHPUnit_Framework_TestCase
     /**
      * test the request object's method for retrieving a single parameter
      */
-    public function test_getParam ( )
+    public function testGetParam()
     {
         $params = array(
             'var1'   => 'val1',
@@ -106,24 +87,24 @@ extends PHPUnit_Framework_TestCase
             'var3'   => 'val3',
         );
 
-        $this->fixture->setParams($params);
+        $this->sut->setParams($params);
 
-        $this->assertSame($this->fixture->getParam('var1'), $params['var1']);
+        $this->assertSame($this->sut->getParam('var1'), $params['var1']);
 
     }
 
     /**
      * tests the request's ability to determine if a request is post
      */
-    public function test_isPost ( )
+    public function testIsPost()
     {
-        $this->assertFalse($this->fixture->isPost());
+        $this->assertFalse($this->sut->isPost());
 
         $_POST = array(
             'var'   => 'value'
         );
 
-        $this->assertTrue($this->fixture->isPost());
+        $this->assertTrue($this->sut->isPost());
 
     }
 
@@ -131,15 +112,15 @@ extends PHPUnit_Framework_TestCase
      * Tests the request class's ability to return the headers
      *
      * @param array $headers
-     * @dataProvider provide_getHeaders
+     *
+     * @dataProvider provideGetHeaders
      */
-    public function test_getHeaders ($headers = array())
+    public function testGetHeaders($headers = array())
     {
-        $property = new ReflectionProperty('Lib_Request', '_headers');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, $headers);
+        $this->getReflectedProperty('\MvcLite\Request', 'headers')
+            ->setValue($this->sut, $headers);
 
-        $this->assertSame($headers, $this->fixture->getHeaders());
+        $this->assertSame($headers, $this->sut->getHeaders());
 
     }
 
@@ -149,7 +130,7 @@ extends PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provide_getHeaders ( )
+    public function provideGetHeaders()
     {
         return array(
             array(array(
@@ -167,19 +148,15 @@ extends PHPUnit_Framework_TestCase
     /**
      * tests the request instance's ability to determine if it's an ajax request
      */
-    public function test_isAjax ( )
+    public function testIsAjax ( )
     {
-        $this->assertFalse($this->fixture->isAjax());
+        $this->assertFalse($this->sut->isAjax());
 
-        $property = new ReflectionProperty('Lib_Request', '_headers');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, array(
-            'X-Requested-With' => 'XMLHttpRequest'
-        ));
+        $this->getReflectedProperty('\MvcLite\Request', 'headers')
+            ->setValue($this->sut, array(
+                'X-Requested-With' => 'XMLHttpRequest'
+            ));
 
-        $this->assertTrue($this->fixture->isAjax());
-
-
+        $this->assertTrue($this->sut->isAjax());
     }
-
 }

@@ -2,29 +2,26 @@
 /**
  * Exception message view helper
  *
- * @category    MvcLite
- * @package     Lib
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  View\Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-namespace \MvcLite\View\Helper;
-
-use \MvcLite\View;
+namespace MvcLite\View\Helper;
 
 /**
  * Exception message view helper
  *
- * @category    MvcLite
- * @package     Lib
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  View\Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Exception
-    extends HelperAbstract
+class Exception extends \MvcLite\View\HelperAbstract
 {
     /**
      * Returns a string representation of an expected exception
@@ -32,14 +29,12 @@ class Exception
      * @param Exception $exception
      * @return string
      */
-    public function render ($exception = null)
+    public function render($exception = null)
     {
         if (! @$exception || !($exception instanceOf Exception)) {
             return '';
         }
 
         return $exception->getMessage();
-
     }
-
-} // END class Lib_View_Helper_Exception
+}

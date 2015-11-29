@@ -11,8 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
-
 /**
  * HTML Form View Helper class
  *
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Form
-    extends HelperAbstract
+class Form extends \MvcLite\View\HelperAbstract
 {
     /**
      * renders a form from a model
@@ -42,7 +39,7 @@ class Form
         $elements .= $this->_view->getHelper('FormSubmit')->render();
 
         return strtr($template, array(
-            '!attribs'  => $this->_htmlAttribs($attribs),
+            '!attribs'  => $this->getHtmlAttribs($attribs),
             '!elements' => $elements,
         ));
 

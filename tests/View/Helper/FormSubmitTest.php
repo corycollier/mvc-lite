@@ -8,6 +8,11 @@
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\View\Helper;
+
 /**
  * Unit tests for the Lib_View_Helper_FormSubmit class
  *
@@ -18,8 +23,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_View_Helper_FormSubmitTest
-extends PHPUnit_Framework_TestCase
+class ViewHelperFormSubmitTest extends \MvcLite\TestCase
 {
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormSubmit
@@ -28,7 +32,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_render ($attribs = array())
     {
-        $helper = new Lib_View_Helper_FormSubmit;
+        $helper = new FormSubmit;
 
         $result = $helper->render($attribs);
 

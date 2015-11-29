@@ -8,6 +8,11 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\View\Helper;
+
 /**
  * Unit tests for the Lib_View_Helper_Csv class
  *
@@ -18,27 +23,28 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_View_Helper_CsvTest
-extends PHPUnit_Framework_TestCase
+class ViewHelperCsvTest extends \MvcLite\TestCase
 {
     /**
      * tests the $helper->render() method of Lib_View_Helper_Csv
      *
-     * @dataProvider provide_render
+     * @param array $items An array of data to use.
+     * @param string $expected The expected string result.
+     *
+     * @dataProvider provideRender
      */
-    public function test_render ($items, $expected)
+    public function testRender($items, $expected)
     {
-        $helper = new Lib_View_Helper_Csv;
+        $sut = new \MvcLite\View\Helper\Csv;
+        $result = $sut->render($items);
 
-        $this->assertSame($expected, $helper->render($items));
-
-
+        $this->assertSame($expected, $result);
     }
 
     /**
      * provides a dataset to use for testing the $helper->render() method
      */
-    public function provide_render ( )
+    public function provideRender()
     {
         return array(
             // first dataset

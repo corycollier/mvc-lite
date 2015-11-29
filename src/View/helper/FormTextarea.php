@@ -11,8 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
-
 /**
  * Text Input View Helper class
  *
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormTextarea
-    extends HelperAbstract
+class FormTextarea extends \MvcLite\View\HelperAbstract
 {
     /**
      * method to render a input[type=text] element
@@ -47,7 +44,7 @@ class FormTextarea
         return strtr($template, array(
             '!label'    => @$attribs['label'],
             '!id'       => $name,
-            '!attribs'  => $this->_htmlAttribs($attribs),
+            '!attribs'  => $this->getHtmlAttribss($attribs),
             '!value'    => $attribs['value'],
         ));
 

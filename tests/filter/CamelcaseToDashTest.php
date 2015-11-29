@@ -8,6 +8,11 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Filter;
+
 /**
  * Unit tests for the camelcase to dash class
  *
@@ -18,8 +23,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_Filter_CamelcaseToDashTest
-extends PHPUnit_Framework_TestCase
+class FilterCamelcaseToDashTest extends \MvcLite\TestCase
 {
     /**
      * method to test the camelcase-to-dash class's filter method
@@ -30,7 +34,7 @@ extends PHPUnit_Framework_TestCase
      */
     public function test_filter ($unfiltered, $expected)
     {
-        $filter = new Lib_Filter_CamelcaseToDash;
+        $filter = new \MvcLite\Filter\CamelcaseToDash;
 
         $this->assertSame($expected, $filter->filter($unfiltered));
 
@@ -49,4 +53,4 @@ extends PHPUnit_Framework_TestCase
 
     }
 
-} // END class Tests_Lib_Filter_CamelcaseToDashTest
+} // END class Tests_\MvcLite\Filter\CamelcaseToDashTest

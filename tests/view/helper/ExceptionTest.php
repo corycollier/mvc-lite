@@ -11,7 +11,7 @@
 
 namespace MvcLite\Tests\View\Helper;
 
-use \MvcLite\Exception;
+use \MvcLite\View\Helper\Exception;
 
 /**
  * Unit tests for the Lib_View_Helper_Exception class
@@ -22,8 +22,7 @@ use \MvcLite\Exception;
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class ExceptionTest
-extends \PHPUnit_Framework_TestCase
+class ViewHelperExceptionTest extends \MvcLite\TestCase
 {
     /**
      * tests the render method of the lib's exception view helper

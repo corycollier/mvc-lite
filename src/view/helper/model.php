@@ -11,7 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
 use \MvcLite\Filter;
 
 /**
@@ -23,8 +22,7 @@ use \MvcLite\Filter;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Model
-    extends HelperAbstract
+class Model extends \MvcLite\View\HelperAbstract
 {
     /**
      * returns the appropriate controller to handle requests for this model

@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormText class
+ * Unit tests for the Lib_View_Helper_FormTextarea class
  *
  * @category    MVCLite
  * @package     Tests
@@ -8,8 +8,13 @@
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\View\Helper;
+
 /**
- * Unit tests for the Lib_View_Helper_FormText class
+ * Unit tests for the Lib_View_Helper_FormTextarea class
  *
  * @category    MVCLite
  * @package     Tests
@@ -18,23 +23,22 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_View_Helper_FormTextTest
-extends PHPUnit_Framework_TestCase
+class ViewHelperFormTextareaTest extends \MvcLite\TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormText
+     * tests the $helper->render() method of Lib_View_Helper_FormTextarea
      *
      * @dataProvider provide_render
      */
     public function test_render ($name, $attribs = array())
     {
-        $helper = new Lib_View_Helper_FormText;
+        $helper = new FormTextarea;
 
         $result = $helper->render($name, $attribs);
 
         $this->assertSame(0, strpos($result, '<label for'));
 
-        $this->assertTrue(strpos($result, '<input type="text"') > 0);
+        $this->assertTrue(strpos($result, '<textarea type="text"') > 0);
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
 
@@ -47,16 +51,16 @@ extends PHPUnit_Framework_TestCase
     {
         return array(
             array('passwd', array(
-
+                'value'    => 'the password',
             )),
             array('passwd1', array(
-
+                'value'    => 'the password',
             )),
             array('passwd2', array(
-
+                'value'    => 'the password',
             )),
         );
 
     }
 
-} // END class Lib_View_Helper_FormTextTest
+} // END class Lib_View_Helper_FormTextareaTest

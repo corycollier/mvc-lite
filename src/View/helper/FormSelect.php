@@ -11,8 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite\View;
-
 /**
  * Select Input View Helper class
  *
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormSelect
-    extends HelperAbstract
+class FormSelect extends \MvcLite\View\HelperAbstract
 {
     /**
      * Method to render a select element
@@ -54,8 +51,8 @@ class FormSelect
         return strtr($template, array(
             '!id'               => $name,
             '!label'            => @$attribs['label'],
-            '!attribs'          => $this->_htmlAttribs($attribs),
-            '!displayAttribs'   => $this->_htmlAttribs($displayAttribs),
+            '!attribs'          => $this->getHtmlAttribss($attribs),
+            '!displayAttribs'   => $this->getHtmlAttribss($displayAttribs),
             '!options'          => $this->_buildOptions($options),
         ));
 

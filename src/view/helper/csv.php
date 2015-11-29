@@ -9,9 +9,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-namespace \MvcLite\View\Helper;
-
-use \MvcLite\View;
+namespace MvcLite\View\Helper;
 
 /**
  * Csv View Helper class
@@ -22,8 +20,7 @@ use \MvcLite\View;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Csv
-    extends HelperAbstract
+class Csv extends \MvcLite\View\HelperAbstract
 {
     /**
      * The render method for the csv view helper

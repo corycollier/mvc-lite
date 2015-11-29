@@ -8,6 +8,11 @@
  * @since       File available since release 2.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\View\Helper;
+
 /**
  * Tests the model view helper's abilities
  *
@@ -18,15 +23,14 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_View_Helper_ModelTest
-extends PHPUnit_Framework_TestCase
+class ViewHelperModelTest extends \MvcLite\TestCase
 {
     /**
      * Local implementation of the setUp hook
      */
     public function setUp ( )
     {
-        $this->fixture = new Lib_View_Helper_Model;
+        $this->sut = new \MvcLite\View\Helper\Model;
     }
 
     /**
@@ -39,7 +43,7 @@ extends PHPUnit_Framework_TestCase
     public function test_getController ($model, $expected)
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
-        $this->assertSame($expected, $this->fixture->getController($model));
+        $this->assertSame($expected, $this->sut->getController($model));
     }
 
     /**
@@ -76,7 +80,7 @@ extends PHPUnit_Framework_TestCase
             ->method('getFields')
             ->will($this->returnValue($getFields));
 
-        $this->assertSame($expected, $this->fixture->getColumns($model));
+        $this->assertSame($expected, $this->sut->getColumns($model));
     }
 
     /**
@@ -141,7 +145,7 @@ extends PHPUnit_Framework_TestCase
     public function test_getName ($model, $expected)
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
-        $this->assertSame($expected, $this->fixture->getName($model));
+        $this->assertSame($expected, $this->sut->getName($model));
     }
 
     /**
