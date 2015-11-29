@@ -11,8 +11,6 @@
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper;
-
 /**
  * Unit tests for the Lib_View_Helper_FormSubmit class
  *
@@ -32,7 +30,7 @@ class ViewHelperFormSubmitTest extends \MvcLite\TestCase
      */
     public function test_render ($attribs = array())
     {
-        $helper = new FormSubmit;
+        $helper = new  \MvcLite\View\Helper\FormSubmit;
 
         $result = $helper->render($attribs);
 

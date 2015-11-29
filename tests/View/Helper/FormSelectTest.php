@@ -11,8 +11,6 @@
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper;
-
 /**
  * Unit tests for the Lib_View_Helper_FormSelect class
  *
@@ -32,7 +30,7 @@ class ViewHelperFormSelectTest extends \MvcLite\TestCase
      */
     public function test_render ($name, $attribs = array())
     {
-        $helper = new FormSelect;
+        $helper = new  \MvcLite\View\Helper\FormSelect;
 
         $result = $helper->render($name, $attribs);
 

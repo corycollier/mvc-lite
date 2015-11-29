@@ -11,8 +11,6 @@
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper;
-
 /**
  * Unit tests for the Lib_View_Helper_FormText class
  *
@@ -32,7 +30,7 @@ class ViewHelperFormTextTest extends \MvcLite\TestCase
      */
     public function test_render ($name, $attribs = array())
     {
-        $helper = new FormText;
+        $helper = new  \MvcLite\View\Helper\FormText;
 
         $result = $helper->render($name, $attribs);
 

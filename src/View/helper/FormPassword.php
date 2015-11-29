@@ -9,7 +9,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-namespace \MvcLite\View\Helper;
+namespace MvcLite\View\Helper;
 
 /**
  * Password Input View Helper class

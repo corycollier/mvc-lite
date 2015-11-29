@@ -11,8 +11,6 @@
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper;
-
 /**
  * Tests the model view helper's abilities
  *

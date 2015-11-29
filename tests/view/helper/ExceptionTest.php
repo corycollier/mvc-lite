@@ -25,33 +25,31 @@ use \MvcLite\View\Helper\Exception;
 class ViewHelperExceptionTest extends \MvcLite\TestCase
 {
     /**
-     * tests the render method of the lib's exception view helper
+     * Tests the render method of the lib's exception view helper.
      *
-     * @dataProvider provide_render
+     * @param string $expected The expected result.
+     * @param \MvcLite\Exception $exception The exception instance.
+     *
+     * @dataProvider provideRender
      */
-    public function test_render ($exception = null, $expected = '')
+    public function testRender($expected = '', $exception = null)
     {
-        $helper = new Exception;
-
-        $result = $helper->render($exception);
-
+        $sut = new \MvcLite\View\Helper\Exception;
+        $result = $sut->render($exception);
         $this->assertSame($expected, $result);
-
     }
 
     /**
      *
      * provides a list of data to use to test the $helper->render() method
      */
-    public function provide_render ( )
+    public function provideRender()
     {
         return array(
             // array(new Exception('testing'), 'testing'),
-            array(new \Exception('testing'), 'testing'),
-            array(new \ErrorException('testing'), 'testing'),
+            array('testing', new \Exception('testing')),
+            array('testing', new \ErrorException('testing')),
             array(0),
         );
-
     }
-
-} // END class Lib_View_Helper_ExceptionTest
+}

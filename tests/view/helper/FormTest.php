@@ -11,8 +11,6 @@
 
 namespace MvcLite\Tests\View\Helper;
 
-use \MvcLite\View\Helper;
-
 /**
  * Test Suite for the Form View Helper
  *
@@ -30,7 +28,7 @@ class FormTest extends \MvcLite\TestCase
      */
     public function setUp ( )
     {
-        $this->sut = new Form;
+        $this->sut = new  \MvcLite\View\Helper\Form;
     }
 
     /**

@@ -32,7 +32,7 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
      */
     public function test_render ($name, $attribs = array())
     {
-        $helper = new FormPassword;
+        $helper = new  \MvcLite\View\Helper\FormPassword;
 
         $result = $helper->render($name, $attribs);
 
