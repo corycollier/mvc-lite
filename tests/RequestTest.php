@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_Request class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Request
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_Request class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Request
@@ -21,33 +21,33 @@
 class Tests_Lib_RequestTest
 extends PHPUnit_Framework_TestCase
 {
-    
+
     /**
      * The setup method, called before each test
      */
     public function setUp ( )
     {
         $this->fixture = Lib_Request::getInstance();
-        
-    } // END function setup
-    
+
+    }
+
     /**
      * The tear down hook, called after each test
      */
     public function tearDown ( )
     {
-        
-    } // END function tearDown
-    
+
+    }
+
     /**
      * Test the request object's build from string method
      */
     public function test_buildFromString ( )
     {
         $string = 'controller/action/param1/value1/param2/value2/param3';
-        
+
         $result = $this->fixture->buildFromString($string);
-        
+
         $this->assertSame($result, array(
             'controller'    => 'controller',
             'action'        => 'action',
@@ -55,20 +55,20 @@ extends PHPUnit_Framework_TestCase
             'param2'        => 'value2',
             'param3'        => null,
         ));
-        
-    } // END function test_buildFromString
-    
+
+    }
+
     /**
      * Test the getInstance method of the request object
      */
     public function test_getInstance ( )
     {
         $request = Lib_Request::getInstance();
-        
+
         $this->assertInstanceOf('Lib_Request', $request);
-        
-    } // END function test_getInstance
-    
+
+    }
+
     /**
      * test the request object's method for returning all params
      */
@@ -80,21 +80,21 @@ extends PHPUnit_Framework_TestCase
             'var3'   => 'val3',
             'q'     => '/asdf/asdf/asdf/',
         );
-        
+
         $this->fixture->setParams($params);
 
         $result = $this->fixture->getParams();
 
         unset($params['q']);
-        
+
         foreach ($params as $key => $value) {
             $this->assertSame($value, $result[$key]);
         }
 
         $this->assertFalse(array_key_exists('q', $result));
-        
-    } // END function test_getParams
-    
+
+    }
+
     /**
      * test the request object's method for retrieving a single parameter
      */
@@ -105,13 +105,13 @@ extends PHPUnit_Framework_TestCase
             'var2'   => 'val2',
             'var3'   => 'val3',
         );
-        
+
         $this->fixture->setParams($params);
-        
+
         $this->assertSame($this->fixture->getParam('var1'), $params['var1']);
-        
-    } // END function test_getParam
-    
+
+    }
+
     /**
      * tests the request's ability to determine if a request is post
      */
@@ -125,11 +125,11 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->fixture->isPost());
 
-    } // END function test_isPost
+    }
 
     /**
      * Tests the request class's ability to return the headers
-     * 
+     *
      * @param array $headers
      * @dataProvider provide_getHeaders
      */
@@ -140,8 +140,8 @@ extends PHPUnit_Framework_TestCase
         $property->setValue($this->fixture, $headers);
 
         $this->assertSame($headers, $this->fixture->getHeaders());
-        
-    } // END function test_getHeaders
+
+    }
 
     /**
      * Provides data to use for testing the request objects ability to return
@@ -161,8 +161,8 @@ extends PHPUnit_Framework_TestCase
 
             )),
         );
-        
-    } // END function provide_getHeaders
+
+    }
 
     /**
      * tests the request instance's ability to determine if it's an ajax request
@@ -180,6 +180,6 @@ extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->fixture->isAjax());
 
 
-    } // END function test_isAjax
+    }
 
 } // END class Tests_Lib_RequestTest

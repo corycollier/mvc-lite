@@ -20,94 +20,103 @@ namespace MvcLite;
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Controller
-    extends ObjectAbstract
+class Controller extends ObjectAbstract
 {
-    /**
-     * getter for the view property
-     *
-     * @return Lib_View
-     */
-    public function getView ( )
-    {
-        return Lib_View::getInstance();
-
-    } // END function getView
+    protected $view;
+    protected $response;
+    protected $request;
+    protected $session;
 
     /**
-     * Utility method to get the response instance
-     *
-     * @return Lib_Response
+     * Constructor for the controller.
      */
-    public function getResponse ( )
+    public function __construct()
     {
-        return Lib_Response::getInstance();
+        $this->view     = View::getInstance();
+        $this->response = Response::getInstance();
+        $this->request  = Request::getInstance();
+        $this->session  = Session::getInstance();
+    }
 
-    } // END function getResponse
+    /**
+     * Getter for the view property.
+     *
+     * @return \MvcLite\View
+     */
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    /**
+     * Getter for the response property.
+     *
+     * @return \MvcLite\Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
 
     /**
      * Utility method to get the request instance
      *
-     * @return Lib_Request
+     * @return \MvcLite\Request
      */
-    public function getRequest ( )
+    public function getRequest()
     {
-        return Lib_Request::getInstance();
-
-    } // END function getRequest
+        return $this->request;
+    }
 
     /**
      * Utility method to get the session instance
      *
-     * @return Lib_Session
+     * @return \MvcLite\Session
      */
-    public function getSession ( )
+    public function getSession()
     {
-        return Lib_Session::getInstance();
-
-    } // END function getSession
+        if (! $this->session) {
+            $this->session = Session::getInstance();
+        }
+        return $this->session;
+    }
 
     /**
-     * Hook run immediately after the constructing of a controller
+     * Hook run immediately after the constructing of a controller.
      */
-    public function init ( )
+    public function init()
     {
-        $request = $this->getRequest();
+        $request    = $this->getRequest();
         $controller = $request->getParam('controller');
-        $action = $request->getParam('action');
+        $action     = $request->getParam('action');
+        $view       = $this->getView();
+        $path       = implode(DIRECTORY_SEPARATOR, array(
+            APP_PATH, 'view', 'scripts', $controller,
+        ));
 
         // setup the view
-        $this->getView()->addViewScriptPath(implode(DIRECTORY_SEPARATOR, array(
-            APP_PATH, 'view', 'scripts', $controller,
-        )));
-
-        $this->getView()->setScript($action);
+        $view->addViewScriptPath($path);
+        $view->setScript($action);
 
         // if the request is not ajax, then setup the layout
         if (!$request->isAjax()) {
-            $this->getView()->setLayout('default');
+            $view->setLayout('default');
         }
-
-        $response = $this->getResponse();
-
-        $session = $this->getSession();
-
-    } // END function init
+    }
 
     /**
-     * Hook run before the dispatching of a request is started
+     * Hook run before the dispatching of a request is started.
      */
-    public function preDispatch ( )
+    public function preDispatch()
     {
 
-    } // END function preDispatch
+    }
 
     /**
-     * Hook run after the dispatching of a request is completed
+     * Hook run after the dispatching of a request is completed.
      */
-    public function postDispatch ( )
+    public function postDispatch()
     {
 
-    } // END function postDispatch
-
-} // END class Controller
+    }
+}

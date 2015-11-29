@@ -30,34 +30,34 @@ class View
      *
      * @var array
      */
-    protected $_vars = array();
+    protected $vars = array();
 
     /**
      * a list of previously loaded view helpers
      *
      * @var array
      */
-    protected $_helpers = array();
+    protected $helpers = array();
 
     /**
      * The name of the view script to be used
      *
      * @var string
      */
-    protected $_script;
+    protected $script;
 
     /**
      * The name of the layout script to be used
      *
      * @var string
      */
-    protected $_layout;
+    protected $layout;
 
     /**
      * the list of paths used to search for view scripts
      * @var unknown_type
      */
-    protected $_viewScriptPaths = array();
+    protected $viewScriptPaths = array();
 
     /**
      * method to start the database up
@@ -70,14 +70,13 @@ class View
             'scripts',
             'default',
         )));
-
-    } // END function init
+    }
 
     /**
      * Method to add a path to the list of paths used to search for view scripts
      *
      * @param string $path
-     * @return Lib_View $this for a fluent interface
+     * @return Lib_View $this for object-chaining.
      */
     public function addViewScriptPath($path)
     {
@@ -87,7 +86,7 @@ class View
             ));
         }
 
-        $this->_viewScriptPaths[] = $path;
+        $this->viewScriptPaths[] = $path;
     }
 
     /**
@@ -97,22 +96,21 @@ class View
      */
     public function getViewScriptPaths()
     {
-        return array_reverse($this->_viewScriptPaths);
+        return array_reverse($this->viewScriptPaths);
     }
 
     /**
      * Method to set the script attrubute
      *
      * @param string $path
-     * @return Lib_View $this for a fluent interface
+     * @return Lib_View $this for object-chaining.
      */
     public function setScript($path)
     {
-        $this->_script = (string)$path;
+        $this->script = (string)$path;
 
         return $this;
-
-    } // END function setScript
+    }
 
     /**
      * Method to get the script attribute
@@ -121,23 +119,21 @@ class View
      */
     public function getScript()
     {
-        return $this->_script;
-
-    } // END function getScript
+        return $this->script;
+    }
 
     /**
      * Method to set the layout attribute
      *
      * @param string $path
-     * @return Lib_View $this for a fluent interface
+     * @return Lib_View $this for object-chaining.
      */
     public function setLayout($path)
     {
-        $this->_layout = (string)$path;
+        $this->layout = (string)$path;
 
         return $this;
-
-    } // END function setLayout
+    }
 
     /**
      * Returns the layout script name
@@ -147,8 +143,7 @@ class View
     public function getLayout()
     {
         return $this->_layout;
-
-    } // END function getLayout
+    }
 
     public function getViewScript()
     {
@@ -161,21 +156,19 @@ class View
                 return $path;
             }
         }
-
-    } // END function getViewScriptPath
+    }
 
     /**
      * Method to render the view
      */
     public function render()
     {
-        if (! $this->getScript()) {
+        if (! $this->getScript() || ! $this->getViewScript()) {
             return null;
         }
 
         ob_start();
-
-        extract($this->_vars);
+        extract($this->vars);
         include $this->getViewScript();
         $content = ob_get_clean();
 
@@ -194,8 +187,7 @@ class View
         $contents = ob_get_clean();
 
         return $this->filter($contents);
-
-    } // END function render
+    }
 
     /**
      * Method to filter string input
@@ -206,23 +198,21 @@ class View
     public function filter($string)
     {
         return $string;
-
-    } // END function filter
+    }
 
     /**
      * Setter for the _vars property.
      *
      * @param string $var
      * @param unknown_type $value
-     * @return Lib_View $this for a fluent interface
+     * @return Lib_View $this for object-chaining.
      */
     public function set($var, $value = '')
     {
-        $this->_vars[$var] = $value;
+        $this->vars[$var] = $value;
 
         return $this;
-
-    } // END function set
+    }
 
     /**
      * getter for the _vars property
@@ -232,9 +222,8 @@ class View
      */
     public function get($var)
     {
-        return @$this->_vars[$var];
-
-    } // END function get
+        return @$this->vars[$var];
+    }
 
     /**
      * getter for a view helper instance
@@ -244,8 +233,8 @@ class View
      */
     public function getHelper($name)
     {   // if the helper has already been loaded, just return the instance
-        if (@$this->_helpers[$name]) {
-            return $this->_helpers[$name];
+        if (@$this->helpers[$name]) {
+            return $this->helpers[$name];
         }
 
         foreach (array('App', 'Lib') as $library) {
@@ -264,10 +253,7 @@ class View
         }
 
         // throw an exception if we get this far
-        throw new Lib_Exception(
-            "Requested view helper [$name] could not be found"
-        );
+        throw new Exception("Requested view helper [$name] could not be found");
 
-    } // END function getHelper
-
-} // END class View
+    }
+}

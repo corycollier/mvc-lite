@@ -1,16 +1,19 @@
 <?php
 /**
  * Unit tests for the Lib_Dispatcher class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit tests for the Lib_Dispatcher class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Dispatcher
@@ -18,92 +21,64 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_DispatcherTest
-extends PHPUnit_Framework_TestCase
+class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * The setup method, called before each test
-     */
-    public function setUp ( )
-    {
-        $this->fixture = App_Dispatcher::getInstance();
-
-    } // END function setUp
-
-    /**
-     * The tear down method, called after each test
-     */
-    public function tearDown ( )
-    {
-
-    } // END function tearDown
 
     /**
      * tests the init method of the lib dispatcher
      */
-    public function test_init ( )
+    public function testInit()
     {
-        $this->setExpectedException('Lib_Exception');
+        $sut = Dispatcher::getInstance();
 
-        $dispatcher = Lib_Dispatcher::getInstance();
+        $sut->init();
 
-        $dispatcher->init();
-
-    } // END function test_init
+    }
 
     /**
-     * 
+     *
      * Enter description here ...
      */
-    public function test_getInstance ( )
+    public function testGetInstance()
     {
-        $this->assertInstanceOf('App_Dispatcher', $this->fixture);
+        $sut = Dispatcher::getInstance();
 
-    } // END function test_getInstance
+        $this->assertInstanceOf('MvcLite\Dispatcher', $sut);
+
+    }
 
     /**
      * tests the bootstrap method of the dispatcher
      */
-    public function test_bootstrap ( )
+    public function testBootstrap()
     {
-        $result = $this->fixture->bootstrap();
+        $sut    = Dispatcher::getInstance();
+        $result = $sut->bootstrap();
 
-        $this->assertInstanceOf('App_Dispatcher', $result);
+        $this->assertInstanceOf('MvcLite\Dispatcher', $result);
 
-    } // END function test_bootstrap
+    }
 
     /**
      * tests the dispatch method of the dispatcher
      */
-    public function test_dispatch ( )
+    public function testDispatch()
     {
-        ob_start();
-        $this->fixture->init();
-        $this->fixture->bootstrap();
-        $this->fixture->dispatch();
-        $contents = ob_get_clean();
-
-        $this->assertTrue(is_string($contents));
-        $this->assertTrue(strlen($contents) > 0);
-
-        $request = Lib_Request::getInstance();
-
-        // test the exception handling of bogus controllers
-        $request->setParam('controller', 'non-existant');
-        ob_start();
-        $this->fixture->dispatch();
-        $contents = ob_get_clean();
+        $sut = Dispatcher::getInstance();
+        $request = Request::getInstance();
+        $sut->dispatch();
 
         $this->assertSame('error', $request->getParam('controller'));
-
-        // test the exception handling of bogus actions 
-        $request->setParam('action', 'non-existant');
-        ob_start();
-        $this->fixture->dispatch();
-        $contents = ob_get_clean();
-
         $this->assertSame('error', $request->getParam('action'));
 
-    } // END function test_dispatch
+    }
+}
 
-} // END class DispatcherTest
+// @codingStandardsIgnoreStart
+// testing classes
+namespace App;
+class IndexController extends \MvcLite\Controller {}
+class ErrorController extends \MvcLite\Controller{
+    public function errorAction(){}
+}
+// @codingStandardsIgnoreEnd

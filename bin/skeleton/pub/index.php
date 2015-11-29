@@ -29,6 +29,6 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 // ensure the autoloader is ready
 $dispatcher = App_Dispatcher::getInstance();
-$dispatcher->init()->bootstrap();
+$dispatcher->init();
 // if this isn't being called from cli, then run it
 if ( PHP_SAPI != 'cli' ) $dispatcher->dispatch();

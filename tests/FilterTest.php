@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_Filter class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Filter
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_Filter class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Filter
@@ -28,7 +28,7 @@ extends PHPUnit_Framework_TestCase
     public function setUp ( )
     {
 
-    } // END function setup
+    }
 
     /**
      * The tear down hook, called after each test
@@ -36,7 +36,7 @@ extends PHPUnit_Framework_TestCase
     public function tearDown ( )
     {
 
-    } // END function tearDown
+    }
 
     /**
      * tests the filter's ability to change dashes to camel case
@@ -49,7 +49,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->assertSame($expected, Lib_Filter::dashToCamelCase($unfiltered));
 
-    } // END function test_dashToCamelCase
+    }
 
     /**
      * provides data to use for testing the dashToCamelCase method
@@ -63,7 +63,7 @@ extends PHPUnit_Framework_TestCase
             array('thisShouldBeCamel_case', 'this-should-be-camel_case'),
         );
 
-    } // END function provide_dashToCamelCase
+    }
 
     public function test_camelCaseToDash ( )
     {
@@ -75,22 +75,22 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $result);
 
-    } // END function test_camelCaseToDash
+    }
 
-    
+
     /**
      * tests the ucaseUnderscoreToPcaseDash method of the filter class
      */
     public function test_serverVarsToHeaderTypes ( )
     {
         $string = 'HTTP_VALUE_TESTING';
-        
+
         $result = Lib_Filter::serverVarsToHeaderTypes($string);
-        
+
         $expected = 'Value-Testing';
-        
+
         $this->assertSame($result, $expected);
-        
-    } // END function test_serverVarsToHeaderTypes
-    
+
+    }
+
 } // END class ModelTest

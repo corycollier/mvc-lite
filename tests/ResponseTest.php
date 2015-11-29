@@ -28,7 +28,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->fixture = Lib_Response::getInstance();
 
-    } // END function setup
+    }
 
     /**
      * The tear down hook, called after each test
@@ -36,7 +36,7 @@ extends PHPUnit_Framework_TestCase
     public function tearDown ( )
     {
 
-    } // END function tearDown
+    }
 
     /**
      * test the setting of the body
@@ -47,7 +47,7 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Lib_Response', $result);
 
-    } // END function test_setBody
+    }
 
     /**
      * test getting the body of the response
@@ -58,7 +58,7 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertSame('', $result);
 
-    } // END function test_getBody
+    }
 
     /**
      * test the setting of headers
@@ -72,7 +72,7 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertSame($headers['value'], $this->fixture->getHeader($headers['name']));
 
-    } // END function test_setHeader
+    }
 
     /**
      * provider for the $helper->setHeader() method
@@ -96,7 +96,7 @@ extends PHPUnit_Framework_TestCase
             )),
         );
 
-    } // END function provide_setHeader
+    }
 
     /**
      * Function to provide arguments to tests
@@ -112,7 +112,7 @@ extends PHPUnit_Framework_TestCase
             )),
         );
 
-    } // END function headerProvider
+    }
 
     /**
      * tests the get headers method of the response
@@ -131,7 +131,7 @@ extends PHPUnit_Framework_TestCase
         }
 
 
-    } // END function test_getHeaders
+    }
 
     /**
      * test the getting of headers
@@ -139,7 +139,7 @@ extends PHPUnit_Framework_TestCase
     public function test_getHeader ( )
     {
 
-    } // END function test_getHeader
+    }
 
     /**
      * Tests the Lib_Response::setHeaders method
@@ -171,11 +171,11 @@ extends PHPUnit_Framework_TestCase
         //     ->method('setHeaders');
 
         $fixture->setHeaders($headers);
-        
-    } // END function test_setHeaders
+
+    }
 
     /**
-     * Provides data to use for testing the setHeaders method of the 
+     * Provides data to use for testing the setHeaders method of the
      * Lib_Response::setHeaders method
      *
      * @return array
@@ -194,7 +194,7 @@ extends PHPUnit_Framework_TestCase
             )),
 
         );
-        
-    } // END function provide_setHeaders
+
+    }
 
 } // END class ModelTest

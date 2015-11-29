@@ -45,7 +45,7 @@ abstract class HelperAbstract
         }
         $this->_view = $view;
 
-    } // END function __construct
+    }
 
     /**
      * Method to return a string of key=value pairs.
@@ -70,6 +70,6 @@ abstract class HelperAbstract
         // return the pairs, imploded by a single space
         return ' ' . implode(' ', $attribs);
 
-    } // END function _htmlAttribs
+    }
 
 } // END class Lib_View_Helper_Abstract

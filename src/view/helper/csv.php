@@ -43,6 +43,6 @@ class Csv
 
         return $return;
 
-    } // END function render
+    }
 
 } // END class Lib_View_Helper_Csv

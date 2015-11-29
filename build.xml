@@ -84,7 +84,7 @@
 
       <fileset dir="${basedir}/tests">
         <include name="**/*.php" />
-        <modified />
+        <!-- <modified /> -->
       </fileset>
     </apply>
 

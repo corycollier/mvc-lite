@@ -47,7 +47,7 @@ class Registry
 
         return $this;
 
-    } // END function set
+    }
 
     /**
      * getter for data stored
@@ -59,7 +59,7 @@ class Registry
     {
         return @$this->_data[$name];
 
-    } // END function get
+    }
 
     /**
      * assigns multiple values to the registry in a single method call
@@ -76,6 +76,6 @@ class Registry
 
         return $this;
 
-    } // END function setAll
+    }
 
 } // END class Lib_Registry

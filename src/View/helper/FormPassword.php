@@ -45,6 +45,6 @@ class FormPassword
         ));
 
 
-    } // END function render
+    }
 
 } // END class Lib_View_Helper_FormPassword

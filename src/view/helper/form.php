@@ -11,7 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite;
 use \MvcLite\View;
 
 /**
@@ -47,7 +46,7 @@ class Form
             '!elements' => $elements,
         ));
 
-    } // END function render
+    }
 
     /**
      * method to return an input element from a given parameter array
@@ -71,7 +70,7 @@ class Form
 
         return call_user_func(array($this, $method), $column, $model, $params);
 
-    } // END function elementFactory
+    }
 
     /**
      * returns a form-select element for a given model
@@ -97,7 +96,7 @@ class Form
         }
         return $this->_view->getHelper('FormSelect')->render($column, $options, $params);
 
-    } // END function _createReferenceElement
+    }
 
     /**
      * hook to return a select element representing an enum data input
@@ -115,7 +114,7 @@ class Form
                 $params
             );
 
-    } // END function _createEnumElement
+    }
 
     /**
      * hook to return a password element representing a password data input
@@ -128,7 +127,7 @@ class Form
     {
         return $this->_view->getHelper('FormPassword')->render($column, $params);
 
-    } // END function _createPasswordElement
+    }
 
     /**
      * hook to return a text element representing an integer data input
@@ -141,7 +140,7 @@ class Form
     {
         return $this->_view->getHelper('FormText')->render($column, $params);
 
-    } // END function _createIntElement
+    }
 
     /**
      * hook to return a textarea element representing a text data input
@@ -154,7 +153,7 @@ class Form
     {
         return $this->_view->getHelper('FormTextarea')->render($column, $params);
 
-    } // END function _createTextElement
+    }
 
     /**
      * hook to return a text element representing a varchar data input
@@ -167,6 +166,6 @@ class Form
     {
         return $this->_view->getHelper('FormText')->render($column, $params);
 
-    } // END function _createVarcharElement
+    }
 
 } // END class App_View_Helper_Form

@@ -8,6 +8,9 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite\Filter;
+
 /**
  * camelcase to dash filter
  *
@@ -18,8 +21,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Filter_CamelcaseToDash
-extends Lib_Filter_Abstract
+class CamelcaseToDash extends \MvcLite\FilterAbstract
 {
     /**
      * (non-PHPdoc)
@@ -38,6 +40,6 @@ extends Lib_Filter_Abstract
 
         return $result;
 
-    } // END function filter
+    }
 
 } // END class Lib_Filter_CamelcaseToDash

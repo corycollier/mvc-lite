@@ -1,16 +1,19 @@
 <?php
 /**
  * Unit tests for the Lib_Controller class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Controller
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit tests for the Lib_Controller class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Controller
@@ -18,68 +21,87 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Test_Lib_ControllerTest
-extends PHPUnit_Framework_TestCase
+class ControllerTest
+    extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * The setup method, called before each test
-     */
-    public function setUp ( )
-    {
-        $this->fixture = new Lib_Controller;
-        
-    } // END function setup
-    
-    /**
-     * The tear down hook, called after each test
-     */
-    public function tearDown ( )
-    {
-        
-    } // END function tearDown
-    
     /**
      * Test the getter for the request object in the controller
      */
-    public function test_getRequest ( )
+    public function testGetRequest ( )
     {
-        $request = $this->fixture->getRequest();
-        
-        $this->assertInstanceOf('Lib_Request', $request);
-        
-    } // END function test_getRequest
+        $sut = new Controller;
+        $request = $sut->getRequest();
+
+        $this->assertInstanceOf('MvcLite\Request', $request);
+
+    }
 
     /**
      * Test the getter for the response object in the controller
      */
-    public function test_getResponse ( )
+    public function testGetResponse ( )
     {
-        $response = $this->fixture->getResponse();
-        
-        $this->assertInstanceOf('Lib_Response', $response);
-        
-    } // END function test_getResponse
-    
+        $sut = new Controller;
+        $response = $sut->getResponse();
+
+        $this->assertInstanceOf('MvcLite\Response', $response);
+
+    }
+
     /**
      * Test the getter for the view object in the controller
      */
-    public function test_getView ( )
+    public function testGetView ( )
     {
-        $view = $this->fixture->getView();
-        
-        $this->assertInstanceOf('Lib_View', $view);
-        
-    } // END function test_getView
-    
+        $sut = new Controller;
+        $view = $sut->getView();
+
+        $this->assertInstanceOf('MvcLite\View', $view);
+
+    }
+
     /**
      * test the getter for the session object in the controller
      */
-    public function test_getSession ( )
+    public function testGetSession ( )
     {
-        $session = $this->fixture->getSession();
-        
-        $this->assertInstanceOf('Lib_Session', $session);
-        
-    } // END function test_getSession
-    
+        $sut = new Controller;
+        $session = $sut->getSession();
+
+        $this->assertInstanceOf('\MvcLite\Session', $session);
+
+    }
+
+    /**
+     * Tests MvcLite\Controller::init().
+     */
+    public function testInit()
+    {
+        $sut = $this->getMockBuildeR('MvcLite\Controller')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getRequest', 'getView'))
+            ->getMock();
+
+        $view = $this->getMockBuilder('MvcLite\View')
+            ->disableOriginalConstructor()
+            ->setMethods(array('setLayout', 'addViewScriptPath', 'setScript'))
+            ->getMock();
+
+        $request = $this->getMockBuilder('MvcLite\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(array('isAjax'. 'getParam'))
+            ->getMock();
+
+        $sut->expects($this->once())
+            ->method('getView')
+            ->will($this->returnValue($view));
+
+        $sut->expects($this->once())
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+
+        // Test it out.
+        $sut->init();
+    }
+
 } // END class ControllerTest

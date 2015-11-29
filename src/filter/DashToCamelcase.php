@@ -8,6 +8,9 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite\Filter;
+
 /**
  * dash to underscore filter
  *
@@ -18,8 +21,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Filter_DashToCamelcase
-extends Lib_Filter_Abstract
+class DashToCamelcase extends \MvcLite\FilterAbstract
 {
     /**
      * (non-PHPdoc)
@@ -32,6 +34,6 @@ extends Lib_Filter_Abstract
         $words[0] = strtolower($words[0]);
         return implode('', $words);
 
-    } // END function filter
+    }
 
 } // END class Lib_Filter_DashToCamelcase

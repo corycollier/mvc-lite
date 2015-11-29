@@ -48,6 +48,6 @@ class FormText
             '!attribs'  => $this->_htmlAttribs($attribs),
         ));
 
-    } // END function render
+    }
 
 } // END class Lib_View_Helper_FormText

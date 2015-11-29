@@ -34,7 +34,7 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $filter->filter($unfiltered));
 
-    } // END function test_filter
+    }
 
     /**
      * provider of data to test the camelcase-to-dash class's filter method
@@ -47,6 +47,6 @@ extends PHPUnit_Framework_TestCase
             array('somethinGelse', 'somethin_gelse'),
         );
 
-    } // END function provide_filter
+    }
 
 } // END class Tests_Lib_Filter_CamelcaseToUnderscoreTest

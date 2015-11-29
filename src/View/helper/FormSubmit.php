@@ -43,6 +43,6 @@ class FormSubmit
             '!attribs'  => $this->_htmlAttribs($attribs),
         ));
 
-    } // END function render
+    }
 
 } // END class App_View_Helper_FormSubmit

@@ -35,7 +35,7 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $filter->filter($unfiltered));
 
-    } // END function test_filter
+    }
 
     /**
      * provide data for testing the UnderscoreToDash filter's ability to filter
@@ -51,6 +51,6 @@ extends PHPUnit_Framework_TestCase
             array('_the 1 unfiltered_word_', '-the 1 unfiltered-word-'),
         );
 
-    } // END function provide_filter
+    }
 
 } // END class Tests_Lib_Filter_UnderscoreToDashTest

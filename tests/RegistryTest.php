@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_Registry class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Registry
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_Registry class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Registry
@@ -23,7 +23,7 @@ extends PHPUnit_Framework_TestCase
 {
     /**
      * method to test the registry's setter method
-     * 
+     *
      * @param string $key
      * @param unknown_type $value
      * @dataProvider provide_setAndGet
@@ -31,16 +31,16 @@ extends PHPUnit_Framework_TestCase
     public function test_setAndGet ($key, $value)
     {
         $registry = Lib_Registry::getInstance();
-        
+
         $registry->set($key, $value);
-        
+
         $this->assertSame($registry->get($key), $value);
-        
-    } // END function test_set
-    
+
+    }
+
     /**
      * data provider for setting information to the registry
-     * 
+     *
      * @return array
      */
     public function provide_setAndGet ( )
@@ -63,7 +63,7 @@ extends PHPUnit_Framework_TestCase
             )
         );
 
-    } // END function provide_setAndGet
+    }
 
     /**
      * method to test the registry's ability to set multiple values at once
@@ -75,7 +75,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('still working on this one');
 
-    } // END function test_setAll
+    }
 
     /**
      * provides data to use for testing the registry's ability to set multiple
@@ -92,7 +92,7 @@ extends PHPUnit_Framework_TestCase
                 'test4' => array(),
             )),
         );
-        
-    } // END function provide_setAll
-    
+
+    }
+
 } // END class RegistryTest

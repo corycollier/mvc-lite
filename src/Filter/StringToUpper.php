@@ -8,6 +8,9 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite\Filter;
+
 /**
  * string to upper filter
  *
@@ -18,8 +21,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Filter_StringToUpper
-extends Lib_Filter_Abstract
+class StringToUpper extends \MvcLite\FilterAbstract
 {
     /**
      * (non-PHPdoc)
@@ -29,6 +31,6 @@ extends Lib_Filter_Abstract
     {
         return strtoupper($word);
 
-    } // END function filter
+    }
 
 } // END class Lib_Filter_StringToUpper

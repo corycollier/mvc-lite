@@ -1,159 +1,162 @@
 <?php
 /**
  * Class to test the Lib_Cache object
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Lib_Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Class to test the Lib_Cache object
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Lib_Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Tests_Lib_CacheTest
-extends PHPUnit_Framework_TestCase
+class CacheTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
-     * setUp hook
-     */
-    public function setUp ( )
-    {
-        $this->fixture = Lib_Cache::getInstance();
-        
-    } // END function setUp
-
-    /**
-     * tests the init method of the cache object
+     * Tests the init method of the cache object.
      *
-     * @dataProvider provide_init
+     * @dataProvider provideInit
      */
-    public function test_init ($config = array())
+    public function testInit ($config = array())
     {
-        $this->fixture->init($config);
+        $sut = Cache::getInstance();
+        $sut->init($config);
 
-        $property = new ReflectionProperty('Lib_Cache', '_config');
+        $property = new \ReflectionProperty('\\MvcLite\\Cache', 'config');
         $property->setAccessible(true);
-        $result = $property->getValue($this->fixture);
+        $result = $property->getValue($sut);
 
         $this->assertSame($result, $config);
-        
-    } // END function test_init
+
+    }
 
     /**
-     * provider of data for the init method
+     * Provider of data for the init method.
+     *
+     * @return array An array of data to use in testing the init method.
      */
-    public function provide_init ( )
+    public function provideInit ( )
     {
         return array(
             array(array(
                 'prefix'    => 'cache',
-                'directory' => 'var/cache/',
+                'directory' => '/tmp',
             )),
             array(array(
                 'prefix'    => '',
-                'directory' => 'var/cache/',
+                'directory' => '/tmp',
             )),
         );
-        
-    } // END function provide_init
+
+    }
 
     /**
-     * tests the getter of the cache object
+     * Tests the getter of the cache object.
      *
-     * @param Lib_Object $object
+     * @param \MvcLite\ObjectAbstract $object
      * @param string $name
-     * @param string $expectedValue
-     * @dataProvider provide_get
+     * @param string $expected
+     *
+     * @dataProvider provideGet
      */
-    public function test_get (Lib_Object $object, $name, $expectedValue)
+    public function testGet (ObjectAbstract $object, $name, $expected)
     {
-        $this->fixture->set($object, $name, $expectedValue);
+        $sut = Cache::getInstance();
+        $sut->set($object, $name, $expected);
+        $result = $sut->get($object, $name);
+        $this->assertEquals($expected, $result);
 
-        $this->assertEquals($expectedValue, 
-            $this->fixture->get($object, $name)
-        );
-        
-    } // END function test_get
+    }
 
     /**
-     * returns data to use to test the get method of the lib cache object
+     * Returns data to use to test the get method of the lib cache object.
      *
      * @return array
      */
-    public function provide_get ( )
+    public function provideGet ( )
     {
+        $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
         return array(
-            array(new Lib_Object, 'variable1', array(new stdClass)),
-            array(new Lib_Object, 'variable2', new stdClass),
-            array(new Lib_Object, 'variable3', 'array(new stdClass)'),
+            array($object, 'variable1', array(new \stdClass)),
+            array($object, 'variable2', new \stdClass),
+            array($object, 'variable3', 'array(new \stdClass)'),
         );
-        
-    } // END function provide_get // END function test_get
+
+    }
 
     /**
      * tests the setter of the cache object
-     * 
-     * @param Lib_Object $object
+     *
+     * @param \MvcLite\ObjectAbstract $object
      * @param string $name
      * @param unknown_type $data
-     * @dataProvider provide_set
+     * @dataProvider provideSet
      */
-    public function test_set (Lib_Object $object, $name, $data = null)
+    public function testSet (ObjectAbstract $object, $name, $data = null)
     {
-        
-    } // END function test_set
+        $sut = Cache::getInstance();
+
+    }
 
     /**
      * returns data to use to test the set method of the lib cache object
      *
      * @return array
      */
-    public function provide_set ( )
+    public function provideSet ( )
     {
+        $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
+
         return array(
-            array(new Lib_Object, 'variable1', array(new stdClass)),
-            array(new Lib_Object, 'variable2', new stdClass),
-            array(new Lib_Object, 'variable3', 'array(new stdClass)'),
+            array($object, 'variable1', array(new \stdClass)),
+            array($object, 'variable2', new \stdClass),
+            array($object, 'variable3', 'array(new \stdClass)'),
         );
-        
-    } // END function provide_set
+
+    }
 
     /**
      * test the protected _getNamespace method of the Lib_Cache object
      *
-     * @param Lib_Object $object
+     * @param \MvcLite\ObjectAbstract $object
      * @param string $name
      * @param string $expected
-     * @dataProvider provide__getCacheKey
+     * @dataProvider provideGetCacheKey
      */
-    public function test__getCacheKey (Lib_Object $object, $name, $expected)
+    public function testGetCacheKey(ObjectAbstract $object, $name, $expected)
     {
-        $method = new ReflectionMethod('Lib_Cache', '_getCacheKey');
+        $sut = Cache::getInstance();
+        $method = new \ReflectionMethod('\\MvcLite\\Cache', 'getCacheKey');
         $method->setAccessible(true);
-        $result = $method->invoke($this->fixture, $object, $name);
+        $result = $method->invoke($sut, $object, $name);
 
         $this->assertSame($expected, $result);
-        
-    } // END function test__getCacheKey
+
+    }
 
     /**
      * provides data to use for testing the protected _getNamespace method
      */
-    public function provide__getCacheKey ( )
+    public function provideGetCacheKey()
     {
+        $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
+        $prefix = strtolower(strtr(get_class($object), array('_' => '-')));
         return array(
-            array(new Lib_Object, 'var', '-lib-object-var')
+            array($object, 'var', '-' . $prefix . '-var')
         );
-        
-    } // END function provide__getCacheKey
+
+    }
 
 
 } // END class Tests_Lib_CacheTest

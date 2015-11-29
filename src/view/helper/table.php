@@ -11,7 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite;
 use \MvcLite\View;
 
 /**
@@ -55,7 +54,7 @@ class Table
             '<tr>', $result, '</tr>',
         ));
 
-    } // END function getHeaders
+    }
 
     /**
      *
@@ -132,7 +131,7 @@ class Table
             '<tr>', $result, '</tr>',
         ));
 
-    } // END function getRow
+    }
 
     /**
      * returns the actions available to a model
@@ -167,6 +166,6 @@ class Table
             '</ul>',
         ));
 
-    } // END function getActions
+    }
 
 } // END class Lib_View_Helper_Table

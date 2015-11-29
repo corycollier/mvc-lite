@@ -45,14 +45,14 @@ class Response
     public function init()
     {
 
-    } // END function init
+    }
 
     /**
      * Set's a header value
      *
      * @param string $name
      * @param string $value
-     * @return Lib_Response $this for a fluent interface
+     * @return Lib_Response $this for object-chaining.
      */
     public function setHeader($name, $value = '')
     {
@@ -60,13 +60,13 @@ class Response
 
         return $this;
 
-    } // END function setHeader
+    }
 
     /**
      * Set multiple headers at one time
      *
      * @param array $headers
-     * @return Lib_Response $this for a fluent interface
+     * @return Lib_Response $this for object-chaining.
      */
     public function setHeaders($headers = array())
     {
@@ -76,7 +76,7 @@ class Response
 
         return $this;
 
-    } // END function setHeaders
+    }
 
     /**
      * gets the header by name
@@ -88,7 +88,7 @@ class Response
     {
         return @$this->_headers[$name];
 
-    } // END function getHeader
+    }
 
     /**
      * Returns all of the headers
@@ -99,12 +99,12 @@ class Response
     {
         return $this->_headers;
 
-    } // END function getHeaders
+    }
 
     /**
      * Function to return a formatted header string
      *
-     * @return Lib_Response $this for a fluent interface
+     * @return Lib_Response $this for object-chaining.
      */
     public function sendHeaders()
     {   // iterate over the headers, sending them out
@@ -114,13 +114,13 @@ class Response
 
         return $this;
 
-    } // END function getHeaderString
+    }
 
     /**
      * set the body of the response
      *
      * @param string $string
-     * @return Response $this for a fluent interface
+     * @return Response $this for object-chaining.
      */
     public function setBody($string)
     {
@@ -128,7 +128,7 @@ class Response
 
         return $this;
 
-    } // END function setBody
+    }
 
     /**
      * gets the response body
@@ -139,6 +139,6 @@ class Response
     {
         return $this->_body;
 
-    } // END function getBody
+    }
 
 } // END class Response

@@ -22,7 +22,7 @@ namespace MvcLite;
  * @since       Class available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-abstract class ObjectAbstract;
+abstract class ObjectAbstract
 {
     /**
      * Overriding the __get magic method
@@ -36,11 +36,11 @@ abstract class ObjectAbstract;
     final public function __get ($name)
     {
         $self = get_called_class();
-        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_GET, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_GET, array(
             '!explain'  => "{$self}->{$name}",
         )));
 
-    } // END function __get
+    }
 
     /**
      * Overriding the __set magic method
@@ -55,11 +55,11 @@ abstract class ObjectAbstract;
     final public function __set ($name, $value = '')
     {
         $self = get_called_class();
-        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_SET, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_SET, array(
             '!explain'  => "{$self}->{$name} = {$value}",
         )));
 
-    } // END function __set
+    }
 
     /**
      * Overriding the __call magic method
@@ -74,11 +74,11 @@ abstract class ObjectAbstract;
     final public function __call ($method, $args = array())
     {
         $self = get_called_class();
-        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_CALL, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_CALL, array(
             '!explain'  => "{$self}::{$method}(" . @implode(',', $args) . ')',
         )));
 
-    } // END function __call
+    }
 
     /**
      * returns a string representation of the object
@@ -87,7 +87,7 @@ abstract class ObjectAbstract;
     {
         return get_class($this);
 
-    } // END function __toString
+    }
 
     /**
      * method used to identify the object instance
@@ -101,6 +101,6 @@ abstract class ObjectAbstract;
             'Descendents must implement the identify method'
         );
 
-    } // END function identify
+    }
 
 } // END class Lib_Object

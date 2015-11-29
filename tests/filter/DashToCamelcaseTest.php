@@ -35,7 +35,7 @@ extends PHPUnit_Framework_TestCase
 
         $this->assertSame($expected, $filter->filter($unfiltered));
 
-    } // END function test_filter
+    }
 
     /**
      * provide data for testing the DashToCamelcase filter's ability to filter
@@ -52,6 +52,6 @@ extends PHPUnit_Framework_TestCase
             array('this. is-camelCase', 'this. isCamelCase'),
         );
 
-    } // END function provide_filter
+    }
 
 } // END class Tests_Lib_Filter_DashToCamelcaseTest

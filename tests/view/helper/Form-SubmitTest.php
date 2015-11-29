@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_View_Helper_FormSubmit class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  View_Helper
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_View_Helper_FormSubmit class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  View_Helper
@@ -23,21 +23,21 @@ extends PHPUnit_Framework_TestCase
 {
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormSubmit
-     *  
+     *
      * @dataProvider provide_render
      */
     public function test_render ($attribs = array())
     {
         $helper = new Lib_View_Helper_FormSubmit;
-        
+
         $result = $helper->render($attribs);
-        
+
         $this->assertSame(0, strpos($result, '<label for'));
-        
+
         $this->assertTrue(strpos($result, '<input type="submit"') > 0);
-        
-    } // END function test_render
-    
+
+    }
+
     /**
      * provides a dataset to use for testing the $helper->render() method
      */
@@ -45,10 +45,10 @@ extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-            
+
             ),
         );
-        
-    } // END function provide_render
-    
+
+    }
+
 } // END class Lib_View_Helper_FormSubmitTest

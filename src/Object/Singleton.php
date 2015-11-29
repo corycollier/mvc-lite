@@ -9,9 +9,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-namespace \MvcLite\Object;
-
-use \MvcLite;
+namespace MvcLite\Object;
 
 /**
  * Defines the base singleton type
@@ -26,33 +24,33 @@ class Singleton
     extends \MvcLite\ObjectAbstract
 {
     /**
-     * @var Lib_Object_Singleton
+     * @var array
      */
-    protected static $_instances = array();
+    protected static $instances = array();
 
     /**
-     * Privatizing the constructor, to enforce the singleton pattern
+     * Privatizing the constructor, to enforce the singleton pattern.
      */
     protected function __construct()
     {
 
-    } // END function __construct
+    }
 
     /**
      * Accessor method to get to the single instance of this class.
      *
-     * @return Lib_Object_Singleton
+     * @return \MvcLite\Object\Singleton
      */
     public static function getInstance()
     {
         $self = get_called_class();
 
-        if (! @$self::$_instances[$self]) {
-            $self::$_instances[$self] = new $self;
+        if (!isset($self::$instances[$self]) || ! $self::$instances[$self]) {
+            $self::$instances[$self] = new $self;
         }
 
-        return $self::$_instances[$self];
+        return $self::$instances[$self];
 
-    } // END function getInstance
+    }
 
-} // END class Lib_Object_Singleton
+}

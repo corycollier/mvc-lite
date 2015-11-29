@@ -8,6 +8,9 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite\Filter;
+
 /**
  * pluralize filter
  *
@@ -18,8 +21,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Filter_Pluralize
-extends Lib_Filter_Abstract
+class Pluralize extends \MvcLite\FilterAbstract
 {
     /**
      * filters a given string
@@ -34,6 +36,6 @@ extends Lib_Filter_Abstract
         }
         return "{$word}s";
 
-    } // END function filter
+    }
 
 } // END class Lib_Filter_Pluralize

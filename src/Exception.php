@@ -20,7 +20,6 @@ namespace MvcLite;
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
 class Exception
     extends \Exception
 {
@@ -40,5 +39,4 @@ class Exception
 
     const ERR_MAGIC_METHOD_CALL
         = 'Cannot use __call in the MVCLite framework: !explain';
-
-} // END class Lib_Exception
+}

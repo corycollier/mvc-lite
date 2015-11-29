@@ -23,22 +23,25 @@ use \MvcLite\Object\Singleton;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Error
-    extends Object\Singleton
+class Error extends Object\Singleton
 {
     /**
-     * holder for all the errors that have occured for the request
+     * Holder for all the errors that have occured for the request.
      *
-     * @var array $_errors
+     * @var array $errors
      */
-    private $_errors = array();
+    protected $errors = array();
 
     /**
      * handler for errors
      */
-    public static function handle ($errno, $errstr, $errfile = null,
-        $errline = null, $errcontext = array())
-    {
+    public static function handle(
+        $errno,
+        $errstr,
+        $errfile = null,
+        $errline = null,
+        $errcontext = array()
+    ) {
         $self = get_called_class();
 
         // append the errors to the list of errors that have occured so far
@@ -58,39 +61,36 @@ class Error
             case E_CORE_WARNING:
             case E_USER_ERROR:
                 // figure out something appropriate to do
-                throw new ErrorException(
-                    $errstr, 0, $errno, $errfile, $errline
-                );
+                throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
 
             // the default stuff
             default:
                 return;
         }
 
-    } // END function handle
+    }
 
     /**
      * adds errors to the instance's error property
      *
      * @param array $error
-     * @return Lib_Error $this for a fluent interface
+     * @return Lib_Error $this for object-chaining.
      */
-    private function _addError ($error = array())
+    protected function addError($error = array())
     {
-        $this->_errors[] = $error;
+        $this->errors[] = $error;
         return $this;
 
-    } // END function _addError
+    }
 
     /**
      * getter for the _errors property
      *
      * @return array
      */
-    public function getErrors ( )
+    public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
 
-    } // END function getErrors
-
-} // END class Lib_Error
+    }
+}

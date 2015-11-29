@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_Session class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Session
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_Session class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Session
@@ -21,35 +21,35 @@
 class Tests_Lib_SessionTest
 extends PHPUnit_Framework_TestCase
 {
-    
+
     /**
      * The setup method, called before each test
      */
     public function setUp ( )
     {
         $this->fixture = Lib_Session::getInstance();
-        
-    } // END function setup
-    
+
+    }
+
     /**
      * The tear down hook, called after each test
      */
     public function tearDown ( )
     {
         $this->fixture->destroy();
-        
-    } // END function tearDown
-    
+
+    }
+
     /**
      * test the getInstance method of the session object
      */
     public function test_getInstance ( )
     {
         $session = Lib_Session::getInstance();
-        
+
         $this->assertInstanceOf('Lib_Session', $session);
-        
-    } // END function test_getInstance
+
+    }
 
     /**
      * tests the init method of the lib_session object
@@ -65,12 +65,12 @@ extends PHPUnit_Framework_TestCase
         $result = $property->getValue($this->fixture);
 
         $this->assertEquals($_SESSION, $result);
-        
-    } // END function test_init
-    
+
+    }
+
     /**
      * test the set params method of the session object
-     * 
+     *
      * @dataProvider _provideParams
      */
     public function test_setParams ($param, $value = '')
@@ -80,11 +80,11 @@ extends PHPUnit_Framework_TestCase
         );
 
         $this->fixture->setParams($params);
-        
+
         $this->assertSame($this->fixture->getParam($param), $value);
-        
-    } // END function test_setParams
-    
+
+    }
+
     /**
      * test the get params method of the session object
      */
@@ -95,13 +95,13 @@ extends PHPUnit_Framework_TestCase
             'var2'  => 'test2',
             'var3'  => 'test3',
         );
-        
+
         $this->fixture->setParams($params);
-        
+
         $this->assertSame($params, $this->fixture->getParams());
-        
-    } // END function test_getParams
-    
+
+    }
+
     /**
      * test the set param method of the session object
      * @dataProvider _provideParams
@@ -109,11 +109,11 @@ extends PHPUnit_Framework_TestCase
     public function test_setParam ($param, $value = '')
     {
         $this->fixture->setParam($param, $value);
-        
+
         $this->assertSame($value, $this->fixture->getParam($param));
-        
-    } // END function test_setParam
-    
+
+    }
+
     /**
      * test the destroy method of the session object
      */
@@ -124,15 +124,15 @@ extends PHPUnit_Framework_TestCase
             'var2'  => 'test2',
             'var3'  => 'test3',
         );
-        
+
         $this->fixture->setParams($params);
-        
+
         $this->fixture->destroy();
-        
+
         $this->assertNull($this->fixture->getParams());
-        
-    } // END function test_destroy
-    
+
+    }
+
     /**
      * method to provide parameters to test against
      */
@@ -149,7 +149,7 @@ extends PHPUnit_Framework_TestCase
                 'test3', 'value3',
             ),
         );
-        
-    } // END function _provideParams
-    
+
+    }
+
 } // END class SessionTest

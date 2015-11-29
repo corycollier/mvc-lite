@@ -8,6 +8,9 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite\Filter;
+
 /**
  * string to lower filter
  *
@@ -18,8 +21,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Filter_StringToLower
-extends Lib_Filter_Abstract
+class StringToLower extends \MvcLite\FilterAbstract
 {
     /**
      * (non-PHPdoc)

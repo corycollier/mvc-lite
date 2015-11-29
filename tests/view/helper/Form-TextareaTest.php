@@ -38,7 +38,7 @@ extends PHPUnit_Framework_TestCase
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
 
-    } // END function test_render
+    }
 
     /**
      * provides a dataset to use for testing the $helper->render() method
@@ -57,6 +57,6 @@ extends PHPUnit_Framework_TestCase
             )),
         );
 
-    } // END function provide_render
+    }
 
 } // END class Lib_View_Helper_FormTextareaTest

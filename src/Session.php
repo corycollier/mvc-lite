@@ -46,7 +46,7 @@ class Session
            // unset($_SESSION);
         }
 
-    } // END function init
+    }
 
     /**
      * Method to retrieve the _data param
@@ -57,7 +57,7 @@ class Session
     {
         return @$this->_data;
 
-    } // END function getData
+    }
 
     /**
      * Method to return a single parameter by name
@@ -69,21 +69,21 @@ class Session
     {
         return @$this->_data[$param];
 
-    } // END function getParam
+    }
 
     /**
      * Method to set a single parameter value
      *
      * @param string $param
      * @param unknown_type $value
-     * @return Lib_Session $this for a fluent interface
+     * @return Lib_Session $this for object-chaining.
      */
     public function setParam($param, $value = '')
     {
         $this->_data[$param] = $value;
         $_SESSION = $this->_data;
 
-        // return $this for a fluent interface
+        // return $this for object-chaining.
         return $this;
     }
 
@@ -91,7 +91,7 @@ class Session
      * Utility method to allow for the setting of multiple parameters
      *
      * @param array $params
-     * @return Lib_Session $this for a fluent interface
+     * @return Lib_Session $this for object-chaining.
      */
     public function setParams($params = array())
     {   // iterate over the params, setting them using the setParam method
@@ -99,10 +99,10 @@ class Session
             $this->setParam($param, $value);
         }
 
-        // return $this for a fluent interface
+        // return $this for object-chaining.
         return $this;
 
-    } // END function setParams
+    }
 
     /**
      * Method to destroy the session
@@ -118,7 +118,7 @@ class Session
 
         $this->__destruct();
 
-    } // END function destroy
+    }
 
     /**
      * Implementation of the magic method __destruct, to save state
@@ -127,6 +127,6 @@ class Session
     {
         $_SESSION = $this->_data;
 
-    } // END function __destruct
+    }
 
 } // END class Lib_Request

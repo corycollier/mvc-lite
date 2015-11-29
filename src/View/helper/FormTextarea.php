@@ -51,6 +51,6 @@ class FormTextarea
             '!value'    => $attribs['value'],
         ));
 
-    } // END function render
+    }
 
 } // END class Lib_View_Helper_FormText

@@ -40,6 +40,6 @@ class Exception
 
         return $exception->getMessage();
 
-    } // END function render
+    }
 
 } // END class Lib_View_Helper_Exception

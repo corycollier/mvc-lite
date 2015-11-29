@@ -22,59 +22,58 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Request
-    extends Object\Singleton
+class Request extends Object\Singleton
 {
     /**
      * associative array representing the request params
      *
      * @var array
      */
-    protected $_params = array();
+    protected $params = array();
 
     /**
      * associative array of the headers sent from the client
      *
      * @var array
      */
-    protected $_headers = array();
+    protected $headers = array();
 
     /**
      * stores the original request uri
      *
      * @var string
      */
-    protected $_uri;
+    protected $uri;
 
     /**
      * method to start the database up
      */
     public function init()
     {
-        $this->_uri = $_SERVER['REQUEST_URI'];
-        $this->_params = array_merge($this->_params, $_COOKIE);
-        $this->_params = array_merge($this->_params, $_POST);
-        $this->_params = array_merge($this->_params, $_GET);
-        $this->_setHeaders();
+        $this->uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+        $this->params = array_merge($this->params, $_COOKIE);
+        $this->params = array_merge($this->params, $_POST);
+        $this->params = array_merge($this->params, $_GET);
+        $this->setHeaders();
         $this->setParams($this->buildFromString(@$_GET['q']));
 
-    } // END function init
+    }
 
     /**
      *
      * Method to set the headers
      */
-    protected function _setHeaders()
+    protected function setHeaders()
     {   // iterate over the $_SERVER superglobal values
         foreach($_SERVER as $key => $value) {
             if(substr($key, 0, 5) != 'HTTP_') {
                 continue;
             }
             $key = Lib_Filter::serverVarsToHeaderTypes($key);
-            $this->_headers[$key] = $value;
+            $this->headers[$key] = $value;
         }
 
-    } // END function _setHeaders
+    }
 
     /**
      * Build an associative array from a string
@@ -108,21 +107,21 @@ class Request
         // return parts
         return $results;
 
-    } // END function buildFromString
+    }
 
     /**
      * setter for the params property
      *
      * @param $params
-     * @return Request $this for a fluent interface
+     * @return Request $this for object-chaining.
      */
     public function setParams($params = array())
     {
-        $this->_params = array_merge($this->_params, (array)$params);
+        $this->params = array_merge($this->params, (array)$params);
 
         return $this;
 
-    } // END function setParams
+    }
 
     /**
      * getter for the params property
@@ -131,7 +130,7 @@ class Request
      */
     public function getParams()
     {
-        $params = $this->_params;
+        $params = $this->params;
 
         foreach ($params as $key => $value) {
             if (! $key || ! $value || $key === 'q') {
@@ -141,7 +140,7 @@ class Request
 
         return $params;
 
-    } // END function getParams
+    }
 
     /**
      * Gets a single param from the params array
@@ -151,24 +150,24 @@ class Request
      */
     public function getParam($param)
     {
-        return @$this->_params[$param];
+        return @$this->params[$param];
 
-    } // END function getParam
+    }
 
     /**
      * method to set a param manually
      *
      * @param string $param
      * @param string $value
-     * @return Request $this for a fluent interface
+     * @return Request $this for object-chaining.
      */
     public function setParam($param, $value = '')
     {
-        $this->_params[$param] = $value;
+        $this->params[$param] = $value;
 
         return $this;
 
-    } // END function setParam
+    }
 
     /**
      * Determines if the request is post or not
@@ -183,7 +182,7 @@ class Request
 
         return false;
 
-    } // END function isPost
+    }
 
     /**
      * getter for the headers property
@@ -192,9 +191,9 @@ class Request
      */
     public function getHeaders()
     {
-        return $this->_headers;
+        return $this->headers;
 
-    } // END function getHeaders
+    }
 
     /**
      * method to get the value for a single header
@@ -203,9 +202,9 @@ class Request
      */
     public function getHeader($header = '')
     {
-        return @$this->_headers[$header];
+        return @$this->headers[$header];
 
-    } // END function getHeader
+    }
 
     /**
      * Method to indicate whether the current request is AJAX or not
@@ -221,7 +220,7 @@ class Request
 
         return false;
 
-    } // END function isAjax
+    }
 
     /**
      * getter for the uri value
@@ -230,8 +229,8 @@ class Request
      */
     public function getUri()
     {
-        return $this->_uri;
+        return $this->uri;
 
-    } // END function getUri
+    }
 
 } // END class Request

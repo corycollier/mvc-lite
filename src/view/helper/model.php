@@ -11,7 +11,6 @@
 
 namespace \MvcLite\View\Helper;
 
-use \MvcLite;
 use \MvcLite\View;
 use \MvcLite\Filter;
 
@@ -40,7 +39,7 @@ class Model
 
         return $filter->filter($class);
 
-    } // END function getController
+    }
 
     /**
      * returns an array of field values for the model
@@ -58,7 +57,7 @@ class Model
 
         return $results;
 
-    } // END function getColumns
+    }
 
     /**
      * method to return a human friendly name for a model
@@ -77,6 +76,6 @@ class Model
             '-' => ' ',
         )));
 
-    } // END function getName
+    }
 
 } // END class Lib_View_Helper_Model

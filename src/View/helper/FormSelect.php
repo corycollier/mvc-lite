@@ -59,7 +59,7 @@ class FormSelect
             '!options'          => $this->_buildOptions($options),
         ));
 
-    } // END function render
+    }
 
     /**
      * method to take an array and turn it into a string of li elements
@@ -83,7 +83,7 @@ class FormSelect
         // return the array imploded into a string by newline characters
         return implode(PHP_EOL, $options);
 
-    } // END function _buildOptions
+    }
 
 
 } // END class Lib_View_Helper_FormSelect

@@ -23,5 +23,12 @@
     ],
     "require" : {
         "corycollier/php-cli": "dev-master"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "MvcLite\\": "src/"
+        }
     }
+
 }

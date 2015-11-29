@@ -22,60 +22,64 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Database
-    extends Object\Singleton
+class Database extends Object\Singleton
 {
+
+    const MSG_ERROR_CONN = 'Connection failure: %s';
+
     /**
      * property to store the Mysqli handle
      *
      * @param mysqli $_handle
      */
-    protected $_handle;
+    protected $handle;
 
     /**
      * property to store the last mysqli result
      *
      * @param MySQLi_Result $_result
      */
-    protected $_result;
+    protected $result;
 
     /**
      * property to store the last query
      *
      * @var string
      */
-    protected $_query;
+    protected $query;
 
     /**
-     * method to start the database up
+     * Start the database up.
+     *
+     * @param array $params An array of database parameters
      */
-    public function init ( )
+    public function init(array $params = array())
     {
-        $database = App_Registry::getInstance()->get('database');
+        $defaults = Registry::getInstance()->get('database');
+        $defaults = is_array($defaults) ? $defaults : array();
+        $params = array_merge($defaults, $params);
 
-        $this->_handle = new mysqli(
-            $database['host'],
-            $database['user'],
-            $database['pass'],
-            $database['name']
+        $this->handle = new \mysqli(
+            $params['host'],
+            $params['user'],
+            $params['pass'],
+            $params['name']
         );
 
         if (mysqli_connect_error()) {
-            throw new Lib_Exception(
-                'Connection failure: ' . mysqli_connect_error()
-            );
+            throw new Exception(sprintf(self::MSG_ERROR_CONN, mysqli_connect_error()));
         }
 
-    } // END function init
+    }
 
     /**
      * Method to return the mysqli instance
      *
      * @return MySQLi
      */
-    public function getHandle ( )
+    public function getHandle()
     {
-        return $this->_handle;
+        return $this->handle;
     }
 
     /**
@@ -84,15 +88,14 @@ class Database
      * @param string $sql
      * @return Lib_Database
      */
-    public function query ($sql)
+    public function query($sql)
     {
-        $this->_query = $sql;
+        $this->query = $sql;
 
-        $this->_result = $this->getHandle()->query($this->_query);
+        $this->result = $this->getHandle()->query($this->query);
 
         return $this;
-
-    } // END function query
+    }
 
     /**
      * Method to get data from the database
@@ -102,21 +105,21 @@ class Database
      * @param array|string $where
      * @param array|string $order
      * @param array $limit
-     * @return Lib_Database $this for a fluent interface
+     * @return Lib_Database $this for object-chaining.
      */
-    public function fetch ($table, $fields = '*', $where = '', $order = null, $limit = null)
+    public function fetch($table, $fields = '*', $where = '', $order = null, $limit = null)
     {
         $sql = "select !fields from !table !where !order !limit";
 
-        $this->_query = strtr($sql, array(
+        $this->query = strtr($sql, array(
             '!table'    => $table,
-            '!fields'   => $this->_buildFields($fields),
-            '!where'    => $this->_buildWhere($where),
-            '!order'    => $this->_buildOrder($order),
-            '!limit'    => $this->_buildLimit($limit),
+            '!fields'   => $this->buildFields($fields),
+            '!where'    => $this->buildWhere($where),
+            '!order'    => $this->buildOrder($order),
+            '!limit'    => $this->buildLimit($limit),
         ));
 
-        $this->_result = $this->getHandle()->query($this->_query);
+        $this->result = $this->getHandle()->query($this->query);
 
         return $this;
     }
@@ -127,28 +130,26 @@ class Database
      * @param string $table
      * @param array $fields
      * @param array|string $where
-     * @return Lib_Database $this for a fluent interface
+     * @return Lib_Database $this for object-chaining.
      */
-    public function update ($table, $fields = array(), $where = array())
+    public function update($table, $fields = array(), $where = array())
     {
         $sql = "UPDATE !table SET !fields !where";
 
-        $this->_query = strtr($sql, array(
+        $this->query = strtr($sql, array(
             '!table'    => $table,
-            '!fields'   => $this->_updateFields($fields),
-            '!where'    => $this->_buildWhere($where),
+            '!fields'   => $this->updateFields($fields),
+            '!where'    => $this->buildWhere($where),
         ));
 
-        if (! $this->getHandle()->query($this->_query)) {
-            throw new Lib_Exception(
-                'Query Failure: ' . $this->getHandle()->error
-                , $this->getHandle()->errno
-            );
+        if (! $this->getHandle()->query($this->query)) {
+            $message = 'Query Failure: ' . $this->getHandle()->error;
+            throw new Exception($message, $this->getHandle()->errno);
         }
 
         return $this;
 
-    } // END function update
+    }
 
     /**
      *
@@ -157,32 +158,29 @@ class Database
      * @param string $table
      * @param array $values
      */
-    public function insert ($table, $values = array())
+    public function insert($table, $values = array())
     {
         if (! count($values)) {
-            throw new Lib_Exception(
+            throw new Exception(
                 'Empty dataset provided. Nothing created'
             );
         }
 
         $sql = "INSERT INTO !table \n(!fields)\n values \n(!values)";
 
-        $this->_query = strtr($sql, array(
+        $this->query = strtr($sql, array(
             '!table'    => $table,
             '!fields'   => implode(', ', array_keys($values)),
-            '!values'   => $this->_insertValues($values),
+            '!values'   => $this->insertValues($values),
         ));
 
-        if (! $this->getHandle()->query($this->_query)) {
-            throw new Lib_Exception(
-                'Query Failure: ' . $this->getHandle()->error
-                , $this->getHandle()->errno
-            );
+        if (! $this->getHandle()->query($this->query)) {
+            $message = 'Query Failure: ' . $this->getHandle()->error;
+            throw new Exception($message, $this->getHandle()->errno);
         }
 
         return $this;
-
-    } // END function insert
+    }
 
     /**
      *
@@ -190,27 +188,24 @@ class Database
      *
      * @param string $table
      * @param array $params
-     * @return Lib_Database $this for a fluent interface
+     * @return Lib_Database $this for object-chaining.
      */
-    public function delete ($table, $params = array())
+    public function delete($table, $params = array())
     {
         $sql = "DELETE FROM !table !where";
-        $this->_query = strtr($sql, array(
+        $this->query = strtr($sql, array(
             '!table'    => $table,
-            '!where'    => $this->_deleteWhere($params),
+            '!where'    => $this->deleteWhere($params),
         ));
 
         // if the SQL failed, throw an exception
-        if (! $this->getHandle()->query($this->_query)) {
-            throw new Lib_Exception(
-                'Query Failure: ' . $this->getHandle()->error
-                , $this->getHandle()->errno
-            );
+        if (! $this->getHandle()->query($this->query)) {
+            $message = 'Query Failure: ' . $this->getHandle()->error;
+            throw new Exception($message, $this->getHandle()->errno);
         }
 
         return $this;
-
-    } // END function delete
+    }
 
     /**
      * builds a where string to be used by the delete method
@@ -218,21 +213,19 @@ class Database
      * @param array $params
      * @return string
      */
-    protected function _deleteWhere ($params = array())
-    {   // use the _buildWhere method to get the initial where string
-        $where = $this->_buildWhere($params);
+    protected function deleteWhere($params = array())
+    {
+        // use the _buildWhere method to get the initial where string
+        $where = $this->buildWhere($params);
 
         // if there is no where string, throw an exception (dont delete all the data)
         if (! $where) {
-            throw new Lib_Exception(
-                'The where clause of a delete statement is REQUIRED'
-            );
+            throw new Exception('The where clause of a delete statement is REQUIRED');
         }
 
         // return the where clause
         return $where;
-
-    } // END function _deleteWhere
+    }
 
     /**
      *
@@ -241,15 +234,15 @@ class Database
      * @param array $values
      * @return string
      */
-    protected function _insertValues ($values = array())
-    {   // iterate over the values provided
+    protected function insertValues($values = array())
+    {
+        // iterate over the values provided
         foreach ($values as $i => $value) {
             $values[$i] = $this->getHandle()->escape_string($value);
         }
 
         return "'" .  implode("', '", $values) . "'";
-
-    } // END function _insertValues
+    }
 
     /**
      * Method to build a setting string for update statements
@@ -257,8 +250,9 @@ class Database
      * @param array $fields
      * @return string
      */
-    protected function _updateFields ($fields = array())
-    {   // iterate over the fields array
+    protected function updateFields($fields = array())
+    {
+        // iterate over the fields array
         foreach ($fields as $column => $value) {
             unset($fields[$column]);
 
@@ -271,47 +265,45 @@ class Database
     }
 
     /**
-     * method to retrieve all of the previously fetched database records
+     * Retrieve all of the previously fetched database records.
      *
      * @return array
      */
-    public function all ( )
+    public function all()
     {
         $result = array();
 
         // if there is a valid result ....
-        if ($this->_result) {
-            while($obj = $this->_result->fetch_object()) {
+        if ($this->result) {
+            while ($obj = $this->result->fetch_object()) {
                 $result[] = $obj;
             }
         }
 
         return $result;
-
-    } // END function all
+    }
 
     /**
-     * returns the first record for a previously fetched database result
+     * First record for a previously fetched database result.
      *
      * @return array
      */
-    public function first ( )
+    public function first()
     {
-        if ($this->_result) {
-            while($obj = $this->_result->fetch_object()) {
+        if ($this->result) {
+            while ($obj = $this->result->fetch_object()) {
                 return array($obj);
             }
         }
-
-    } // END function first
+    }
 
     /**
-     * Returns a list of fields to gather
+     * Returns a list of fields to gather.
      *
      * @param array|string $fields
      * @return string
      */
-    protected function _buildFields ($fields = '*')
+    protected function buildFields($fields = '*')
     {
         if (is_array($fields)) {
             $fields = implode(', ', $fields);
@@ -321,13 +313,14 @@ class Database
     }
 
     /**
-     * Method to get a WHERE string from arbitrary params
+     * Get a WHERE string from arbitrary params.
      *
      * @param array|string $params
      * @return string
      */
-    protected function _buildWhere ($params = '')
-    {   // if the params aren't an array, just return them
+    protected function buildWhere($params = '')
+    {
+        // if the params aren't an array, just return them
         if (! is_array($params)) {
             return $params;
         }
@@ -342,7 +335,8 @@ class Database
             if (! $value) {
                 continue;
             }
-            if ($value instanceOf stdClass) {
+
+            if ($value instanceof stdClass) {
                 continue;
             }
 
@@ -366,15 +360,15 @@ class Database
 
 
     /**
-     * method to build an order by string
+     * Build an order by string.
      *
      * @param array|string
      * @return string
      */
-    protected function _buildOrder ($order = null)
+    protected function buildOrder($order = null)
     {
         if (is_array($order)) {
-           $order = implode(', ', $order);
+            $order = implode(', ', $order);
         }
 
         if ($order) {
@@ -385,12 +379,12 @@ class Database
     }
 
     /**
-     * builds a limit string
+     * Builds a limit string.
      *
      * @param array|string $limit
      * @return string
      */
-    protected function _buildLimit ($limit = null)
+    protected function buildLimit($limit = null)
     {
         if (is_array($limit)) {
             $limit = "{$limit[0]}, {$limit[1]}";
@@ -404,25 +398,22 @@ class Database
     }
 
     /**
-     * returns the last auto-increment id value from the previous query
+     * Last auto-increment id value from the previous query.
      *
      * @return integer
      */
-    public function lastInsertId ( )
+    public function lastInsertId()
     {
         return $this->getHandle()->insert_id;
-
-    } // END function lastInsertId
+    }
 
     /**
-     * Returns the last query executed
+     * Returns the last query executed.
      *
      * @return string
      */
-    public function getLastQuery ( )
+    public function getLastQuery()
     {
-        return $this->_query;
-
-    } // END function getLastQuery
-
-} // END class Lib_Database
+        return $this->query;
+    }
+}

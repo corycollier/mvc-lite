@@ -21,15 +21,14 @@ namespace MvcLite;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class File
-    extends Object
+class File extends ObjectAbstract
 {
     /**
      * property to contain the contents of the instance's file contents
      *
      * @var string $_contents
      */
-    protected $_contents = '';
+    protected $contents = '';
 
     /**
      * tests the existance of a given filename
@@ -37,7 +36,7 @@ class File
      * @param string $filename
      * @return boolean
      */
-    public function test ($filename)
+    public function test($filename)
     {
         if (file_exists($filename)) {
             return true;
@@ -45,18 +44,18 @@ class File
 
         return false;
 
-    } // END function test
+    }
 
     /**
      * saves the content of the file to a provided filename
      *
      * @param string filename
-     * @return Lib_File $this for a fluent interface
+     * @return Lib_File $this for object-chaining.
      */
-    public function save ($filename)
+    public function save($filename)
     {
         if (! file_exists(dirname($filename))) {
-            throw new Lib_Exception(
+            throw new Exception(
                 "Directory [{$filename}] does not exist. Cannot save file"
             );
         }
@@ -65,15 +64,15 @@ class File
 
         return $this;
 
-    } // END function save
+    }
 
     /**
      * loads file information to the file instance
      *
      * @param string $filename
-     * @return Lib_File $this for a fluent interface
+     * @return Lib_File $this for object-chaining.
      */
-    public function load ($filename)
+    public function load($filename)
     {
         $this->_checkFileExists($filename);
 
@@ -81,15 +80,15 @@ class File
 
         return $this;
 
-    } // END function load
+    }
 
     /**
      * deletes a file by filename
      *
      * @param string $filename
-     * @return Lib_File $this for a fluent interface
+     * @return Lib_File $this for object-chaining.
      */
-    public function delete ($filename)
+    public function delete($filename)
     {
         $this->_checkFileExists($filename);
 
@@ -97,46 +96,43 @@ class File
 
         return $this;
 
-    } // END function delete
+    }
 
     /**
      * getter for the _contents property
      *
      * @return string
      */
-    public function getContents ( )
+    public function getContents()
     {
-        return $this->_contents;
+        return $this->contents;
 
-    } // END function getContents
+    }
 
     /**
      * setter for the _contents property
      *
      * @param string|null $contents
-     * @return Lib_File $this for a fluent interface
+     * @return \MvcLite\File $this for object-chaining.
      */
-    public function setContents ($contents = null)
+    public function setContents($contents = null)
     {
-        $this->_contents = $contents;
+        $this->contents = $contents;
 
         return $this;
 
-    } // END function setContents
+    }
 
     /**
      * method to throw an exception if a given filename doesn't exist
      *
      * @param string $filename
      */
-    protected function _checkFileExists ($filename)
+    protected function checkFileExists($filename)
     {
         if (! $this->test($filename)) {
-            throw new Lib_Exception(
-                "File doesn't exist"
-            );
+            throw new Exception("File doesn't exist");
         }
 
-    } // END function _checkFileExists
-
-} // END class Lib_File
+    }
+}

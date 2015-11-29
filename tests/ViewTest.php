@@ -1,7 +1,7 @@
 <?php
 /**
  * Unit tests for the Lib_View class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  View
@@ -10,7 +10,7 @@
  */
 /**
  * Unit tests for the Lib_View class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  View
@@ -29,7 +29,7 @@ extends PHPUnit_Framework_TestCase
     {
         $this->fixture = Lib_View::getInstance();
 
-    } // END function setup
+    }
 
     /**
      * The tear down hook, called after each test
@@ -37,7 +37,7 @@ extends PHPUnit_Framework_TestCase
     public function tearDown ( )
     {
 
-    } // END function tearDown
+    }
 
     /**
      * tests the filter method of the view object
@@ -51,8 +51,7 @@ extends PHPUnit_Framework_TestCase
         $result = $this->fixture->filter($unfiltered);
 
         $this->assertSame($expected, $result);
-
-    } // END function test_filter
+    }
 
     /**
      * test the setting and getting of variables to the view
@@ -67,8 +66,7 @@ extends PHPUnit_Framework_TestCase
         foreach ($variables as $name => $value) {
             $this->assertSame($this->fixture->get($name), $value);
         }
-
-    } // END function test_setAndGet
+    }
 
     /**
      * method to provide data for test methods
@@ -85,7 +83,6 @@ extends PHPUnit_Framework_TestCase
 
             )
         );
-
-    } // END function provideVariables
+    }
 
 } // END class ModelTest
