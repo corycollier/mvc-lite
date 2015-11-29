@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Registry
@@ -24,15 +24,16 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Registry
-    extends Object\Singleton
+class Registry extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * Where all the registry stuff goes
      *
      * @var array $_data
      */
-    protected $_data = array();
+    protected $data = array();
 
     /**
      * method to store data in the registry
@@ -43,10 +44,9 @@ class Registry
      */
     public function set($name, $value)
     {
-        $this->_data[$name] = $value;
+        $this->data[$name] = $value;
 
         return $this;
-
     }
 
     /**
@@ -57,8 +57,7 @@ class Registry
      */
     public function get($name)
     {
-        return @$this->_data[$name];
-
+        return $this->data[$name];
     }
 
     /**
@@ -75,7 +74,5 @@ class Registry
         }
 
         return $this;
-
     }
-
-} // END class Lib_Registry
+}

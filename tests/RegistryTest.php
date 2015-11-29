@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_Registry class
+ * Unit tests for the MvcLite\Registry class
  *
  * @category    MVCLite
  * @package     Tests
@@ -8,8 +8,11 @@
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
- * Unit tests for the Lib_Registry class
+ * Unit tests for the MvcLite\Registry class
  *
  * @category    MVCLite
  * @package     Tests
@@ -18,33 +21,31 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_RegistryTest
-extends PHPUnit_Framework_TestCase
+class RegistryTest extends TestCase
 {
     /**
-     * method to test the registry's setter method
+     * Test the registry's setter and getter method
      *
      * @param string $key
      * @param unknown_type $value
-     * @dataProvider provide_setAndGet
+     * @dataProvider provideSetAndGet
      */
-    public function test_setAndGet ($key, $value)
+    public function testSetAndGet($key, $value)
     {
-        $registry = Lib_Registry::getInstance();
+        $sut = Registry::getInstance();
+        $sut->set($key, $value);
 
-        $registry->set($key, $value);
-
-        $this->assertSame($registry->get($key), $value);
-
+        $this->assertSame($sut->get($key), $value);
     }
 
     /**
-     * data provider for setting information to the registry
+     * Data provider for RegistryTest::testSetAndGet()
      *
      * @return array
      */
-    public function provide_setAndGet ( )
-    {   // return an array of things to test
+    public function provideSetAndGet()
+    {
+        // return an array of things to test
         return array(
             array(
                 'string', 'value1',
@@ -56,34 +57,34 @@ extends PHPUnit_Framework_TestCase
                 'bool', false,
             ),
             array(
-                'object', new stdClass(),
+                'object', new \stdClass(),
             ),
             array(
-                'array', range(0,10),
+                'array', range(0, 10),
             )
         );
-
     }
 
     /**
      * method to test the registry's ability to set multiple values at once
      *
      * @param array $params
-     * @dataProvider provide_setAll
+     * @dataProvider provideSetAll
      */
-    public function test_setAll ($params)
+    public function testSetAll($params)
     {
         $this->markTestIncomplete('still working on this one');
-
     }
 
     /**
+     * Data provider for RegistryTest::testSetAll().
+     *
      * provides data to use for testing the registry's ability to set multiple
      * values with a single method call (setAll)
      *
      * @return array
      */
-    public function provide_setAll ( )
+    public function provideSetAll()
     {
         return array(
             array(array(
@@ -92,7 +93,5 @@ extends PHPUnit_Framework_TestCase
                 'test4' => array(),
             )),
         );
-
     }
-
-} // END class RegistryTest
+}
