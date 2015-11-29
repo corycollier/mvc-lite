@@ -24,6 +24,8 @@ namespace MvcLite;
  */
 abstract class ObjectAbstract
 {
+    const MSG_ERR_IDENTIFY = 'Descendents must implement the identify method';
+
     /**
      * Overriding the __get magic method
      *
@@ -93,8 +95,7 @@ abstract class ObjectAbstract
      */
     public function identify()
     {
-        throw new Lib_Exception(
-            'Descendents must implement the identify method'
-        );
+        $self = get_called_class();
+        throw new Lib_Exception($self::MSG_ERR_IDENTIFY);
     }
 }

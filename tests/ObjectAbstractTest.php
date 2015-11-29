@@ -30,40 +30,32 @@ class ObjectAbstractTest extends TestCase
     public function setUp()
     {
         $this->sut = $this->getMockForAbstractClass('\MvcLite\ObjectAbstract');
-
     }
 
     /**
      * Test the __get method on the Lib_Object
      */
-    public function test_magicMethodGet()
+    public function testMagicMethodGet()
     {
         $this->setExpectedException('Exception');
-
         $result = $this->sut->varaible;
-
     }
 
     /**
      * Test the __set method on the Lib_Object
      */
-    public function test_magicMethodSet()
+    public function testMagicMethodSet()
     {
         $this->setExpectedException('Exception');
-
         $this->sut->varaible = 'empty result';
-
     }
 
     /**
      * Test the __call method on the Lib_Object
      */
-    public function test_magicMethodCall()
+    public function testMagicMethodCall()
     {
         $this->setExpectedException('Exception');
-
         $result = $this->sut->nonExistantMethod('var');
-
     }
-
-} // END class ModelTest
+}
