@@ -33,13 +33,12 @@ abstract class ObjectAbstract
      * @param string $name
      * @throws Lib_Exception
      */
-    final public function __get ($name)
+    final public function __get($name)
     {
         $self = get_called_class();
         throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_GET, array(
             '!explain'  => "{$self}->{$name}",
         )));
-
     }
 
     /**
@@ -52,13 +51,12 @@ abstract class ObjectAbstract
      * @param unknown_type $value
      * @throws Lib_Exception
      */
-    final public function __set ($name, $value = '')
+    final public function __set($name, $value = '')
     {
         $self = get_called_class();
         throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_SET, array(
             '!explain'  => "{$self}->{$name} = {$value}",
         )));
-
     }
 
     /**
@@ -71,22 +69,20 @@ abstract class ObjectAbstract
      * @param array $args
      * @throws Lib_Exception
      */
-    final public function __call ($method, $args = array())
+    final public function __call($method, $args = array())
     {
         $self = get_called_class();
         throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_CALL, array(
             '!explain'  => "{$self}::{$method}(" . @implode(',', $args) . ')',
         )));
-
     }
 
     /**
      * returns a string representation of the object
      */
-    public function __toString ( )
+    public function __toString()
     {
         return get_class($this);
-
     }
 
     /**
@@ -95,12 +91,10 @@ abstract class ObjectAbstract
      * @throws Lib_Exception
      * @return string
      */
-    public function identify ( )
+    public function identify()
     {
         throw new Lib_Exception(
             'Descendents must implement the identify method'
         );
-
     }
-
-} // END class Lib_Object
+}
