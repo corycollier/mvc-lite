@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Object\Singleton;
+use \MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Base View Class
@@ -22,9 +22,10 @@ use \MvcLite\Object\Singleton;
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class View
-    extends Object\Singleton
+class View extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * Variables assigned to the view
      *
@@ -145,6 +146,11 @@ class View
         return $this->_layout;
     }
 
+    /**
+     * Gets the view script
+     *
+     * @return string The path to the view script.
+     */
     public function getViewScript()
     {
         // iterate through the view paths
@@ -160,6 +166,8 @@ class View
 
     /**
      * Method to render the view
+     *
+     * @return string The result of the rendering
      */
     public function render()
     {
@@ -232,7 +240,8 @@ class View
      * @return Lib_View_Helper
      */
     public function getHelper($name)
-    {   // if the helper has already been loaded, just return the instance
+    {
+        // if the helper has already been loaded, just return the instance
         if (@$this->helpers[$name]) {
             return $this->helpers[$name];
         }
@@ -254,6 +263,5 @@ class View
 
         // throw an exception if we get this far
         throw new Exception("Requested view helper [$name] could not be found");
-
     }
 }
