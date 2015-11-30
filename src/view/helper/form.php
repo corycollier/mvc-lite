@@ -27,22 +27,23 @@ class Form extends \MvcLite\View\HelperAbstract
      *
      * @param \MvcLite\ModelAbstract $model
      */
-    public function render(ModelAbstract $model, $attribs = array())
+    public function render($fields, $attribs = array())
     {
-        $template = '<form !attribs><fieldset>!elements</fieldset></form>';
+        $template = '<form!attribs><fieldset>!elements</fieldset></form>';
         $elements = '';
 
-        foreach ($model->getFields() as $column => $field) {
-            $elements .= $this->elementFactory($column, $model, $field);
+        foreach ($fields as $column => $field) {
+            $elements .= $this->elementFactory($column, $field);
         }
 
-        $elements .= $this->_view->getHelper('FormSubmit')->render();
+        $elements .= $this->getView()
+            ->getHelper('FormSubmit')
+            ->render();
 
         return strtr($template, array(
             '!attribs'  => $this->getHtmlAttribs($attribs),
             '!elements' => $elements,
         ));
-
     }
 
     /**
@@ -50,49 +51,17 @@ class Form extends \MvcLite\View\HelperAbstract
      *
      * @param array $params
      */
-    public function elementFactory ($column, ModelAbstract $model, $params = array())
+    public function elementFactory($column, $params = array())
     {
         if (@$params['primary']) {
             return '';
         }
 
         $params['placeholder'] = $params['description'];
-        $params['value'] = $model->get($column);
 
-        if (@$params['reference']) {
-            return $this->_createReferenceElement($column, $model, $params);
-        }
+        $method = "create{$params['type']}Element";
 
-        $method = "_create{$params['type']}Element";
-
-        return call_user_func(array($this, $method), $column, $model, $params);
-
-    }
-
-    /**
-     * returns a form-select element for a given model
-     *
-     * @param \MvcLite\ModelAbstract $model
-     * @param array $params
-     * @return string
-     */
-    protected function _createReferenceElement ($column, ModelAbstract $model, $params = array())
-    {
-        $class = $params['reference']['model'];
-        $referenceModel = new $class;
-        $referenceModel->find();
-        $options = array();
-        foreach ($referenceModel->getData() as $object) {
-            $id = $object->id;
-            $object = new $class($object);
-            $options[$id] = (string)$object;
-            if ($id == $model->get($column)) {
-                $params['value'] = $id;
-                $params['displayValue'] = (string)$object;
-            }
-        }
-        return $this->_view->getHelper('FormSelect')->render($column, $options, $params);
-
+        return call_user_func(array($this, $method), $column, $params);
     }
 
     /**
@@ -102,15 +71,13 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    public function _createEnumElement ($column, ModelAbstract $model, $params = array())
+    public function createEnumElement($column, $params = array())
     {
-        return $this->_view->getHelper('FormSelect')
-            ->render(
-                $column,
-                array_combine($params['options'], $params['options']),
-                $params
-            );
+        $options = array_combine($params['options'], $params['options']);
 
+        return $this->getView()
+            ->getHelper('FormSelect')
+            ->render($column, $options, $params);
     }
 
     /**
@@ -120,10 +87,11 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    public function _createPasswordElement ($column, ModelAbstract $model, $params = array())
+    public function createPasswordElement($column, $params = array())
     {
-        return $this->_view->getHelper('FormPassword')->render($column, $params);
-
+        return $this->getView()
+            ->getHelper('FormPassword')
+            ->render($column, $params);
     }
 
     /**
@@ -133,10 +101,11 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    protected function _createIntElement ($column, ModelAbstract $model, $params = array())
+    protected function createIntElement($column, $params = array())
     {
-        return $this->_view->getHelper('FormText')->render($column, $params);
-
+        return $this->getView()
+            ->getHelper('FormText')
+            ->render($column, $params);
     }
 
     /**
@@ -146,10 +115,11 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    protected function _createTextElement ($column, ModelAbstract $model, $params = array())
+    protected function createTextElement($column, $params = array())
     {
-        return $this->_view->getHelper('FormTextarea')->render($column, $params);
-
+        return $this->getView()
+            ->getHelper('FormTextarea')
+            ->render($column, $params);
     }
 
     /**
@@ -159,10 +129,11 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    protected function _createVarcharElement ($column, ModelAbstract $model, $params = array())
+    protected function createVarcharElement($column, $params = array())
     {
-        return $this->_view->getHelper('FormText')->render($column, $params);
-
+        return $this->getView()
+            ->getHelper('FormText')
+            ->render($column, $params);
     }
 
 } // END class App_View_Helper_Form

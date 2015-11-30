@@ -36,29 +36,35 @@ class FormTest extends \MvcLite\TestCase
      *
      * @param array $fields
      * @param array $attribs
-     * @covers Lib_View_Helper_Form::render
-     * @dataProvider provide_render
+     *
+     * @covers \MvcLite\View\Helper\Form::render
+     *
+     * @dataProvider provideRender
      */
-    public function test_render ($fields, $attribs = array())
+    public function testRender ($expected, $fields, $attribs = array())
     {
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
+            ->setMethods(array(
+                'elementFactory',
+                'htmlAttribs',
+                'getView'
+            ))
+            ->getMock();
 
-        $model = $this->getMock('Tests_Lib_Model_FormTest', array(
-            'getFields',
-        ));
+        $view = $this->getMockBuilder('\MvcLite\View')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getHelper'))
+            ->getMock();
 
-        $model->expects($this->any())
-            ->method('getFields')
-            ->will($this->returnValue($fields));
+        $element = $this->getMockBuilder('ViewHelperElement')
+            ->setMethods(array('render'))
+            ->getMock();
 
-        $helper = $this->getMock('Lib_View_Helper_Form', array(
-            'elementFactory',
-            '_htmlAttribs',
-        ));
+        $view->expects($this->any())
+            ->method('getHelper')
+            ->will($this->returnValue($element));
 
-        $helper->expects($this->any())
+        $sut->expects($this->any())
             ->method('elementFactory')
             // ->with(
             //     $this->equalTo($model),
@@ -67,13 +73,18 @@ class FormTest extends \MvcLite\TestCase
             // )
             ->will($this->returnValue('<element />'));
 
-        $helper->expects($this->once())
-            ->method('_htmlAttribs')
+        $sut->expects($this->any())
+            ->method('htmlAttribs')
             ->with($this->equalTo($attribs))
             ->will($this->returnValue(' attributes '));
 
-        $result = $helper->render($model, $attribs);
+        $sut->expects($this->once())
+            ->method('getView')
+            ->will($this->returnValue($view));
 
+        $result = $sut->render($fields, $attribs);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -82,48 +93,67 @@ class FormTest extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_render ( )
+    public function provideRender()
     {
         return array(
-            array(array(
-                'id'    => array(
-                    'type'      => 'integer',
-                    'primary'   => true,
-                ),
-                'name'  => array(
-                    'type'      => 'varchar',
-                    'primary'   => false,
-                ),
-            )),
+            // test with 2 elements
+            'test with 2 elements' => array(
+                'expected' => '<form><fieldset>'
+                    . '<element /><element />'
+                    . '</fieldset></form>',
+                'fields' => array(
+                    'id'    => array(
+                        'type'      => 'integer',
+                        'primary'   => true,
+                    ),
+                    'name'  => array(
+                        'type'      => 'varchar',
+                        'primary'   => false,
+                    ),
+                )
+            ),
 
-            array(array(
-                'id'    => array(
-                    'type'      => 'integer',
-                    'primary'   => true,
-                ),
-                'name'  => array(
-                    'type'      => 'varchar',
-                    'primary'   => false,
-                ),
-                'email' => array(
-                    'type'      => 'varchar',
-                    'primary'   => false,
-                ),
-            )),
+            // test with 3 elements
+            'test with 3 elements' => array(
+                'expected' => '<form><fieldset>'
+                    . '<element /><element /><element />'
+                    . '</fieldset></form>',
+                'fields' => array(
+                    'id'    => array(
+                        'type'      => 'integer',
+                        'primary'   => true,
+                    ),
+                    'name'  => array(
+                        'type'      => 'varchar',
+                        'primary'   => false,
+                    ),
+                    'email' => array(
+                        'type'      => 'varchar',
+                        'primary'   => false,
+                    ),
+                )
+            ),
 
-            array(array(
-                'id'    => array(
-                    'type'      => 'integer',
-                    'primary'   => true,
+            // test with attributes
+            'test with attributes' => array(
+                'expected' => '<form class="testing" method="get">'
+                    . '<fieldset><element /><element /></fieldset>'
+                    . '</form>',
+                'fields' => array(
+                    'id'    => array(
+                        'type'      => 'integer',
+                        'primary'   => true,
+                    ),
+                    'name'  => array(
+                        'type'      => 'varchar',
+                        'primary'   => false,
+                    ),
                 ),
-                'name'  => array(
-                    'type'      => 'varchar',
-                    'primary'   => false,
-                ),
-            ), array(
-                'class'     => 'testing',
-                'method'    => 'get',
-            )),
+                'attribs' => array(
+                    'class'     => 'testing',
+                    'method'    => 'get',
+                )
+            ),
         );
     }
 
@@ -201,13 +231,9 @@ class FormTest extends \MvcLite\TestCase
 
 } // END class Tests_Lib_View_Helper_FormTest
 
-/**
- * Fixture model to use for testing
- *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Model
- * @since       Class available since release 2.1.0
- * @author      Cory Collier <corycollier@corycollier.com>
- */
+
+// @codingStandardsIgnoreStart
+// testing classes
 class FormTestModel{}
+class ViewHelperElement extends \MvcLite\View\HelperAbstract{}
+// @codingStandardsIgnoreEnd

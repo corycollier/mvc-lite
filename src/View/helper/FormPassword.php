@@ -30,7 +30,10 @@ class FormPassword extends \MvcLite\View\HelperAbstract
      */
     public function render($name, $attribs = array())
     {
-        $template = '<label for="!id" class="form-text"><span class="label">!label</span><input type="password" !attribs /></label>';
+        $template = '<label for="!id" class="form-text">'
+            . '<span class="label">!label</span>'
+            . '<input type="password" !attribs />'
+            . '</label>';
 
         $attribs['name'] = $name;
         $attribs['id'] = $name;
@@ -38,10 +41,7 @@ class FormPassword extends \MvcLite\View\HelperAbstract
         return strtr($template, array(
             '!id'       => $name,
             '!label'    => @$attribs['label'],
-            '!attribs'  => $this->getHtmlAttribss($attribs),
+            '!attribs'  => $this->getHtmlAttribs($attribs),
         ));
-
-
     }
-
-} // END class Lib_View_Helper_FormPassword
+}

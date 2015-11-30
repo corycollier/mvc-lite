@@ -51,11 +51,10 @@ class FormSelect extends \MvcLite\View\HelperAbstract
         return strtr($template, array(
             '!id'               => $name,
             '!label'            => @$attribs['label'],
-            '!attribs'          => $this->getHtmlAttribss($attribs),
-            '!displayAttribs'   => $this->getHtmlAttribss($displayAttribs),
-            '!options'          => $this->_buildOptions($options),
+            '!attribs'          => $this->getHtmlAttribs($attribs),
+            '!displayAttribs'   => $this->getHtmlAttribs($displayAttribs),
+            '!options'          => $this->buildOptions($options),
         ));
-
     }
 
     /**
@@ -64,7 +63,7 @@ class FormSelect extends \MvcLite\View\HelperAbstract
      * @param array $options
      * @return string
      */
-    protected function _buildOptions ($options = array())
+    protected function buildOptions ($options = array())
     {
         $template = '<option value="!value">!label</option>';
 
@@ -79,8 +78,5 @@ class FormSelect extends \MvcLite\View\HelperAbstract
 
         // return the array imploded into a string by newline characters
         return implode(PHP_EOL, $options);
-
     }
-
-
-} // END class Lib_View_Helper_FormSelect
+}

@@ -31,7 +31,7 @@ class Exception extends \MvcLite\View\HelperAbstract
      */
     public function render($exception = null)
     {
-        if (! @$exception || !($exception instanceOf Exception)) {
+        if (is_null($exception)) {
             return '';
         }
 

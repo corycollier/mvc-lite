@@ -37,9 +37,7 @@ class FormSubmit extends \MvcLite\View\HelperAbstract
         ));
 
         return strtr($template, array(
-            '!attribs'  => $this->getHtmlAttribss($attribs),
+            '!attribs'  => $this->getHtmlAttribs($attribs),
         ));
-
     }
-
-} // END class App_View_Helper_FormSubmit
+}

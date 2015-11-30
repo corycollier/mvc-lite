@@ -41,7 +41,7 @@ class ViewHelperExceptionTest extends \MvcLite\TestCase
 
     /**
      *
-     * provides a list of data to use to test the $helper->render() method
+     * provides a list of data to use to test `the $helper->render() method
      */
     public function provideRender()
     {
@@ -49,7 +49,6 @@ class ViewHelperExceptionTest extends \MvcLite\TestCase
             // array(new Exception('testing'), 'testing'),
             array('testing', new \Exception('testing')),
             array('testing', new \ErrorException('testing')),
-            array(0),
         );
     }
 }

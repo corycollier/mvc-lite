@@ -50,7 +50,15 @@ abstract class HelperAbstract extends \MvcLite\ObjectAbstract
     {
         // a list of acceptable html attributes
         $whiteListAttribs = array(
-            'name', 'id', 'placeholder', 'class', 'value', 'href', 'rel', 'action', 'method',
+            'name',
+            'id',
+            'placeholder',
+            'class',
+            'value',
+            'href',
+            'rel',
+            'action',
+            'method',
         );
 
         // iterate over the attribs provided
@@ -60,6 +68,11 @@ abstract class HelperAbstract extends \MvcLite\ObjectAbstract
                 $attribs[] = "{$key}=\"{$value}\"";
             }
         }
+
+        if (!count($attribs)) {
+            return '';
+        }
+
         // return the pairs, imploded by a single space
         return ' ' . implode(' ', $attribs);
     }

@@ -57,7 +57,9 @@ class Registry extends ObjectAbstract
      */
     public function get($name)
     {
-        return $this->data[$name];
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
     }
 
     /**

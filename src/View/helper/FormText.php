@@ -42,9 +42,7 @@ class FormText extends \MvcLite\View\HelperAbstract
         return strtr($template, array(
             '!label'    => @$attribs['label'],
             '!id'       => $name,
-            '!attribs'  => $this->getHtmlAttribss($attribs),
+            '!attribs'  => $this->getHtmlAttribs($attribs),
         ));
-
     }
-
-} // END class Lib_View_Helper_FormText
+}
