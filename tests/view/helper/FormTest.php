@@ -24,14 +24,6 @@ namespace MvcLite\Tests\View\Helper;
 class FormTest extends \MvcLite\TestCase
 {
     /**
-     * Local implementation ofthe setup hook
-     */
-    public function setUp ( )
-    {
-        $this->sut = new  \MvcLite\View\Helper\Form;
-    }
-
-    /**
      * tests the render method of the form view helper
      *
      * @param array $fields
@@ -161,79 +153,116 @@ class FormTest extends \MvcLite\TestCase
      * Tests the elementFactory method of the form view helper
      *
      * @param string $column
-     * @param Lib_Model $model
      * @param array $params
-     * @covers Lib_View_Helper_Form::elementFactory
-     * @dataProvider provide_elementFactory
+     *
+     * @covers \MvcLite\View\Helper\Form::elementFactory
+     *
+     * @dataProvider provideElementFactory
      */
-    public function test_elementFactory ($column, $model, $params, $value, $expected)
+    public function testElementFactory ($expected, $column, $params, $value)
     {
-        $model->expects($this->once())
-            ->method('get')
-            ->with($column)
-            ->will($this->returnValue($params['value']));
+        $method = "create{$params['type']}Element";
+        $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
+            ->setMethods(array('getView'))
+            ->getMock();
 
-        $helper = $this->getMock('Lib_View_Helper_Form', array(
-            'elementFactory',
-        ));
+        $view = $this->getMockBuilder('\MvcLite\View')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getHelper'))
+            ->getMock();
 
-        $result = $this->sut->elementFactory($column, $model, $params);
+        $helper = $this->getMockBuilder('ViewHelperElement')
+            ->setMethods(array(
+                'createEnumElement',
+                'createPasswordElement',
+                'createIntElement',
+                'createTextElement',
+                'createVarcharElement',
+                'render'
+            ))
+            ->getMock();
+
+        $helper->expects($this->any())
+            ->method($method)
+            ->with($this->equalTo($value), $this->equalTo($params))
+            ->will($this->returnValue($value));
+
+        $helper->expects($this->any())
+            ->method('render')
+            ->will($this->returnValue($expected));
+
+        $view->expects($this->any())
+            ->method('getHelper')
+            ->will($this->returnValue($helper));
+
+        $sut->expects($this->any())
+            ->method('getView')
+            ->will($this->returnValue($view));
+
+        $result = $sut->elementFactory($column, $params);
 
         $this->assertSame($expected, $result);
-
     }
 
     /**
+     * Data provider for FormTest::testElementFactory().
      *
-     *
-     *
+     * @return array
      */
-    public function provide_elementFactory ( )
+    public function provideElementFactory ( )
     {
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-
-        $model = $this->getMockForAbstractClass('Lib_Model', array(
-            'get',
-            '_createReferenceElement',
-        ));
-
         return array(
-            'primary' => array('id', $model, array(
-                'primary'   => true,
-                'type'      => 'int',
-            ), 1, ''),
+            'primary' => array(
+                'expected' => '',
+                'column' => 'id',
+                'params' => array(
+                    'primary'   => true,
+                    'type'      => 'int',
+                    'description' => 'description',
+                ),
+                'value' => 1,
+            ),
 
-            'not primary' => array('name', $model, array(
-                'type'      => 'varchar',
-            ), 'the value', implode('', array(
-                '<label for="name" class="form-text">',
-                '<span class="label"></span>',
-                '<input type="text"  placeholder="" value="" name="name" id="name" />',
-                '</label>'
-            ))),
+            'not primary' => array(
+                'expected' => implode('', array(
+                    '<label for="name" class="form-text">',
+                    '<span class="label"></span>',
+                    '<input type="text"  placeholder="" value="" name="name" id="name" />',
+                    '</label>'
+                )),
+                'column' => 'name',
+                'params' => array(
+                    'type'      => 'varchar',
+                    'description' => 'description',
+                ),
+                'value' => 'the value',
+            ),
 
-            'text' => array('name', $model, array(
-                'type'      => 'text',
-            ), 'the name', implode(PHP_EOL, array(
-                '<label for="name" class="form-text">',
-                '<span class="label"></span>',
-                '<textarea type="text"  placeholder="" value="" name="name" id="name"></textarea>',
-                '</label>'
-            ))),
-
-
-
+            'text' => array(
+                'expected' => implode(PHP_EOL, array(
+                    '<label for="name" class="form-text">',
+                    '<span class="label"></span>',
+                    '<textarea type="text"  placeholder="" value="" name="name" id="name"></textarea>',
+                    '</label>'
+                )),
+                'column' => 'name',
+                'params' => array(
+                    'type'      => 'text',
+                    'description' => 'description',
+                ),
+                'value' => 'the name',
+            ),
         );
-
     }
-
-} // END class Tests_Lib_View_Helper_FormTest
+}
 
 
 // @codingStandardsIgnoreStart
 // testing classes
 class FormTestModel{}
-class ViewHelperElement extends \MvcLite\View\HelperAbstract{}
+class ViewHelperElement extends \MvcLite\View\HelperAbstract{
+    public function render() {
+
+    }
+}
 // @codingStandardsIgnoreEnd
