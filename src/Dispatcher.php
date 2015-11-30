@@ -2,8 +2,8 @@
 /**
  * Base Dispatcher
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -20,8 +20,8 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 /**
  * Base Dispatcher
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Dispatcher
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -119,7 +119,8 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         $this->controller->postDispatch();
 
         // send the response
-        $response->setBody($this->controller->getView()->render());
+        $body = $this->controller->getView()->render();
+        $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers
         if (PHP_SAPI != 'cli') {
@@ -128,7 +129,6 @@ class Dispatcher extends \MvcLite\ObjectAbstract
 
         // echo the body
         echo $response->getBody();
-
     }
 
     /**
@@ -150,7 +150,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         ));
 
         // return the controller name, prefixed with App_Controller_
-        return 'App\\' . $controller . 'Controller';
+        return '\\App\\' . $controller . 'Controller';
     }
 
     /**

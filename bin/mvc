@@ -11,6 +11,9 @@ $func = $argv[1];
 $map = array(
     'setup' => array(
         'callback'  => 'mvc_setup',
+        'required' => array(
+            'target',
+        ),
         'supported' => array(
             'target' => 'Where to create the mvc application',
         ),
@@ -37,7 +40,8 @@ if (array_key_exists($func, $map)) {
     try {
         $output = new PhpCli\Output;
         $parser = new PhpCli\Parser($argv, $map[$func]['supported']);
-        call_user_func_array($map[$func]['callback'], array($parser, $output));
+        mvc_check_requirements($parser, $output, $map[$func]['required']);
+        mvc_dispatch_request($parser, $output, $map[$func]['callback']);
     } catch (PhpCli\Exception $exception) {
     // Catch any namespaced exceptions, and send them to the output device.
         $output->newline()
@@ -47,6 +51,35 @@ if (array_key_exists($func, $map)) {
             ->newline()
             ->newline();
     }
+}
+
+/**
+ * Checks to make sure that the arguments given, match required arguments.
+ *
+ * @param \PhpCli\Parser $parser The parser instance.
+ * @param \PhpCli\Outout $output The output instance.
+ * @param array $requirements A numerically indexed array of required arguments
+ */
+function mvc_check_requirements($parser, $output, $requirements)
+{
+    $args = $parser->getArgs();
+    foreach ($requirements as $requirement) {
+        if (! array_key_exists($requirement, $args)) {
+            throw new PhpCli\Exception('Missing required argument: --' . $requirement);
+        }
+    }
+}
+
+/**
+ * Dispatches the request to the appropriate handling function.
+ *
+ * @param \PhpCli\Parser $parser The parser instance.
+ * @param \PhpCli\Outout $output The output instance.
+ * @param string $callback The function to call
+ */
+function mvc_dispatch_request($parser, $output, $callback)
+{
+    call_user_func_array($callback, array($parser, $output));
 }
 
 /**

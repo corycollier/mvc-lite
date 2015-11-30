@@ -2,9 +2,9 @@
 /**
  * Application Index Controller
  *
- * @category    MvcLite
- * @package     App
- * @subpackage  Controller
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  App
  */
 
 namespace App;
@@ -12,14 +12,19 @@ namespace App;
 use MvcLite\Controller;
 
 /**
- * Base Controller
+ * Application Index Controller
  *
- * @category    MvcLite
- * @package     App
- * @subpackage  Controller
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  App
  */
-class IndexController
-  extends Controller
+class IndexController extends Controller
 {
+    /**
+     * Index/index. This is the home page.
+     */
+    public function indexAction()
+    {
 
+    }
 }

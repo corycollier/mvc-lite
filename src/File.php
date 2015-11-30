@@ -2,8 +2,8 @@
 /**
  * Class to contain logic for accessing files
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  File
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -14,8 +14,8 @@ namespace MvcLite;
 /**
  * Class to contain logic for accessing files
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  File
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>

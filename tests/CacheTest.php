@@ -20,8 +20,7 @@ namespace MvcLite;
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class CacheTest
-    extends \PHPUnit_Framework_TestCase
+class CacheTest extends TestCase
 {
     /**
      * Tests the init method of the cache object.
@@ -70,7 +69,26 @@ class CacheTest
      */
     public function testGet (ObjectAbstract $object, $name, $expected)
     {
-        $sut = Cache::getInstance();
+
+        // $key = $this->getCacheKey($object, $name);
+        // $file = $this->getFilePath($key);
+
+
+        $sut = $this->getMockBuilder('\MvcLite\Cache')
+            ->disableOriginalConstructor()
+            ->setMethods(array(
+                'getCacheKey', 'getFilePath',
+            ))
+            ->getMock();
+
+        $sut->expects($this->any())
+            ->method('getCacheKey')
+            ->will($this->returnValue('cache-key'));
+
+        $sut->expects($this->any())
+            ->method('getFilePath')
+            ->will($this->returnValue('/tmp/cache-key-test'));
+
         $sut->set($object, $name, $expected);
         $result = $sut->get($object, $name);
         $this->assertEquals($expected, $result);

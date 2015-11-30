@@ -2,8 +2,8 @@
 /**
  * Defines the caching mechanism
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -13,12 +13,13 @@ namespace MvcLite;
 
 use MvcLite\Filter;
 use \MvcLite\Traits\Singleton as SingletonTrait;
+use \MvcLite\Traits\Filepath as FilepathTrait;
 
 /**
  * Defines the caching mechanism
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Cache
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -26,6 +27,7 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 class Cache extends ObjectAbstract
 {
     use SingletonTrait;
+    use FilepathTrait;
 
     /**
      * property to store the configuration of the cache object
@@ -37,7 +39,7 @@ class Cache extends ObjectAbstract
     /**
      * initialize the cache instance
      *
-     * @return Lib_Cache $this for object-chaining.
+     * @return \MvcLite\Cache $this for object-chaining.
      */
     public function init(array $data = array())
     {
@@ -55,7 +57,7 @@ class Cache extends ObjectAbstract
      * @param string $name
      * @param unknown_type $data
      *
-     * @return Lib_Cache $this for object-chaining.
+     * @return \MvcLite\Cache $this for object-chaining.
      */
     public function set(ObjectAbstract $object, $name, $data)
     {
@@ -74,10 +76,7 @@ class Cache extends ObjectAbstract
      */
     protected function getFilePath($filename)
     {
-        return implode(DIRECTORY_SEPARATOR, array(
-            $this->config['directory'],
-            $filename,
-        ));
+        $this->filepath($this->config['directory'] . '/' . $filename);
     }
 
     /**
@@ -88,7 +87,7 @@ class Cache extends ObjectAbstract
      * @param \MvcLite\ObjectAbstract $object
      * @param string $name
      *
-     * @return unknown_type
+     * @return mixed
      */
     public function get(ObjectAbstract $object, $name)
     {

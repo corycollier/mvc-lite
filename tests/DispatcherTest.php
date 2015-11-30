@@ -21,7 +21,7 @@ namespace MvcLite;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class DispatcherTest extends \PHPUnit_Framework_TestCase
+class DispatcherTest extends TestCase
 {
 
     /**

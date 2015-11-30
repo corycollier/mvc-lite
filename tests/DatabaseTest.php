@@ -21,7 +21,7 @@ namespace MvcLite;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class DatabaseTest extends \PHPUnit_Framework_TestCase
+class DatabaseTest extends TestCase
 {
     protected $sut;
 

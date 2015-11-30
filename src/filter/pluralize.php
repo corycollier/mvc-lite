@@ -2,8 +2,8 @@
 /**
  * pluralize filter
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Filter
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -14,8 +14,8 @@ namespace MvcLite\Filter;
 /**
  * pluralize filter
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Filter
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -27,6 +27,7 @@ class Pluralize extends \MvcLite\FilterAbstract
      * filters a given string
      *
      * @param string $word
+     *
      * @return string
      */
     public function filter ($word = '')

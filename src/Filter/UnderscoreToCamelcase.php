@@ -2,8 +2,8 @@
 /**
  * string to upper filter
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Filter
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -14,8 +14,8 @@ namespace MvcLite\Filter;
 /**
  * string to upper filter
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Filter
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -25,7 +25,7 @@ class UnderscoreToCamelcase extends \MvcLite\FilterAbstract
 {
     /**
      * (non-PHPdoc)
-     * @see filter/Lib_Filter_Abstract::filter()
+     * @see \MvcLite\FilterAbstract::filter()
      */
     public function filter ($word = '')
     {

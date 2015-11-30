@@ -2,8 +2,8 @@
 /**
  * Base Exception
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Exception
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -14,8 +14,8 @@ namespace MvcLite;
 /**
  * Base Exception
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Exception
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>

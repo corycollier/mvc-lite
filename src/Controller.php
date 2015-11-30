@@ -2,8 +2,8 @@
 /**
  * Base Controller
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Controller
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -11,75 +11,30 @@
 
 namespace MvcLite;
 
+use \MvcLite\Traits\Database as DatabaseTrait;
+use \MvcLite\Traits\Request as RequestTrait;
+use \MvcLite\Traits\Response as ResponseTrait;
+use \MvcLite\Traits\Session as SessionTrait;
+use \MvcLite\Traits\Filepath as FilepathTrait;
+use \MvcLite\Traits\View as ViewTrait;
+
 /**
  * Base Controller
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Controller
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 class Controller extends ObjectAbstract
 {
-    protected $view;
-    protected $response;
-    protected $request;
-    protected $session;
-
-    /**
-     * Constructor for the controller.
-     */
-    public function __construct()
-    {
-        $this->view     = View::getInstance();
-        $this->response = Response::getInstance();
-        $this->request  = Request::getInstance();
-        $this->session  = Session::getInstance();
-    }
-
-    /**
-     * Getter for the view property.
-     *
-     * @return \MvcLite\View
-     */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * Getter for the response property.
-     *
-     * @return \MvcLite\Response
-     */
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    /**
-     * Utility method to get the request instance
-     *
-     * @return \MvcLite\Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * Utility method to get the session instance
-     *
-     * @return \MvcLite\Session
-     */
-    public function getSession()
-    {
-        if (! $this->session) {
-            $this->session = Session::getInstance();
-        }
-        return $this->session;
-    }
+    use DatabaseTrait;
+    use RequestTrait;
+    use ResponseTrait;
+    use SessionTrait;
+    use FilepathTrait;
+    use ViewTrait;
 
     /**
      * Hook run immediately after the constructing of a controller.
@@ -90,9 +45,7 @@ class Controller extends ObjectAbstract
         $controller = $request->getParam('controller');
         $action     = $request->getParam('action');
         $view       = $this->getView();
-        $path       = implode(DIRECTORY_SEPARATOR, array(
-            APP_PATH, 'view', 'scripts', $controller,
-        ));
+        $path       = $this->filepath(array(APP_PATH, 'view/scripts', $controller));
 
         // setup the view
         $view->addViewScriptPath($path);

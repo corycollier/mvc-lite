@@ -2,8 +2,8 @@
 /**
  * Registry
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Registry
  * @since       File available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -18,8 +18,8 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
  *
  * Data store for application level storage
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Registry
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>

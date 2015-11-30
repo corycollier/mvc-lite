@@ -2,8 +2,8 @@
 /**
  * Base Database adapter
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Database
  * @since       File available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -16,8 +16,8 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 /**
  * Base Database adapter
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Database
  * @since       Class available since release 1.0.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -189,6 +189,7 @@ class Database extends ObjectAbstract
      *
      * @param string $table
      * @param array $params
+     *
      * @return Lib_Database $this for object-chaining.
      */
     public function delete($table, $params = array())
@@ -212,6 +213,7 @@ class Database extends ObjectAbstract
      * builds a where string to be used by the delete method
      *
      * @param array $params
+     *
      * @return string
      */
     protected function deleteWhere($params = array())
@@ -233,6 +235,8 @@ class Database extends ObjectAbstract
      * Method to translate an array of values to an insert string
      *
      * @param array $values
+     *
+     *
      * @return string
      */
     protected function insertValues($values = array())
@@ -249,6 +253,7 @@ class Database extends ObjectAbstract
      * Method to build a setting string for update statements
      *
      * @param array $fields
+     *
      * @return string
      */
     protected function updateFields($fields = array())
@@ -302,6 +307,7 @@ class Database extends ObjectAbstract
      * Returns a list of fields to gather.
      *
      * @param array|string $fields
+     *
      * @return string
      */
     protected function buildFields($fields = '*')
@@ -317,6 +323,7 @@ class Database extends ObjectAbstract
      * Get a WHERE string from arbitrary params.
      *
      * @param array|string $params
+     *
      * @return string
      */
     protected function buildWhere($params = '')
@@ -364,6 +371,7 @@ class Database extends ObjectAbstract
      * Build an order by string.
      *
      * @param array|string
+     *
      * @return string
      */
     protected function buildOrder($order = null)
@@ -383,6 +391,7 @@ class Database extends ObjectAbstract
      * Builds a limit string.
      *
      * @param array|string $limit
+     *
      * @return string
      */
     protected function buildLimit($limit = null)

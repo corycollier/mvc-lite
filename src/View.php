@@ -2,8 +2,8 @@
 /**
  * Base View Class
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  View
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -12,12 +12,13 @@
 namespace MvcLite;
 
 use \MvcLite\Traits\Singleton as SingletonTrait;
+use \MvcLite\Traits\Filepath as FilepathTrait;
 
 /**
  * Base View Class
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  View
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -25,6 +26,7 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 class View extends ObjectAbstract
 {
     use SingletonTrait;
+    use FilepathTrait;
 
     /**
      * Variables assigned to the view
@@ -65,12 +67,8 @@ class View extends ObjectAbstract
      */
     public function init()
     {
-        $this->addViewScriptPath(implode(DIRECTORY_SEPARATOR, array(
-            APP_PATH,
-            'view',
-            'scripts',
-            'default',
-        )));
+        $path = $this->filepath(APP_PATH . '/view/scripts/default');
+        $this->addViewScriptPath($path);
     }
 
     /**
@@ -82,9 +80,7 @@ class View extends ObjectAbstract
     public function addViewScriptPath($path)
     {
         if (strpos($path, APP_PATH) === false) {
-            $path = implode(DIRECTORY_SEPARATOR, array(
-                APP_PATH, $path
-            ));
+            $path = $this->filepath(array(APP_PATH, $path));
         }
 
         $this->viewScriptPaths[] = $path;
@@ -157,9 +153,7 @@ class View extends ObjectAbstract
     {
         // iterate through the view paths
         foreach ($this->getViewScriptPaths() as $path) {
-            $path = implode(DIRECTORY_SEPARATOR, array(
-                $path, $this->getScript() . '.phtml',
-            ));
+            $path = $this->filepath(array($path, $this->getScript() . '.phtml'));
             if (file_exists($path)) {
                 return $path;
             }
@@ -188,12 +182,8 @@ class View extends ObjectAbstract
         }
 
         ob_start();
-        include(implode(DIRECTORY_SEPARATOR, array(
-            APP_PATH,
-            'view',
-            'layouts',
-            $this->getLayout() . ".phtml",
-        )));
+        $layout = $this->filepath(APP_PATH . '/view/layouts' . $this->getLayout() . ".phtml");
+        include($layout);
         $contents = ob_get_clean();
 
         return $this->filter($contents);
@@ -231,7 +221,9 @@ class View extends ObjectAbstract
      */
     public function get($var)
     {
-        return @$this->vars[$var];
+        if (array_key_exists($var, $this->vars)) {
+            return $this->vars[$var];
+        }
     }
 
     /**

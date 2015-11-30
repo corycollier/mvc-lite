@@ -2,8 +2,8 @@
 /**
  * Class to handle errors throughout the site
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Error
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -16,8 +16,8 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 /**
  * Class to handle errors throughout the site
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Error
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>

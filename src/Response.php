@@ -2,8 +2,8 @@
 /**
  * Base Response
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Response
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -16,8 +16,8 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 /**
  * Base Response
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Response
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>

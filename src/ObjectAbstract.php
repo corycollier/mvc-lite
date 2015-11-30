@@ -2,8 +2,8 @@
 /**
  * Base Object Class
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Object
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -16,8 +16,8 @@ namespace MvcLite;
  *
  * All classes in the MVCLite framework extends this class
  *
- * @category    MvcLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Object
  * @since       Class available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
