@@ -30,9 +30,9 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
      *
      * @dataProvider provideRender
      */
-    public function testRender ($name, $attribs = [])
+    public function testRender($name, $attribs = [])
     {
-        $helper = new  \MvcLite\View\Helper\FormPassword;
+        $helper = new \MvcLite\View\Helper\FormPassword;
 
         $result = $helper->render($name, $attribs);
 
@@ -41,7 +41,6 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
         $this->assertTrue(strpos($result, '<input type="password"') > 0);
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
-
     }
 
     /**
@@ -49,7 +48,7 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
      *
      * @return array An array of data to use for testing.
      */
-    public function provideRender ( )
+    public function provideRender()
     {
         return [
             [

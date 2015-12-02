@@ -48,5 +48,4 @@ class FormTextarea extends \MvcLite\View\HelperAbstract
             '!value'    => $attribs['value'],
         ]);
     }
-
-} // END class Lib_View_Helper_FormText
+}

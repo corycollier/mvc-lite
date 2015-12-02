@@ -27,19 +27,15 @@ class CamelcaseToDash extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         $result = '';
-
         for ($i = 0; $i < strlen($word); $i++) {
             if ($i > 0 && strtolower($word{$i}) !== $word{$i}) {
                 $result .= '-';
             }
             $result .= strtolower($word{$i});
         }
-
         return $result;
-
     }
-
-} // END class Lib_Filter_CamelcaseToDash
+}

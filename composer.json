@@ -11,7 +11,8 @@
         "pdepend/pdepend"              : "^2.2",
         "phploc/phploc"                : "^2.1",
         "theseer/phpdox"               : "0.8.1.1",
-        "phpunit/phpunit"              : "^5.0"
+        "phpunit/phpunit"              : "^5.0",
+        "sebastian/phpcpd"             : "~2.0@dev"
     },
     "authors" : [
         {
@@ -22,7 +23,7 @@
         }
     ],
     "require" : {
-        "corycollier/php-cli": "dev-master"
+        "corycollier/php-cli": "dev-master",
     },
 
     "autoload": {
@@ -31,5 +32,4 @@
             "App\\" : "./App"
         }
     }
-
 }

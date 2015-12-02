@@ -23,8 +23,7 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterDashToCamelcaseTest
-extends \MvcLite\TestCase
+class FilterDashToCamelcaseTest extends \MvcLite\TestCase
 {
     /**
      * method to test the DashToCamelcase filter's ability to filter a string
@@ -34,7 +33,7 @@ extends \MvcLite\TestCase
      *
      * @dataProvider provideFilter
      */
-    public function testFilter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\DashToCamelcase;
         $this->assertSame($expected, $filter->filter($unfiltered));
@@ -43,7 +42,7 @@ extends \MvcLite\TestCase
     /**
      * provide data for testing the DashToCamelcase filter's ability to filter
      *
-     * @return array
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

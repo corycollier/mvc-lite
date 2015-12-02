@@ -23,8 +23,7 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterUnderscoreToCamelcaseTest
-extends \MvcLite\TestCase
+class FilterUnderscoreToCamelcaseTest extends \MvcLite\TestCase
 {
     /**
      *
@@ -32,6 +31,7 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
+     *
      * @dataProvider provideFilter
      */
     public function testFilter($unfiltered, $expected)
@@ -43,7 +43,7 @@ extends \MvcLite\TestCase
     /**
      * provide data for testing the UnderscoreToCamelcase filter's ability to filter
      *
-     * @return array
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

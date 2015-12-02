@@ -23,14 +23,14 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterUnderscoreToDashTest
-extends \MvcLite\TestCase
+class FilterUnderscoreToDashTest extends \MvcLite\TestCase
 {
     /**
      * method to test the UnderscoreToDash filter's ability to filter a string
      *
      * @param string $unfiltered
      * @param string $expected
+     *
      * @dataProvider provideFilter
      */
     public function testFilter($unfiltered, $expected)
@@ -42,7 +42,7 @@ extends \MvcLite\TestCase
     /**
      * provide data for testing the UnderscoreToDash filter's ability to filter
      *
-     * @return array
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

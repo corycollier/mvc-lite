@@ -60,7 +60,7 @@ class Table extends \MvcLite\View\HelperAbstract
         $params = array_intersect_key($request->getParams(), [
             'controller' => '',
             'action'     => '',
-        )];
+        ]);
 
         $order = $request->getParam('order');
 

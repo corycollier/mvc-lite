@@ -73,8 +73,8 @@ class Request extends ObjectAbstract
         $filter->addFilter(new Filter\SeparatorToUcwords('-'));
 
         // iterate over the $_SERVER superglobal values.
-        foreach($_SERVER as $key => $value) {
-            if(substr($key, 0, 5) != 'HTTP_') {
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) != 'HTTP_') {
                 continue;
             }
             $key = $filter->filter($key);
@@ -91,7 +91,8 @@ class Request extends ObjectAbstract
      * @return array
      */
     public function buildFromString($string = '', $separator = '/')
-    {   // create a list of parts by separator
+    {
+        // create a list of parts by separator
         $parts = array_filter(explode($separator, $string));
         sort($parts);
         $results = [];
@@ -182,7 +183,8 @@ class Request extends ObjectAbstract
      * @return boolean
      */
     public function isPost()
-    {   // if there is data in the _post property, return true
+    {
+        // if there is data in the _post property, return true
         if (count($_POST)) {
             return true;
         }

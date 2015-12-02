@@ -27,10 +27,8 @@ class StringToUpper extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         return strtoupper($word);
-
     }
-
-} // END class Lib_Filter_StringToUpper
+}

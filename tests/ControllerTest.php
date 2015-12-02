@@ -21,8 +21,7 @@ namespace MvcLite;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ControllerTest
-    extends \PHPUnit_Framework_TestCase
+class ControllerTest extends TestCase
 {
     /**
      * Test the getter for the request object in the controller

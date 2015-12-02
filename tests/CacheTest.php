@@ -27,7 +27,7 @@ class CacheTest extends TestCase
      *
      * @dataProvider provideInit
      */
-    public function testInit ($config = [])
+    public function testInit($config = [])
     {
         $sut = Cache::getInstance();
         $sut->init($config);
@@ -44,7 +44,7 @@ class CacheTest extends TestCase
      *
      * @return array An array of data to use in testing the init method.
      */
-    public function provideInit ( )
+    public function provideInit()
     {
         return [
             'with prefix' => [
@@ -71,13 +71,8 @@ class CacheTest extends TestCase
      *
      * @dataProvider provideGet
      */
-    public function testGet (ObjectAbstract $object, $name, $expected)
+    public function testGet(ObjectAbstract $object, $name, $expected)
     {
-
-        // $key = $this->getCacheKey($object, $name);
-        // $file = $this->getFilePath($key);
-
-
         $sut = $this->getMockBuilder('\MvcLite\Cache')
             ->disableOriginalConstructor()
             ->setMethods(['getCacheKey', 'getFilePath'])
@@ -101,7 +96,7 @@ class CacheTest extends TestCase
      *
      * @return array
      */
-    public function provideGet ( )
+    public function provideGet()
     {
         $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
         return [
@@ -119,7 +114,7 @@ class CacheTest extends TestCase
      * @param unknown_type $data
      * @dataProvider provideSet
      */
-    public function testSet (ObjectAbstract $object, $name, $data = null)
+    public function testSet(ObjectAbstract $object, $name, $data = null)
     {
         $sut = Cache::getInstance();
     }
@@ -127,9 +122,9 @@ class CacheTest extends TestCase
     /**
      * returns data to use to test the set method of the lib cache object
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
-    public function provideSet ( )
+    public function provideSet()
     {
         $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
         return [

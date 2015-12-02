@@ -27,23 +27,20 @@ class ClassToCamelcase extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         $words = explode('_', $word);
         $word = end($words);
 
         $result = '';
 
-        for($i = 0; $i < strlen($word); $i++) {
+        for ($i = 0; $i < strlen($word); $i++) {
             if ($i === 0) {
                 $result .= strtolower($word{$i});
                 continue;
             }
             $result .= $word{$i};
         }
-
         return $result;
-
     }
-
-} // END class Lib_Filter_ClassToCamelcase
+}

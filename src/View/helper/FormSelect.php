@@ -29,7 +29,7 @@ class FormSelect extends \MvcLite\View\HelperAbstract
      * @param array $attribs
      * @return string
      */
-    public function render ($name, $options = [], $attribs = [])
+    public function render($name, $options = [], $attribs = [])
     {
         $displayAttribs = array_merge($attribs, [
             'name'  => "display-only-{$name}",
@@ -63,7 +63,7 @@ class FormSelect extends \MvcLite\View\HelperAbstract
      * @param array $options
      * @return string
      */
-    protected function buildOptions ($options = [])
+    protected function buildOptions($options = [])
     {
         $template = '<option value="!value">!label</option>';
 

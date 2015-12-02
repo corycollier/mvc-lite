@@ -40,7 +40,9 @@ class FilterCamelcaseToDashTest extends \MvcLite\TestCase
     }
 
     /**
-     * provider of data to test the camelcase-to-dash class's filter method
+     * provider of data to test the camelcase-to-dash class's filter method.
+     *
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

@@ -27,6 +27,5 @@ abstract class FilterAbstract extends ObjectAbstract
      *
      * @param string $word
      */
-    abstract function filter ($word = '');
-
-} // END class Lib_Filter_Abstract
+    abstract public function filter($word = '');
+}

@@ -219,7 +219,7 @@ class DatabaseTest extends TestCase
             ],
             'test users by array of ids' => [
                 'table' => 'users',
-                'params' => ['id' => range(1,3)],
+                'params' => ['id' => range(1, 3)],
             ],
         ];
     }

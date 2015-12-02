@@ -23,8 +23,7 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterClassToCamelcaseTest
-extends \MvcLite\TestCase
+class FilterClassToCamelcaseTest extends \MvcLite\TestCase
 {
     /**
      *
@@ -32,9 +31,10 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
+     *
      * @dataProvider provideFilter
      */
-    public function testFilter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\ClassToCamelcase;
         $this->assertSame($expected, $filter->filter($unfiltered));
@@ -43,7 +43,7 @@ extends \MvcLite\TestCase
     /**
      * provide data for testing the ClassToCamelcase filter's ability to filter
      *
-     * @return array
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

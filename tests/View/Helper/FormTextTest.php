@@ -30,7 +30,7 @@ class ViewHelperFormTextTest extends \MvcLite\TestCase
      */
     public function testRender($name, $attribs = [])
     {
-        $helper = new  \MvcLite\View\Helper\FormText;
+        $helper = new \MvcLite\View\Helper\FormText;
 
         $result = $helper->render($name, $attribs);
 
@@ -58,5 +58,4 @@ class ViewHelperFormTextTest extends \MvcLite\TestCase
             ],
         ];
     }
-
-} // END class Lib_View_Helper_FormTextTest
+}

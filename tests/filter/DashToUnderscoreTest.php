@@ -23,8 +23,7 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterDashToUnderscoreTest
-extends \MvcLite\TestCase
+class FilterDashToUnderscoreTest extends \MvcLite\TestCase
 {
     /**
      * method to test the DashToUnderscore filter's ability to filter a string
@@ -43,7 +42,7 @@ extends \MvcLite\TestCase
     /**
      * provide data for testing the DashToUnderscore filter's ability to filter
      *
-     * @return array
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

@@ -167,7 +167,7 @@
     <exec executable="${phpcs}" taskname="phpcs">
       <arg value="--standard=PSR2" />
       <arg value="--extensions=php" />
-      <arg value="--ignore=autoload.php" />
+      <arg value="--ignore=autoload.php,bootstrap.php" />
       <arg path="${basedir}/src" />
       <arg path="${basedir}/tests" />
     </exec>

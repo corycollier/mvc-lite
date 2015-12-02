@@ -27,7 +27,7 @@ class UnderscoreToCamelcase extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         $words = explode('_', $word);
 
@@ -40,7 +40,5 @@ class UnderscoreToCamelcase extends \MvcLite\FilterAbstract
         }
 
         return implode('', $words);
-
     }
-
-} // END class Lib_Filter_UnderscoreToCamelcase
+}

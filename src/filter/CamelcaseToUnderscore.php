@@ -27,7 +27,7 @@ class CamelcaseToUnderscore extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         $result = '';
 
@@ -37,9 +37,6 @@ class CamelcaseToUnderscore extends \MvcLite\FilterAbstract
             }
             $result .= strtolower($word{$i});
         }
-
         return $result;
-
     }
-
-} // END class Lib_Filter_CamelcaseToUnderscore
+}

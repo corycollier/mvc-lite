@@ -20,8 +20,7 @@ namespace MvcLite;
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class Exception
-    extends \Exception
+class Exception extends \Exception
 {
     /**
      * String message indicating that magic methods are bad, mmk?

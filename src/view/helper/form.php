@@ -135,5 +135,4 @@ class Form extends \MvcLite\View\HelperAbstract
             ->getHelper('FormText')
             ->render($column, $params);
     }
-
-} // END class App_View_Helper_Form
+}

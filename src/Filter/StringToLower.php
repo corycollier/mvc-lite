@@ -27,9 +27,8 @@ class StringToLower extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         return strtolower($word);
     }
-
-} // END class Lib_Filter_StringToLower
+}

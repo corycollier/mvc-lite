@@ -34,7 +34,7 @@ class SeparatorToUcwords extends \MvcLite\FilterAbstract
      *
      * @param string $separator The separator to use for separating words.
      */
-    public function __construct ($separator)
+    public function __construct($separator)
     {
         $this->separator = $separator;
     }
@@ -46,7 +46,7 @@ class SeparatorToUcwords extends \MvcLite\FilterAbstract
      *
      * @return string
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         $temp = strtr($word, [$this->separator => ' ']);
         $temp = ucwords($temp);

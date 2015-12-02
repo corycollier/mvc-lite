@@ -27,13 +27,11 @@ class DashToCamelcase extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
         $words = explode('-', $word);
         $words = array_map('ucwords', $words);
         $words[0] = strtolower($words[0]);
         return implode('', $words);
-
     }
-
-} // END class Lib_Filter_DashToCamelcase
+}

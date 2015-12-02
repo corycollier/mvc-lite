@@ -23,8 +23,7 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterStringToLowerTest
-extends \MvcLite\TestCase
+class FilterStringToLowerTest extends \MvcLite\TestCase
 {
     /**
      *
@@ -44,7 +43,7 @@ extends \MvcLite\TestCase
     /**
      * provide data for testing the StringToLower filter's ability to filter
      *
-     * @return array
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {

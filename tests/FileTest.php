@@ -34,6 +34,7 @@ class FileTest extends TestCase
      * test the file class's ability to check if a file exists
      *
      * @param string $filename
+     *
      * @dataProvider provideTest
      */
     public function testTest($expected, $filename)
@@ -45,7 +46,7 @@ class FileTest extends TestCase
      * provides data to use for testing the file class's ability to test a given
      * file existance
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
     public function provideTest()
     {
@@ -74,8 +75,9 @@ class FileTest extends TestCase
     /**
      * tests the file class's abilty to load a file
      *
+     * @param boolean $expected
      * @param string $filename
-     * @param boolean $shouldExist
+     *
      * @dataProvider provideLoad
      */
     public function testLoad($expected, $filename)
@@ -99,7 +101,7 @@ class FileTest extends TestCase
      *
      * provides data to use for testing the file class's ability to load files
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
     public function provideLoad()
     {
@@ -129,6 +131,7 @@ class FileTest extends TestCase
      * Tests the file class's ability to return it's contents property.
      *
      * @param string $contents
+     *
      * @dataProvider provideGetContents
      */
     public function testGetContents($contents)
@@ -144,7 +147,7 @@ class FileTest extends TestCase
      *
      * Data to test the file class's ability to return $contents.
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
     public function provideGetContents()
     {
@@ -164,6 +167,7 @@ class FileTest extends TestCase
      * @param string $filename
      * @param string $oldContents
      * @param string $newContents
+     *
      * @dataProvider provideSave
      */
     public function testSave($exists, $contents, $filename)
@@ -183,7 +187,7 @@ class FileTest extends TestCase
      *
      * Data to use for testing the file class's ability to save data
      *
-     * @return array
+     * @return array An array of data to use for testing the filter
      */
     public function provideSave()
     {
@@ -232,7 +236,7 @@ class FileTest extends TestCase
      *
      * Data to use for testing the file class's ability to delete files
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
     public function provideDelete()
     {
@@ -246,5 +250,5 @@ class FileTest extends TestCase
                 'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '.nope']),
             ],
         ];
-     }
+    }
 }

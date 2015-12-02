@@ -30,13 +30,12 @@ class Pluralize extends \MvcLite\FilterAbstract
      *
      * @return string
      */
-    public function filter ($word = '')
-    {   // if the word ends with the lettter 'y'
+    public function filter($word = '')
+    {
+        // if the word ends with the lettter 'y'
         if (substr($word, -1) == 'y') {
             return substr($word, 0, strlen($word) - 1) . 'ies';
         }
         return "{$word}s";
-
     }
-
-} // END class Lib_Filter_Pluralize
+}

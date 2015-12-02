@@ -23,14 +23,14 @@ use \MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterCamelcaseToUnderscoreTest
-extends \MvcLite\TestCase
+class FilterCamelcaseToUnderscoreTest extends \MvcLite\TestCase
 {
     /**
      * method to test the camelcase-to-dash class's filter method
      *
      * @param string $unfiltered
      * @param string $expected
+     *
      * @dataProvider provideFilter
      */
     public function testFilter($unfiltered, $expected)
@@ -40,7 +40,9 @@ extends \MvcLite\TestCase
     }
 
     /**
-     * provider of data to test the camelcase-to-dash class's filter method
+     * provider of data to test the camelcase-to-dash class's filter method.
+     *
+     * @return array An array of data to use for testing the filter.
      */
     public function provideFilter()
     {
