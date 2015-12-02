@@ -28,7 +28,7 @@ class Table extends \MvcLite\View\HelperAbstract
      * @param array $data
      * @return string
      */
-    public function getHeaders($data = array())
+    public function getHeaders($data = [])
     {
         $template = '<th>!label</th>';
         $link     = '<a href="!href">!label</a>';
@@ -42,7 +42,6 @@ class Table extends \MvcLite\View\HelperAbstract
         $result .= strtr($template, ['!label' => 'actions']);
 
         return implode(PHP_EOL, ['<tr>', $result, '</tr>']);
-
     }
 
     /**
@@ -77,7 +76,6 @@ class Table extends \MvcLite\View\HelperAbstract
             ])),
         ]);
     }
-
 
     /**
      * method to return a table row from a given array of data

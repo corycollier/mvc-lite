@@ -126,7 +126,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         $this->controller->preDispatch();
 
         // run the requested action on the requested controller
-        call_user_func(array($this->controller, $action));
+        call_user_func([$this->controller, $action]);
 
         // run the postDispatch hook
         $this->controller->postDispatch();

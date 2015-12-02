@@ -48,13 +48,13 @@ class FormSelect extends \MvcLite\View\HelperAbstract
         $attribs['name'] = $name;
         $attribs['id'] = $name;
 
-        return strtr($template, array(
+        return strtr($template, [
             '!id'               => $name,
             '!label'            => @$attribs['label'],
             '!attribs'          => $this->getHtmlAttribs($attribs),
             '!displayAttribs'   => $this->getHtmlAttribs($displayAttribs),
             '!options'          => $this->buildOptions($options),
-        ));
+        ]);
     }
 
     /**

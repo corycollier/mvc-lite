@@ -27,12 +27,8 @@ class DashToUnderscore extends \MvcLite\FilterAbstract
      * (non-PHPdoc)
      * @see \MvcLite\FilterAbstract::filter()
      */
-    public function filter ($word = '')
+    public function filter($word = '')
     {
-        return strtr($word, array(
-            '-' => '_',
-        ));
-
+        return strtr($word, ['-' => '_']);
     }
-
-} // END class Lib_Filter_DashToUnderscore
+}
