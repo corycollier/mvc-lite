@@ -42,11 +42,11 @@ class FilterChainTest extends TestCase
      */
     public function provideAddFilter()
     {
-        return array(
-            array(
+        return [
+            'simple test' => [
                 'filter' => new FilterTest,
-            ),
-        );
+            ]
+        ];
     }
 
     /**
@@ -74,16 +74,13 @@ class FilterChainTest extends TestCase
      */
     public function provideFilter()
     {
-        return array(
-            array(
+        return [
+            'simple test' => [
                 'expected' => 'value',
                 'word'     => 'value',
-                'filters'  => array(
-                    new FilterTest,
-                ),
-            ),
-        );
-
+                'filters'  => [new FilterTest],
+            ]
+        ];
     }
 }
 

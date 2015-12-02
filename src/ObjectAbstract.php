@@ -33,14 +33,15 @@ abstract class ObjectAbstract
      * MVCLite Framework, we disable them here.
      *
      * @param string $name
-     * @throws Lib_Exception
+     *
+     * @throws \MvcLite\Exception
      */
     final public function __get($name)
     {
         $self = get_called_class();
-        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_GET, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_GET, [
             '!explain'  => "{$self}->{$name}",
-        )));
+        ]));
     }
 
     /**
@@ -50,15 +51,16 @@ abstract class ObjectAbstract
      * MVCLite Framework, we disable them here.
      *
      * @param string $name
-     * @param unknown_type $value
-     * @throws Lib_Exception
+     * @param mixed $value
+     *
+     * @throws \MvcLite\Exception
      */
     final public function __set($name, $value = '')
     {
         $self = get_called_class();
-        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_SET, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_SET, [
             '!explain'  => "{$self}->{$name} = {$value}",
-        )));
+        ]));
     }
 
     /**
@@ -69,14 +71,15 @@ abstract class ObjectAbstract
      *
      * @param string $method
      * @param array $args
-     * @throws Lib_Exception
+     *
+     * @throws \MvcLite\Exception
      */
-    final public function __call($method, $args = array())
+    final public function __call($method, $args = [])
     {
         $self = get_called_class();
-        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_CALL, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_CALL, [
             '!explain'  => "{$self}::{$method}(" . @implode(',', $args) . ')',
-        )));
+        ]));
     }
 
     /**
@@ -90,12 +93,12 @@ abstract class ObjectAbstract
     /**
      * method used to identify the object instance
      *
-     * @throws Lib_Exception
+     * @throws \MvcLite\Exception
      * @return string
      */
     public function identify()
     {
         $self = get_called_class();
-        throw new Lib_Exception($self::MSG_ERR_IDENTIFY);
+        throw new Exception($self::MSG_ERR_IDENTIFY);
     }
 }

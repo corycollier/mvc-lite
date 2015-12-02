@@ -45,7 +45,7 @@ class Controller extends ObjectAbstract
         $controller = $request->getParam('controller');
         $action     = $request->getParam('action');
         $view       = $this->getView();
-        $path       = $this->filepath(array(APP_PATH, 'view/scripts', $controller));
+        $path       = $this->filepath([APP_PATH, 'view', 'scripts', $controller]);
 
         // setup the view
         $view->addViewScriptPath($path);

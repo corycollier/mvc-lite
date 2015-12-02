@@ -29,8 +29,9 @@ class DispatcherTest extends TestCase
      */
     public function testInit()
     {
+        global $loader;
         $sut = Dispatcher::getInstance();
-        $result = $sut->init();
+        $result = $sut->init($loader);
         $this->assertInstanceOf('MvcLite\Dispatcher', $result);
     }
 

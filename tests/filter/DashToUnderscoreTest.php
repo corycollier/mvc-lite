@@ -27,19 +27,17 @@ class FilterDashToUnderscoreTest
 extends \MvcLite\TestCase
 {
     /**
-     *
      * method to test the DashToUnderscore filter's ability to filter a string
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     *
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\DashToUnderscore;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
@@ -47,16 +45,14 @@ extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('this-is-dashed', 'this_is_dashed'),
-            array('this-_is-dashed', 'this__is_dashed'),
-            array('this__is-dashed', 'this__is_dashed'),
-            array('this__is-dashed_', 'this__is_dashed_'),
-            array('this__is-dashed-_', 'this__is_dashed__'),
-        );
-
+        return [
+            ['this-is-dashed', 'this_is_dashed'],
+            ['this-_is-dashed', 'this__is_dashed'],
+            ['this__is-dashed', 'this__is_dashed'],
+            ['this__is-dashed_', 'this__is_dashed_'],
+            ['this__is-dashed-_', 'this__is_dashed__'],
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\DashToUnderscoreTest
+}

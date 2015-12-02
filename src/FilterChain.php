@@ -29,7 +29,7 @@ class FilterChain extends ObjectAbstract
      *
      * @var array
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * adds a filter to the chain

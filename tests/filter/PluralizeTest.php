@@ -32,14 +32,13 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     *
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\Pluralize;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
@@ -47,18 +46,16 @@ extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('word', 'words'),
-            array('lion', 'lions'),
-            array('tiger', 'tigers'),
-            array('dog', 'dogs'),
-            array('horse', 'horses'),
-            array('baby', 'babies'),
-            array('story', 'stories'),
-        );
-
+        return [
+            ['word', 'words'],
+            ['lion', 'lions'],
+            ['tiger', 'tigers'],
+            ['dog', 'dogs'],
+            ['horse', 'horses'],
+            ['baby', 'babies'],
+            ['story', 'stories'],
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\PluralizeTest
+}

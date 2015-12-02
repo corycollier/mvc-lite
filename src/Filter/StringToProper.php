@@ -1,6 +1,6 @@
 <?php
 /**
- * underscore to dash filter
+ * string to upper filter
  *
  * @category    PHP
  * @package     MvcLite
@@ -12,7 +12,7 @@
 namespace MvcLite\Filter;
 
 /**
- * underscore to dash filter
+ * string to upper filter
  *
  * @category    PHP
  * @package     MvcLite
@@ -21,7 +21,7 @@ namespace MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class UnderscoreToDash extends \MvcLite\FilterAbstract
+class StringToProper extends \MvcLite\FilterAbstract
 {
     /**
      * (non-PHPdoc)
@@ -29,8 +29,7 @@ class UnderscoreToDash extends \MvcLite\FilterAbstract
      */
     public function filter ($word = '')
     {
-        return strtr($word, [
-            '_' => '-',
-        ]);
+        return ucwords($word);
     }
-}
+
+} // END class Lib_Filter_StringToUpper

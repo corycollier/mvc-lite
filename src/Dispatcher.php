@@ -11,11 +11,13 @@
 
 namespace MvcLite;
 
+use \MvcLite\Traits\Config as ConfigTrait;
 use \MvcLite\Traits\Database as DatabaseTrait;
 use \MvcLite\Traits\Request as RequestTrait;
 use \MvcLite\Traits\Response as ResponseTrait;
 use \MvcLite\Traits\Session as SessionTrait;
 use \MvcLite\Traits\Singleton as SingletonTrait;
+use \MvcLite\Traits\Filepath as FilepathTrait;
 
 /**
  * Base Dispatcher
@@ -29,23 +31,13 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 
 class Dispatcher extends \MvcLite\ObjectAbstract
 {
+    use ConfigTrait;
     use DatabaseTrait;
     use RequestTrait;
     use ResponseTrait;
     use SessionTrait;
     use SingletonTrait;
-
-    /**
-     * an overridable list of environments allowed for configuration
-     *
-     * @var array $_environments
-     */
-    protected $environments = array(
-        'production',
-        'staging',
-        'development',
-        'testing',
-    );
+    use FilepathTrait;
 
     /**
      * placeholder for the controller object
@@ -54,23 +46,38 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      */
     protected $controller;
 
+    protected $loader;
+
+    /**
+     * an overridable list of environments allowed for configuration
+     *
+     * @var array $_environments
+     */
+    protected $environments = [
+        'production',
+        'staging',
+        'development',
+        'testing',
+    ];
+
     /**
      * Initialize the dispatcher.
      *
      * @return \MvcLite\Dispatcher Returns $this for object-chaining.
      */
-    public function init()
+    public function init($loader)
     {
         try {
-            $this->getRequest->init();
-            $this->getDatabase->init();
-            $this->getResponse->init();
-            $this->getView->init();
+            $this->loader = $loader;
+            $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
+            $this->getRequest()->init();
+            $this->getDatabase()->init();
+            $this->getResponse()->init();
         } catch (Exception $exception) {
-            $this->getRequest()->setParams(array(
+            $this->getRequest()->setParams([
                 'controller'    => 'error',
                 'action'        => 'database',
-            ));
+            ]);
         }
 
         return $this;
@@ -83,18 +90,23 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      */
     public function dispatch()
     {
-        // if ( PHP_SAPI == 'cli' ) {
-        //     return;
-        // }
-        $params     = $this->request->getParams();
+        $request    = $this->getRequest();
+        $params     = $request->getParams();
         $controller = $this->translateControllerName($params['controller']);
-        $action     = strtolower($this->translateActionName($params['action']));
-        $response = $this->getResponse();
-        $request = $this->getRequest();
+        $action     = $this->translateActionName($params['action']);
+        $response   = $this->getResponse();
+        $request    = $this->getRequest();
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
         try {
+            // First, make sure the controller is callable.
+            $result = $this->loader->loadClass($controller);
+            if (is_null($result)) {
+                throw new Exception('Invalid controller specified');
+            }
+
+            // Now, instantiate the controller and try to run it's action.
             $this->controller = new $controller;
             if (! method_exists($controller, $action)) {
                 throw new Exception('Action not available');
@@ -102,6 +114,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         } catch (Exception $exception) {
             $request->setParam('controller', 'error');
             $request->setParam('action', 'error');
+            $request->setParam('error', $exception->getMessage());
             $this->controller = new \App\ErrorController;
             $action = 'errorAction';
         }
@@ -139,17 +152,13 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      */
     protected function translateControllerName($controller = '')
     {
-        // create a string of upper cased words by replacing hyphens
-        $controller = ucwords(strtr($controller, array(
-            '-' => ' ',
-        )));
+        $filter = new FilterChain;
+        $filter->addFilter(new Filter\DashtoCamelcase);
+        $filter->addFilter(new Filter\StringToProper);
 
-        // remove the spaces, creating a camelcased word
-        $controller = strtr($controller, array(
-            ' ' => '',
-        ));
+        $controller = $filter->filter($controller);
 
-        // return the controller name, prefixed with App_Controller_
+        // return the controller class name.
         return '\\App\\' . $controller . 'Controller';
     }
 
@@ -183,15 +192,15 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      * @param array $config
      * @return array
      */
-    public function parseConfiguration($config = array())
+    public function parseConfiguration($config = [])
     {
-        $results = array();
+        $results = [];
 
         // iterate through the parsed INI file
         foreach ($config as $key => $values) {
             $parts = explode('.', $key);
             if (! array_key_exists($parts[0], $results)) {
-                $results[$parts[0]] = array();
+                $results[$parts[0]] = [];
             }
 
             $results[$parts[0]][$parts[1]] = $values;

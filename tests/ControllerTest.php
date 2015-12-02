@@ -27,49 +27,41 @@ class ControllerTest
     /**
      * Test the getter for the request object in the controller
      */
-    public function testGetRequest ( )
+    public function testGetRequest()
     {
         $sut = new Controller;
         $request = $sut->getRequest();
-
         $this->assertInstanceOf('MvcLite\Request', $request);
-
     }
 
     /**
      * Test the getter for the response object in the controller
      */
-    public function testGetResponse ( )
+    public function testGetResponse()
     {
         $sut = new Controller;
         $response = $sut->getResponse();
-
         $this->assertInstanceOf('MvcLite\Response', $response);
-
     }
 
     /**
      * Test the getter for the view object in the controller
      */
-    public function testGetView ( )
+    public function testGetView()
     {
         $sut = new Controller;
         $view = $sut->getView();
-
         $this->assertInstanceOf('MvcLite\View', $view);
-
     }
 
     /**
      * test the getter for the session object in the controller
      */
-    public function testGetSession ( )
+    public function testGetSession()
     {
         $sut = new Controller;
         $session = $sut->getSession();
-
         $this->assertInstanceOf('\MvcLite\Session', $session);
-
     }
 
     /**
@@ -79,17 +71,17 @@ class ControllerTest
     {
         $sut = $this->getMockBuildeR('MvcLite\Controller')
             ->disableOriginalConstructor()
-            ->setMethods(array('getRequest', 'getView'))
+            ->setMethods(['getRequest', 'getView'])
             ->getMock();
 
         $view = $this->getMockBuilder('MvcLite\View')
             ->disableOriginalConstructor()
-            ->setMethods(array('setLayout', 'addViewScriptPath', 'setScript'))
+            ->setMethods(['setLayout', 'addViewScriptPath', 'setScript'])
             ->getMock();
 
         $request = $this->getMockBuilder('MvcLite\Request')
             ->disableOriginalConstructor()
-            ->setMethods(array('isAjax'. 'getParam'))
+            ->setMethods(['isAjax'. 'getParam'])
             ->getMock();
 
         $sut->expects($this->once())

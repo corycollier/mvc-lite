@@ -51,7 +51,7 @@ class ViewTest extends TestCase
      *
      * @dataProvider provideVariables
      */
-    public function testSetAndGet($variables = array())
+    public function testSetAndGet($variables = [])
     {
         foreach ($variables as $name => $value) {
             $this->sut->set($name, $value);
@@ -69,15 +69,14 @@ class ViewTest extends TestCase
      */
     public function provideVariables()
     {
-        return array(
-            array(
-                array(
+        return [
+            'first test' => [
+                'variables' => [
                     'var1'  => 'val1',
                     'var2'  => 'val2',
                     'var3'  => 'val3',
-                ),
-
-            )
-        );
+                ],
+            ]
+        ];
     }
 }

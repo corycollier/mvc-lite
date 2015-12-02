@@ -31,14 +31,14 @@ class Request extends ObjectAbstract
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * associative array of the headers sent from the client
      *
      * @var array
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * stores the original request uri
@@ -65,15 +65,22 @@ class Request extends ObjectAbstract
      * Method to set the headers
      */
     protected function setHeaders()
-    {   // iterate over the $_SERVER superglobal values
+    {
+        // Create the filter chain to transform _SERVER to headers.
+        $filter = new FilterChain;
+        $filter->addFilter(new Filter\UnderscoreToDash);
+        $filter->addFilter(new Filter\StringtoLower);
+        $filter->addFilter(new Filter\SeparatorToUcwords('-'));
+
+        // iterate over the $_SERVER superglobal values.
         foreach($_SERVER as $key => $value) {
             if(substr($key, 0, 5) != 'HTTP_') {
                 continue;
             }
-            $key = Lib_Filter::serverVarsToHeaderTypes($key);
+            $key = $filter->filter($key);
+            $key = strtr($key, ['Http-' => '']);
             $this->headers[$key] = $value;
         }
-
     }
 
     /**
@@ -85,8 +92,9 @@ class Request extends ObjectAbstract
      */
     public function buildFromString($string = '', $separator = '/')
     {   // create a list of parts by separator
-        $parts = explode($separator, $string);
-        $results = array();
+        $parts = array_filter(explode($separator, $string));
+        sort($parts);
+        $results = [];
 
         $results['controller'] = @$parts[0]
             ? $parts[0]
@@ -116,7 +124,7 @@ class Request extends ObjectAbstract
      * @param $params
      * @return Request $this for object-chaining.
      */
-    public function setParams($params = array())
+    public function setParams($params = [])
     {
         $this->params = array_merge($this->params, (array)$params);
 
@@ -149,7 +157,9 @@ class Request extends ObjectAbstract
      */
     public function getParam($param)
     {
-        return @$this->params[$param];
+        if (array_key_exists($param, $this->params)) {
+            return $this->params[$param];
+        }
     }
 
     /**
@@ -224,5 +234,4 @@ class Request extends ObjectAbstract
     {
         return $this->uri;
     }
-
-} // END class Request
+}

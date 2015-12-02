@@ -33,12 +33,12 @@ class Session extends ObjectAbstract
      *
      * @var array $_data
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * method to start the database up
      */
-    public function init(array $data = array())
+    public function init(array $data = [])
     {
         // if this isn't being called from cli, then start session
         if (PHP_SAPI != 'cli') {
@@ -92,7 +92,7 @@ class Session extends ObjectAbstract
      * @param array $params
      * @return \MvcLite\Session $this for object-chaining.
      */
-    public function setParams($params = array())
+    public function setParams($params = [])
     {
         // iterate over the params, setting them using the setParam method
         foreach ($params as $param => $value) {

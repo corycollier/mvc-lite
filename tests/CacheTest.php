@@ -27,7 +27,7 @@ class CacheTest extends TestCase
      *
      * @dataProvider provideInit
      */
-    public function testInit ($config = array())
+    public function testInit ($config = [])
     {
         $sut = Cache::getInstance();
         $sut->init($config);
@@ -46,16 +46,20 @@ class CacheTest extends TestCase
      */
     public function provideInit ( )
     {
-        return array(
-            array(array(
-                'prefix'    => 'cache',
-                'directory' => '/tmp',
-            )),
-            array(array(
-                'prefix'    => '',
-                'directory' => '/tmp',
-            )),
-        );
+        return [
+            'with prefix' => [
+                'config' => [
+                    'prefix'    => 'cache',
+                    'directory' => '/tmp',
+                ]
+            ],
+            'without prefix' => [
+                'config' => [
+                    'prefix'    => '',
+                    'directory' => '/tmp',
+                ]
+            ]
+        ];
     }
 
     /**
@@ -76,9 +80,7 @@ class CacheTest extends TestCase
 
         $sut = $this->getMockBuilder('\MvcLite\Cache')
             ->disableOriginalConstructor()
-            ->setMethods(array(
-                'getCacheKey', 'getFilePath',
-            ))
+            ->setMethods(['getCacheKey', 'getFilePath'])
             ->getMock();
 
         $sut->expects($this->any())
@@ -102,11 +104,11 @@ class CacheTest extends TestCase
     public function provideGet ( )
     {
         $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
-        return array(
-            array($object, 'variable1', array(new \stdClass)),
-            array($object, 'variable2', new \stdClass),
-            array($object, 'variable3', 'array(new \stdClass)'),
-        );
+        return [
+            [$object, 'variable1', [new \stdClass]],
+            [$object, 'variable2', new \stdClass],
+            [$object, 'variable3', '[new \stdClass]'],
+        ];
     }
 
     /**
@@ -130,12 +132,11 @@ class CacheTest extends TestCase
     public function provideSet ( )
     {
         $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
-
-        return array(
-            array($object, 'variable1', array(new \stdClass)),
-            array($object, 'variable2', new \stdClass),
-            array($object, 'variable3', 'array(new \stdClass)'),
-        );
+        return [
+            [$object, 'variable1', [new \stdClass]],
+            [$object, 'variable2', new \stdClass],
+            [$object, 'variable3', '[new \stdClass]'],
+        ];
     }
 
     /**
@@ -144,6 +145,7 @@ class CacheTest extends TestCase
      * @param \MvcLite\ObjectAbstract $object
      * @param string $name
      * @param string $expected
+     *
      * @dataProvider provideGetCacheKey
      */
     public function testGetCacheKey(ObjectAbstract $object, $name, $expected)
@@ -158,13 +160,19 @@ class CacheTest extends TestCase
 
     /**
      * provides data to use for testing the protected _getNamespace method
+     *
+     * @return array An array of data to use for testing.
      */
     public function provideGetCacheKey()
     {
         $object = $this->getMockForAbstractClass('MvcLite\ObjectAbstract');
-        $prefix = strtolower(strtr(get_class($object), array('_' => '-')));
-        return array(
-            array($object, 'var', '-' . $prefix . '-var')
-        );
+        $prefix = strtolower(strtr(get_class($object), ['_' => '-']));
+        return [
+            'simple testing' => [
+                'object'   => $object,
+                'name'     => 'var',
+                'expected' => '-' . $prefix . '-var'
+            ]
+        ];
     }
 }

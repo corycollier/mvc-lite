@@ -37,17 +37,17 @@ class RequestTest extends TestCase
      */
     public function testBuildFromString()
     {
-        $string = 'controller/action/param1/value1/param2/value2/param3';
+        $string = '/controller/action/param1/value1/param2/value2/param3';
 
         $result = $this->sut->buildFromString($string);
 
-        $this->assertSame($result, array(
+        $this->assertSame($result, [
             'controller'    => 'controller',
             'action'        => 'action',
             'param1'        => 'value1',
             'param2'        => 'value2',
             'param3'        => null,
-        ));
+        ]);
     }
 
     /**
@@ -55,12 +55,12 @@ class RequestTest extends TestCase
      */
     public function testGetParams()
     {
-        $params = array(
+        $params = [
             'var1'   => 'val1',
             'var2'   => 'val2',
             'var3'   => 'val3',
             'q'     => '/asdf/asdf/asdf/',
-        );
+        ];
 
         $this->sut->setParams($params);
 
@@ -81,11 +81,11 @@ class RequestTest extends TestCase
      */
     public function testGetParam()
     {
-        $params = array(
+        $params = [
             'var1'   => 'val1',
             'var2'   => 'val2',
             'var3'   => 'val3',
-        );
+        ];
 
         $this->sut->setParams($params);
 
@@ -100,9 +100,9 @@ class RequestTest extends TestCase
     {
         $this->assertFalse($this->sut->isPost());
 
-        $_POST = array(
+        $_POST = [
             'var'   => 'value'
-        );
+        ];
 
         $this->assertTrue($this->sut->isPost());
 
@@ -115,7 +115,7 @@ class RequestTest extends TestCase
      *
      * @dataProvider provideGetHeaders
      */
-    public function testGetHeaders($headers = array())
+    public function testGetHeaders($headers = [])
     {
         $this->getReflectedProperty('\MvcLite\Request', 'headers')
             ->setValue($this->sut, $headers);
@@ -132,30 +132,28 @@ class RequestTest extends TestCase
      */
     public function provideGetHeaders()
     {
-        return array(
-            array(array(
-                'Cache-Content' => false,
-                'X-Test'        => true,
-                'X-Identifier'  => 'asdfasdfasdf',
-            )),
-            array(array(
-
-            )),
-        );
-
+        return [
+            'simple test' => [
+                'headers' => [
+                    'Cache-Content' => false,
+                    'X-Test'        => true,
+                    'X-Identifier'  => 'asdfasdfasdf',
+                ],
+            ]
+        ];
     }
 
     /**
      * tests the request instance's ability to determine if it's an ajax request
      */
-    public function testIsAjax ( )
+    public function testIsAjax()
     {
         $this->assertFalse($this->sut->isAjax());
 
         $this->getReflectedProperty('\MvcLite\Request', 'headers')
-            ->setValue($this->sut, array(
+            ->setValue($this->sut, [
                 'X-Requested-With' => 'XMLHttpRequest'
-            ));
+            ]);
 
         $this->assertTrue($this->sut->isAjax());
     }

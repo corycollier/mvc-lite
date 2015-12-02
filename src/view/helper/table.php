@@ -31,25 +31,17 @@ class Table extends \MvcLite\View\HelperAbstract
     public function getHeaders($data = array())
     {
         $template = '<th>!label</th>';
-
-        $link = '<a href="!href">!label</a>';
-
-        $result = '';
+        $link     = '<a href="!href">!label</a>';
+        $result   = '';
 
         // iterate through the data, building a string of th elements
         foreach ($data as $key => $label) {
-            $result .= strtr($template, array(
-                '!label' => $this->getSortHeader($label, $key),
-            ));
+            $result .= strtr($template, ['!label' => $this->getSortHeader($label, $key)]);
         }
 
-        $result .= strtr($template, array(
-            '!label'    => 'actions',
-        ));
+        $result .= strtr($template, ['!label' => 'actions']);
 
-        return implode(PHP_EOL, array(
-            '<tr>', $result, '</tr>',
-        ));
+        return implode(PHP_EOL, ['<tr>', $result, '</tr>']);
 
     }
 
@@ -66,10 +58,10 @@ class Table extends \MvcLite\View\HelperAbstract
 
         $request = Request::getInstance();
 
-        $params = array_intersect_key($request->getParams(), array(
-            'controller'    => '',
-            'action'        => '',
-        ));
+        $params = array_intersect_key($request->getParams(), [
+            'controller' => '',
+            'action'     => '',
+        )];
 
         $order = $request->getParam('order');
 
@@ -77,15 +69,13 @@ class Table extends \MvcLite\View\HelperAbstract
             ? 'asc'
             : 'desc';
 
-        return strtr($link, array(
+        return strtr($link, [
             '!label'    => $label,
-            '!href'        => '/' . implode('/', array_merge($params, array(
-                'sort'    => "sort/{$column}+{$order}",
+            '!href'        => '/' . implode('/', array_merge($params, [
+                 'sort'    => "sort/{$column}+{$order}",
                 'order'    => "order/{$order}",
-            ))),
-        ));
-
-
+            ])),
+        ]);
     }
 
 
@@ -107,41 +97,33 @@ class Table extends \MvcLite\View\HelperAbstract
         foreach ($model->toArray() as $key => $value) {
             if (@$fields[$key]['reference']) {
                 $property = $fields[$key]['reference']['property'];
-                $model->$property->load(array(
-                    $fields[$key]['reference']['foreign_key'] => $value,
-                ));
+                $model->$property->load([$property => $value]);
 
                 if ($model->$property->isLoaded()) {
                     $value = $model->{$property};
                 }
             }
-            $result .= strtr($template, array(
-                '!data' => strip_tags($value),
-            ));
+
+            $result .= strtr($template, ['!data' => strip_tags($value)]);
         }
 
-        $result .= strtr($template, array(
-            '!data' => $this->getActions($model),
-        ));
+        $result .= strtr($template, ['!data' => $this->getActions($model)]);
 
-        return implode(PHP_EOL, array(
-            '<tr>', $result, '</tr>',
-        ));
-
+        return implode(PHP_EOL, ['<tr>', $result, '</tr>']);
     }
 
     /**
      * returns the actions available to a model
      *
      * @param \MvcLite\ModelAbstract $model
+     *
+     * @return string The resulting markup representing actions that can be done
      */
     public function getActions(ModelAbstract $model)
     {
-        $actions = array(
-            'view', 'edit', 'delete',
-        );
+        $actions = ['view', 'edit', 'delete'];
 
-        $controller = Lib_Request::getInstance()->getParam('controller');
+        $controller = Request::getInstance()->getParam('controller');
 
         $template = '<li><a href="!href">!label</a></li>';
 
@@ -150,19 +132,13 @@ class Table extends \MvcLite\View\HelperAbstract
 
         // iterate through the actions
         foreach ($actions as $action) {
-            $result .= $separator . strtr($template, array(
+            $result .= $separator . strtr($template, [
                 '!label' => $action,
                 '!href'  => "/{$controller}/{$action}/id/" . $model->get('id'),
-            ));
+            ]);
             $separator = '|';
         }
 
-        return implode(PHP_EOL, array(
-            '<ul class="actions">',
-            $result,
-            '</ul>',
-        ));
-
+        return implode(PHP_EOL, ['<ul class="actions">', $result, '</ul>']);
     }
-
-} // END class Lib_View_Helper_Table
+}

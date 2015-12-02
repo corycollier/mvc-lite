@@ -33,14 +33,14 @@ class View extends ObjectAbstract
      *
      * @var array
      */
-    protected $vars = array();
+    protected $vars = [];
 
     /**
      * a list of previously loaded view helpers
      *
      * @var array
      */
-    protected $helpers = array();
+    protected $helpers = [];
 
     /**
      * The name of the view script to be used
@@ -60,7 +60,7 @@ class View extends ObjectAbstract
      * the list of paths used to search for view scripts
      * @var unknown_type
      */
-    protected $viewScriptPaths = array();
+    protected $viewScriptPaths = [];
 
     /**
      * method to start the database up
@@ -80,7 +80,7 @@ class View extends ObjectAbstract
     public function addViewScriptPath($path)
     {
         if (strpos($path, APP_PATH) === false) {
-            $path = $this->filepath(array(APP_PATH, $path));
+            $path = $this->filepath([APP_PATH, $path]);
         }
 
         $this->viewScriptPaths[] = $path;
@@ -141,7 +141,7 @@ class View extends ObjectAbstract
      */
     public function getLayout()
     {
-        return $this->_layout;
+        return $this->layout;
     }
 
     /**
@@ -153,7 +153,7 @@ class View extends ObjectAbstract
     {
         // iterate through the view paths
         foreach ($this->getViewScriptPaths() as $path) {
-            $path = $this->filepath(array($path, $this->getScript() . '.phtml'));
+            $path = $this->filepath([$path, $this->getScript() . '.phtml']);
             if (file_exists($path)) {
                 return $path;
             }
@@ -167,13 +167,17 @@ class View extends ObjectAbstract
      */
     public function render()
     {
+        $script       = $this->getScript();
+        $viewScript   = $this->getViewScript();
+        $layoutScript = $this->getLayout() . '.phtml';
+
         if (! $this->getScript() || ! $this->getViewScript()) {
             return null;
         }
 
         ob_start();
         extract($this->vars);
-        include $this->getViewScript();
+        include $viewScript;
         $content = ob_get_clean();
 
         // if there is no layout, then return the content
@@ -182,7 +186,7 @@ class View extends ObjectAbstract
         }
 
         ob_start();
-        $layout = $this->filepath(APP_PATH . '/view/layouts' . $this->getLayout() . ".phtml");
+        $layout = $this->filepath([APP_PATH, 'View', 'layouts', $layoutScript]);
         include($layout);
         $contents = ob_get_clean();
 
@@ -239,7 +243,7 @@ class View extends ObjectAbstract
             return $this->helpers[$name];
         }
 
-        foreach (array('App', 'MvcLite') as $library) {
+        foreach (['App', 'MvcLite'] as $library) {
             // create the full class name
             $className = "\\{$library}\\View\\Helper\\" . ucfirst("{$name}");
 

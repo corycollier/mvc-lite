@@ -27,7 +27,7 @@ class Form extends \MvcLite\View\HelperAbstract
      *
      * @param \MvcLite\ModelAbstract $model
      */
-    public function render($fields, $attribs = array())
+    public function render($fields, $attribs = [])
     {
         $template = '<form!attribs><fieldset>!elements</fieldset></form>';
         $elements = '';
@@ -40,10 +40,10 @@ class Form extends \MvcLite\View\HelperAbstract
             ->getHelper('FormSubmit')
             ->render();
 
-        return strtr($template, array(
+        return strtr($template, [
             '!attribs'  => $this->getHtmlAttribs($attribs),
             '!elements' => $elements,
-        ));
+        ]);
     }
 
     /**
@@ -51,7 +51,7 @@ class Form extends \MvcLite\View\HelperAbstract
      *
      * @param array $params
      */
-    public function elementFactory($column, $params = array())
+    public function elementFactory($column, $params = [])
     {
         if (@$params['primary']) {
             return '';
@@ -61,7 +61,7 @@ class Form extends \MvcLite\View\HelperAbstract
 
         $method = "create{$params['type']}Element";
 
-        return call_user_func(array($this, $method), $column, $params);
+        return call_user_func([$this, $method], $column, $params);
     }
 
     /**
@@ -71,7 +71,7 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    public function createEnumElement($column, $params = array())
+    public function createEnumElement($column, $params = [])
     {
         $options = array_combine($params['options'], $params['options']);
 
@@ -87,7 +87,7 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    public function createPasswordElement($column, $params = array())
+    public function createPasswordElement($column, $params = [])
     {
         return $this->getView()
             ->getHelper('FormPassword')
@@ -101,7 +101,7 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    protected function createIntElement($column, $params = array())
+    protected function createIntElement($column, $params = [])
     {
         return $this->getView()
             ->getHelper('FormText')
@@ -115,7 +115,7 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    protected function createTextElement($column, $params = array())
+    protected function createTextElement($column, $params = [])
     {
         return $this->getView()
             ->getHelper('FormTextarea')
@@ -129,7 +129,7 @@ class Form extends \MvcLite\View\HelperAbstract
      * @param array $params
      * @return string
      */
-    protected function createVarcharElement($column, $params = array())
+    protected function createVarcharElement($column, $params = [])
     {
         return $this->getView()
             ->getHelper('FormText')

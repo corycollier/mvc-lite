@@ -54,10 +54,15 @@ class Database extends ObjectAbstract
      *
      * @param array $params An array of database parameters
      */
-    public function init(array $params = array())
+    public function init(array $params = [])
     {
-        $defaults = Registry::getInstance()->get('database');
-        $defaults = is_array($defaults) ? $defaults : array();
+        $defaults = [
+            'host' => '',
+            'user' => '',
+            'pass' => '',
+            'name' => ''
+        ];
+
         $params = array_merge($defaults, $params);
 
         $this->handle = new \mysqli(
@@ -70,7 +75,6 @@ class Database extends ObjectAbstract
         if (mysqli_connect_error()) {
             throw new Exception(sprintf(self::MSG_ERROR_CONN, mysqli_connect_error()));
         }
-
     }
 
     /**
@@ -87,7 +91,7 @@ class Database extends ObjectAbstract
      * passthrough method for querying the database
      *
      * @param string $sql
-     * @return Lib_Database
+     * @return \MvcLite\Database
      */
     public function query($sql)
     {
@@ -106,19 +110,19 @@ class Database extends ObjectAbstract
      * @param array|string $where
      * @param array|string $order
      * @param array $limit
-     * @return Lib_Database $this for object-chaining.
+     * @return \MvcLite\Database $this for object-chaining.
      */
     public function fetch($table, $fields = '*', $where = '', $order = null, $limit = null)
     {
         $sql = "select !fields from !table !where !order !limit";
 
-        $this->query = strtr($sql, array(
+        $this->query = strtr($sql, [
             '!table'    => $table,
             '!fields'   => $this->buildFields($fields),
             '!where'    => $this->buildWhere($where),
             '!order'    => $this->buildOrder($order),
             '!limit'    => $this->buildLimit($limit),
-        ));
+        ]);
 
         $this->result = $this->getHandle()->query($this->query);
 
@@ -131,17 +135,18 @@ class Database extends ObjectAbstract
      * @param string $table
      * @param array $fields
      * @param array|string $where
-     * @return Lib_Database $this for object-chaining.
+     *
+     * @return \MvcLite\Database $this for object-chaining.
      */
-    public function update($table, $fields = array(), $where = array())
+    public function update($table, $fields = [], $where = [])
     {
         $sql = "UPDATE !table SET !fields !where";
 
-        $this->query = strtr($sql, array(
+        $this->query = strtr($sql, [
             '!table'    => $table,
             '!fields'   => $this->updateFields($fields),
             '!where'    => $this->buildWhere($where),
-        ));
+        ]);
 
         if (! $this->getHandle()->query($this->query)) {
             $message = 'Query Failure: ' . $this->getHandle()->error;
@@ -149,7 +154,6 @@ class Database extends ObjectAbstract
         }
 
         return $this;
-
     }
 
     /**
@@ -159,7 +163,7 @@ class Database extends ObjectAbstract
      * @param string $table
      * @param array $values
      */
-    public function insert($table, $values = array())
+    public function insert($table, $values = [])
     {
         if (! count($values)) {
             throw new Exception(
@@ -169,11 +173,11 @@ class Database extends ObjectAbstract
 
         $sql = "INSERT INTO !table \n(!fields)\n values \n(!values)";
 
-        $this->query = strtr($sql, array(
+        $this->query = strtr($sql, [
             '!table'    => $table,
             '!fields'   => implode(', ', array_keys($values)),
             '!values'   => $this->insertValues($values),
-        ));
+        ]);
 
         if (! $this->getHandle()->query($this->query)) {
             $message = 'Query Failure: ' . $this->getHandle()->error;
@@ -190,15 +194,15 @@ class Database extends ObjectAbstract
      * @param string $table
      * @param array $params
      *
-     * @return Lib_Database $this for object-chaining.
+     * @return \MvcLite\Database $this for object-chaining.
      */
-    public function delete($table, $params = array())
+    public function delete($table, $params = [])
     {
         $sql = "DELETE FROM !table !where";
-        $this->query = strtr($sql, array(
+        $this->query = strtr($sql, [
             '!table'    => $table,
             '!where'    => $this->deleteWhere($params),
-        ));
+        ]);
 
         // if the SQL failed, throw an exception
         if (! $this->getHandle()->query($this->query)) {
@@ -216,7 +220,7 @@ class Database extends ObjectAbstract
      *
      * @return string
      */
-    protected function deleteWhere($params = array())
+    protected function deleteWhere($params = [])
     {
         // use the _buildWhere method to get the initial where string
         $where = $this->buildWhere($params);
@@ -239,7 +243,7 @@ class Database extends ObjectAbstract
      *
      * @return string
      */
-    protected function insertValues($values = array())
+    protected function insertValues($values = [])
     {
         // iterate over the values provided
         foreach ($values as $i => $value) {
@@ -256,15 +260,15 @@ class Database extends ObjectAbstract
      *
      * @return string
      */
-    protected function updateFields($fields = array())
+    protected function updateFields($fields = [])
     {
         // iterate over the fields array
         foreach ($fields as $column => $value) {
             unset($fields[$column]);
 
-            $fields[$column] = strtr("{$column}='!value'", array(
+            $fields[$column] = strtr("{$column}='!value'", [
                 '!value'    => $this->getHandle()->escape_string($value),
-            ));
+            ]);
         }
 
         return implode(', ', $fields);
@@ -277,7 +281,7 @@ class Database extends ObjectAbstract
      */
     public function all()
     {
-        $result = array();
+        $result = [];
 
         // if there is a valid result ....
         if ($this->result) {
@@ -298,7 +302,7 @@ class Database extends ObjectAbstract
     {
         if ($this->result) {
             while ($obj = $this->result->fetch_object()) {
-                return array($obj);
+                return [$obj];
             }
         }
     }

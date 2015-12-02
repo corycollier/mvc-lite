@@ -33,23 +33,23 @@ class FormTest extends \MvcLite\TestCase
      *
      * @dataProvider provideRender
      */
-    public function testRender ($expected, $fields, $attribs = array())
+    public function testRender($expected, $fields, $attribs = [])
     {
         $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
-            ->setMethods(array(
+            ->setMethods([
                 'elementFactory',
                 'htmlAttribs',
                 'getView'
-            ))
+            ])
             ->getMock();
 
         $view = $this->getMockBuilder('\MvcLite\View')
             ->disableOriginalConstructor()
-            ->setMethods(array('getHelper'))
+            ->setMethods(['getHelper'])
             ->getMock();
 
         $element = $this->getMockBuilder('ViewHelperElement')
-            ->setMethods(array('render'))
+            ->setMethods(['render'])
             ->getMock();
 
         $view->expects($this->any())
@@ -87,66 +87,65 @@ class FormTest extends \MvcLite\TestCase
      */
     public function provideRender()
     {
-        return array(
+        return [
             // test with 2 elements
-            'test with 2 elements' => array(
+            'test with 2 elements' => [
                 'expected' => '<form><fieldset>'
                     . '<element /><element />'
                     . '</fieldset></form>',
-                'fields' => array(
-                    'id'    => array(
+                'fields' => [
+                    'id' => [
                         'type'      => 'integer',
                         'primary'   => true,
-                    ),
-                    'name'  => array(
+                    ],
+                    'name' => [
                         'type'      => 'varchar',
                         'primary'   => false,
-                    ),
-                )
-            ),
-
+                    ],
+                ],
+            ],
             // test with 3 elements
-            'test with 3 elements' => array(
+            'test with 3 elements' => [
                 'expected' => '<form><fieldset>'
                     . '<element /><element /><element />'
                     . '</fieldset></form>',
-                'fields' => array(
-                    'id'    => array(
-                        'type'      => 'integer',
-                        'primary'   => true,
-                    ),
-                    'name'  => array(
-                        'type'      => 'varchar',
-                        'primary'   => false,
-                    ),
-                    'email' => array(
-                        'type'      => 'varchar',
-                        'primary'   => false,
-                    ),
-                )
-            ),
+                'fields' => [
+                    'id'    => [
+                        'type'    => 'integer',
+                        'primary' => true,
+                    ],
+                    'name'  => [
+                        'type'    => 'varchar',
+                        'primary' => false,
+                    ],
+                    'email' => [
+                        'type'    => 'varchar',
+                        'primary' => false,
+                    ],
+                ],
+            ],
 
             // test with attributes
-            'test with attributes' => array(
+            'test with attributes' => [
                 'expected' => '<form class="testing" method="get">'
                     . '<fieldset><element /><element /></fieldset>'
                     . '</form>',
-                'fields' => array(
-                    'id'    => array(
-                        'type'      => 'integer',
-                        'primary'   => true,
-                    ),
-                    'name'  => array(
-                        'type'      => 'varchar',
-                        'primary'   => false,
-                    ),
-                ),
-                'attribs' => array(
-                    'class'     => 'testing',
-                    'method'    => 'get',
-                )
-            ),
-        );
+                'fields' => [
+                    'id'    => [
+                        'type'    => 'integer',
+                        'primary' => true,
+                    ],
+                    'name'  => [
+                        'type'    => 'varchar',
+                        'primary' => false,
+                    ],
+                ],
+                'attribs' => [
+                    'class'  => 'testing',
+                    'method' => 'get',
+                ],
+            ],
+        ];
     }
 
     /**
@@ -159,27 +158,27 @@ class FormTest extends \MvcLite\TestCase
      *
      * @dataProvider provideElementFactory
      */
-    public function testElementFactory ($expected, $column, $params, $value)
+    public function testElementFactory($expected, $column, $params, $value)
     {
         $method = "create{$params['type']}Element";
         $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
-            ->setMethods(array('getView'))
+            ->setMethods(['getView'])
             ->getMock();
 
         $view = $this->getMockBuilder('\MvcLite\View')
             ->disableOriginalConstructor()
-            ->setMethods(array('getHelper'))
+            ->setMethods(['getHelper'])
             ->getMock();
 
         $helper = $this->getMockBuilder('ViewHelperElement')
-            ->setMethods(array(
+            ->setMethods([
                 'createEnumElement',
                 'createPasswordElement',
                 'createIntElement',
                 'createTextElement',
                 'createVarcharElement',
                 'render'
-            ))
+            ])
             ->getMock();
 
         $helper->expects($this->any())
@@ -207,52 +206,52 @@ class FormTest extends \MvcLite\TestCase
     /**
      * Data provider for FormTest::testElementFactory().
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
-    public function provideElementFactory ( )
+    public function provideElementFactory()
     {
-        return array(
-            'primary' => array(
+        return [
+            'primary' => [
                 'expected' => '',
                 'column' => 'id',
-                'params' => array(
+                'params' => [
                     'primary'   => true,
                     'type'      => 'int',
                     'description' => 'description',
-                ),
+                ],
                 'value' => 1,
-            ),
+            ],
 
-            'not primary' => array(
-                'expected' => implode('', array(
+            'not primary' => [
+                'expected' => implode('', [
                     '<label for="name" class="form-text">',
                     '<span class="label"></span>',
                     '<input type="text"  placeholder="" value="" name="name" id="name" />',
                     '</label>'
-                )),
+                ]),
                 'column' => 'name',
-                'params' => array(
+                'params' => [
                     'type'      => 'varchar',
                     'description' => 'description',
-                ),
+                ],
                 'value' => 'the value',
-            ),
+            ],
 
-            'text' => array(
-                'expected' => implode(PHP_EOL, array(
+            'text' => [
+                'expected' => implode(PHP_EOL, [
                     '<label for="name" class="form-text">',
                     '<span class="label"></span>',
                     '<textarea type="text"  placeholder="" value="" name="name" id="name"></textarea>',
                     '</label>'
-                )),
+                ]),
                 'column' => 'name',
-                'params' => array(
+                'params' => [
                     'type'      => 'text',
                     'description' => 'description',
-                ),
+                ],
                 'value' => 'the name',
-            ),
-        );
+            ],
+        ];
     }
 }
 

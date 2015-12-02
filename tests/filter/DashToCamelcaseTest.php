@@ -27,19 +27,17 @@ class FilterDashToCamelcaseTest
 extends \MvcLite\TestCase
 {
     /**
-     *
      * method to test the DashToCamelcase filter's ability to filter a string
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     *
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter ($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\DashToCamelcase;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
@@ -47,16 +45,14 @@ extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('this-is-camel-case', 'thisIsCamelCase'),
-            array('this-is-camelCase', 'thisIsCamelCase'),
-            array('this_is-camelCase', 'this_isCamelCase'),
-            array('this is-camelCase', 'this isCamelCase'),
-            array('this. is-camelCase', 'this. isCamelCase'),
-        );
-
+        return [
+            ['this-is-camel-case', 'thisIsCamelCase'],
+            ['this-is-camelCase', 'thisIsCamelCase'],
+            ['this_is-camelCase', 'this_isCamelCase'],
+            ['this is-camelCase', 'this isCamelCase'],
+            ['this. is-camelCase', 'this. isCamelCase'],
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\DashToCamelcaseTest
+}

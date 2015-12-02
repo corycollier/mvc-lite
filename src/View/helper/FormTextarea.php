@@ -29,24 +29,24 @@ class FormTextarea extends \MvcLite\View\HelperAbstract
      * @param array $attribs An array of attributes to give the element.
      * @return string The resulting HTML.
      */
-    public function render($name, $attribs = array())
+    public function render($name, $attribs = [])
     {
-        $template = implode(PHP_EOL, array(
+        $template = implode(PHP_EOL, [
             '<label for="!id" class="form-text">',
             '<span class="label">!label</span>',
             '<textarea type="text" !attribs>!value</textarea>',
             '</label>'
-        ));
+        ]);
 
         $attribs['name'] = $name;
         $attribs['id'] = $name;
 
-        return strtr($template, array(
+        return strtr($template, [
             '!label'    => @$attribs['label'],
             '!id'       => $name,
             '!attribs'  => $this->getHtmlAttribs($attribs),
             '!value'    => $attribs['value'],
-        ));
+        ]);
     }
 
 } // END class Lib_View_Helper_FormText

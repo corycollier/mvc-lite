@@ -31,27 +31,32 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\CamelcaseToUnderscore;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
      * provider of data to test the camelcase-to-dash class's filter method
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('somethingElse', 'something_else'),
-            array('somethingelse', 'somethingelse'),
-            array('somethinGelse', 'somethin_gelse'),
-        );
-
+        return [
+            [
+                'unfiltered' => 'somethingElse',
+                'filtered'   => 'something_else',
+            ],
+            [
+                'filtered'   => 'somethingelse',
+                'unfiltered' => 'somethingelse',
+            ],
+            [
+                'filtered'   => 'somethinGelse',
+                'unfiltered' => 'somethin_gelse'
+            ]
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\CamelcaseToUnderscoreTest
+}

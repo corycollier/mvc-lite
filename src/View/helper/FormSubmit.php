@@ -28,16 +28,16 @@ class FormSubmit extends \MvcLite\View\HelperAbstract
      * @param array $attribs
      * @return string
      */
-    public function render($attribs = array())
+    public function render($attribs = [])
     {
-        $template = implode(PHP_EOL, array(
+        $template = implode(PHP_EOL, [
             '<label for="submit">',
             '<input type="submit" !attribs />',
             '</label>',
-        ));
+        ]);
 
-        return strtr($template, array(
+        return strtr($template, [
             '!attribs'  => $this->getHtmlAttribs($attribs),
-        ));
+        ]);
     }
 }

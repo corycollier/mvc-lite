@@ -26,9 +26,9 @@ class ViewHelperFormSelectTest extends \MvcLite\TestCase
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormSelect
      *
-     * @dataProvider provide_render
+     * @dataProvider provideRender
      */
-    public function test_render ($name, $attribs = array())
+    public function testRender($name, $attribs = [])
     {
         $helper = new  \MvcLite\View\Helper\FormSelect;
 
@@ -38,26 +38,20 @@ class ViewHelperFormSelectTest extends \MvcLite\TestCase
         $this->assertTrue(strpos($result, '<select ') > 0);
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
-
     }
 
     /**
      * provides a dataset to use for testing the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_render ( )
+    public function provideRender()
     {
-        return array(
-            array('passwd', array(
-
-            )),
-            array('passwd1', array(
-
-            )),
-            array('passwd2', array(
-
-            )),
-        );
-
+        return [
+            [
+                'name' => 'passwd',
+                'attribs' => [],
+            ],
+        ];
     }
-
-} // END class Lib_View_Helper_FormSelectTest
+}

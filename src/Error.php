@@ -32,7 +32,7 @@ class Error extends ObjectAbstract
      *
      * @var array $errors
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * handler for errors
@@ -42,18 +42,18 @@ class Error extends ObjectAbstract
         $errstr,
         $errfile = null,
         $errline = null,
-        $errcontext = array()
+        $errcontext = []
     ) {
         $self = get_called_class();
 
         // append the errors to the list of errors that have occured so far
-        $self::getInstance()->addError(array(
+        $self::getInstance()->addError([
             'errno'         => $errno,
             'errstr'        => $errstr,
             'errfile'       => $errfile,
             'errline'       => $errline,
             'errcontext'    => $errcontext,
-        ));
+        ]);
 
         // switch, based on the error number given
         switch ($errno) {
@@ -79,7 +79,7 @@ class Error extends ObjectAbstract
      *
      * @return \MvcLite\Error $this for object-chaining.
      */
-    protected function addError($error = array())
+    protected function addError($error = [])
     {
         $this->errors[] = $error;
         return $this;

@@ -46,10 +46,10 @@ abstract class HelperAbstract extends \MvcLite\ObjectAbstract
      * @param array $attribs
      * @return string
      */
-    protected function getHtmlAttribs ($attribs = array())
+    protected function getHtmlAttribs ($attribs = [])
     {
         // a list of acceptable html attributes
-        $whiteListAttribs = array(
+        $whiteListAttribs = [
             'name',
             'id',
             'placeholder',
@@ -59,7 +59,7 @@ abstract class HelperAbstract extends \MvcLite\ObjectAbstract
             'rel',
             'action',
             'method',
-        );
+        ];
 
         // iterate over the attribs provided
         foreach ($attribs as $key => $value) {

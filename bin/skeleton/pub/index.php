@@ -11,24 +11,21 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-// define the root path
-define('ROOT', realpath(implode(DIRECTORY_SEPARATOR, array(
-    dirname(__FILE__), '..',
-))));
+// Define the path contants.
+define('ROOT', realpath(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..'])));
+define('APP_PATH', implode(DIRECTORY_SEPARATOR, [ROOT, 'app']));
+define('CONFIG_PATH', implode(DIRECTORY_SEPARATOR, [ROOT, 'etc']));
 
-// define the application path
-define('APP_PATH', implode(DIRECTORY_SEPARATOR, array(
-    ROOT, 'App',
-)));
+// Set the include path.
+set_include_path(implode(PATH_SEPARATOR, [ROOT, get_include_path()]));
 
-// set the include path to be the library, then the application, then the rest
-set_include_path(implode(PATH_SEPARATOR, array(
-    ROOT,
-    get_include_path(),
-)));
+// Setup the autoloader.
+$loader = require implode(DIRECTORY_SEPARATOR, [ROOT, '..', 'vendor', 'autoload.php']);
+$loader->addPsr4('App\\', APP_PATH);
+$loader->addPsr4('App\\', implode(DIRECTORY_SEPARATOR, [APP_PATH, 'Controller']));
 
-// ensure the autoloader is ready
+// Dispatch
 $dispatcher = \MvcLite\Dispatcher::getInstance();
-$dispatcher->init();
+$dispatcher->init($loader);
 // if this isn't being called from cli, then run it
 if ( PHP_SAPI != 'cli' ) $dispatcher->dispatch();

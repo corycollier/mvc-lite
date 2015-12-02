@@ -31,12 +31,12 @@ class DatabaseTest extends TestCase
     public function setup()
     {
         $this->sut = Database::getInstance();
-        $this->sut->init(array(
+        $this->sut->init([
             'host' => '127.0.0.1',
             'user' => 'mvc_test_user',
             'pass' => 'mvc_test_pass',
             'name' => 'mvc_test_db',
-        ));
+        ]);
     }
 
     /**
@@ -73,11 +73,8 @@ class DatabaseTest extends TestCase
      * @param array $params
      * @dataProvider provideUpdate
      */
-    public function testUpdate(
-        $table,
-        $updateParams = array(),
-        $existingParams = array()
-    ) {
+    public function testUpdate($table, $updateParams = [], $existingParams = [])
+    {
 
         if (! count($existingParams)) {
             $this->setExpectedException('MvcLite\Exception');
@@ -95,27 +92,13 @@ class DatabaseTest extends TestCase
      */
     public function provideUpdate()
     {
-        return array(
-            array(
-                'users',
-                array(
-                    'email' => 'test@test.com',
-                ),
-                array(
-                    'id' => '5',
-                )
-            ),
-            // array(
-            //     'users',
-            //     array(
-            //         'email' => 'test@test.com',
-            //     ),
-            //     array(
-            //         'id' => '1',
-            //     )
-            // ),
-        );
-
+        return [
+            'simple update test' => [
+                'table'          => 'users',
+                'updateParams'   => ['email' => 'test@test.com'],
+                'existingParams' => ['id' => '5']
+            ],
+        ];
     }
 
     /**
@@ -125,7 +108,7 @@ class DatabaseTest extends TestCase
      * @param array $fields
      * @dataProvider provideInsert
      */
-    public function testInsert($table, $fields = array())
+    public function testInsert($table, $fields = [])
     {
         if (! count($fields)) {
             $this->setExpectedException('MvcLite\Exception');
@@ -135,7 +118,6 @@ class DatabaseTest extends TestCase
         $result = $this->sut->insert($table, $fields);
 
         $this->assertInstanceOf('MvcLite\Database', $result);
-
     }
 
     /**
@@ -145,16 +127,12 @@ class DatabaseTest extends TestCase
      */
     public function provideInsert()
     {
-        return array(
-            array('users', array(
-                'email' => 'test1@test.com'
-            )),
-            array('users', array(
-                'email' => 'test2@test.com'
-            )),
-            array('users', array()),
-        );
-
+        return [
+            'users insert test' => [
+                'table' => 'users',
+                'fields' => ['email' => 'test1@test.com'],
+            ]
+        ];
     }
 
     /**
@@ -172,7 +150,6 @@ class DatabaseTest extends TestCase
         $result = $this->sut->fetch($table, $fields, $where, $order, $limit);
 
         $this->assertInstanceOf('MvcLite\Database', $result);
-
     }
 
     /**
@@ -183,38 +160,36 @@ class DatabaseTest extends TestCase
      */
     public function provideFetch()
     {
-        return array(
-            array('users'),
-            array(
-                'users',
-                array('email'),
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-                array(
-                    'id'    => 5,
-                    'email' => 'test@test.com'
-                ),
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-                null,
-                'id',
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-                null,
-                array('id', 'email'),
-            ),
-        );
-
+        return [
+            'table fetch' => [
+                'table' => 'users',
+            ],
+            'fable fetch, with fields' => [
+                'table' => 'users',
+                'fields' => ['email'],
+            ],
+            'fable fetch, with 2 fields' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+            ],
+            'fable fetch, with 2 fields and where clause' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+                'where' => ['id' => 5, 'email' => 'test@test.com'],
+            ],
+            'fable fetch, with 2 fields, and order clause' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+                'where' => null,
+                'order' => 'id',
+            ],
+            'fable fetch, with 2 fields, and 2 order clauses' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+                'where' => null,
+                'order' => ['id', 'email'],
+            ],
+        ];
     }
 
     /**
@@ -223,12 +198,11 @@ class DatabaseTest extends TestCase
      * @param array $params
      * @dataProvider provideDelete
      */
-    public function testDelete($table, $params = array())
+    public function testDelete($table, $params = [])
     {
         $result = $this->sut->delete($table, $params);
 
         $this->assertInstanceOf('MvcLite\Database', $result);
-
     }
 
     /**
@@ -238,15 +212,16 @@ class DatabaseTest extends TestCase
      */
     public function provideDelete()
     {
-        return array(
-            array('users', array(
-                'email' => 'test@test.com',
-            )),
-            array('users', array(
-                'id' => range(1, 3),
-            )),
-        );
-
+        return [
+            'test users by email' => [
+                'table' => 'users',
+                'params'=> ['email' => 'test@test.com'],
+            ],
+            'test users by array of ids' => [
+                'table' => 'users',
+                'params' => ['id' => range(1,3)],
+            ],
+        ];
     }
 
     public function testAll()
@@ -265,7 +240,6 @@ class DatabaseTest extends TestCase
         $property->setValue($this->sut, $sql);
 
         $this->assertSame($sql, $this->sut->getLastQuery());
-
     }
 
     /**
@@ -277,6 +251,5 @@ class DatabaseTest extends TestCase
         $handle = $this->sut->getHandle();
 
         $this->assertSame($handle->insert_id, $this->sut->lastInsertId());
-
     }
 }

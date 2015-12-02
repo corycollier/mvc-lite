@@ -41,9 +41,9 @@ class Cache extends ObjectAbstract
      *
      * @return \MvcLite\Cache $this for object-chaining.
      */
-    public function init(array $data = array())
+    public function init(array $data = [])
     {
-        $defaults = array('prefix' => 'cache');
+        $defaults = ['prefix' => 'cache'];
         $this->config = array_merge($defaults, $data);
         return $this;
     }
@@ -116,10 +116,10 @@ class Cache extends ObjectAbstract
             $filter->addFilter(new Filter\StringToLower);
         }
 
-        return $filter->filter(implode('_', array(
+        return $filter->filter(implode('_', [
             $this->config['prefix'],
             get_class($object),
             $name,
-        )));
+        ]));
     }
 }

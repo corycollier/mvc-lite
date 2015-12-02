@@ -100,6 +100,7 @@ function mvc_setup($parser, $output)
         'Public Stylesheets' => $target . '/pub/css',
         'Public Javascript'  => $target . '/pub/js',
         'Public Fonts'       => $target . '/pub/font',
+        'Configuration'      => $target . '/etc',
     );
 
     $output->write('Creating folders at the following locations ...')->newline();
@@ -128,7 +129,7 @@ function mvc_setup($parser, $output)
  */
 function mvc_controller_create($parser, $output)
 {
-    $template = ROOT . '/bin/skeleton/App/Controller/IndexController.php';
+    $template = ROOT . '/bin/skeleton/app/Controller/IndexController.php';
     $name     = $parser->getArg('name');
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
@@ -147,7 +148,7 @@ function mvc_controller_create($parser, $output)
  */
 function mvc_model_create($parser, $output)
 {
-    $template = ROOT . '/bin/skeleton/App/Model/Sample.php';
+    $template = ROOT . '/bin/skeleton/app/Model/Sample.php';
     $name     = $parser->getArg('name');
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Model/' . ucfirst($name) . '.php';

@@ -46,10 +46,10 @@ class ErrorTest extends TestCase
         $errstr,
         $errfile = null,
         $errline = null,
-        $errcontext = array(),
+        $errcontext = [],
         $isException = false
     ) {
-        if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_WARNING ))) {
+        if (in_array($errno, [E_USER_ERROR, E_ERROR, E_WARNING])) {
             $this->setExpectedException('\ErrorException');
         }
 
@@ -65,20 +65,20 @@ class ErrorTest extends TestCase
      */
     public function provideHandle()
     {
-        return array(
-            array(
-                E_USER_ERROR, 'fatal error',
-            ),
-            array(
-                E_WARNING, 'fatal error',
-            ),
-            array(
-                E_ERROR, 'fatal error',
-            ),
-            array(
-                E_ERROR, 'fatal error',
-            ),
-        );
+        return [
+            [
+                'errno'  => E_USER_ERROR,
+                'errstr' => 'fatal error',
+            ],
+            [
+                'errno'  => E_WARNING,
+                'errstr' => 'fatal error',
+            ],
+            [
+                'errno'  => E_ERROR,
+                'errstr' => 'fatal error',
+            ],
+        ];
     }
 
     /**
@@ -87,7 +87,7 @@ class ErrorTest extends TestCase
      * @param array $expected
      * @dataProvider provideGetErrors
      */
-    public function testGetErrors($expected = array())
+    public function testGetErrors($expected = [])
     {
         $this->getReflectedProperty('\MvcLite\Error', 'errors')
             ->setValue($this->sut, $expected);

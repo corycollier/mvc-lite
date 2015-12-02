@@ -40,7 +40,7 @@ class SessionTest extends TestCase
      *
      * @dataProvider provideData
      */
-    public function testInit(array $data = array())
+    public function testInit(array $data = [])
     {
         // define('PHP_SAPI', 'notcli');
 
@@ -59,10 +59,7 @@ class SessionTest extends TestCase
      */
     public function testSetParams($param, $value = '')
     {
-        $params = array(
-            $param => $value,
-        );
-
+        $params = [$param => $value];
         $this->sut->setParams($params);
         $this->assertSame($this->sut->getParam($param), $value);
     }
@@ -74,7 +71,7 @@ class SessionTest extends TestCase
      *
      * @dataProvider provideData
      */
-    public function testGetParams(array $data = array())
+    public function testGetParams(array $data = [])
     {
         $this->sut->setParams($data);
         $this->assertSame($data, $this->sut->getParams());
@@ -96,7 +93,7 @@ class SessionTest extends TestCase
      *
      * @dataProvider provideData
      */
-    public function testDestroy(array $data = array())
+    public function testDestroy(array $data = [])
     {
         $this->sut->setParams($data);
         $this->sut->destroy();
@@ -108,17 +105,12 @@ class SessionTest extends TestCase
      */
     public function provideParams()
     {
-        return array(
-            array(
-                'test1', 'value1',
-            ),
-            array(
-                'test2', 'value2',
-            ),
-            array(
-                'test3', 'value3',
-            ),
-        );
+        return [
+            'simple test' => [
+                'param' => 'test1',
+                'value' => 'value1',
+            ],
+        ];
     }
 
     /**
@@ -128,14 +120,14 @@ class SessionTest extends TestCase
      */
     public function provideData()
     {
-        return array(
-            array(
-                'data'=> array(
+        return [
+            'simple test' => [
+                'data'=> [
                     'var1'  => 'test1',
                     'var2'  => 'test2',
                     'var3'  => 'test3',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 }

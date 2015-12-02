@@ -29,21 +29,21 @@ class FormSelect extends \MvcLite\View\HelperAbstract
      * @param array $attribs
      * @return string
      */
-    public function render ($name, $options = array(), $attribs = array())
+    public function render ($name, $options = [], $attribs = [])
     {
-        $displayAttribs = array_merge($attribs, array(
+        $displayAttribs = array_merge($attribs, [
             'name'  => "display-only-{$name}",
             'class' => "display-only",
             'value' => @$attribs['displayValue'],
-        ));
+        ]);
 
-        $template = implode(PHP_EOL, array(
+        $template = implode(PHP_EOL, [
             '<label for="!id" class="form-select">',
             '<span class="label">!label</span>',
             '<select !attribs />',
             '!options',
             '</select>',
-        ));
+        ]);
 
         $attribs['name'] = $name;
         $attribs['id'] = $name;
@@ -63,17 +63,17 @@ class FormSelect extends \MvcLite\View\HelperAbstract
      * @param array $options
      * @return string
      */
-    protected function buildOptions ($options = array())
+    protected function buildOptions ($options = [])
     {
         $template = '<option value="!value">!label</option>';
 
         // iterate through the options, turning them into strings
         foreach ($options as $value => $label) {
             unset($options[$value]);
-            $options[$label] = strtr($template, array(
+            $options[$label] = strtr($template, [
                 '!value'    => $value,
                 '!label'    => $label,
-            ));
+            ]);
         }
 
         // return the array imploded into a string by newline characters

@@ -26,31 +26,28 @@ class ViewHelperFormSubmitTest extends \MvcLite\TestCase
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormSubmit
      *
-     * @dataProvider provide_render
+     * @dataProvider provideRender
      */
-    public function test_render ($attribs = array())
+    public function testRender($attribs = [])
     {
-        $helper = new  \MvcLite\View\Helper\FormSubmit;
-
+        $helper = new \MvcLite\View\Helper\FormSubmit;
         $result = $helper->render($attribs);
-
         $this->assertSame(0, strpos($result, '<label for'));
-
         $this->assertTrue(strpos($result, '<input type="submit"') > 0);
-
     }
 
     /**
      * provides a dataset to use for testing the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_render ( )
+    public function provideRender()
     {
-        return array(
-            array(
+        return [
+            'empty atttribs array test' => [
+                'attribs' => [],
+            ],
 
-            ),
-        );
-
+        ];
     }
-
-} // END class Lib_View_Helper_FormSubmitTest
+}

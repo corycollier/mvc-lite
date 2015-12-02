@@ -26,9 +26,9 @@ class ViewHelperFormTextareaTest extends \MvcLite\TestCase
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormTextarea
      *
-     * @dataProvider provide_render
+     * @dataProvider provideRender
      */
-    public function test_render ($name, $attribs = array())
+    public function testRender($name, $attribs = [])
     {
         $helper = new  \MvcLite\View\Helper\FormTextarea;
 
@@ -39,26 +39,22 @@ class ViewHelperFormTextareaTest extends \MvcLite\TestCase
         $this->assertTrue(strpos($result, '<textarea type="text"') > 0);
         $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
         $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
-
     }
 
     /**
      * provides a dataset to use for testing the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_render ( )
+    public function provideRender()
     {
-        return array(
-            array('passwd', array(
-                'value'    => 'the password',
-            )),
-            array('passwd1', array(
-                'value'    => 'the password',
-            )),
-            array('passwd2', array(
-                'value'    => 'the password',
-            )),
-        );
-
+        return [
+            [
+                'name'    => 'passwd',
+                'attribs' => [
+                    'value' => 'the value',
+                ],
+            ],
+        ];
     }
-
-} // END class Lib_View_Helper_FormTextareaTest
+}

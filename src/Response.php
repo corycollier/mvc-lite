@@ -31,7 +31,7 @@ class Response extends ObjectAbstract
      *
      * @var array
      */
-    protected $headers = array();
+    protected $headers = [];
 
     /**
      * The body of the response
@@ -69,7 +69,7 @@ class Response extends ObjectAbstract
      *
      * @return MvcLite\Response $this for object-chaining.
      */
-    public function setHeaders($headers = array())
+    public function setHeaders($headers = [])
     {
         foreach ($headers as $name => $value) {
             $this->setHeader($name, $value);

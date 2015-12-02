@@ -42,13 +42,16 @@ class ViewHelperExceptionTest extends \MvcLite\TestCase
     /**
      *
      * provides a list of data to use to test `the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
     public function provideRender()
     {
-        return array(
-            // array(new Exception('testing'), 'testing'),
-            array('testing', new \Exception('testing')),
-            array('testing', new \ErrorException('testing')),
-        );
+        return [
+            'basic test' => [
+                'expected' => 'testing',
+                'exception' => new \MvcLite\Exception('testing'),
+            ],
+        ];
     }
 }

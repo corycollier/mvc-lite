@@ -43,28 +43,28 @@ class ViewHelperCsvTest extends \MvcLite\TestCase
 
     /**
      * provides a dataset to use for testing the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
     public function provideRender()
     {
-        return array(
+        return [
             // first dataset
-            array(
-                array(
-                    array(
+            [
+                'items' => [
+                    [
                         'col1' => 'val1',
                         'col2' => 'val2',
                         'col3' => 'val3',
-                    ),
-                    array('val1', 'val2', 'val3'),
-                ),
-                implode(PHP_EOL, array(
+                    ],
+                    ['val1', 'val2', 'val3'],
+                ],
+                'expected' => implode(PHP_EOL, [
                     '"col1", "col2", "col3"',
                     '"val1", "val2", "val3"',
                     '"val1", "val2", "val3"',
-                )),
-            ),
-        );
-
+                ]),
+            ],
+        ];
     }
-
-} // END class Lib_View_Helper_CsvTest
+}

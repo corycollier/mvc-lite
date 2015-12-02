@@ -28,7 +28,7 @@ class FormPassword extends \MvcLite\View\HelperAbstract
      * @param array $attribs
      * @return string
      */
-    public function render($name, $attribs = array())
+    public function render($name, $attribs = [])
     {
         $template = '<label for="!id" class="form-text">'
             . '<span class="label">!label</span>'
@@ -38,10 +38,10 @@ class FormPassword extends \MvcLite\View\HelperAbstract
         $attribs['name'] = $name;
         $attribs['id'] = $name;
 
-        return strtr($template, array(
+        return strtr($template, [
             '!id'       => $name,
             '!label'    => @$attribs['label'],
             '!attribs'  => $this->getHtmlAttribs($attribs),
-        ));
+        ]);
     }
 }

@@ -57,7 +57,7 @@ class ResponseTest extends TestCase
      *
      * @dataProvider provideSetHeader
      */
-    public function testSetHeader($headers = array())
+    public function testSetHeader($headers = [])
     {
         $this->sut->setHeader($headers['name'], $headers['value']);
         $this->assertSame($headers['value'], $this->sut->getHeader($headers['name']));
@@ -70,20 +70,26 @@ class ResponseTest extends TestCase
      */
     public function provideSetHeader()
     {
-        return array(
-            array(array(
-                'name' => 'Content-Type',
-                'value' => 'text/plain',
-            )),
-            array(array(
-                'name' => 'Content-Type',
-                'value' => 'text/csv',
-            )),
-            array(array(
-                'name'  => 'X-Testing',
-                'value' => 'testing value',
-            )),
-        );
+        return [
+            'plain content headers' => [
+                'headers' => [
+                    'name' => 'Content-Type',
+                    'value' => 'text/plain',
+                ],
+            ],
+            'csv content headers' => [
+                'headers' => [
+                    'name' => 'Content-Type',
+                    'value' => 'text/csv',
+                ],
+            ],
+            'testing headers' => [
+                'headers' => [
+                    'name'  => 'X-Testing',
+                    'value' => 'testing value',
+                ],
+            ],
+        ];
     }
 
 
@@ -94,7 +100,7 @@ class ResponseTest extends TestCase
      *
      * @dataProvder provideGetHeaders
      */
-    public function testGetHeaders($headers = array())
+    public function testGetHeaders($headers = [])
     {
         $result = $this->sut->setHeaders($headers);
 
@@ -114,12 +120,14 @@ class ResponseTest extends TestCase
      */
     public function provideGetHeaders()
     {
-        return array(
-            array(array(
-                'Content-type' => 'text/plain',
-                'X-Testing'     => 'testing value',
-            )),
-        );
+        return [
+            'simple content headers' => [
+                'headers' => [
+                    'Content-type' => 'text/plain',
+                    'X-Testing'     => 'testing value',
+                ]
+            ],
+        ];
     }
 
     /**
@@ -143,9 +151,7 @@ class ResponseTest extends TestCase
 
         $sut = $this->getMockBuilder('\MvcLite\Response')
             ->disableOriginalConstructor()
-            ->setMethods(array(
-                'setHeader',
-            ))
+            ->setMethods(['setHeader'])
             ->getMock();
 
         $count = count($headers);
@@ -157,7 +163,6 @@ class ResponseTest extends TestCase
         //     ->method('setHeaders');
 
         $sut->setHeaders($headers);
-
     }
 
     /**
@@ -168,18 +173,19 @@ class ResponseTest extends TestCase
      */
     public function provideSetHeaders()
     {
-        return array(
-            array(array(
-                'var'   => 'val',
-            )),
-
-            array(array(
-                'var1'   => 'val1',
-                'var2'   => 'val2',
-                'var3'   => 'val3',
-            )),
-
-        );
-
+        return [
+            [
+                'headers' => [
+                    'var'   => 'val',
+                ],
+            ],
+            [
+                'headers' => [
+                    'var1'   => 'val1',
+                    'var2'   => 'val2',
+                    'var3'   => 'val3',
+                ],
+            ],
+        ];
     }
 }

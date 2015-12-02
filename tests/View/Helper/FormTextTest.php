@@ -26,9 +26,9 @@ class ViewHelperFormTextTest extends \MvcLite\TestCase
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormText
      *
-     * @dataProvider provide_render
+     * @dataProvider provideRender
      */
-    public function test_render ($name, $attribs = array())
+    public function testRender($name, $attribs = [])
     {
         $helper = new  \MvcLite\View\Helper\FormText;
 
@@ -44,21 +44,19 @@ class ViewHelperFormTextTest extends \MvcLite\TestCase
 
     /**
      * provides a dataset to use for testing the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_render ( )
+    public function provideRender()
     {
-        return array(
-            array('passwd', array(
-
-            )),
-            array('passwd1', array(
-
-            )),
-            array('passwd2', array(
-
-            )),
-        );
-
+        return [
+            [
+                'name'    => 'passwd',
+                'attribs' => [
+                    'value' => 'the value',
+                ],
+            ],
+        ];
     }
 
 } // END class Lib_View_Helper_FormTextTest

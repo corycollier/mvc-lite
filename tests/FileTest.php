@@ -36,7 +36,7 @@ class FileTest extends TestCase
      * @param string $filename
      * @dataProvider provideTest
      */
-    public function testTest($filename, $expected = false)
+    public function testTest($expected, $filename)
     {
         $this->assertSame($this->sut->test($filename), $expected);
     }
@@ -49,19 +49,26 @@ class FileTest extends TestCase
      */
     public function provideTest()
     {
-        return array(
-            'Bad path, should not exist' => array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'lib', 'file.php'
-            )), false),
-
-            'Good path, should exist' => array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'FileTest.php'
-            )), true),
-
-            'Good path, bad file, should not exist' => array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'file.php'
-            )), false),
-        );
+        return [
+            'Bad path, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'lib', 'file.php'
+                ]),
+            ],
+            'Good path, should exist' => [
+                'expected' => true,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'tests', 'FileTest.php'
+                ]),
+            ],
+            'Good path, bad file, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'file.php'
+                ]),
+            ],
+        ];
     }
 
     /**
@@ -71,9 +78,9 @@ class FileTest extends TestCase
      * @param boolean $shouldExist
      * @dataProvider provideLoad
      */
-    public function testLoad($filename, $shouldExist = false)
+    public function testLoad($expected, $filename)
     {
-        if (! $shouldExist) {
+        if (! $expected) {
             $this->setExpectedException('Exception');
         }
 
@@ -96,19 +103,26 @@ class FileTest extends TestCase
      */
     public function provideLoad()
     {
-        return array(
-            'Bad path, should not exist' => array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'lib', 'file.php'
-            )), false),
-
-            'Good path, should exist' => array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'FileTest.php'
-            )), true),
-
-            'Good path, bad file, should not exist' => array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'file.php'
-            )), false),
-        );
+        return [
+            'Bad path, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'lib', 'file.php'
+                ]),
+            ],
+            'Good path, should exist' => [
+                'expected' => true,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'tests', 'FileTest.php'
+                ]),
+            ],
+            'Good path, bad file, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'file.php'
+                ]),
+            ],
+        ];
     }
 
     /**
@@ -134,10 +148,14 @@ class FileTest extends TestCase
      */
     public function provideGetContents()
     {
-        return array(
-            array('test1'),
-            array(" "),
-        );
+        return [
+            'string contents' => [
+                'contents' => 'test1',
+            ],
+            'whitespace contents' => [
+                'contents' => ' ',
+            ],
+        ];
     }
 
     /**
@@ -148,21 +166,16 @@ class FileTest extends TestCase
      * @param string $newContents
      * @dataProvider provideSave
      */
-    public function testSave($filename, $oldContents = '', $newContents = '')
+    public function testSave($exists, $contents, $filename)
     {
         // if the directory containing the file doesn't exist, expect an error
         if (! file_exists(dirname($filename))) {
             $this->setExpectedException('Exception');
-        } else {
-            file_put_contents($filename, $oldContents);
         }
 
-        $this->sut->setContents($newContents);
-
+        $this->sut->setContents($contents);
         $this->sut->save($filename);
-
-        $this->assertEquals($newContents, file_get_contents($filename));
-
+        $this->assertEquals($contents, file_get_contents($filename));
     }
 
     /**
@@ -174,19 +187,23 @@ class FileTest extends TestCase
      */
     public function provideSave()
     {
-        return array(
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test1'
-            )), '', 'test content'),
+        return [
+            'directory exists, expect save' => [
+                'exists'   => true,
+                'contents' => 'testing',
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'tests', '_file', '.empty',
+                ]),
+            ],
 
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test2'
-            )), 'old content', 'new content'),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', '_test_', 'new-file'
-            )), 'old content', 'new content'),
-        );
+            'directory does not exist, do not expect save' => [
+                'exists'   => false,
+                'contents' => '',
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'baddir', '_file', '.empty',
+                ]),
+            ],
+        ];
     }
 
     /**
@@ -196,10 +213,10 @@ class FileTest extends TestCase
      *
      * @dataProvider provideDelete
      */
-    public function testDelete($filename)
+    public function testDelete($exists, $filename)
     {
         // if the directory containing the file doesn't exist, expect an error
-        if (! file_exists(dirname($filename))) {
+        if (! $exists) {
             $this->setExpectedException('Exception');
         } else {
             file_put_contents($filename, '');
@@ -219,19 +236,15 @@ class FileTest extends TestCase
      */
     public function provideDelete()
     {
-        return array(
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test1'
-            ))),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test2'
-            ))),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', '_test_', 'new-file'
-            ))),
-        );
-    }
+        return [
+            'file exists' => [
+                'exists' => true,
+                'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '_file', '.empty']),
+            ],
+            'file does not exist' => [
+                'exists' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '.nope']),
+            ],
+        ];
+     }
 }

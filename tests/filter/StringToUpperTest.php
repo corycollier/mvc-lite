@@ -31,12 +31,12 @@ class FilterStringToUpperTest extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     *
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\StringToUpper;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
     }
 
@@ -45,15 +45,15 @@ class FilterStringToUpperTest extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('Word', 'WORD'),
-            array('Lion', 'LION'),
-            array('tIer', 'TIER'),
-            array('The Dog', 'THE DOG'),
-            array('123 SomethinG', '123 SOMETHING'),
-            array('wow AWeSoME', 'WOW AWESOME'),
-        );
+        return [
+            ['Word', 'WORD'],
+            ['Lion', 'LION'],
+            ['tIer', 'TIER'],
+            ['The Dog', 'THE DOG'],
+            ['123 SomethinG', '123 SOMETHING'],
+            ['wow AWeSoME', 'WOW AWESOME'],
+        ];
     }
 }

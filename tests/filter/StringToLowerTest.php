@@ -32,14 +32,13 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     *
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\StringToLower;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
@@ -47,17 +46,15 @@ extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('Word', 'word'),
-            array('Lion', 'lion'),
-            array('tIer', 'tier'),
-            array('The Dog', 'the dog'),
-            array('123 SomethinG', '123 something'),
-            array('wow AWeSoME', 'wow awesome'),
-        );
-
+        return [
+            ['Word', 'word'],
+            ['Lion', 'lion'],
+            ['tIer', 'tier'],
+            ['The Dog', 'the dog'],
+            ['123 SomethinG', '123 something'],
+            ['wow AWeSoME', 'wow awesome'],
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\StringToLowerTest
+}

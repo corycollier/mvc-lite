@@ -32,14 +32,12 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter ($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\ClassToCamelcase;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
@@ -47,18 +45,16 @@ extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('ClassToCamelcase', 'classToCamelcase'),
-            array('classToCamelcase', 'classToCamelcase'),
-            array('class-ToCamelcase', 'class-ToCamelcase'),
-            array('class ToCamelcase', 'class ToCamelcase'),
-            array('class ToCamelcase', 'class ToCamelcase'),
-            array('class_ToCamelcase', 'toCamelcase'),
-            array('class_To__Camelcase', 'camelcase'),
-        );
-
+        return [
+            ['ClassToCamelcase', 'classToCamelcase'],
+            ['classToCamelcase', 'classToCamelcase'],
+            ['class-ToCamelcase', 'class-ToCamelcase'],
+            ['class ToCamelcase', 'class ToCamelcase'],
+            ['class ToCamelcase', 'class ToCamelcase'],
+            ['class_ToCamelcase', 'toCamelcase'],
+            ['class_To__Camelcase', 'camelcase'],
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\ClassToCamelcaseTest
+}

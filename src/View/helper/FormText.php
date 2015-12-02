@@ -29,7 +29,7 @@ class FormText extends \MvcLite\View\HelperAbstract
      * @param array $attribs An array of attributes.
      * @return string The resulting HTML.
      */
-    public function render($name, $attribs = array())
+    public function render($name, $attribs = [])
     {
         $template = '<label for="!id" class="form-text">'
             . '<span class="label">!label</span>'
@@ -39,10 +39,10 @@ class FormText extends \MvcLite\View\HelperAbstract
         $attribs['name'] = $name;
         $attribs['id'] = $name;
 
-        return strtr($template, array(
+        return strtr($template, [
             '!label'    => @$attribs['label'],
             '!id'       => $name,
             '!attribs'  => $this->getHtmlAttribs($attribs),
-        ));
+        ]);
     }
 }

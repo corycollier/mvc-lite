@@ -16,9 +16,9 @@ use \MvcLite\View\Helper;
 /**
  * Unit tests for the Lib_View_Helper_FormPassword class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MVCLite
+ * @subpackage  View\Helper
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -28,9 +28,9 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
     /**
      * tests the $helper->render() method of Lib_View_Helper_FormPassword
      *
-     * @dataProvider provide_render
+     * @dataProvider provideRender
      */
-    public function test_render ($name, $attribs = array())
+    public function testRender ($name, $attribs = [])
     {
         $helper = new  \MvcLite\View\Helper\FormPassword;
 
@@ -46,21 +46,24 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
 
     /**
      * provides a dataset to use for testing the $helper->render() method
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_render ( )
+    public function provideRender ( )
     {
-        return array(
-            array('passwd', array(
-
-            )),
-            array('passwd1', array(
-
-            )),
-            array('passwd2', array(
-
-            )),
-        );
-
+        return [
+            [
+                'name' => 'passwd',
+                'attribs' => [],
+            ],
+            [
+                'name' => 'passwd1',
+                'attribs' => [],
+            ],
+            [
+                'name' => 'passwd2',
+                'attribs' => [],
+            ]
+        ];
     }
-
-} // END class Lib_View_Helper_FormPasswordTest
+}

@@ -27,7 +27,7 @@ class Csv extends \MvcLite\View\HelperAbstract
      *
      * @param array $items
      */
-    public function render ($items = array())
+    public function render ($items = [])
     {
         $return = '';
         $headers = array_keys((array)$items[0]);
@@ -39,7 +39,5 @@ class Csv extends \MvcLite\View\HelperAbstract
         }
 
         return $return;
-
     }
-
-} // END class Lib_View_Helper_Csv
+}
