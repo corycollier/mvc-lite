@@ -30,7 +30,7 @@ class ViewHelperFormSelectTest extends \MvcLite\TestCase
      */
     public function testRender($name, $attribs = [])
     {
-        $helper = new  \MvcLite\View\Helper\FormSelect;
+        $helper = new \MvcLite\View\Helper\FormSelect;
 
         $result = $helper->render($name, $attribs);
 

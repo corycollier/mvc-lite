@@ -8,31 +8,31 @@ require ROOT . '/vendor/autoload.php';
 $func = $argv[1];
 
 // List of supported arguments to functions.
-$map = array(
-    'setup' => array(
+$map = [
+    'setup' => [
         'callback'  => 'mvc_setup',
-        'required' => array(
-            'target',
-        ),
-        'supported' => array(
+        'required' => ['target'],
+        'supported' => [
             'target' => 'Where to create the mvc application',
-        ),
-    ),
-    'controller:create' => array(
+        ],
+    ],
+    'controller:create' => [
         'callback'  => 'mvc_controller_create',
-        'supported' => array(
+        'required' => ['target', 'name'],
+        'supported' => [
             'name'   => 'The name of the controller',
             'target' => 'The root of the application',
-        ),
-    ),
-    'model:create' => array(
+        ],
+    ],
+    'model:create' => [
         'callback'  => 'mvc_model_create',
-        'supported' => array(
+        'required' => ['target', 'name'],
+        'supported' => [
             'name'   => 'The name of the model',
             'target' => 'The root of the application',
-        ),
-    ),
-);
+        ]
+    ],
+];
 
 // Dispatch the request.
 if (array_key_exists($func, $map)) {
@@ -45,7 +45,7 @@ if (array_key_exists($func, $map)) {
     } catch (PhpCli\Exception $exception) {
     // Catch any namespaced exceptions, and send them to the output device.
         $output->newline()
-            ->write(' Caught Exception', array('color' => 'red'))
+            ->write(' Caught Exception', ['color' => 'red'])
             ->newline()
             ->write(' - ' . $exception->getMessage())
             ->newline()
@@ -79,7 +79,7 @@ function mvc_check_requirements($parser, $output, $requirements)
  */
 function mvc_dispatch_request($parser, $output, $callback)
 {
-    call_user_func_array($callback, array($parser, $output));
+    call_user_func_array($callback, [$parser, $output]);
 }
 
 /**
@@ -92,7 +92,7 @@ function mvc_setup($parser, $output)
 {
     $target = ROOT . '/' . $parser->getArg("target");
 
-    $folders = array(
+    $folders = [
         'App Controllers'    => $target . '/app/Controller',
         'App Models'         => $target . '/app/Model',
         'App Views'          => $target . '/app/View',
@@ -101,7 +101,7 @@ function mvc_setup($parser, $output)
         'Public Javascript'  => $target . '/pub/js',
         'Public Fonts'       => $target . '/pub/font',
         'Configuration'      => $target . '/etc',
-    );
+    ];
 
     $output->write('Creating folders at the following locations ...')->newline();
 
@@ -110,7 +110,7 @@ function mvc_setup($parser, $output)
         $maxlen = 20;
         $len    = strlen($description);
 
-        $output->write($description, array('color' => 'red'))
+        $output->write($description, ['color' => 'red'])
             ->write(str_repeat(' ', $maxlen - $len))
             ->write($location)
             ->newline();
@@ -133,9 +133,7 @@ function mvc_controller_create($parser, $output)
     $name     = $parser->getArg('name');
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
-    $code     = strtr(file_get_contents($template), array(
-        'Index' => $name,
-    ));
+    $code     = strtr(file_get_contents($template), ['Index' => $name]);
 
     file_put_contents($filename, $code);
 }
@@ -152,9 +150,7 @@ function mvc_model_create($parser, $output)
     $name     = $parser->getArg('name');
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Model/' . ucfirst($name) . '.php';
-    $code     = strtr(file_get_contents($template), array(
-        'Sample' => $name,
-    ));
+    $code     = strtr(file_get_contents($template), ['Sample' => $name]);
 
     file_put_contents($filename, $code);
 }

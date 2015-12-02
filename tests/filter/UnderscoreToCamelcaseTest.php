@@ -32,14 +32,12 @@ extends \MvcLite\TestCase
      *
      * @param string $unfiltered
      * @param string $expected
-     * @dataProvider provide_filter
+     * @dataProvider provideFilter
      */
-    public function test_filter ($unfiltered, $expected)
+    public function testFilter($unfiltered, $expected)
     {
         $filter = new \MvcLite\Filter\UnderscoreToCamelcase;
-
         $this->assertSame($expected, $filter->filter($unfiltered));
-
     }
 
     /**
@@ -47,16 +45,14 @@ extends \MvcLite\TestCase
      *
      * @return array
      */
-    public function provide_filter ( )
+    public function provideFilter()
     {
-        return array(
-            array('the unfiltered_word', 'the unfilteredWord'),
-            array('the_unfiltered_word', 'theUnfilteredWord'),
-            array('the-unfiltered_word', 'the-unfilteredWord'),
-            array('the-unfiltered_word_', 'the-unfilteredWord'),
-            array('_the-unfiltered_word_', 'The-unfilteredWord'),
-        );
-
+        return [
+            ['the unfiltered_word', 'the unfilteredWord'],
+            ['the_unfiltered_word', 'theUnfilteredWord'],
+            ['the-unfiltered_word', 'the-unfilteredWord'],
+            ['the-unfiltered_word_', 'the-unfilteredWord'],
+            ['_the-unfiltered_word_', 'The-unfilteredWord'],
+        ];
     }
-
-} // END class Tests_\MvcLite\Filter\UnderscoreToCamelcaseTest
+}
