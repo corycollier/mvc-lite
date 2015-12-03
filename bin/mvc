@@ -32,6 +32,23 @@ $map = [
             'target' => 'The root of the application',
         ]
     ],
+    'action:create' => [
+        'callback'  => 'mvc_action_create',
+        'required' => ['target', 'name', 'controller'],
+        'supported' => [
+            'name'       => 'The name of the action',
+            'controller' => 'The name of the controller',
+            'target'     => 'The root of the application',
+        ]
+    ],
+    'resource:create' => [
+        'callback'  => 'mvc_resource_create',
+        'required' => ['target', 'name'],
+        'supported' => [
+            'name'       => 'The name of the resource',
+            'target'     => 'The root of the application',
+        ]
+    ],
 ];
 
 // Dispatch the request.
@@ -85,8 +102,8 @@ function mvc_dispatch_request($parser, $output, $callback)
 /**
  * Runs the setup
  *
- * @param PhpCli\Parser $parser Instance of the Cli Parser
- * @param PhpCli\Output $output Instance of the Cli Output
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
  */
 function mvc_setup($parser, $output)
 {
@@ -122,35 +139,121 @@ function mvc_setup($parser, $output)
 }
 
 /**
- * Creates a controller
+ * Creates a controller.
  *
- * @param PhpCli\Parser $parser Instance of the Cli Parser
- * @param PhpCli\Output $output Instance of the Cli Output
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
  */
 function mvc_controller_create($parser, $output)
 {
     $template = ROOT . '/bin/skeleton/app/Controller/IndexController.php';
-    $name     = $parser->getArg('name');
+    $name     = strtolower($parser->getArg('name'));
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
-    $code     = strtr(file_get_contents($template), ['Index' => $name]);
+    $code     = strtr(file_get_contents($template), ['Index' => ucfirst($name)]);
 
     file_put_contents($filename, $code);
 }
 
 /**
- * Creates a model
+ * Creates a model.
  *
- * @param PhpCli\Parser $parser Instance of the Cli Parser
- * @param PhpCli\Output $output Instance of the Cli Output
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser
+ * @param \PhpCli\Output $output Instance of the Cli Output
  */
 function mvc_model_create($parser, $output)
 {
     $template = ROOT . '/bin/skeleton/app/Model/Sample.php';
-    $name     = $parser->getArg('name');
+    $name     = strtolower($parser->getArg('name'));
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Model/' . ucfirst($name) . '.php';
-    $code     = strtr(file_get_contents($template), ['Sample' => $name]);
+    $code     = strtr(file_get_contents($template), ['Sample' => ucfirst($name)]);
 
     file_put_contents($filename, $code);
+}
+
+/**
+ * Creates a model.
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_action_create($parser, $output)
+{
+    $name       = strtolower($parser->getArg('name'));
+    $controller = strtolower($parser->getArg('controller'));
+    $target     = ROOT . '/' . $parser->getArg("target");
+    $filename   = $target . '/app/Controller/' . ucfirst($controller) . 'Controller.php';
+    $lines      = file($filename, FILE_IGNORE_NEW_LINES);
+    array_pop($lines);
+
+    $code = implode(PHP_EOL, $lines);
+
+    $code .= implode(PHP_EOL . str_repeat(' ', 4), ['', '',
+        '/**',
+        ' * ' .  ucfirst($name) . ' action',
+        ' */',
+        'public function ' . $name . 'Action()',
+        '{',
+        '',
+        '}',
+    ]) . PHP_EOL . '}' . PHP_EOL;
+
+    file_put_contents($filename, $code);
+    mvc_view_create($parser, $output);
+}
+/**
+ * Creates a view.
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_view_create($parser, $output)
+{
+    $name       = strtolower($parser->getArg('name'));
+    $controller = strtolower($parser->getArg('controller'));
+    $target     = ROOT . '/' . $parser->getArg("target");
+    $filename   = $target . '/app/View/scripts/' . $controller . '/' . $name . '.phtml';
+    $directory = dirname($filename);
+    if (! file_exists($directory)) {
+        mkdir($directory);
+    }
+
+    $code = implode(PHP_EOL, [
+        '<?php',
+        '/**',
+        ' *',
+        ' *',
+        ' */',
+        '?>',
+        '<h2>' . $name . '</h2>',
+    ]);
+
+    file_put_contents($filename, $code);
+}
+
+/**
+ * Handles the creation of MVC resources.
+ *
+ * @param PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_resource_create ($parser, $output)
+{
+    $args = $parser->getArgs();
+    $args = [
+        '--name=index',
+        '--target=' . $args['target'],
+        '--controller=' . $args['name']
+    ];
+
+    $viewParser = new PhpCli\Parser($args, [
+        'name'       => 'The name of the resource',
+        'target'     => 'The root of the application',
+        'controller' => 'The name of the controller',
+    ]);
+
+    mvc_model_create($parser, $output);
+    mvc_controller_create($parser, $output);
+    mvc_view_create($viewParser, $output);
 }
