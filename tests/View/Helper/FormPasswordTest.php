@@ -25,32 +25,23 @@ use \MvcLite\View\Helper;
 
 class ViewHelperFormPasswordTest extends \MvcLite\TestCase
 {
-
-    public function setUp()
-    {
-        global $loader;
-        $result = $loader->loadClass('\MvcLite\View\Helper\FormPassword');
-        if (! $result){
-            print_r($loader);
-        }
-    }
-
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormPassword
+     * Tests MvcLite\View\Helper\FormPassword::render().
+     *
+     * @param string $name The name of the element.
+     * @param array $attribs An array of attributes to pass to the render method.
      *
      * @dataProvider provideRender
      */
     public function testRender($name, $attribs = [])
     {
-        $helper = $this->getMockBuilder('\MvcLite\View\Helper\FormPassword')
+        $sut = $this->getMockBuilder('\MvcLite\View\Helper\FormPassword')
             ->disableOriginalConstructor()
             ->setMethods(['getHtmlAttribs'])
             ->getMock();
 
-        $result = $helper->render($name, $attribs);
-
+        $result = $sut->render($name, $attribs);
         $this->assertSame(0, strpos($result, '<label for'));
-
         $this->assertTrue(strpos($result, '<input type="password"') > 0);
     }
 

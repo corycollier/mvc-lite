@@ -20,6 +20,5 @@ $loader = require ROOT . '/vendor/autoload.php';
 $loader->addPsr4('MvcLite\\View\\', ROOT . '/src/View/');
 $loader->addPsr4('MvcLite\\View\\Helper\\', ROOT . '/src/View/Helper/');
 $loader->addPsr4('MvcLite\\Filter\\', ROOT . '/src/Filter/');
-
 $loader->addPsr4('App\\', implode(DIRECTORY_SEPARATOR, [APP_PATH, 'Controller']));
 // @codingStandardsIgnoreEnd
