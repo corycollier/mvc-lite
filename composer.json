@@ -23,7 +23,7 @@
         }
     ],
     "require" : {
-        "corycollier/php-cli": "dev-master",
+        "corycollier/php-cli": "dev-master"
     },
 
     "autoload": {
