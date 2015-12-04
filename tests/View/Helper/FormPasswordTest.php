@@ -35,10 +35,12 @@ class ViewHelperFormPasswordTest extends \MvcLite\TestCase
      */
     public function testRender($name, $attribs = [])
     {
-        $sut = $this->getMockBuilder('\MvcLite\View\Helper\FormPassword')
-            ->disableOriginalConstructor()
-            ->setMethods(['getHtmlAttribs'])
-            ->getMock();
+        // $sut = $this->getMockBuilder('\MvcLite\View\Helper\FormPassword')
+        //     ->disableOriginalConstructor()
+        //     ->setMethods(['getHtmlAttribs'])
+        //     ->getMock();
+
+        $sut = new \MvcLite\View\Helper\FormPassword;
 
         $result = $sut->render($name, $attribs);
         $this->assertSame(0, strpos($result, '<label for'));
