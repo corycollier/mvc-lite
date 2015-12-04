@@ -95,7 +95,6 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         $controller = $this->translateControllerName($params['controller']);
         $action     = $this->translateActionName($params['action']);
         $response   = $this->getResponse();
-        $request    = $this->getRequest();
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller

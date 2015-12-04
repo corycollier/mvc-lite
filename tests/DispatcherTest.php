@@ -47,15 +47,65 @@ class DispatcherTest extends TestCase
 
     /**
      * tests the dispatch method of the dispatcher
+     *
+     * @dataProvider provideDispatch
      */
-    public function testDispatch()
+    public function testDispatch($controller, $action, $params = [])
     {
-        $sut = Dispatcher::getInstance();
-        $request = Request::getInstance();
+        global $loader;
+
+        $sut = $this->getMockBuilder('\MvcLite\Dispatcher')
+            ->disableOriginalConstructor()
+            ->setMethods(['translateControllerName', 'translateActionName', 'getRequest'])
+            ->getMock();
+
+        $request = $this->getMockBuilder('\MvcLite\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(['getParams'])
+            ->getMock();
+
+        $request->expects($this->once())
+            ->method('getParams')
+            ->will($this->returnValue($params));
+
+        $sut->expects($this->any())
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+
+        $sut->expects($this->once())
+            ->method('translateControllerName')
+            ->with($this->equalTo($params['controller']))
+            ->will($this->returnValue($controller));
+
+        $sut->expects($this->once())
+            ->method('translateActionName')
+            ->with($this->equalTo($params['action']))
+            ->will($this->returnValue($action));
+
+        $result = $sut->init($loader);
+
         $sut->dispatch();
 
-        $this->assertSame('error', $request->getParam('controller'));
-        $this->assertSame('error', $request->getParam('action'));
+        // $this->assertSame('error', $r equest->getParam('action'));
+    }
+
+    /**
+     * Data provider for DispatcherTestCase::testDispatch.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideDispatch()
+    {
+        return [
+            'simple params' => [
+                'controller' => 'IndexController',
+                'action'    => 'index',
+                'params' => [
+                    'controller' => 'index',
+                    'action'    => 'index'
+                ]
+            ],
+        ];
     }
 }
 
