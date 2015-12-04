@@ -4,7 +4,6 @@ php:
   - nightly
 
 before_script:
-  ./composer.phar dumpautoload
   ./composer.phar update
 script:
   ant full-build
