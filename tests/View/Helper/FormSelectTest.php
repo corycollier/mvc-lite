@@ -11,6 +11,8 @@
 
 namespace MvcLite;
 
+use \MvcLite\View\Helper\FormSelect;
+
 /**
  * Unit tests for the Lib_View_Helper_FormSelect class
  *

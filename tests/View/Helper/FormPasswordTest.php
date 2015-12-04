@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper;
+use \MvcLite\View\Helper\FormPassword;
 
 /**
  * Unit tests for the Lib_View_Helper_FormPassword class

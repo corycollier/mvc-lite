@@ -11,6 +11,8 @@
 
 namespace MvcLite;
 
+use \MvcLite\View\Helper\FormText;
+
 /**
  * Unit tests for the Lib_View_Helper_FormText class
  *

@@ -9,7 +9,9 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-namespace MvcLite\Tests\View\Helper;
+namespace MvcLite;
+
+use MvcLite\View\Helper\Form;
 
 /**
  * Test Suite for the Form View Helper

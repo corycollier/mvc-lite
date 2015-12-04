@@ -9,7 +9,7 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-namespace MvcLite\Tests\View\Helper;
+namespace MvcLite;
 
 use \MvcLite\View\Helper\Exception;
 
