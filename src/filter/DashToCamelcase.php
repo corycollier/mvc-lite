@@ -24,8 +24,7 @@ namespace MvcLite\Filter;
 class DashToCamelcase extends \MvcLite\FilterAbstract
 {
     /**
-     * (non-PHPdoc)
-     * @see \MvcLite\FilterAbstract::filter()
+     * Filter
      */
     public function filter($word = '')
     {

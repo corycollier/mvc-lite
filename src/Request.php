@@ -94,29 +94,30 @@ class Request extends ObjectAbstract
     {
         // create a list of parts by separator
         $parts = array_filter(explode($separator, $string));
-        sort($parts);
-        $results = [];
 
-        $results['controller'] = @$parts[0]
-            ? $parts[0]
-            : 'index';
+        $controller = array_shift($parts);
+        $action = array_shift($parts);
 
-        $results['action'] = @$parts[1]
-            ? $parts[1]
-            : 'index';
+        $results = [
+            'controller' => $controller ? $controller : 'index',
+            'action'     => $action ? $action : 'index',
+        ];
+        $length = count($parts);
+        $i = 0;
+        while ($i < $length) {
+            if (array_key_exists($i + 1, $parts)) {
+                $key = $parts[$i];
+                $value = $parts[$i + 1];
+                if (in_array($key, ['controller', 'action'])) {
+                    continue;
+                }
 
-        // iterate over the parts, reformatting them as necessary
-        foreach ($parts as $key => $value) {
-            if (($key < 2) || ($key % 2)) {
-                continue;
+                $results[$key] = $value;
             }
-
-            $results[$value] = @$parts[$key + 1];
+            $i = $i + 2;
         }
 
-        // return parts
         return $results;
-
     }
 
     /**

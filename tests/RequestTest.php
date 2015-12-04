@@ -46,7 +46,6 @@ class RequestTest extends TestCase
             'action'        => 'action',
             'param1'        => 'value1',
             'param2'        => 'value2',
-            'param3'        => null,
         ]);
     }
 
@@ -73,7 +72,6 @@ class RequestTest extends TestCase
         }
 
         $this->assertFalse(array_key_exists('q', $result));
-
     }
 
     /**
