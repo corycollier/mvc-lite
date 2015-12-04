@@ -5,4 +5,5 @@ php:
 
 before_script:
   ./composer.phar update
-script: phpunit --configuration build/phpunit.xml --no-coverage
+script:
+  ant full-build
