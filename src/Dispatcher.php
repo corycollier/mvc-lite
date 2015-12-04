@@ -153,7 +153,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
     protected function translateControllerName($controller = '')
     {
         $filter = new FilterChain;
-        $filter->addFilter(new Filter\DashtoCamelcase);
+        $filter->addFilter(new Filter\DashToCamelcase);
         $filter->addFilter(new Filter\StringToProper);
 
         $controller = $filter->filter($controller);
