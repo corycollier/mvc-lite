@@ -8,7 +8,7 @@ cache.properties
 
 # Folders
 vendor/
-build/
+build/*
 !build/phpunit.xml
 !build/phpmd.xml
 !build/phpdox.xml
