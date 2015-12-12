@@ -41,13 +41,17 @@
         <h1>
 <a id="mvc-lite" class="anchor" href="#mvc-lite" aria-hidden="true"><span class="octicon octicon-link"></span></a>MVC Lite</h1>
 
-<p><a href="https://travis-ci.org/corycollier/mvc-lite"><img src="https://travis-ci.org/corycollier/mvc-lite.svg?branch=master" alt="Build Status"></a></p>
+<p><a href="https://travis-ci.org/corycollier/mvc-lite"><img src="https://travis-ci.org/corycollier/mvc-lite.svg?branch=master" alt="Build Status"></a>
+<a href="https://packagist.org/packages/corycollier/mvc-lite"><img src="https://poser.pugx.org/corycollier/mvc-lite/v/stable" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/corycollier/mvc-lite"><img src="https://poser.pugx.org/corycollier/mvc-lite/downloads" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/corycollier/mvc-lite"><img src="https://poser.pugx.org/corycollier/mvc-lite/v/unstable" alt="Latest Unstable Version"></a>
+<a href="https://packagist.org/packages/corycollier/mvc-lite"><img src="https://poser.pugx.org/corycollier/mvc-lite/license" alt="License"></a></p>
 
 <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>mvc-lite is a lightweight MVC Framework aimed at accomplishing common MVC
-standards in a much lighter package. The bulk of this work is inspired by the
+goals in a much lighter package. The bulk of this work is inspired by the
 Zend Framework (<a href="http://framework.zend.com">http://framework.zend.com</a>)</p>
 
 <h2>
@@ -57,8 +61,23 @@ Zend Framework (<a href="http://framework.zend.com">http://framework.zend.com</a
 sophisticated application handling, consider a more robust framework, like
 Zend Framework, Laravel, or Symfony.</p>
 
-<p>Contact me for help at:
-    <a href="mailto:corycollier@corycollier.com">corycollier@corycollier.com</a></p>
+<h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start</h2>
+
+<p>The <code>mvc</code> script can be used to help start an application quickly. It's usage is:</p>
+
+<pre><code>./bin/mvc setup --target=/local/path/to/app
+</code></pre>
+
+<p>Once created, adding an entire resources (i.e. Users) can be done like this:</p>
+
+<pre><code>./bin/mvc resource:create --target=/local/path/to/app --name=users
+</code></pre>
+
+<h2>
+<a id="full-documentation" class="anchor" href="#full-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Full Documentation</h2>
+
+<p>Full documentation can be found on our <a href="http://corycollier.github.io/mvc-lite">GitHub Pages site</a></p>
       </section>
 
     </div>
