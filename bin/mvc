@@ -113,6 +113,8 @@ function mvc_setup($parser, $output)
         'App Controllers'    => $target . '/app/Controller',
         'App Models'         => $target . '/app/Model',
         'App Views'          => $target . '/app/View',
+        'App View scripts'   => $target . '/app/View/scripts',
+        'App View layouts'   => $target . '/app/View/layouts',
         'Public Images'      => $target . '/pub/img',
         'Public Stylesheets' => $target . '/pub/css',
         'Public Javascript'  => $target . '/pub/js',
