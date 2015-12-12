@@ -1,0 +1,259 @@
+#!/usr/bin/env php
+<?php
+// Setup the autoloader.
+define('ROOT', realpath(dirname(__FILE__) . '/../'));
+require ROOT . '/vendor/autoload.php';
+
+// Create the instance of the output and parser.
+$func = $argv[1];
+
+// List of supported arguments to functions.
+$map = [
+    'setup' => [
+        'callback'  => 'mvc_setup',
+        'required' => ['target'],
+        'supported' => [
+            'target' => 'Where to create the mvc application',
+        ],
+    ],
+    'controller:create' => [
+        'callback'  => 'mvc_controller_create',
+        'required' => ['target', 'name'],
+        'supported' => [
+            'name'   => 'The name of the controller',
+            'target' => 'The root of the application',
+        ],
+    ],
+    'model:create' => [
+        'callback'  => 'mvc_model_create',
+        'required' => ['target', 'name'],
+        'supported' => [
+            'name'   => 'The name of the model',
+            'target' => 'The root of the application',
+        ]
+    ],
+    'action:create' => [
+        'callback'  => 'mvc_action_create',
+        'required' => ['target', 'name', 'controller'],
+        'supported' => [
+            'name'       => 'The name of the action',
+            'controller' => 'The name of the controller',
+            'target'     => 'The root of the application',
+        ]
+    ],
+    'resource:create' => [
+        'callback'  => 'mvc_resource_create',
+        'required' => ['target', 'name'],
+        'supported' => [
+            'name'       => 'The name of the resource',
+            'target'     => 'The root of the application',
+        ]
+    ],
+];
+
+// Dispatch the request.
+if (array_key_exists($func, $map)) {
+    // Try to run the function, but be prepared for bad things.
+    try {
+        $output = new PhpCli\Output;
+        $parser = new PhpCli\Parser($argv, $map[$func]['supported']);
+        mvc_check_requirements($parser, $output, $map[$func]['required']);
+        mvc_dispatch_request($parser, $output, $map[$func]['callback']);
+    } catch (PhpCli\Exception $exception) {
+    // Catch any namespaced exceptions, and send them to the output device.
+        $output->newline()
+            ->write(' Caught Exception', ['color' => 'red'])
+            ->newline()
+            ->write(' - ' . $exception->getMessage())
+            ->newline()
+            ->newline();
+    }
+}
+
+/**
+ * Checks to make sure that the arguments given, match required arguments.
+ *
+ * @param \PhpCli\Parser $parser The parser instance.
+ * @param \PhpCli\Outout $output The output instance.
+ * @param array $requirements A numerically indexed array of required arguments
+ */
+function mvc_check_requirements($parser, $output, $requirements)
+{
+    $args = $parser->getArgs();
+    foreach ($requirements as $requirement) {
+        if (! array_key_exists($requirement, $args)) {
+            throw new PhpCli\Exception('Missing required argument: --' . $requirement);
+        }
+    }
+}
+
+/**
+ * Dispatches the request to the appropriate handling function.
+ *
+ * @param \PhpCli\Parser $parser The parser instance.
+ * @param \PhpCli\Outout $output The output instance.
+ * @param string $callback The function to call
+ */
+function mvc_dispatch_request($parser, $output, $callback)
+{
+    call_user_func_array($callback, [$parser, $output]);
+}
+
+/**
+ * Runs the setup
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_setup($parser, $output)
+{
+    $target = ROOT . '/' . $parser->getArg("target");
+
+    $folders = [
+        'App Controllers'    => $target . '/app/Controller',
+        'App Models'         => $target . '/app/Model',
+        'App Views'          => $target . '/app/View',
+        'Public Images'      => $target . '/pub/img',
+        'Public Stylesheets' => $target . '/pub/css',
+        'Public Javascript'  => $target . '/pub/js',
+        'Public Fonts'       => $target . '/pub/font',
+        'Configuration'      => $target . '/etc',
+    ];
+
+    $output->write('Creating folders at the following locations ...')->newline();
+
+    // Iterate through the folders, creating them, giving some feedback.
+    foreach ($folders as $description => $location) {
+        $maxlen = 20;
+        $len    = strlen($description);
+
+        $output->write($description, ['color' => 'red'])
+            ->write(str_repeat(' ', $maxlen - $len))
+            ->write($location)
+            ->newline();
+
+        if (!file_exists($location)) {
+            mkdir($location, 0777, true);
+        }
+    }
+}
+
+/**
+ * Creates a controller.
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_controller_create($parser, $output)
+{
+    $template = ROOT . '/bin/skeleton/app/Controller/IndexController.php';
+    $name     = strtolower($parser->getArg('name'));
+    $target   = ROOT . '/' . $parser->getArg("target");
+    $filename = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
+    $code     = strtr(file_get_contents($template), ['Index' => ucfirst($name)]);
+
+    file_put_contents($filename, $code);
+}
+
+/**
+ * Creates a model.
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser
+ * @param \PhpCli\Output $output Instance of the Cli Output
+ */
+function mvc_model_create($parser, $output)
+{
+    $template = ROOT . '/bin/skeleton/app/Model/Sample.php';
+    $name     = strtolower($parser->getArg('name'));
+    $target   = ROOT . '/' . $parser->getArg("target");
+    $filename = $target . '/app/Model/' . ucfirst($name) . '.php';
+    $code     = strtr(file_get_contents($template), ['Sample' => ucfirst($name)]);
+
+    file_put_contents($filename, $code);
+}
+
+/**
+ * Creates a model.
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_action_create($parser, $output)
+{
+    $name       = strtolower($parser->getArg('name'));
+    $controller = strtolower($parser->getArg('controller'));
+    $target     = ROOT . '/' . $parser->getArg("target");
+    $filename   = $target . '/app/Controller/' . ucfirst($controller) . 'Controller.php';
+    $lines      = file($filename, FILE_IGNORE_NEW_LINES);
+    array_pop($lines);
+
+    $code = implode(PHP_EOL, $lines);
+
+    $code .= implode(PHP_EOL . str_repeat(' ', 4), ['', '',
+        '/**',
+        ' * ' .  ucfirst($name) . ' action',
+        ' */',
+        'public function ' . $name . 'Action()',
+        '{',
+        '',
+        '}',
+    ]) . PHP_EOL . '}' . PHP_EOL;
+
+    file_put_contents($filename, $code);
+    mvc_view_create($parser, $output);
+}
+/**
+ * Creates a view.
+ *
+ * @param \PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param \PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_view_create($parser, $output)
+{
+    $name       = strtolower($parser->getArg('name'));
+    $controller = strtolower($parser->getArg('controller'));
+    $target     = ROOT . '/' . $parser->getArg("target");
+    $filename   = $target . '/app/View/scripts/' . $controller . '/' . $name . '.phtml';
+    $directory = dirname($filename);
+    if (! file_exists($directory)) {
+        mkdir($directory);
+    }
+
+    $code = implode(PHP_EOL, [
+        '<?php',
+        '/**',
+        ' *',
+        ' *',
+        ' */',
+        '?>',
+        '<h2>' . $name . '</h2>',
+    ]);
+
+    file_put_contents($filename, $code);
+}
+
+/**
+ * Handles the creation of MVC resources.
+ *
+ * @param PhpCli\Parser $parser Instance of the Cli Parser.
+ * @param PhpCli\Output $output Instance of the Cli Output.
+ */
+function mvc_resource_create ($parser, $output)
+{
+    $args = $parser->getArgs();
+    $args = [
+        '--name=index',
+        '--target=' . $args['target'],
+        '--controller=' . $args['name']
+    ];
+
+    $viewParser = new PhpCli\Parser($args, [
+        'name'       => 'The name of the resource',
+        'target'     => 'The root of the application',
+        'controller' => 'The name of the controller',
+    ]);
+
+    mvc_model_create($parser, $output);
+    mvc_controller_create($parser, $output);
+    mvc_view_create($viewParser, $output);
+}

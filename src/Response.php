@@ -1,140 +1,140 @@
 <?php
 /**
  * Base Response
- * 
- * @category    MVCLite
- * @package     Lib
+ *
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Response
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Traits\Singleton as SingletonTrait;
+
 /**
  * Base Response
- * 
- * @category    MVCLite
- * @package     Lib
+ *
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Response
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Response
-extends Lib_Object_Singleton
+class Response extends ObjectAbstract
 {
+    use SingletonTrait;
+
     /**
      * A list of headers to be output
-     * 
+     *
      * @var array
      */
-    protected $_headers = array();
+    protected $headers = [];
 
     /**
      * The body of the response
-     * 
+     *
      * @var string
      */
-    protected $_body = '';
+    protected $body = '';
 
     /**
      * method to start the database up
      */
-    public function init ( )
+    public function init()
     {
 
-    } // END function init
+    }
 
     /**
      * Set's a header value
-     * 
+     *
      * @param string $name
      * @param string $value
-     * @return Lib_Response $this for a fluent interface
+     *
+     * @return MvcLite\Response $this for object-chaining.
      */
-    public function setHeader ($name, $value = '')
+    public function setHeader($name, $value = '')
     {
-        $this->_headers[$name] = $value;
-
+        $this->headers[$name] = $value;
         return $this;
-
-    } // END function setHeader
+    }
 
     /**
      * Set multiple headers at one time
      *
      * @param array $headers
-     * @return Lib_Response $this for a fluent interface
+     *
+     * @return MvcLite\Response $this for object-chaining.
      */
-    public function setHeaders ($headers = array())
+    public function setHeaders($headers = [])
     {
         foreach ($headers as $name => $value) {
             $this->setHeader($name, $value);
         }
 
         return $this;
-
-    } // END function setHeaders
+    }
 
     /**
      * gets the header by name
-     * 
+     *
      * @param string $name
+     *
      * @return string
      */
-    public function getHeader ($name)
+    public function getHeader($name)
     {
-        return @$this->_headers[$name];
-
-    } // END function getHeader
+        return $this->headers[$name];
+    }
 
     /**
      * Returns all of the headers
-     * 
+     *
      * @return array
      */
-    public function getHeaders ( )
+    public function getHeaders()
     {
-        return $this->_headers;
-
-    } // END function getHeaders
+        return $this->headers;
+    }
 
     /**
      * Function to return a formatted header string
-     * 
-     * @return Lib_Response $this for a fluent interface
+     *
+     * @return \MvcLite\Response $this for object-chaining.
      */
-    public function sendHeaders ( )
-    {   // iterate over the headers, sending them out
+    public function sendHeaders()
+    {
+        // iterate over the headers, sending them out
         foreach ($this->getHeaders() as $name => $value) {
             header("{$name}: {$value}");
         }
 
         return $this;
-
-    } // END function getHeaderString
+    }
 
     /**
      * set the body of the response
-     * 
+     *
      * @param string $string
-     * @return Response $this for a fluent interface
+     *
+     * @return \MvcLite\Response $this for object-chaining.
      */
-    public function setBody ($string)
+    public function setBody($string)
     {
-        $this->_body = (string)$string;
-
+        $this->body = (string)$string;
         return $this;
-
-    } // END function setBody
+    }
 
     /**
      * gets the response body
-     * 
+     *
      * @return string
      */
-    public function getBody ( )
+    public function getBody()
     {
-        return $this->_body;
-
-    } // END function getBody
-
-} // END class Response
+        return $this->body;
+    }
+}

@@ -1,0 +1,41 @@
+<phpdox xmlns="http://xml.phpdox.net/config">
+ <project name="MVC Lite" source="../src" workdir="phpdox">
+  <collector publiconly="false">
+   <include mask="*.php" />
+  </collector>
+
+  <generator output=".">
+
+   <build engine="html" enabled="true" output="api">
+    <file extension="html" />
+   </build>
+
+   <enrich base="${basedir}">
+
+    <source type="git">
+      <git binary="git" />
+      <history enabled="true" cache="${phpDox.project.workdir}/gitlog.xml" />
+    </source>
+
+    <source type="checkstyle">
+      <file name="logs/checkstyle.xml" />
+    </source>
+
+    <source type="phpunit">
+      <coverage path="coverage" />
+    </source>
+
+    <source type="pmd">
+      <file name="logs/pmd.xml" />
+    </source>
+
+    <source type="phploc">
+      <file name="logs/phploc.xml" />
+    </source>
+
+   </enrich>
+
+  </generator>
+
+ </project>
+</phpdox>

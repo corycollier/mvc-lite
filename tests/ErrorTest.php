@@ -1,107 +1,106 @@
 <?php
 /**
  * Unit Test class for testing the Lib_Error functionality
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Tests
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit Test class for testing the Lib_Error functionality
- * 
+ *
  * @category    MVCLite
  * @package     Lib
  * @subpackage  Tests
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Tests_Lib_ErrorTest
-extends PHPUnit_Framework_TestCase
+class ErrorTest extends TestCase
 {
     /**
      * setup hook to setup the error handling instance
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Lib_Error::getInstance();
-        
-    } // END function setUp
+        $this->sut = Error::getInstance();
+    }
 
     /**
      * Test the Lib_Error class's ability to handle errors
-     * 
+     *
      * @param integer $errno
      * @param string $errstr
      * @param string|null $errfile
      * @param integer|null $errline
      * @param array|null $errcontext
      * @param boolean $isException
-     * @dataProvider provide_handle
+     * @dataProvider provideHandle
      */
-    public function test_handle ($errno, $errstr, $errfile = null, 
-        $errline = null,  $errcontext = array(), $isException = false)
-    {
-        if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_WARNING ))) {
-            $this->setExpectedException('ErrorException');
+    public function testHandle(
+        $errno,
+        $errstr,
+        $errfile = null,
+        $errline = null,
+        $errcontext = [],
+        $isException = false
+    ) {
+        if (in_array($errno, [E_USER_ERROR, E_ERROR, E_WARNING])) {
+            $this->setExpectedException('\ErrorException');
         }
 
-        $result = $this->fixture->handle(
-            $errno, $errstr, $errfile, $errline, $errcontext
-        );
+        $result = $this->sut->handle($errno, $errstr, $errfile, $errline, $errcontext);
 
         $this->assertNull($result);
-        
-    } // END function test_handle
+    }
 
     /**
      * provide data to use to test the Lib_Error class's ability to handle errors
      *
      * @return array
      */
-    public function provide_handle ( )
+    public function provideHandle()
     {
-        return array(
-            array(
-                E_USER_ERROR, 'fatal error',
-            ),
-            array(
-                E_WARNING, 'fatal error',
-            ),
-            array(
-                E_ERROR, 'fatal error',
-            ),
-            array(
-                E_ERROR, 'fatal error',
-            ),
-        );
-        
-    } // END function provide_handle
+        return [
+            [
+                'errno'  => E_USER_ERROR,
+                'errstr' => 'fatal error',
+            ],
+            [
+                'errno'  => E_WARNING,
+                'errstr' => 'fatal error',
+            ],
+            [
+                'errno'  => E_ERROR,
+                'errstr' => 'fatal error',
+            ],
+        ];
+    }
 
     /**
      * Tests the getErrors method of the error handler
      *
      * @param array $expected
-     * @dataProvider provide_getErrors
+     * @dataProvider provideGetErrors
      */
-    public function test_getErrors ($expected = array())
+    public function testGetErrors($expected = [])
     {
-        $property = new ReflectionProperty('Lib_Error', '_errors');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, $expected);
+        $this->getReflectedProperty('\MvcLite\Error', 'errors')
+            ->setValue($this->sut, $expected);
 
-        $this->assertSame($expected, $this->fixture->getErrors());
-        
-    } // END function test_getErrors
+        $this->assertSame($expected, $this->sut->getErrors());
+    }
 
     /**
      * Provides data for testing the getErrors method of the error handler
      *
      * @return array
      */
-    public function provide_getErrors ( )
+    public function provideGetErrors()
     {
         return array(
             array(
@@ -131,7 +130,5 @@ extends PHPUnit_Framework_TestCase
                 )),
             ),
         );
-        
-    } // END function provide_getErrors
-
-} // END class Tests_Lib_ErrorTest
+    }
+}

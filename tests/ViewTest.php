@@ -1,91 +1,82 @@
 <?php
 /**
- * Unit tests for the Lib_View class
- * 
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View
+ * Unit tests for the \MvcLite\View class
+ *
+ * @category    PHP
+ * @package     MVCLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
- * Unit tests for the Lib_View class
- * 
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View
+ * Unit tests for the \MvcLite\View class
+ *
+ * @category    PHP
+ * @package     MVCLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_ViewTest
-extends PHPUnit_Framework_TestCase
+class ViewTest extends TestCase
 {
 
     /**
      * The setup method, called before each test
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Lib_View::getInstance();
-
-    } // END function setup
-
-    /**
-     * The tear down hook, called after each test
-     */
-    public function tearDown ( )
-    {
-
-    } // END function tearDown
+        $this->sut = View::getInstance();
+    }
 
     /**
      * tests the filter method of the view object
      */
-    public function test_filter ( )
+    public function testFilter()
     {
         $unfiltered = 'asdasdfads';
-
-        $expected = 'asdasdfads';
-
-        $result = $this->fixture->filter($unfiltered);
+        $expected   = 'asdasdfads';
+        $result     = $this->sut->filter($unfiltered);
 
         $this->assertSame($expected, $result);
-
-    } // END function test_filter
+    }
 
     /**
-     * test the setting and getting of variables to the view
+     * test the setting and getting of variables to the view.
+     *
+     * @param array $variables The variables to use for testing.
+     *
      * @dataProvider provideVariables
      */
-    public function test_setAndGet ($variables = array())
+    public function testSetAndGet($variables = [])
     {
         foreach ($variables as $name => $value) {
-            $this->fixture->set($name, $value);
+            $this->sut->set($name, $value);
         }
 
         foreach ($variables as $name => $value) {
-            $this->assertSame($this->fixture->get($name), $value);
+            $this->assertSame($this->sut->get($name), $value);
         }
-
-    } // END function test_setAndGet
+    }
 
     /**
      * method to provide data for test methods
+     *
+     * @return array
      */
-    public function provideVariables ( )
+    public function provideVariables()
     {
-        return array(
-            array(
-                array(
+        return [
+            'first test' => [
+                'variables' => [
                     'var1'  => 'val1',
                     'var2'  => 'val2',
                     'var3'  => 'val3',
-                ),
-
-            )
-        );
-
-    } // END function provideVariables
-
-} // END class ModelTest
+                ],
+            ]
+        ];
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_Response class
+ * Unit tests for the MvcLite\Response class
  *
  * @category    MVCLite
  * @package     Tests
@@ -8,8 +8,11 @@
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
- * Unit tests for the Lib_Response class
+ * Unit tests for the MvcLite\Response class
  *
  * @category    MVCLite
  * @package     Tests
@@ -18,183 +21,171 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_ResponseTest
-extends PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     /**
      * The setup method, called before each test
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Lib_Response::getInstance();
-
-    } // END function setup
-
-    /**
-     * The tear down hook, called after each test
-     */
-    public function tearDown ( )
-    {
-
-    } // END function tearDown
+        $this->sut = Response::getInstance();
+    }
 
     /**
      * test the setting of the body
      */
-    public function test_setBody ( )
+    public function testSetBody()
     {
-        $result = $this->fixture->setBody('');
+        $result = $this->sut->setBody('');
 
-        $this->assertInstanceOf('Lib_Response', $result);
-
-    } // END function test_setBody
+        $this->assertInstanceOf('\MvcLite\Response', $result);
+    }
 
     /**
      * test getting the body of the response
      */
-    public function test_getBody ( )
+    public function testGetBody()
     {
-        $result = $this->fixture->getBody();
-
+        $result = $this->sut->getBody();
         $this->assertSame('', $result);
-
-    } // END function test_getBody
+    }
 
     /**
      * test the setting of headers
      *
      * @param array $headers
-     * @dataProvider provide_setHeader
+     *
+     * @dataProvider provideSetHeader
      */
-    public function test_setHeader ($headers = array())
+    public function testSetHeader($headers = [])
     {
-        $this->fixture->setHeader($headers['name'], $headers['value']);
-
-        $this->assertSame($headers['value'], $this->fixture->getHeader($headers['name']));
-
-    } // END function test_setHeader
+        $this->sut->setHeader($headers['name'], $headers['value']);
+        $this->assertSame($headers['value'], $this->sut->getHeader($headers['name']));
+    }
 
     /**
      * provider for the $helper->setHeader() method
      *
      * @return array
      */
-    public function provide_setHeader ( )
+    public function provideSetHeader()
     {
-        return array(
-            array(array(
-                'name' => 'Content-Type',
-                'value' => 'text/plain',
-            )),
-            array(array(
-                'name' => 'Content-Type',
-                'value' => 'text/csv',
-            )),
-            array(array(
-                'name'  => 'X-Testing',
-                'value' => 'testing value',
-            )),
-        );
+        return [
+            'plain content headers' => [
+                'headers' => [
+                    'name' => 'Content-Type',
+                    'value' => 'text/plain',
+                ],
+            ],
+            'csv content headers' => [
+                'headers' => [
+                    'name' => 'Content-Type',
+                    'value' => 'text/csv',
+                ],
+            ],
+            'testing headers' => [
+                'headers' => [
+                    'name'  => 'X-Testing',
+                    'value' => 'testing value',
+                ],
+            ],
+        ];
+    }
 
-    } // END function provide_setHeader
+
+    /**
+     * tests the get headers method of the response
+     *
+     * @param array $headers The array of headers to use for setting.
+     *
+     * @dataProvder provideGetHeaders
+     */
+    public function testGetHeaders($headers = [])
+    {
+        $result = $this->sut->setHeaders($headers);
+
+        $this->assertInstanceOf('\MvcLite\Response', $result);
+
+        $result = $this->sut->getHeaders();
+
+        foreach ($headers as $name => $value) {
+            $this->assertSame($value, $result[$name]);
+        }
+    }
 
     /**
      * Function to provide arguments to tests
      *
      * @return array
      */
-    public function headerProvider ( )
+    public function provideGetHeaders()
     {
-        return array(
-            array(array(
-                'Content-type' => 'text/plain',
-                'X-Testing'     => 'testing value',
-            )),
-        );
-
-    } // END function headerProvider
-
-    /**
-     * tests the get headers method of the response
-     * @dataProvder headerProvider
-     */
-    public function test_getHeaders ($headers = array())
-    {
-        $result = $this->fixture->setHeaders($headers);
-
-        $this->assertInstanceOf('Lib_Response', $result);
-
-        $result = $this->fixture->getHeaders();
-
-        foreach ($headers as $name => $value) {
-            $this->assertSame($value, $result[$name]);
-        }
-
-
-    } // END function test_getHeaders
+        return [
+            'simple content headers' => [
+                'headers' => [
+                    'Content-type' => 'text/plain',
+                    'X-Testing'     => 'testing value',
+                ]
+            ],
+        ];
+    }
 
     /**
      * test the getting of headers
      */
-    public function test_getHeader ( )
+    public function testGetHeader()
     {
 
-    } // END function test_getHeader
+    }
 
     /**
-     * Tests the Lib_Response::setHeaders method
+     * Tests the MvcLite\Response::setHeaders method
      *
      * @param array $headers
-     * @covers Lib_Response::setHeaders
-     * @dataProvider provide_setHeaders
+     * @covers MvcLite\Response::setHeaders
+     * @dataProvider provideSetHeaders
      */
-    public function test_setHeaders ($headers)
+    public function testSetHeaders($headers)
     {
-        $class = get_class($this->fixture);
+        $class = get_class($this->sut);
 
-        $method = new ReflectionMethod($class, '__construct');
-        $method->setAccessible(true);
-
-        $fixture = $this->getMockBuilder($class)
+        $sut = $this->getMockBuilder('\MvcLite\Response')
             ->disableOriginalConstructor()
-            ->setMethods(array(
-                'setHeader',
-            ))
+            ->setMethods(['setHeader'])
             ->getMock();
 
         $count = count($headers);
 
-        $fixture->expects($this->exactly($count))
+        $sut->expects($this->exactly($count))
             ->method('setHeader');
 
-        // $fixture->expects($this->once())
+        // $sut->expects($this->once())
         //     ->method('setHeaders');
 
-        $fixture->setHeaders($headers);
-        
-    } // END function test_setHeaders
+        $sut->setHeaders($headers);
+    }
 
     /**
-     * Provides data to use for testing the setHeaders method of the 
-     * Lib_Response::setHeaders method
+     * Provides data to use for testing the setHeaders method of the
+     * MvcLite\Response::setHeaders method
      *
      * @return array
      */
-    public function provide_setHeaders ( )
+    public function provideSetHeaders()
     {
-        return array(
-            array(array(
-                'var'   => 'val',
-            )),
-
-            array(array(
-                'var1'   => 'val1',
-                'var2'   => 'val2',
-                'var3'   => 'val3',
-            )),
-
-        );
-        
-    } // END function provide_setHeaders
-
-} // END class ModelTest
+        return [
+            [
+                'headers' => [
+                    'var'   => 'val',
+                ],
+            ],
+            [
+                'headers' => [
+                    'var1'   => 'val1',
+                    'var2'   => 'val2',
+                    'var3'   => 'val3',
+                ],
+            ],
+        ];
+    }
+}

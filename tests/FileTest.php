@@ -1,149 +1,165 @@
 <?php
 /**
  * Test class to test the Lib_File class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  File
  * @since       File available since release 2.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Test class to test the Lib_File class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  File
  * @since       File available since release 2.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Tests_Lib_FileTest
-extends PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     /**
      * Local implementation of the setup hook
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = new Lib_File;
-        
-    } // END function setUp
+        $this->sut = new File;
+    }
 
     /**
      * test the file class's ability to check if a file exists
      *
      * @param string $filename
-     * @dataProvider provide_test
+     *
+     * @dataProvider provideTest
      */
-    public function test_test ($filename, $expected = false)
+    public function testTest($expected, $filename)
     {
-        $this->assertSame($this->fixture->test($filename), $expected);
-        
-    } // END function test_test
+        $this->assertSame($this->sut->test($filename), $expected);
+    }
 
     /**
      * provides data to use for testing the file class's ability to test a given
      * file existance
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
-    public function provide_test ( )
+    public function provideTest()
     {
-        return array(
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'lib', 'file.php'
-            )), true),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', 'FileTest.php'
-            )), true),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'bad-folder', 'file.php'
-            )), false),
-        );
-        
-    } // END function provide_test
+        return [
+            'Bad path, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'lib', 'file.php'
+                ]),
+            ],
+            'Good path, should exist' => [
+                'expected' => true,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'tests', 'FileTest.php'
+                ]),
+            ],
+            'Good path, bad file, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'file.php'
+                ]),
+            ],
+        ];
+    }
 
     /**
      * tests the file class's abilty to load a file
      *
+     * @param boolean $expected
      * @param string $filename
-     * @param boolean $shouldExist
-     * @dataProvider provide_load
+     *
+     * @dataProvider provideLoad
      */
-    public function test_load ($filename, $shouldExist = false)
+    public function testLoad($expected, $filename)
     {
-        if (! $shouldExist) {
-            $this->setExpectedException('Lib_Exception');
+        if (! $expected) {
+            $this->setExpectedException('Exception');
         }
 
-        $result = $this->fixture->load($filename);
+        $result = $this->sut->load($filename);
 
-        $this->assertInstanceOf('Lib_File', $result);
+        $this->assertInstanceOf('\MvcLite\File', $result);
 
-        $property = new ReflectionProperty('Lib_File', '_contents');
-        $property->setAccessible(true);
-        $result = $property->getValue($this->fixture);
+        $result = $this->getReflectedProperty('\MvcLite\File', 'contents')
+            ->getValue($this->sut);
 
         $this->assertEquals(file_get_contents($filename), $result);
-        
-    } // END function test_load
+    }
 
     /**
+     * Data provider for MvcLite\FileTest::testLoad().
+     *
      * provides data to use for testing the file class's ability to load files
      *
-     * @return array
+     * @return array An array of data to use for testing.
      */
-    public function provide_load ( )
+    public function provideLoad()
     {
-        return array(
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'lib', 'file.php'
-            )), true),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', 'FileTest.php'
-            )), true),
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'bad-folder', 'file.php'
-            )), false),
-        );
-        
-    } // END function provide_load
+        return [
+            'Bad path, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'lib', 'file.php'
+                ]),
+            ],
+            'Good path, should exist' => [
+                'expected' => true,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'tests', 'FileTest.php'
+                ]),
+            ],
+            'Good path, bad file, should not exist' => [
+                'expected' => false,
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'file.php'
+                ]),
+            ],
+        ];
+    }
 
     /**
-     * tests the file class's ability to return it's _contents property
+     * Tests the file class's ability to return it's contents property.
      *
      * @param string $contents
-     * @dataProvider provide_getContents 
+     *
+     * @dataProvider provideGetContents
      */
-    public function test_getContents ($contents)
+    public function testGetContents($contents)
     {
-        $property = new ReflectionProperty('Lib_File', '_contents');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, $contents);
+        $this->getReflectedProperty('\MvcLite\File', 'contents')
+            ->setValue($this->sut, $contents);
 
-        $this->assertSame($contents, $this->fixture->getContents());
-        
-    } // END function test_getContents
+        $this->assertSame($contents, $this->sut->getContents());
+    }
 
     /**
-     * provides data to test the file class's ability to return it's _contents
-     * property
+     * Data provider for MvcLite\FileTest::testGetContents().
      *
-     * @return array
+     * Data to test the file class's ability to return $contents.
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_getContents ( )
+    public function provideGetContents()
     {
-        return array(
-            array('test1'),
-            array(" "),
-        );
-        
-    } // END function provide_getContents
+        return [
+            'string contents' => [
+                'contents' => 'test1',
+            ],
+            'whitespace contents' => [
+                'contents' => ' ',
+            ],
+        ];
+    }
 
     /**
      * Tests the file class's ability to save data
@@ -151,92 +167,82 @@ extends PHPUnit_Framework_TestCase
      * @param string $filename
      * @param string $oldContents
      * @param string $newContents
-     * @dataProvider provide_save
+     *
+     * @dataProvider provideSave
      */
-    public function test_save ($filename, $oldContents = '', $newContents)
+    public function testSave($exists, $contents, $filename)
     {
         // if the directory containing the file doesn't exist, expect an error
         if (! file_exists(dirname($filename))) {
-            $this->setExpectedException('Lib_Exception');
-        } else {
-            file_put_contents($filename, $oldContents);
+            $this->setExpectedException('Exception');
         }
 
-        $this->fixture->setContents($newContents);
-        
-        $this->fixture->save($filename);
-        
-        $this->assertEquals($newContents, file_get_contents($filename));        
-        
-    } // END function 
+        $this->sut->setContents($contents);
+        $this->sut->save($filename);
+        $this->assertEquals($contents, file_get_contents($filename));
+    }
 
     /**
-     * provides data to use for testing the file class's ability to save data
+     * Data provider for MvcLite\FileTest::testSave()
      *
-     * @return array
+     * Data to use for testing the file class's ability to save data
+     *
+     * @return array An array of data to use for testing the filter
      */
-    public function provide_save ( )
+    public function provideSave()
     {
-        return array(
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test1'
-            )), '', 'test content'),
-            
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test2'
-            )), 'old content', 'new content'),
-            
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', '_test_', 'new-file'
-            )), 'old content', 'new content'),
+        return [
+            'directory exists, expect save' => [
+                'exists'   => true,
+                'contents' => 'testing',
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'tests', '_file', '.empty',
+                ]),
+            ],
 
-        );
-        
-    } // END function provide_save
+            'directory does not exist, do not expect save' => [
+                'exists'   => false,
+                'contents' => '',
+                'filename' => implode(DIRECTORY_SEPARATOR, [
+                    ROOT, 'baddir', '_file', '.empty',
+                ]),
+            ],
+        ];
+    }
 
     /**
-     * tests the file class's ability to delete files
+     * Tests the file class's ability to delete files
      *
      * @param string $filename
-     * @dataProvider provide_delete
+     *
+     * @dataProvider provideDelete
      */
-    public function test_delete ($filename)
+    public function testDelete($exists, $filename)
     {
         // if the directory containing the file doesn't exist, expect an error
-        if (! file_exists(dirname($filename))) {
-            $this->setExpectedException('Lib_Exception');
-        } else {
+        if (! file_exists($filename)) {
             file_put_contents($filename, '');
         }
 
-        $this->fixture->delete($filename);
-        
-        $this->assertFalse(file_exists($filename)); 
-        
-    } // END function test_delete
+        $this->sut->delete($filename);
+
+        $this->assertFalse(file_exists($filename));
+    }
 
     /**
-     * provides data to use for testing the file class's ability to delete files
+     * Data provider for MvcLite\FileTest::testDelete().
      *
-     * @return array
+     * Data to use for testing the file class's ability to delete files
+     *
+     * @return array An array of data to use for testing.
      */
-    public function provide_delete ( )
+    public function provideDelete()
     {
-        return array(
-
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test1'
-            ))),
-            
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', 'test2'
-            ))),
-            
-            array(implode(DIRECTORY_SEPARATOR, array(
-                ROOT, 'tests', 'lib', '_file', '_test_', 'new-file'
-            ))),
-        );
-        
-    } // END function provide_delete
-
-} // END class Tests_Lib_FileTest
+        return [
+            'file exists' => [
+                'exists' => true,
+                'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '_file', '.test']),
+            ],
+        ];
+    }
+}

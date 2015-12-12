@@ -2,110 +2,78 @@
 /**
  * Base Controller
  *
- * @category    MVCLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Controller
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Traits\Database as DatabaseTrait;
+use \MvcLite\Traits\Request as RequestTrait;
+use \MvcLite\Traits\Response as ResponseTrait;
+use \MvcLite\Traits\Session as SessionTrait;
+use \MvcLite\Traits\Filepath as FilepathTrait;
+use \MvcLite\Traits\View as ViewTrait;
+
 /**
  * Base Controller
  *
- * @category    MVCLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Controller
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Controller
-extends Lib_Object
+class Controller extends ObjectAbstract
 {
+    use DatabaseTrait;
+    use RequestTrait;
+    use ResponseTrait;
+    use SessionTrait;
+    use FilepathTrait;
+    use ViewTrait;
+
     /**
-     * getter for the view property
+     * Hook run immediately after the constructing of a controller.
      *
-     * @return Lib_View
+     * @return MvcLite\Controller Returns $this, for object-chaining.
      */
-    public function getView ( )
+    public function init()
     {
-        return Lib_View::getInstance();
-
-    } // END function getView
-
-    /**
-     * Utility method to get the response instance
-     *
-     * @return Lib_Response
-     */
-    public function getResponse ( )
-    {
-        return Lib_Response::getInstance();
-
-    } // END function getResponse
-
-    /**
-     * Utility method to get the request instance
-     *
-     * @return Lib_Request
-     */
-    public function getRequest ( )
-    {
-        return Lib_Request::getInstance();
-
-    } // END function getRequest
-
-    /**
-     * Utility method to get the session instance
-     *
-     * @return Lib_Session
-     */
-    public function getSession ( )
-    {
-        return Lib_Session::getInstance();
-
-    } // END function getSession
-
-    /**
-     * Hook run immediately after the constructing of a controller
-     */
-    public function init ( )
-    {
-        $request = $this->getRequest();
+        $request    = $this->getRequest();
         $controller = $request->getParam('controller');
-        $action = $request->getParam('action');
+        $action     = $request->getParam('action');
+        $view       = $this->getView();
+        $path       = $this->filepath([APP_PATH, 'view', 'scripts', $controller]);
 
         // setup the view
-        $this->getView()->addViewScriptPath(implode(DIRECTORY_SEPARATOR, array(
-            APP_PATH, 'view', 'scripts', $controller,
-        )));
-
-        $this->getView()->setScript($action);
+        $view->addViewScriptPath($path);
+        $view->setScript($action);
 
         // if the request is not ajax, then setup the layout
         if (!$request->isAjax()) {
-            $this->getView()->setLayout('default');
+            $view->setLayout('default');
         }
 
-        $response = $this->getResponse();
-
-        $session = $this->getSession();
-
-    } // END function init
+        return $this;
+    }
 
     /**
-     * Hook run before the dispatching of a request is started
+     * Hook run before the dispatching of a request is started.
      */
-    public function preDispatch ( )
+    public function preDispatch()
     {
 
-    } // END function preDispatch
+    }
 
     /**
-     * Hook run after the dispatching of a request is completed
+     * Hook run after the dispatching of a request is completed.
      */
-    public function postDispatch ( )
+    public function postDispatch()
     {
 
-    } // END function postDispatch
-
-} // END class Controller
+    }
+}

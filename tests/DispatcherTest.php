@@ -1,16 +1,19 @@
 <?php
 /**
  * Unit tests for the Lib_Dispatcher class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit tests for the Lib_Dispatcher class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Dispatcher
@@ -18,92 +21,173 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_DispatcherTest
-extends PHPUnit_Framework_TestCase
+class DispatcherTest extends TestCase
 {
-    /**
-     * The setup method, called before each test
-     */
-    public function setUp ( )
-    {
-        $this->fixture = App_Dispatcher::getInstance();
 
-    } // END function setUp
-
-    /**
-     * The tear down method, called after each test
-     */
-    public function tearDown ( )
-    {
-
-    } // END function tearDown
+        // $this->loader = $loader;
+        // $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
+        // $this->getRequest()->init();
+        // $this->getDatabase()->init();
+        // $this->getResponse()->init();
 
     /**
      * tests the init method of the lib dispatcher
      */
-    public function test_init ( )
+    public function testInit()
     {
-        $this->setExpectedException('Lib_Exception');
+        global $loader;
 
-        $dispatcher = Lib_Dispatcher::getInstance();
+        $sut = $this->getMockBuilder('MvcLite\Dispatcher')
+            ->disableOriginalConstructor()
+            ->setMethods(['getConfig', 'getDatabase', 'getRequest', 'getResponse'])
+            ->getMock();
 
-        $dispatcher->init();
+        $config = $this->getMockBuilder('MvcLite\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
+        $config->expects($this->once())->method('init');
 
-    } // END function test_init
+        $database = $this->getMockBuilder('MvcLite\Database')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
+        $database->expects($this->once())->method('init');
+
+        $request = $this->getMockBuilder('MvcLite\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
+        $request->expects($this->once())->method('init');
+
+        $response = $this->getMockBuilder('MvcLite\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
+        $response->expects($this->once())->method('init');
+
+        $sut->expects($this->once())
+            ->method('getConfig')
+            ->will($this->returnValue($config));
+
+        $sut->expects($this->once())
+            ->method('getDatabase')
+            ->will($this->returnValue($database));
+
+        $sut->expects($this->once())
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+
+        $sut->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($response));
+
+        $result = $sut->init($loader);
+    }
 
     /**
-     * 
+     *
      * Enter description here ...
      */
-    public function test_getInstance ( )
+    public function testGetInstance()
     {
-        $this->assertInstanceOf('App_Dispatcher', $this->fixture);
-
-    } // END function test_getInstance
-
-    /**
-     * tests the bootstrap method of the dispatcher
-     */
-    public function test_bootstrap ( )
-    {
-        $result = $this->fixture->bootstrap();
-
-        $this->assertInstanceOf('App_Dispatcher', $result);
-
-    } // END function test_bootstrap
+        $sut = Dispatcher::getInstance();
+        $this->assertInstanceOf('MvcLite\Dispatcher', $sut);
+    }
 
     /**
      * tests the dispatch method of the dispatcher
+     *
+     * @dataProvider provideDispatch
      */
-    public function test_dispatch ( )
+    public function testDispatch($controller, $action, $params = [])
     {
-        ob_start();
-        $this->fixture->init();
-        $this->fixture->bootstrap();
-        $this->fixture->dispatch();
-        $contents = ob_get_clean();
+        global $loader;
 
-        $this->assertTrue(is_string($contents));
-        $this->assertTrue(strlen($contents) > 0);
+        $sut = $this->getMockBuilder('\MvcLite\Dispatcher')
+            ->disableOriginalConstructor()
+            ->setMethods([
+                'translateControllerName',
+                'translateActionName',
+                'getRequest',
+                'getConfig',
+                'getDatabase'
+            ])
+            ->getMock();
 
-        $request = Lib_Request::getInstance();
+        $database = $this->getMockBuilder('\MvcLite\Database')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
 
-        // test the exception handling of bogus controllers
-        $request->setParam('controller', 'non-existant');
-        ob_start();
-        $this->fixture->dispatch();
-        $contents = ob_get_clean();
+        $config = $this->getMockBuilder('\MvcLite\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
+            ->getMock();
 
-        $this->assertSame('error', $request->getParam('controller'));
+        $request = $this->getMockBuilder('\MvcLite\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(['getParams'])
+            ->getMock();
 
-        // test the exception handling of bogus actions 
-        $request->setParam('action', 'non-existant');
-        ob_start();
-        $this->fixture->dispatch();
-        $contents = ob_get_clean();
+        $request->expects($this->once())
+            ->method('getParams')
+            ->will($this->returnValue($params));
 
-        $this->assertSame('error', $request->getParam('action'));
+        $sut->expects($this->any())
+            ->method('getRequest')
+            ->will($this->returnValue($request));
 
-    } // END function test_dispatch
+        $sut->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue($config));
 
-} // END class DispatcherTest
+        $sut->expects($this->any())
+            ->method('getDatabase')
+            ->will($this->returnValue($database));
+
+        $sut->expects($this->once())
+            ->method('translateControllerName')
+            ->with($this->equalTo($params['controller']))
+            ->will($this->returnValue($controller));
+
+        $sut->expects($this->once())
+            ->method('translateActionName')
+            ->with($this->equalTo($params['action']))
+            ->will($this->returnValue($action));
+
+        $result = $sut->init($loader);
+
+        $sut->dispatch();
+
+        // $this->assertSame('error', $r equest->getParam('action'));
+    }
+
+    /**
+     * Data provider for DispatcherTestCase::testDispatch.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideDispatch()
+    {
+        return [
+            'simple params' => [
+                'controller' => 'IndexController',
+                'action'    => 'index',
+                'params' => [
+                    'controller' => 'index',
+                    'action'    => 'index'
+                ]
+            ],
+        ];
+    }
+}
+
+// @codingStandardsIgnoreStart
+// testing classes
+namespace App;
+class IndexController extends \MvcLite\Controller {}
+class ErrorController extends \MvcLite\Controller{
+    public function errorAction(){}
+}
+// @codingStandardsIgnoreEnd
