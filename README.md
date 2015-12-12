@@ -1,6 +1,11 @@
 # MVC Lite
 
 [![Build Status](https://travis-ci.org/corycollier/mvc-lite.svg?branch=master)](https://travis-ci.org/corycollier/mvc-lite)
+[![Latest Stable Version](https://poser.pugx.org/corycollier/mvc-lite/v/stable)](https://packagist.org/packages/corycollier/mvc-lite)
+[![Total Downloads](https://poser.pugx.org/corycollier/mvc-lite/downloads)](https://packagist.org/packages/corycollier/mvc-lite)
+[![Latest Unstable Version](https://poser.pugx.org/corycollier/mvc-lite/v/unstable)](https://packagist.org/packages/corycollier/mvc-lite)
+[![License](https://poser.pugx.org/corycollier/mvc-lite/license)](https://packagist.org/packages/corycollier/mvc-lite)
+
 
 ## Introduction
 mvc-lite is a lightweight MVC Framework aimed at accomplishing common MVC
@@ -23,6 +28,5 @@ Once created, adding an entire resources (i.e. Users) can be done like this:
 ./bin/mvc resource:create --target=/local/path/to/app --name=users
 ```
 
-## Contact
-Contact me for help at:
-    corycollier@corycollier.com
+## Full Documentation
+Full documentation can be found on our [GitHub Pages site](http://corycollier.github.io/mvc-lite)

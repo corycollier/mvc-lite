@@ -1,10 +1,11 @@
 {
     "name"              : "corycollier/mvc-lite",
-    "description"       : "A lightweight MVC Framework, inspired by Zend Framework 1.12",
+    "description"       : "A lightweight MVC Framework, inspired by Zend Framework",
     "license"           : "MIT",
     "minimum-stability" : "dev",
     "prefer-stable"     : true,
-    "require-dev" : {
+    "homepage"          : "http://corycollier.github.io/mvc-lite/",
+    "require-dev"       : {
         "phpunit/phpunit-mock-objects" : "^3.0",
         "squizlabs/php_codesniffer"    : "^2.3",
         "phpmd/phpmd"                  : "^2.3",
