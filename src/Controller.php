@@ -38,6 +38,8 @@ class Controller extends ObjectAbstract
 
     /**
      * Hook run immediately after the constructing of a controller.
+     *
+     * @return MvcLite\Controller Returns $this, for object-chaining.
      */
     public function init()
     {
@@ -55,6 +57,8 @@ class Controller extends ObjectAbstract
         if (!$request->isAjax()) {
             $view->setLayout('default');
         }
+
+        return $this;
     }
 
     /**

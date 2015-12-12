@@ -111,10 +111,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         }
 
         // run the init hook
-        $controller->init();
-
-        // run the preDispatch hook
-        $controller->preDispatch();
+        $controller->init()->preDispatch();
 
         // run the requested action on the requested controller
         call_user_func([$controller, $action]);
