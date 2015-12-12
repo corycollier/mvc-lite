@@ -220,9 +220,7 @@ class FileTest extends TestCase
     public function testDelete($exists, $filename)
     {
         // if the directory containing the file doesn't exist, expect an error
-        if (! $exists) {
-            $this->setExpectedException('Exception');
-        } else {
+        if (! file_exists($filename)) {
             file_put_contents($filename, '');
         }
 
@@ -243,11 +241,7 @@ class FileTest extends TestCase
         return [
             'file exists' => [
                 'exists' => true,
-                'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '_file', '.empty']),
-            ],
-            'file does not exist' => [
-                'exists' => false,
-                'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '.nope']),
+                'filename' => implode(DIRECTORY_SEPARATOR, [ROOT, 'tests', '_file', '.test']),
             ],
         ];
     }

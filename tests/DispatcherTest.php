@@ -106,7 +106,18 @@ class DispatcherTest extends TestCase
 
         $sut = $this->getMockBuilder('\MvcLite\Dispatcher')
             ->disableOriginalConstructor()
-            ->setMethods(['translateControllerName', 'translateActionName', 'getRequest', 'getConfig'])
+            ->setMethods([
+                'translateControllerName',
+                'translateActionName',
+                'getRequest',
+                'getConfig',
+                'getDatabase'
+            ])
+            ->getMock();
+
+        $database = this->getMockBuilder('\MvcLite\Database')
+            ->disableOriginalConstructor()
+            ->setMethods(['init'])
             ->getMock();
 
         $config = $this->getMockBuilder('\MvcLite\Config')
@@ -130,6 +141,10 @@ class DispatcherTest extends TestCase
         $sut->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue($config));
+
+        $sut->expects($this->any())
+            ->method('getDatabase')
+            ->will($this->returnValue($database));
 
         $sut->expects($this->once())
             ->method('translateControllerName')
