@@ -24,6 +24,7 @@ namespace MvcLite;
 class DatabaseTest extends TestCase
 {
     protected $sut;
+    protected $connectionFailure;
 
     /**
      * Hook to setup each unit test
@@ -31,12 +32,16 @@ class DatabaseTest extends TestCase
     public function setup()
     {
         $this->sut = Database::getInstance();
-        $this->sut->init([
-            'host' => '127.0.0.1',
-            'user' => 'mvc_test_user',
-            'pass' => 'mvc_test_pass',
-            'name' => 'mvc_test_db',
-        ]);
+        try {
+            $this->sut->init([
+                'host' => '127.0.0.1',
+                'user' => 'mvc_test_user',
+                'pass' => 'mvc_test_pass',
+                'name' => 'mvc_test_db',
+            ]);
+        } catch (\Exception $exception) {
+            $this->connectionFailure = true;
+        }
     }
 
     /**
@@ -44,6 +49,9 @@ class DatabaseTest extends TestCase
      */
     public function testGetHandlet()
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
         $this->assertInstanceOf('\mysqli', $this->sut->getHandle());
     }
 
@@ -52,6 +60,10 @@ class DatabaseTest extends TestCase
      */
     public function testQuery()
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
         $sql = 'SELECT * FROM users';
         $this->sut->query($sql);
 
@@ -75,6 +87,9 @@ class DatabaseTest extends TestCase
      */
     public function testUpdate($table, $updateParams = [], $existingParams = [])
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
 
         if (! count($existingParams)) {
             $this->setExpectedException('MvcLite\Exception');
@@ -110,6 +125,10 @@ class DatabaseTest extends TestCase
      */
     public function testInsert($table, $fields = [])
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
         if (! count($fields)) {
             $this->setExpectedException('MvcLite\Exception');
         }
@@ -147,6 +166,10 @@ class DatabaseTest extends TestCase
      */
     public function testFetch($table, $fields = '*', $where = '', $order = null, $limit = null)
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
         $result = $this->sut->fetch($table, $fields, $where, $order, $limit);
 
         $this->assertInstanceOf('MvcLite\Database', $result);
@@ -200,6 +223,10 @@ class DatabaseTest extends TestCase
      */
     public function testDelete($table, $params = [])
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
         $result = $this->sut->delete($table, $params);
 
         $this->assertInstanceOf('MvcLite\Database', $result);
@@ -248,6 +275,9 @@ class DatabaseTest extends TestCase
      */
     public function testLastInsertId()
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
         $handle = $this->sut->getHandle();
 
         $this->assertSame($handle->insert_id, $this->sut->lastInsertId());

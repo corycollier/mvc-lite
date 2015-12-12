@@ -18,6 +18,7 @@ use \MvcLite\Traits\Response as ResponseTrait;
 use \MvcLite\Traits\Session as SessionTrait;
 use \MvcLite\Traits\Singleton as SingletonTrait;
 use \MvcLite\Traits\Filepath as FilepathTrait;
+use \MvcLite\Traits\Loader as LoaderTrait;
 
 /**
  * Base Dispatcher
@@ -38,6 +39,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
     use SessionTrait;
     use SingletonTrait;
     use FilepathTrait;
+    use LoaderTrait;
 
     /**
      * placeholder for the controller object
@@ -45,8 +47,6 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      * @var Lib_Controller
      */
     protected $controller;
-
-    protected $loader;
 
     /**
      * an overridable list of environments allowed for configuration
@@ -67,18 +67,11 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      */
     public function init($loader)
     {
-        try {
-            $this->loader = $loader;
-            $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
-            $this->getRequest()->init();
-            $this->getDatabase()->init();
-            $this->getResponse()->init();
-        } catch (Exception $exception) {
-            $this->getRequest()->setParams([
-                'controller'    => 'error',
-                'action'        => 'database',
-            ]);
-        }
+        $this->setLoader($loader);
+        $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
+        $this->getRequest()->init();
+        $this->getDatabase()->init();
+        $this->getResponse()->init();
 
         return $this;
     }
@@ -95,43 +88,42 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         $controller = $this->translateControllerName($params['controller']);
         $action     = $this->translateActionName($params['action']);
         $response   = $this->getResponse();
+        $loader     = $this->getLoader();
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
         try {
             // First, make sure the controller is callable.
-            $result = $this->loader->loadClass($controller);
+            $result = $loader->loadClass($controller);
             if (is_null($result)) {
                 throw new Exception('Invalid controller specified');
             }
 
             // Now, instantiate the controller and try to run it's action.
-            $this->controller = new $controller;
+            $controller = new $controller;
             if (! method_exists($controller, $action)) {
                 throw new Exception('Action not available');
             }
         } catch (Exception $exception) {
-            $request->setParam('controller', 'error');
-            $request->setParam('action', 'error');
-            $request->setParam('error', $exception->getMessage());
-            $this->controller = new \App\ErrorController;
+            $this->handleDispatchException($exception);
+            $controller = new \App\ErrorController;
             $action = 'errorAction';
         }
 
         // run the init hook
-        $this->controller->init();
+        $controller->init();
 
         // run the preDispatch hook
-        $this->controller->preDispatch();
+        $controller->preDispatch();
 
         // run the requested action on the requested controller
-        call_user_func([$this->controller, $action]);
+        call_user_func([$controller, $action]);
 
         // run the postDispatch hook
-        $this->controller->postDispatch();
+        $controller->postDispatch();
 
         // send the response
-        $body = $this->controller->getView()->render();
+        $body = $controller->getView()->render();
         $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers
@@ -141,6 +133,20 @@ class Dispatcher extends \MvcLite\ObjectAbstract
 
         // echo the body
         echo $response->getBody();
+    }
+
+    /**
+     * Handle exceptions that occur during dispatch.
+     *
+     * @param  MvcLite\Exception $exception The exception that was thrown.
+     * @return [type]            [description]
+     */
+    protected function handleDispatchException($exception)
+    {
+        $request = $this->getRequest();
+        $request->setParam('controller', 'error');
+        $request->setParam('action', 'error');
+        $request->setParam('error', $exception->getMessage());
     }
 
     /**

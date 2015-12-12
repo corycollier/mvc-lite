@@ -166,9 +166,7 @@ class Database extends ObjectAbstract
     public function insert($table, $values = [])
     {
         if (! count($values)) {
-            throw new Exception(
-                'Empty dataset provided. Nothing created'
-            );
+            throw new Exception('Empty dataset provided. Nothing created');
         }
 
         $sql = "INSERT INTO !table \n(!fields)\n values \n(!values)";
