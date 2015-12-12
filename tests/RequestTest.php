@@ -1,16 +1,19 @@
 <?php
 /**
  * Unit tests for the Lib_Request class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Request
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit tests for the Lib_Request class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Request
@@ -18,130 +21,106 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_RequestTest
-extends PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
-    
+
     /**
      * The setup method, called before each test
      */
-    public function setUp ( )
+    public function setUp()
     {
-        $this->fixture = Lib_Request::getInstance();
-        
-    } // END function setup
-    
-    /**
-     * The tear down hook, called after each test
-     */
-    public function tearDown ( )
-    {
-        
-    } // END function tearDown
-    
+        $this->sut = Request::getInstance();
+    }
+
     /**
      * Test the request object's build from string method
      */
-    public function test_buildFromString ( )
+    public function testBuildFromString()
     {
-        $string = 'controller/action/param1/value1/param2/value2/param3';
-        
-        $result = $this->fixture->buildFromString($string);
-        
-        $this->assertSame($result, array(
+        $string = '/controller/action/param1/value1/param2/value2/param3';
+
+        $result = $this->sut->buildFromString($string);
+
+        $this->assertSame($result, [
             'controller'    => 'controller',
             'action'        => 'action',
             'param1'        => 'value1',
             'param2'        => 'value2',
-            'param3'        => null,
-        ));
-        
-    } // END function test_buildFromString
-    
-    /**
-     * Test the getInstance method of the request object
-     */
-    public function test_getInstance ( )
-    {
-        $request = Lib_Request::getInstance();
-        
-        $this->assertInstanceOf('Lib_Request', $request);
-        
-    } // END function test_getInstance
-    
+        ]);
+    }
+
     /**
      * test the request object's method for returning all params
      */
-    public function test_getParams ( )
+    public function testGetParams()
     {
-        $params = array(
+        $params = [
             'var1'   => 'val1',
             'var2'   => 'val2',
             'var3'   => 'val3',
             'q'     => '/asdf/asdf/asdf/',
-        );
-        
-        $this->fixture->setParams($params);
+        ];
 
-        $result = $this->fixture->getParams();
+        $this->sut->setParams($params);
+
+        $result = $this->sut->getParams();
 
         unset($params['q']);
-        
+
         foreach ($params as $key => $value) {
             $this->assertSame($value, $result[$key]);
         }
 
         $this->assertFalse(array_key_exists('q', $result));
-        
-    } // END function test_getParams
-    
+    }
+
     /**
      * test the request object's method for retrieving a single parameter
      */
-    public function test_getParam ( )
+    public function testGetParam()
     {
-        $params = array(
+        $params = [
             'var1'   => 'val1',
             'var2'   => 'val2',
             'var3'   => 'val3',
-        );
-        
-        $this->fixture->setParams($params);
-        
-        $this->assertSame($this->fixture->getParam('var1'), $params['var1']);
-        
-    } // END function test_getParam
-    
+        ];
+
+        $this->sut->setParams($params);
+
+        $this->assertSame($this->sut->getParam('var1'), $params['var1']);
+
+    }
+
     /**
      * tests the request's ability to determine if a request is post
      */
-    public function test_isPost ( )
+    public function testIsPost()
     {
-        $this->assertFalse($this->fixture->isPost());
+        $this->assertFalse($this->sut->isPost());
 
-        $_POST = array(
+        $_POST = [
             'var'   => 'value'
-        );
+        ];
 
-        $this->assertTrue($this->fixture->isPost());
+        $this->assertTrue($this->sut->isPost());
 
-    } // END function test_isPost
+    }
 
     /**
      * Tests the request class's ability to return the headers
-     * 
+     *
      * @param array $headers
-     * @dataProvider provide_getHeaders
+     *
+     * @dataProvider provideGetHeaders
      */
-    public function test_getHeaders ($headers = array())
+    public function testGetHeaders($headers = [])
     {
-        $property = new ReflectionProperty('Lib_Request', '_headers');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, $headers);
+        $this->getReflectedProperty('\MvcLite\Request', 'headers')
+            ->setValue($this->sut, $headers);
 
-        $this->assertSame($headers, $this->fixture->getHeaders());
-        
-    } // END function test_getHeaders
+        $this->assertSame($headers, $this->sut->getHeaders());
+
+    }
 
     /**
      * Provides data to use for testing the request objects ability to return
@@ -149,37 +128,31 @@ extends PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function provide_getHeaders ( )
+    public function provideGetHeaders()
     {
-        return array(
-            array(array(
-                'Cache-Content' => false,
-                'X-Test'        => true,
-                'X-Identifier'  => 'asdfasdfasdf',
-            )),
-            array(array(
-
-            )),
-        );
-        
-    } // END function provide_getHeaders
+        return [
+            'simple test' => [
+                'headers' => [
+                    'Cache-Content' => false,
+                    'X-Test'        => true,
+                    'X-Identifier'  => 'asdfasdfasdf',
+                ],
+            ]
+        ];
+    }
 
     /**
      * tests the request instance's ability to determine if it's an ajax request
      */
-    public function test_isAjax ( )
+    public function testIsAjax()
     {
-        $this->assertFalse($this->fixture->isAjax());
+        $this->assertFalse($this->sut->isAjax());
 
-        $property = new ReflectionProperty('Lib_Request', '_headers');
-        $property->setAccessible(true);
-        $property->setValue($this->fixture, array(
-            'X-Requested-With' => 'XMLHttpRequest'
-        ));
+        $this->getReflectedProperty('\MvcLite\Request', 'headers')
+            ->setValue($this->sut, [
+                'X-Requested-With' => 'XMLHttpRequest'
+            ]);
 
-        $this->assertTrue($this->fixture->isAjax());
-
-
-    } // END function test_isAjax
-
-} // END class Tests_Lib_RequestTest
+        $this->assertTrue($this->sut->isAjax());
+    }
+}

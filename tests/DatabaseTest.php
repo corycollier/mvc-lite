@@ -1,16 +1,19 @@
 <?php
 /**
  * Unit tests for the Lib_Database class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Database
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Unit tests for the Lib_Database class
- * 
+ *
  * @category    MVCLite
  * @package     Tests
  * @subpackage  Database
@@ -18,268 +21,265 @@
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Tests_Lib_DatabaseTest
-extends PHPUnit_Framework_TestCase
+class DatabaseTest extends TestCase
 {
+    protected $sut;
+    protected $connectionFailure;
+
     /**
      * Hook to setup each unit test
      */
-    public function setup ( )
+    public function setup()
     {
-        App_Dispatcher::getInstance()->init();
-        App_Dispatcher::getInstance()->bootstrap();
-        $this->fixture = Lib_Database::getInstance();
-        $this->fixture->init();
-        
-    } // END function setUp
-    
+        $this->sut = Database::getInstance();
+        try {
+            $this->sut->init([
+                'host' => '127.0.0.1',
+                'user' => 'mvc_test_user',
+                'pass' => 'mvc_test_pass',
+                'name' => 'mvc_test_db',
+            ]);
+        } catch (\Exception $exception) {
+            $this->connectionFailure = true;
+        }
+    }
+
     /**
-     * hook to tear down unit tests
+     * Tests the getHandle method of the Database class
      */
-    public function tearDown ( )
+    public function testGetHandlet()
     {
-        
-    } // END function tearDown
-    
-    public function test_getHandle ( )
-    {
-        $this->assertInstanceOf('mysqli', $this->fixture->getHandle());
-        
-    } // END function test_getHandle
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+        $this->assertInstanceOf('\mysqli', $this->sut->getHandle());
+    }
 
     /**
      * tests the database's query method
      */
-    public function test_query ( )
+    public function testQuery()
     {
-        $sql = 'SELECT * FROM users';
-        $this->fixture->query($sql);
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
 
-        $queryProperty = new ReflectionProperty('Lib_Database', '_query');
+        $sql = 'SELECT * FROM users';
+        $this->sut->query($sql);
+
+        $queryProperty = new \ReflectionProperty('\MvcLite\Database', 'query');
         $queryProperty->setAccessible(true);
-        $queryValue = $queryProperty->getValue($this->fixture);
+        $queryValue = $queryProperty->getValue($this->sut);
         $this->assertSame($sql, $queryValue);
 
-        $resultProperty = new ReflectionProperty('Lib_Database', '_result');
+        $resultProperty = new \ReflectionProperty('MvcLite\Database', 'result');
         $resultProperty->setAccessible(true);
-        $resultValue = $resultProperty->getValue($this->fixture);
-        $this->assertInstanceOf('MySQLi_Result', $resultValue);
+        $resultValue = $resultProperty->getValue($this->sut);
+        $this->assertInstanceOf('\MySQLi_Result', $resultValue);
+    }
 
-        
-    } // END function test_query
-    
     /**
      * Method to test the update method of the database class
-     * 
+     *
      * @param string $table
      * @param array $params
-     * @dataProvider provide_update
+     * @dataProvider provideUpdate
      */
-    public function test_update ($table, $updateParams = array(), 
-        $existingParams = array())
+    public function testUpdate($table, $updateParams = [], $existingParams = [])
     {
-        if (! count($existingParams)) {
-            $this->setExpectedException('Lib_Exception');
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
         }
 
-        $result = $this->fixture->update($table, $updateParams, 
-            $existingParams
-        );
-        
-        $this->assertInstanceOf('Lib_Database', $result);
-        
-    } // END function test_update
-    
+        if (! count($existingParams)) {
+            $this->setExpectedException('MvcLite\Exception');
+        }
+
+        $result = $this->sut->update($table, $updateParams, $existingParams);
+
+        $this->assertInstanceOf('MvcLite\Database', $result);
+    }
+
     /**
      * method to provide parameters to test the update method of the database class
-     * 
+     *
      * @return array
      */
-    public function provide_update ( )
+    public function provideUpdate()
     {
-        return array(
-            array(
-                'users', 
-                array(
-                    'email' => 'test@test.com', 
-                ), 
-                array(
-                    'id' => '5',
-                )
-            ),
-            // array(
-            //     'users', 
-            //     array(
-            //         'email' => 'test@test.com', 
-            //     ), 
-            //     array(
-            //         'id' => '1',
-            //     )
-            // ),
-        );
-        
-    } // END function provide_update
-    
+        return [
+            'simple update test' => [
+                'table'          => 'users',
+                'updateParams'   => ['email' => 'test@test.com'],
+                'existingParams' => ['id' => '5']
+            ],
+        ];
+    }
+
     /**
      * tests the database object's ability to insert data into a table
-     * 
+     *
      * @param string $table
      * @param array $fields
-     * @dataProvider provide_insert
+     * @dataProvider provideInsert
      */
-    public function test_insert ($table, $fields = array())
+    public function testInsert($table, $fields = [])
     {
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
         if (! count($fields)) {
-            $this->setExpectedException('Lib_Exception');
+            $this->setExpectedException('MvcLite\Exception');
         }
         // delete any similar records first
-        $this->fixture->delete($table, $fields);
-        $result = $this->fixture->insert($table, $fields);
-        
-        $this->assertInstanceOf('Lib_Database', $result);
-        
-    } // END function test_insert
-    
+        $this->sut->delete($table, $fields);
+        $result = $this->sut->insert($table, $fields);
+
+        $this->assertInstanceOf('MvcLite\Database', $result);
+    }
+
     /**
      * provides parameters to test the database object's ability to insert data
-     * 
+     *
      * @return array
      */
-    public function provide_insert ( )
+    public function provideInsert()
     {
-        return array(
-            array('users', array(
-                'email' => 'test1@test.com'
-            )),
-            array('users', array(
-                'email' => 'test2@test.com'
-            )),
-            array('users', array()),
-        );
-        
-    } // END function provide_insert
-    
+        return [
+            'users insert test' => [
+                'table' => 'users',
+                'fields' => ['email' => 'test1@test.com'],
+            ]
+        ];
+    }
+
     /**
      * tests the database object's ability to fetch data
-     * 
+     *
      * @param string $table
      * @param array|string $fields
      * @param array|string $where
      * @param array|string $order
      * @param array $limit
-     * @dataProvider provide_fetch
+     * @dataProvider provideFetch
      */
-    public function test_fetch ($table, $fields = '*', $where = '', $order = null, $limit = null)
+    public function testFetch($table, $fields = '*', $where = '', $order = null, $limit = null)
     {
-        $result = $this->fixture->fetch($table, $fields, $where, $order, $limit);
-        
-        $this->assertInstanceOf('Lib_Database', $result);
-        
-    } // END function test_fetch
-    
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
+        $result = $this->sut->fetch($table, $fields, $where, $order, $limit);
+
+        $this->assertInstanceOf('MvcLite\Database', $result);
+    }
+
     /**
-     * provides data to the fetch tester for testing the database object's 
+     * Provides data to the fetch tester for testing the database object's
      * ability to fetch data
-     * 
+     *
      * @return array
      */
-    public function provide_fetch ( )
+    public function provideFetch()
     {
-        return array(
-            array('users'),
-            array(
-                'users',
-                array('email'),
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-                array(
-                    'id'    => 5, 
-                    'email' => 'test@test.com'
-                ),
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-                null,
-                'id',
-            ),
-            array(
-                'users',
-                array('id', 'email'),
-                null,
-                array('id', 'email'),
-            ),
-        );
-        
-    } // END function provide_fetch
-    
+        return [
+            'table fetch' => [
+                'table' => 'users',
+            ],
+            'fable fetch, with fields' => [
+                'table' => 'users',
+                'fields' => ['email'],
+            ],
+            'fable fetch, with 2 fields' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+            ],
+            'fable fetch, with 2 fields and where clause' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+                'where' => ['id' => 5, 'email' => 'test@test.com'],
+            ],
+            'fable fetch, with 2 fields, and order clause' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+                'where' => null,
+                'order' => 'id',
+            ],
+            'fable fetch, with 2 fields, and 2 order clauses' => [
+                'table' => 'users',
+                'fields' => ['id', 'email'],
+                'where' => null,
+                'order' => ['id', 'email'],
+            ],
+        ];
+    }
+
     /**
      * tests the database object's ability to delete data
      * @param string $table
      * @param array $params
-     * @dataProvider provide_delete
+     * @dataProvider provideDelete
      */
-    public function test_delete ($table, $params = array())
+    public function testDelete($table, $params = [])
     {
-        $result = $this->fixture->delete($table, $params);
-        
-        $this->assertInstanceOf('Lib_Database', $result);
-        
-    } // END function test_delete
-    
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+
+        $result = $this->sut->delete($table, $params);
+
+        $this->assertInstanceOf('MvcLite\Database', $result);
+    }
+
     /**
      * provides data to test the database object's ability to delete data
-     * 
+     *
      * @return array
      */
-    public function provide_delete ( )
+    public function provideDelete()
     {
-        return array(
-            array('users', array(
-                'email' => 'test@test.com',
-            )),
-            array('users', array(
-                'id'    => range(1,3),
-            )),
-        );
-        
-    } // END function provide_delete
-    
-    public function test_all ( )
+        return [
+            'test users by email' => [
+                'table' => 'users',
+                'params'=> ['email' => 'test@test.com'],
+            ],
+            'test users by array of ids' => [
+                'table' => 'users',
+                'params' => ['id' => range(1, 3)],
+            ],
+        ];
+    }
+
+    public function testAll()
     {
-        
-    } // END function test_all
+
+    }
 
     /**
      * tests the database's ability to return the last query it performed
      */
-    public function test_getLastQuery ( )
+    public function testGetLastQuery()
     {
         $sql = 'SELECT * FROM users';
-        $property = new ReflectionProperty('Lib_Database', '_query');
+        $property = new \ReflectionProperty('MvcLite\Database', 'query');
         $property->setAccessible(true);
-        $property->setValue($this->fixture, $sql);
+        $property->setValue($this->sut, $sql);
 
-        $this->assertSame($sql, $this->fixture->getLastQuery());
-        
-    } // END function test_getLastQuery
+        $this->assertSame($sql, $this->sut->getLastQuery());
+    }
 
     /**
      * tests the database class's ability to return the id of the last item
      * that it inserted
      */
-    public function test_lastInsertId ( )
+    public function testLastInsertId()
     {
-        $handle = $this->fixture->getHandle();
+        if ($this->connectionFailure) {
+            $this->markTestSkipped('Cannot connect to database');
+        }
+        $handle = $this->sut->getHandle();
 
-        $this->assertSame($handle->insert_id, $this->fixture->lastInsertId());
-        
-    } // END function test_lastInsertId
-    
-} // END class DatabaseTest
+        $this->assertSame($handle->insert_id, $this->sut->lastInsertId());
+    }
+}

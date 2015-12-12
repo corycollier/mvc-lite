@@ -1,49 +1,59 @@
 <?php
 /**
  * Class to handle errors throughout the site
- * 
- * @category    MVCLite
- * @package     Lib
+ *
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Error
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Traits\Singleton as SingletonTrait;
+
 /**
  * Class to handle errors throughout the site
- * 
- * @category    MVCLite
- * @package     Lib
+ *
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Error
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
- 
-class Lib_Error
-extends Lib_Object_Singleton
+
+class Error extends ObjectAbstract
 {
-    /**
-     * holder for all the errors that have occured for the request
-     *
-     * @var array $_errors
-     */
-    private $_errors = array();
+    use SingletonTrait;
 
     /**
-     * handler for errors 
+     * Holder for all the errors that have occured for the request.
+     *
+     * @var array $errors
      */
-    public static function handle ($errno, $errstr, $errfile = null, 
-        $errline = null, $errcontext = array())
-    {   
+    protected $errors = [];
+
+    /**
+     * handler for errors
+     */
+    public static function handle(
+        $errno,
+        $errstr,
+        $errfile = null,
+        $errline = null,
+        $errcontext = []
+    ) {
         $self = get_called_class();
 
         // append the errors to the list of errors that have occured so far
-        $self::getInstance()->_addError(array(
+        $self::getInstance()->addError([
             'errno'         => $errno,
             'errstr'        => $errstr,
             'errfile'       => $errfile,
             'errline'       => $errline,
             'errcontext'    => $errcontext,
-        ));
+        ]);
 
         // switch, based on the error number given
         switch ($errno) {
@@ -53,39 +63,35 @@ extends Lib_Object_Singleton
             case E_CORE_WARNING:
             case E_USER_ERROR:
                 // figure out something appropriate to do
-                throw new ErrorException(
-                    $errstr, 0, $errno, $errfile, $errline
-                );
+                throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
 
             // the default stuff
             default:
                 return;
         }
-        
-    } // END function handle
+
+    }
 
     /**
-     * adds errors to the instance's error property
+     * Adds errors to the instance's error property.
      *
-     * @param array $error
-     * @return Lib_Error $this for a fluent interface
+     * @param array $error An array representing an error.
+     *
+     * @return \MvcLite\Error $this for object-chaining.
      */
-    private function _addError ($error = array())
+    protected function addError($error = [])
     {
-        $this->_errors[] = $error;
+        $this->errors[] = $error;
         return $this;
-
-    } // END function _addError
+    }
 
     /**
-     * getter for the _errors property
+     * Getter for the errors property.
      *
      * @return array
      */
-    public function getErrors ( )
+    public function getErrors()
     {
-        return $this->_errors;
-        
-    } // END function getErrors
-
-} // END class Lib_Error
+        return $this->errors;
+    }
+}

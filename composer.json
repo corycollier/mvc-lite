@@ -1,24 +1,35 @@
 {
-    "name": "corycollier/mvc-lite",
-    "description": "A lightweight MVC Framework, inspired by Zend Framework 1.12",
-    "require-dev": {
-        "phpunit/phpunit-mock-objects": "^3.0",
-        "squizlabs/php_codesniffer": "^2.3",
-        "phpmd/phpmd": "^2.3",
-        "pdepend/pdepend": "^2.2",
-        "phploc/phploc": "^2.1",
-        "theseer/phpdox": "0.8.1.1"
+    "name"              : "corycollier/mvc-lite",
+    "description"       : "A lightweight MVC Framework, inspired by Zend Framework 1.12",
+    "license"           : "MIT",
+    "minimum-stability" : "dev",
+    "prefer-stable"     : true,
+    "require-dev" : {
+        "phpunit/phpunit-mock-objects" : "^3.0",
+        "squizlabs/php_codesniffer"    : "^2.3",
+        "phpmd/phpmd"                  : "^2.3",
+        "pdepend/pdepend"              : "^2.2",
+        "phploc/phploc"                : "^2.1",
+        "theseer/phpdox"               : "0.8.1.1",
+        "phpunit/phpunit"              : "^5.0"
     },
-    "license": "MIT",
-    "authors": [
+    "authors" : [
         {
-            "name": "Cory Collier",
-            "email": "corycollier@corycollier.com"
+            "name"     : "Cory Collier",
+            "email"    : "corycollier@corycollier.com",
+            "role"     : "developer",
+            "homepage" : "http://corycollier.com/"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable" : true,
-    "require": {
-        "phpunit/phpunit": "^5.0"
+    "require" : {
+        "corycollier/php-cli": "dev-master",
+        "sebastian/phpcpd": "^2.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "MvcLite\\": "src/",
+            "App\\" : "./App"
+        }
     }
 }

@@ -2,166 +2,149 @@
 /**
  * Base Dispatcher
  *
- * @category    MVCLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Dispatcher
  * @since       File available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
+use \MvcLite\Traits\Config as ConfigTrait;
+use \MvcLite\Traits\Database as DatabaseTrait;
+use \MvcLite\Traits\Request as RequestTrait;
+use \MvcLite\Traits\Response as ResponseTrait;
+use \MvcLite\Traits\Session as SessionTrait;
+use \MvcLite\Traits\Singleton as SingletonTrait;
+use \MvcLite\Traits\Filepath as FilepathTrait;
+use \MvcLite\Traits\Loader as LoaderTrait;
+
 /**
  * Base Dispatcher
  *
- * @category    MVCLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Dispatcher
  * @since       Class available since release 1.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Lib_Dispatcher
-extends Lib_Object_Singleton
+class Dispatcher extends \MvcLite\ObjectAbstract
 {
-    /**
-     * an overridable list of environments allowed for configuration
-     *
-     * @var array $_environments
-     */
-    protected $_environments = array(
-        'production',
-        'staging',
-        'development',
-        'testing',
-    );
-
-    /**
-     * placeholder for the request object
-     *
-     * @var Lib_Request
-     */
-    protected $_request;
-
-    /**
-     * placeholder for the response object
-     *
-     * @var Lib_Response
-     */
-    protected $_response;
-
-    /**
-     * placeholder for the database object
-     *
-     * @var Lib_Database
-     */
-    protected $_database;
-    
-    /**
-     * placeholder for the view object
-     *
-     * @var Lib_View
-     */
-    protected $_view;
+    use ConfigTrait;
+    use DatabaseTrait;
+    use RequestTrait;
+    use ResponseTrait;
+    use SessionTrait;
+    use SingletonTrait;
+    use FilepathTrait;
+    use LoaderTrait;
 
     /**
      * placeholder for the controller object
      *
      * @var Lib_Controller
      */
-    protected $_controller;
-
-
-    public function init ( )
-    {
-        throw new Lib_Exception('This method must be implemented in the app');
-    }
+    protected $controller;
 
     /**
-     * bootstrap the application before dispatching
+     * an overridable list of environments allowed for configuration
      *
-     * @return Lib_Dispatcher $this for a fluent interface
+     * @var array $_environments
      */
-    public function bootstrap ( )
-    {
-        // setup the singletons
-        $this->_request = Lib_Request::getInstance();
-        $this->_response = Lib_Response::getInstance();
-        $this->_database = Lib_Database::getInstance();
-        $this->_view = Lib_View::getInstance();
+    protected $environments = [
+        'production',
+        'staging',
+        'development',
+        'testing',
+    ];
 
-        try {
-            $this->_request->init();
-            $this->_database->init();
-            $this->_response->init();
-            $this->_view->init();
-        }
-        catch (Exception $exception) {
-            $this->_request->setParams(array(
-                'controller'    => 'error',
-                'action'        => 'database',
-            ));
-        }
+    /**
+     * Initialize the dispatcher.
+     *
+     * @return \MvcLite\Dispatcher Returns $this for object-chaining.
+     */
+    public function init($loader)
+    {
+        $this->setLoader($loader);
+        $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
+        $this->getRequest()->init();
+        $this->getDatabase()->init();
+        $this->getResponse()->init();
 
         return $this;
-
-    } // END function bootstrap
+    }
 
     /**
      * dispatch
      *
      * This is the main entry point for dispatching a request
      */
-    public function dispatch ( )
+    public function dispatch()
     {
-        // if ( PHP_SAPI == 'cli' ) {
-        //     return;
-        // }
-
-        $controller = $this->_translateControllerName(
-            $this->_request->getParam('controller')
-        );
-
-        $action = strtolower(
-            $this->_translateActionName($this->_request->getParam('action'))
-        );
+        $request    = $this->getRequest();
+        $params     = $request->getParams();
+        $controller = $this->translateControllerName($params['controller']);
+        $action     = $this->translateActionName($params['action']);
+        $response   = $this->getResponse();
+        $loader     = $this->getLoader();
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
         try {
-            $this->_controller = new $controller;
-            if (! method_exists($controller, $action)) {
-                throw new Lib_Exception(
-                    'Action not available'
-                );
+            // First, make sure the controller is callable.
+            $result = $loader->loadClass($controller);
+            if (is_null($result)) {
+                throw new Exception('Invalid controller specified');
             }
-        }
-        catch (Exception $exception) {
-            $this->_request->setParam('controller', 'error');
-            $this->_request->setParam('action', 'error');
-            $this->_controller = new App_Controller_Error;
+
+            // Now, instantiate the controller and try to run it's action.
+            $controller = new $controller;
+            if (! method_exists($controller, $action)) {
+                throw new Exception('Action not available');
+            }
+        } catch (Exception $exception) {
+            $this->handleDispatchException($exception);
+            $controller = new \App\ErrorController;
             $action = 'errorAction';
         }
 
         // run the init hook
-        $this->_controller->init();
-
-        // run the preDispatch hook
-        $this->_controller->preDispatch();
+        $controller->init()->preDispatch();
 
         // run the requested action on the requested controller
-        call_user_func(array($this->_controller, $action));
+        call_user_func([$controller, $action]);
 
         // run the postDispatch hook
-        $this->_controller->postDispatch();
+        $controller->postDispatch();
 
         // send the response
-        $this->_response->setBody($this->_controller->getView()->render());
+        $body = $controller->getView()->render();
+        $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers
-        if ( PHP_SAPI != 'cli' ) $this->_response->sendHeaders();
+        if (PHP_SAPI != 'cli') {
+            $response->sendHeaders();
+        }
 
         // echo the body
-        echo $this->_response->getBody();
+        echo $response->getBody();
+    }
 
-    } // END function dispatch
+    /**
+     * Handle exceptions that occur during dispatch.
+     *
+     * @param  MvcLite\Exception $exception The exception that was thrown.
+     * @return [type]            [description]
+     */
+    protected function handleDispatchException($exception)
+    {
+        $request = $this->getRequest();
+        $request->setParam('controller', 'error');
+        $request->setParam('action', 'error');
+        $request->setParam('error', $exception->getMessage());
+    }
 
     /**
      * Translates a raw request param for a controller into a class name
@@ -169,31 +152,26 @@ extends Lib_Object_Singleton
      * @param string $controller
      * @return string
      */
-    private function _translateControllerName ($controller = '')
+    protected function translateControllerName($controller = '')
     {
-        // create a string of upper cased words by replacing hyphens
-        $controller = ucwords(strtr($controller, array(
-            '-' => ' ',
-        )));
+        $filter = new FilterChain;
+        $filter->addFilter(new Filter\DashToCamelcase);
+        $filter->addFilter(new Filter\StringToProper);
 
-        // remove the spaces, creating a camelcased word
-        $controller = strtr($controller, array(
-            ' ' => '',
-        ));
+        $controller = $filter->filter($controller);
 
-        // return the controller name, prefixed with App_Controller_
-        return "App_Controller_{$controller}";
-
-    } // END function _translateControllerName
+        // return the controller class name.
+        return '\\App\\' . $controller . 'Controller';
+    }
 
     /**
      *
-     * Translates a raw request param for an action into an action name
+     * Translates a raw request param for an action into an action name.
      *
      * @param string $action
      * @return string
      */
-    private function _translateActionName ($action = '')
+    protected function translateActionName($action = '')
     {
         $words = explode('-', $action);
         foreach ($words as $i => $word) {
@@ -208,23 +186,23 @@ extends Lib_Object_Singleton
 
         return "{$action}Action";
 
-    } // END function _translateActionName
+    }
 
     /**
-     * method to parse an array and create nested arrays where necessary
+     * method to parse an array and create nested arrays where necessary.
      *
      * @param array $config
      * @return array
      */
-    public function parseConfiguration ($config = array())
+    public function parseConfiguration($config = [])
     {
-        $results = array();
+        $results = [];
 
         // iterate through the parsed INI file
         foreach ($config as $key => $values) {
             $parts = explode('.', $key);
             if (! array_key_exists($parts[0], $results)) {
-                $results[$parts[0]] = array();
+                $results[$parts[0]] = [];
             }
 
             $results[$parts[0]][$parts[1]] = $values;
@@ -232,22 +210,21 @@ extends Lib_Object_Singleton
 
         return $results;
 
-    } // END function parseConfiguration
+    }
 
     /**
-     * returns the provide value, if it's in the _environments list
-     * 
+     * returns the provide value, if it's in the environments list.
+     *
      * @param string $value
      * @return string
      */
-    public function getApplicationEnv ($value = null)
+    public function getApplicationEnv($value = null)
     {
-        if (in_array($value, $this->_environments)) {
+        if (in_array($value, $this->environments)) {
             return $value;
-        } 
+        }
 
-        return current($this->_environments);
+        return current($this->environments);
 
-    } // END function getApplicationEnv
-
-} // END function dispatcher
+    }
+}

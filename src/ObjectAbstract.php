@@ -1,104 +1,104 @@
 <?php
 /**
  * Base Object Class
- * 
- * @category    MVCLite
- * @package     Lib
+ *
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Object
  * @since       File available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
+
+namespace MvcLite;
+
 /**
  * Base Object Class
- * 
+ *
  * All classes in the MVCLite framework extends this class
- * 
- * @category    MVCLite
- * @package     Lib
+ *
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Object
  * @since       Class available since release 1.0.5
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class Lib_Object
+abstract class ObjectAbstract
 {
+    const MSG_ERR_IDENTIFY = 'Descendents must implement the identify method';
+
     /**
      * Overriding the __get magic method
-     * 
-     * Magic Methods are expensive. To help ensure the performance of the 
+     *
+     * Magic Methods are expensive. To help ensure the performance of the
      * MVCLite Framework, we disable them here.
-     * 
+     *
      * @param string $name
-     * @throws Lib_Exception
+     *
+     * @throws \MvcLite\Exception
      */
-    final public function __get ($name)
+    final public function __get($name)
     {
         $self = get_called_class();
-        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_GET, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_GET, [
             '!explain'  => "{$self}->{$name}",
-        )));
-
-    } // END function __get
+        ]));
+    }
 
     /**
      * Overriding the __set magic method
-     * 
-     * Magic Methods are expensive. To help ensure the performance of the 
+     *
+     * Magic Methods are expensive. To help ensure the performance of the
      * MVCLite Framework, we disable them here.
-     * 
+     *
      * @param string $name
-     * @param unknown_type $value
-     * @throws Lib_Exception
+     * @param mixed $value
+     *
+     * @throws \MvcLite\Exception
      */
-    final public function __set ($name, $value = '')
+    final public function __set($name, $value = '')
     {
         $self = get_called_class();
-        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_SET, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_SET, [
             '!explain'  => "{$self}->{$name} = {$value}",
-        )));
-
-    } // END function __set
+        ]));
+    }
 
     /**
      * Overriding the __call magic method
-     * 
-     * Magic Methods are expensive. To help ensure the performance of the 
+     *
+     * Magic Methods are expensive. To help ensure the performance of the
      * MVCLite Framework, we disable them here.
-     * 
+     *
      * @param string $method
      * @param array $args
-     * @throws Lib_Exception
+     *
+     * @throws \MvcLite\Exception
      */
-    final public function __call ($method, $args = array())
+    final public function __call($method, $args = [])
     {
         $self = get_called_class();
-        throw new Lib_Exception(strtr(Lib_Exception::ERR_MAGIC_METHOD_CALL, array(
+        throw new Exception(strtr(Exception::ERR_MAGIC_METHOD_CALL, [
             '!explain'  => "{$self}::{$method}(" . @implode(',', $args) . ')',
-        )));
-
-    } // END function __call
+        ]));
+    }
 
     /**
      * returns a string representation of the object
      */
-    public function __toString ( )
+    public function __toString()
     {
         return get_class($this);
-
-    } // END function __toString
+    }
 
     /**
      * method used to identify the object instance
      *
-     * @throws Lib_Exception
+     * @throws \MvcLite\Exception
      * @return string
      */
-    public function identify ( )
+    public function identify()
     {
-        throw new Lib_Exception(
-            'Descendents must implement the identify method'
-        );
-        
-    } // END function identify
-    
-} // END class Lib_Object
+        $self = get_called_class();
+        throw new Exception($self::MSG_ERR_IDENTIFY);
+    }
+}
