@@ -196,7 +196,7 @@ class FileTest extends TestCase
                 'exists'   => true,
                 'contents' => 'testing',
                 'filename' => implode(DIRECTORY_SEPARATOR, [
-                    ROOT, 'tests', '_file', '.empty',
+                    'tmp', 'tests', '_file', '.empty',
                 ]),
             ],
 
