@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - MvcLite\Config</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li>
+          <a href="../traits.html">Traits</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#MvcLite">MvcLite</a>
+          </li>
+          <li class="separator">Config</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#coverage">Coverage</a>
+          </li>
+          <li>
+            <a href="#constants">Constants</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/Config.php.html#line27">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>MvcLite\</small>Config</h1>
+        <h4>Registry</h4>
+        <p>Data store for application level storage</p>
+        <ul>
+          <li>Author: Cory Collier &lt;corycollier@corycollier.com&gt;</li>
+        </ul>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class Config
+                extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
+            {<br/><ul class="none"><li>// constants</li><li>const MSG_ERR_BAD_CONFIG = 'Configuration not loaded. Options provided must be either an array, or the location to an ini file';</li></ul><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$data</a> =
+                        ;
+                    </li></ul><ul class="none"><li>// methods</li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/init.html">init</a>()
+                    </li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/set.html">set</a>()
+                    </li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/get.html">get</a>()
+                    </li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/setAll.html">setAll</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
+                        </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
+                        </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
+                        </li><li>public void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString</a>()
+                        </li><li>public string <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Singleton">Singleton</span></li><li>public static Singleton <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance</a>()
+                        </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a>
+            </li>
+          </ul>
+          <h4>Uses</h4>
+          <ul>
+            <li>
+              <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="coverage">Coverage</h2>
+        <table class="styled">
+          <tr>
+            <td>Methods</td>
+            <td class="percent">25%</td>
+            <td class="nummeric">1 / 4</td>
+          </tr>
+          <tr>
+            <td>Lines</td>
+            <td class="percent">25%</td>
+            <td class="nummeric">4 / 16</td>
+          </tr>
+        </table>
+        <h2 id="constants">Constants</h2>
+        <table class="styled">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="MSG_ERR_BAD_CONFIG">MSG_ERR_BAD_CONFIG</td>
+              <td>'Configuration not loaded. Options provided must be either an array, or the location to an ini file'</td>
+            </tr>
+            <tr>
+              <td id="MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</td>
+              <td>'Descendents must implement the identify method'</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="data"><strong>$data</strong>
+                —
+                array<br/><span class="indent">Where all the config stuff goes</span></li>
+            <li id="instance"><strong>$instance</strong>
+                —
+                <a title="MvcLite\Traits\Singleton" href="../classes/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a><br/><span class="indent">Static instance variable</span></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>public</h4>
+          <ul>
+            <li id="get"><a title="MvcLite\Config" href="../classes/MvcLite_Config/get.html">get()</a>
+                — Getter for data.</li>
+            <li id="init"><a title="MvcLite\Config" href="../classes/MvcLite_Config/init.html">init()</a>
+                — Init hook.</li>
+            <li id="set"><a title="MvcLite\Config" href="../classes/MvcLite_Config/set.html">set()</a>
+                — Setter for data.</li>
+            <li id="setAll"><a title="MvcLite\Config" href="../classes/MvcLite_Config/setAll.html">setAll()</a>
+                — Assigns multiple values to the config in a single method call.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="__call"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call()</a>
+                — Overriding the __call magic method</li>
+            <li id="__get"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get()</a>
+                — Overriding the __get magic method</li>
+            <li id="__set"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set()</a>
+                — Overriding the __set magic method</li>
+            <li id="__toString"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString()</a>
+                — returns a string representation of the object</li>
+            <li id="identify"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify()</a>
+                — method used to identify the object instance</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getInstance"><a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance()</a>
+                — Getter for the instance variable.</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2015-12-04T10:14:59-05:00 (commit #<span title="dc87501bce7675661935cd66d3152b28347933a7">dc87501</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">changing a constant in the Config class, to help with pdepend analyzers</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-02T16:43:15-05:00 (commit #<span title="55a67b01c98df6dc281d70e97c1216b5039d15b4">55a67b0</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">BIG commit. Leveraging php5.4 shorthand for arrays, updating the skeleton app, Adding the Filepath trait, implementing the filepath trait, new Filters, Moved the registry to a new config class, created a new config trait, implemented new config trait, updated a TON of unit tests</pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.8.2-dev - Copyright (C) 2010 - 2015 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - MvcLite\FilterChain</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li>
+          <a href="../traits.html">Traits</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#MvcLite">MvcLite</a>
+          </li>
+          <li class="separator">FilterChain</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#coverage">Coverage</a>
+          </li>
+          <li>
+            <a href="#constants">Constants</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/FilterChain.php.html#line23">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>MvcLite\</small>FilterChain</h1>
+        <h4>Base Filter</h4>
+        <p/>
+        <ul>
+          <li>Author: Cory Collier &lt;corycollier@corycollier.com&gt;</li>
+        </ul>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class FilterChain
+                extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
+            {<br/><ul class="none"><li>// constants</li><li>const MSG_ERR_FILTER_NOT_FOUND = "Requested filter [%s] not found";</li></ul><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$filters</a> =
+                        ;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\FilterChain" href="../classes/MvcLite_FilterChain/addFilter.html">addFilter</a>()
+                    </li><li>public void <a title="MvcLite\FilterChain" href="../classes/MvcLite_FilterChain/filter.html">filter</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
+                        </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
+                        </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
+                        </li><li>public void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString</a>()
+                        </li><li>public string <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify</a>()
+                        </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="coverage">Coverage</h2>
+        <table class="styled">
+          <tr>
+            <td>Methods</td>
+            <td class="percent">100%</td>
+            <td class="nummeric">2 / 2</td>
+          </tr>
+          <tr>
+            <td>Lines</td>
+            <td class="percent">100%</td>
+            <td class="nummeric">6 / 6</td>
+          </tr>
+        </table>
+        <h2 id="constants">Constants</h2>
+        <table class="styled">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="MSG_ERR_FILTER_NOT_FOUND">MSG_ERR_FILTER_NOT_FOUND</td>
+              <td>"Requested filter [%s] not found"</td>
+            </tr>
+            <tr>
+              <td id="MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</td>
+              <td>'Descendents must implement the identify method'</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="filters"><strong>$filters</strong>
+                —
+                array<br/><span class="indent">holds the list of filters</span></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>public</h4>
+          <ul>
+            <li id="addFilter"><a title="MvcLite\FilterChain" href="../classes/MvcLite_FilterChain/addFilter.html">addFilter()</a>
+                — adds a filter to the chain</li>
+            <li id="filter"><a title="MvcLite\FilterChain" href="../classes/MvcLite_FilterChain/filter.html">filter()</a>
+                — filters a chain</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="__call"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call()</a>
+                — Overriding the __call magic method</li>
+            <li id="__get"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get()</a>
+                — Overriding the __get magic method</li>
+            <li id="__set"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set()</a>
+                — Overriding the __set magic method</li>
+            <li id="__toString"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString()</a>
+                — returns a string representation of the object</li>
+            <li id="identify"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify()</a>
+                — method used to identify the object instance</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2015-12-02T16:43:15-05:00 (commit #<span title="55a67b01c98df6dc281d70e97c1216b5039d15b4">55a67b0</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">BIG commit. Leveraging php5.4 shorthand for arrays, updating the skeleton app, Adding the Filepath trait, implementing the filepath trait, new Filters, Moved the registry to a new config class, created a new config trait, implemented new config trait, updated a TON of unit tests</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-29T17:09:17-05:00 (commit #<span title="607e366e368091bfe7238aaab102d9eca55e2778">607e366</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">updating unit tests, removing legacy methods in the FilterChain class</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-29T13:59:13-05:00 (commit #<span title="5ca13727de49c08bb5b6057006133a84ea18120c">5ca1372</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">,</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-27T22:46:57-05:00 (commit #<span title="3067c88f769544075bc95cb3d9b63453a1d7df86">3067c88</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">Provisional commit - Not done moving things around to be namespace compliant. This commit is completely not functional</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-27T22:21:06-05:00 (commit #<span title="f27c74f4e696c44732151c973a3febae63f5d9bd">f27c74f</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">Moving the filter chain class, so the abstract filter can reside here. Removing ACL and models (maybe this can be re-introduced later). Moving the Singleton object</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-11T08:14:50-05:00 (commit #<span title="ad284619afdf509ea3e70cbb9522046c82825a60">ad28461</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">More moving things around</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-11T08:07:21-05:00 (commit #<span title="38385045ad9b205c3303c25fbc24464db9a205d9">3838504</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Re-introducing the library components as first class items</pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.8.2-dev - Copyright (C) 2010 - 2015 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

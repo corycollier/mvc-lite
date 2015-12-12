@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - MvcLite\Dispatcher</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li>
+          <a href="../traits.html">Traits</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#MvcLite">MvcLite</a>
+          </li>
+          <li class="separator">Dispatcher</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#coverage">Coverage</a>
+          </li>
+          <li>
+            <a href="#constants">Constants</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/Dispatcher.php.html#line33">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>MvcLite\</small>Dispatcher</h1>
+        <h4>Base Dispatcher</h4>
+        <p/>
+        <ul>
+          <li>Author: Cory Collier &lt;corycollier@corycollier.com&gt;</li>
+        </ul>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class Dispatcher
+                extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
+            {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected <span title="MvcLite\Lib_Controller">Lib_Controller</span> <a href="#members">$controller</a>;
+                    </li><li>protected array <a href="#members">$environments</a> =
+                        ;
+                    </li></ul><ul class="none"><li>// methods</li><li>public Dispatcher <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/init.html">init</a>()
+                    </li><li>public void <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/dispatch.html">dispatch</a>()
+                    </li><li>protected [type] <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/handleDispatchException.html">handleDispatchException</a>()
+                    </li><li>protected string <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/translateControllerName.html">translateControllerName</a>()
+                    </li><li>protected string <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/translateActionName.html">translateActionName</a>()
+                    </li><li>public array <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/parseConfiguration.html">parseConfiguration</a>()
+                    </li><li>public string <a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/getApplicationEnv.html">getApplicationEnv</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
+                        </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
+                        </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
+                        </li><li>public void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString</a>()
+                        </li><li>public string <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Config">Config</span></li><li>public Config <a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config/getConfig.html">getConfig</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Database">Database</span></li><li>public Database <a title="MvcLite\Traits\Database" href="../traits/MvcLite_Traits_Database/getDatabase.html">getDatabase</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Request">Request</span></li><li>public Request <a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request/getRequest.html">getRequest</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Response">Response</span></li><li>public Response <a title="MvcLite\Traits\Response" href="../traits/MvcLite_Traits_Response/getResponse.html">getResponse</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Session">Session</span></li><li>public Session <a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session/getSession.html">getSession</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Singleton">Singleton</span></li><li>public static Singleton <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Filepath">Filepath</span></li><li>public Request <a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath/filepath.html">filepath</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Loader">Loader</span></li><li>public ClassLoader <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/getLoader.html">getLoader</a>()
+                        </li><li>public Loader <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/setLoader.html">setLoader</a>()
+                        </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a>
+            </li>
+          </ul>
+          <h4>Uses</h4>
+          <ul>
+            <li>
+              <a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config.html">MvcLite\Traits\Config</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Database" href="../traits/MvcLite_Traits_Database.html">MvcLite\Traits\Database</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request.html">MvcLite\Traits\Request</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Response" href="../traits/MvcLite_Traits_Response.html">MvcLite\Traits\Response</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session.html">MvcLite\Traits\Session</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath.html">MvcLite\Traits\Filepath</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader.html">MvcLite\Traits\Loader</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="coverage">Coverage</h2>
+        <table class="styled">
+          <tr>
+            <td>Methods</td>
+            <td class="percent">28.57%</td>
+            <td class="nummeric">2 / 7</td>
+          </tr>
+          <tr>
+            <td>Lines</td>
+            <td class="percent">50.79%</td>
+            <td class="nummeric">32 / 63</td>
+          </tr>
+        </table>
+        <h2 id="constants">Constants</h2>
+        <table class="styled">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</td>
+              <td>'Descendents must implement the identify method'</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="config"><strong>$config</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Config" href="../classes/MvcLite_Traits_MvcLite_Config.html">MvcLite\Traits\MvcLite\Config</a></li>
+            <li id="controller"><strong>$controller</strong>
+                —
+                <a title="MvcLite\Lib_Controller" href="../classes/MvcLite_Lib_Controller.html">MvcLite\Lib_Controller</a><br/><span class="indent">placeholder for the controller object</span></li>
+            <li id="database"><strong>$database</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Database" href="../classes/MvcLite_Traits_MvcLite_Database.html">MvcLite\Traits\MvcLite\Database</a></li>
+            <li id="environments"><strong>$environments</strong>
+                —
+                array<br/><span class="indent">an overridable list of environments allowed for configuration</span></li>
+            <li id="instance"><strong>$instance</strong>
+                —
+                <a title="MvcLite\Traits\Singleton" href="../classes/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a><br/><span class="indent">Static instance variable</span></li>
+            <li id="loader"><strong>$loader</strong>
+                —
+                <a title="\Composer\Autoload\ClassLoader" href="../classes/_Composer_Autoload_ClassLoader.html">\Composer\Autoload\ClassLoader</a><br/><span class="indent">Loader instance variable.</span></li>
+            <li id="request"><strong>$request</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Request" href="../classes/MvcLite_Traits_MvcLite_Request.html">MvcLite\Traits\MvcLite\Request</a><br/><span class="indent">Request instance variable.</span></li>
+            <li id="response"><strong>$response</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Response" href="../classes/MvcLite_Traits_MvcLite_Response.html">MvcLite\Traits\MvcLite\Response</a><br/><span class="indent">Response instance variable.</span></li>
+            <li id="session"><strong>$session</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Session" href="../classes/MvcLite_Traits_MvcLite_Session.html">MvcLite\Traits\MvcLite\Session</a><br/><span class="indent">Session instance variable.</span></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>protected</h4>
+          <ul>
+            <li id="handleDispatchException"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/handleDispatchException.html">handleDispatchException()</a>
+                — Handle exceptions that occur during dispatch.</li>
+            <li id="translateActionName"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/translateActionName.html">translateActionName()</a>
+                — Translates a raw request param for an action into an action name.</li>
+            <li id="translateControllerName"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/translateControllerName.html">translateControllerName()</a>
+                — Translates a raw request param for a controller into a class name</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="dispatch"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/dispatch.html">dispatch()</a>
+                — dispatch</li>
+            <li id="getApplicationEnv"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/getApplicationEnv.html">getApplicationEnv()</a>
+                — returns the provide value, if it's in the environments list.</li>
+            <li id="init"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/init.html">init()</a>
+                — Initialize the dispatcher.</li>
+            <li id="parseConfiguration"><a title="MvcLite\Dispatcher" href="../classes/MvcLite_Dispatcher/parseConfiguration.html">parseConfiguration()</a>
+                — method to parse an array and create nested arrays where necessary.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="__call"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call()</a>
+                — Overriding the __call magic method</li>
+            <li id="__get"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get()</a>
+                — Overriding the __get magic method</li>
+            <li id="__set"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set()</a>
+                — Overriding the __set magic method</li>
+            <li id="__toString"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString()</a>
+                — returns a string representation of the object</li>
+            <li id="identify"><a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify()</a>
+                — method used to identify the object instance</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config.html">MvcLite\Traits\Config</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getConfig"><a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config/getConfig.html">getConfig()</a>
+                — Getter for the config.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Database" href="../traits/MvcLite_Traits_Database.html">MvcLite\Traits\Database</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getDatabase"><a title="MvcLite\Traits\Database" href="../traits/MvcLite_Traits_Database/getDatabase.html">getDatabase()</a>
+                — Getter for the database.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request.html">MvcLite\Traits\Request</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getRequest"><a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request/getRequest.html">getRequest()</a>
+                — Getter for the Request instance.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Response" href="../traits/MvcLite_Traits_Response.html">MvcLite\Traits\Response</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getResponse"><a title="MvcLite\Traits\Response" href="../traits/MvcLite_Traits_Response/getResponse.html">getResponse()</a>
+                — Getter for the response instance variable.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session.html">MvcLite\Traits\Session</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getSession"><a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session/getSession.html">getSession()</a>
+                — Getter for the session instance variable.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getInstance"><a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance()</a>
+                — Getter for the instance variable.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath.html">MvcLite\Traits\Filepath</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="filepath"><a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath/filepath.html">filepath()</a>
+                — Getter for the Request instance.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader.html">MvcLite\Traits\Loader</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getLoader"><a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/getLoader.html">getLoader()</a>
+                — Getter for the Loader instance.</li>
+            <li id="setLoader"><a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/setLoader.html">setLoader()</a>
+                — Setter for the Loader instance.</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2015-12-12T09:52:25-05:00 (commit #<span title="bf398f5de96a27b6ba015890480a5e677d02e0a3">bf398f5</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Updates to the controller, and dispatcher</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-12T09:41:11-05:00 (commit #<span title="65b9adcf8c81818f37781dfd62e79ed51f20a613">65b9adc</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Implementing the Loader trait on the dispatcher, updating unit tests to skip if no database is present</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-04T11:19:13-05:00 (commit #<span title="0b688e9fba46f9b553dfa0278be79221e5783a0a">0b688e9</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">Introducing mocking into the DispatcherTest::testDispatch() test</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-04T10:17:55-05:00 (commit #<span title="4a3dc2eaa2fed000d5db0a868b1ab977a19c067a">4a3dc2e</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">Updating the travis-ci configuration, fixing a case-sensitivity issue with the dispatcher</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-02T17:01:03-05:00 (commit #<span title="e7a04a50711a353e29052460f060c0c620711cce">e7a04a5</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">More array cleanup</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-02T16:43:15-05:00 (commit #<span title="55a67b01c98df6dc281d70e97c1216b5039d15b4">55a67b0</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">BIG commit. Leveraging php5.4 shorthand for arrays, updating the skeleton app, Adding the Filepath trait, implementing the filepath trait, new Filters, Moved the registry to a new config class, created a new config trait, implemented new config trait, updated a TON of unit tests</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-30T18:03:08-05:00 (commit #<span title="edb2b5817b28dbc1050627d2c2dafc7d7d8ff1c5">edb2b58</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">LOTS of code cleanup here. Fixing unit tests for those cleanups as well</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-29T16:46:01-05:00 (commit #<span title="846ee5366910b4314ed705d84ce5b8e9c163715c">846ee53</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">Adding traits, implementing them on Cache, Database, Dispatcher, Error, and Request classes. Adding a TestCase class, to simplify unit test writing. Updating unit tests</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-29T13:59:13-05:00 (commit #<span title="5ca13727de49c08bb5b6057006133a84ea18120c">5ca1372</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">,</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-27T22:46:57-05:00 (commit #<span title="3067c88f769544075bc95cb3d9b63453a1d7df86">3067c88</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (ccollier@redhat.com) /
+                        Commiter: Cory Collier (ccollier@redhat.com)
+                    </p>
+              <pre class="wrapped">Provisional commit - Not done moving things around to be namespace compliant. This commit is completely not functional</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-11T08:14:50-05:00 (commit #<span title="ad284619afdf509ea3e70cbb9522046c82825a60">ad28461</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">More moving things around</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-11-11T08:07:21-05:00 (commit #<span title="38385045ad9b205c3303c25fbc24464db9a205d9">3838504</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Re-introducing the library components as first class items</pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.8.2-dev - Copyright (C) 2010 - 2015 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>
