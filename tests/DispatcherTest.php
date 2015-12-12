@@ -115,7 +115,7 @@ class DispatcherTest extends TestCase
             ])
             ->getMock();
 
-        $database = this->getMockBuilder('\MvcLite\Database')
+        $database = $this->getMockBuilder('\MvcLite\Database')
             ->disableOriginalConstructor()
             ->setMethods(['init'])
             ->getMock();
