@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 // Setup the autoloader.
+// define('ROOT', realpath(dirname(__FILE__) . '/../'));
 define('ROOT', realpath(dirname(__FILE__) . '/../../../../'));
 
 require ROOT . '/vendor/autoload.php';
@@ -29,8 +30,9 @@ $map = [
         'callback'  => 'mvc_controller_create',
         'required' => ['target', 'name'],
         'supported' => [
-            'name'   => 'The name of the controller',
-            'target' => 'The root of the application',
+            'name'        => 'The name of the controller',
+            'target'      => 'The root of the application',
+            'description' => 'The description of the controller',
         ],
     ],
     'model:create' => [
@@ -38,8 +40,9 @@ $map = [
         'callback'  => 'mvc_model_create',
         'required' => ['target', 'name'],
         'supported' => [
-            'name'   => 'The name of the model',
-            'target' => 'The root of the application',
+            'name'        => 'The name of the model',
+            'target'      => 'The root of the application',
+            'description' => 'The description of the model',
         ]
     ],
     'action:create' => [
@@ -47,9 +50,10 @@ $map = [
         'callback'  => 'mvc_action_create',
         'required' => ['target', 'name', 'controller'],
         'supported' => [
-            'name'       => 'The name of the action',
-            'controller' => 'The name of the controller',
-            'target'     => 'The root of the application',
+            'name'        => 'The name of the action',
+            'controller'  => 'The name of the controller',
+            'target'      => 'The root of the application',
+            'description' => 'The description of the action',
         ]
     ],
     'resource:create' => [
@@ -57,8 +61,9 @@ $map = [
         'callback'  => 'mvc_resource_create',
         'required' => ['target', 'name'],
         'supported' => [
-            'name'       => 'The name of the resource',
-            'target'     => 'The root of the application',
+            'name'        => 'The name of the resource',
+            'target'      => 'The root of the application',
+            'description' => 'The description of the resource',
         ]
     ],
 ];
@@ -83,7 +88,10 @@ if (array_key_exists($func, $map)) {
 }
 
 /**
- * Shows a help menu to the user
+ * Shows a help menu to the user.
+ *
+ * @param \PhpCli\Parser $parser The parser instance.
+ * @param \PhpCli\Outout $output The output instance.
  */
 function mvc_help($parser, $output)
 {
@@ -148,11 +156,16 @@ function mvc_setup($parser, $output)
 {
     $target = ROOT . '/' . $parser->getArg("target");
 
+    if (file_exists($target)) {
+        throw new PhpCli\Exception('Target already exists');
+    }
     $folders = [
         'App Controllers'    => $target . '/app/Controller',
         'App Models'         => $target . '/app/Model',
         'App Views'          => $target . '/app/View',
         'App View scripts'   => $target . '/app/View/scripts',
+        'Index View scripts' => $target . '/app/View/scripts/index',
+        'Error View scripts' => $target . '/app/View/scripts/error',
         'App View layouts'   => $target . '/app/View/layouts',
         'Public Images'      => $target . '/pub/img',
         'Public Stylesheets' => $target . '/pub/css',
@@ -177,6 +190,18 @@ function mvc_setup($parser, $output)
             mkdir($location, 0777, true);
         }
     }
+
+    // create default controllers, view layout, and view scripts
+    $code = mvc_get_controller_code('index', 'Default Controller.');
+    file_put_contents($target . '/app/Controller/IndexController.php', $code);
+    $code = mvc_get_controller_code('error', 'Handles Error situations.');
+    file_put_contents($target . '/app/Controller/ErrorController.php', $code);
+    $code = mvc_get_view_script_code('index', 'Default view, for default action.');
+    file_put_contents($target . '/app/View/scripts/index/index.phtml', $code);
+    $code = mvc_get_view_script_code('error', 'The standard error view.');
+    file_put_contents($target . '/app/View/scripts/error/error.phtml', $code);
+    $code = mvc_get_view_layout_code();
+    file_put_contents($target . '/app/View/layouts/default.phtml', $code);
 }
 
 /**
@@ -187,10 +212,11 @@ function mvc_setup($parser, $output)
  */
 function mvc_controller_create($parser, $output)
 {
-    $name     = strtolower($parser->getArg('name'));
-    $target   = ROOT . '/' . $parser->getArg("target");
-    $filename = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
-    $code     = mvc_get_controller_code($name);
+    $name        = strtolower($parser->getArg('name'));
+    $description = $parser->getArg('description');
+    $target      = ROOT . '/' . $parser->getArg("target");
+    $filename    = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
+    $code        = mvc_get_controller_code($name);
 
     file_put_contents($filename, $code);
 }
@@ -203,10 +229,11 @@ function mvc_controller_create($parser, $output)
  */
 function mvc_model_create($parser, $output)
 {
-    $name     = strtolower($parser->getArg('name'));
-    $target   = ROOT . '/' . $parser->getArg("target");
-    $filename = $target . '/app/Model/' . ucfirst($name) . '.php';
-    $code     = mvc_get_model_code($name);
+    $name        = strtolower($parser->getArg('name'));
+    $description = $parser->getArg('description');
+    $target      = ROOT . '/' . $parser->getArg("target");
+    $filename    = $target . '/app/Model/' . ucfirst($name) . '.php';
+    $code        = mvc_get_model_code($name);
 
     file_put_contents($filename, $code);
 }
@@ -219,10 +246,16 @@ function mvc_model_create($parser, $output)
  */
 function mvc_action_create($parser, $output)
 {
-    $name       = strtolower($parser->getArg('name'));
-    $controller = strtolower($parser->getArg('controller'));
-    $target     = ROOT . '/' . $parser->getArg("target");
-    $code       = mvc_get_controller_action_code($name);
+    $name        = strtolower($parser->getArg('name'));
+    $description = $parser->getArg('description');
+    $controller  = strtolower($parser->getArg('controller'));
+    $target      = ROOT . '/' . $parser->getArg("target");
+    $lines       = file($filename, FILE_IGNORE_NEW_LINES);
+    array_pop($lines);
+
+    $code = implode(PHP_EOL, $lines);
+    $code .= mvc_get_controller_action_code($name) . PHP_EOL . '}' . PHP_EOL;
+    $code = mvc_get_controller_action_code($name);
 
     file_put_contents($filename, $code);
     mvc_view_create($parser, $output);
@@ -235,11 +268,12 @@ function mvc_action_create($parser, $output)
  */
 function mvc_view_create($parser, $output)
 {
-    $name       = strtolower($parser->getArg('name'));
-    $controller = strtolower($parser->getArg('controller'));
-    $target     = ROOT . '/' . $parser->getArg("target");
-    $filename   = $target . '/app/View/scripts/' . $controller . '/' . $name . '.phtml';
-    $directory = dirname($filename);
+    $name        = strtolower($parser->getArg('name'));
+    $description = $parser->getArg('description');
+    $controller  = strtolower($parser->getArg('controller'));
+    $target      = ROOT . '/' . $parser->getArg("target");
+    $filename    = $target . '/app/View/scripts/' . $controller . '/' . $name . '.phtml';
+    $directory   = dirname($filename);
     if (! file_exists($directory)) {
         mkdir($directory);
     }
@@ -283,12 +317,12 @@ function mvc_resource_create($parser, $output)
  *
  * @return string The default code for a controller.
  */
-function mvc_get_controller_code($name)
+function mvc_get_controller_code($name, $description = '')
 {
     $code = <<<code
 <?php
 /**
- * Application !name Controller
+ * Application !upperNameController Controller
  *
  * @category    PHP
  * @package     MvcLite
@@ -300,16 +334,16 @@ namespace App;
 use MvcLite\Controller;
 
 /**
- * Application !name Controller
+ * Application !upperNameController Controller
  *
  * @category    PHP
  * @package     MvcLite
  * @subpackage  App
  */
-class !nameController extends Controller
+class !upperNameController extends Controller
 {
     /**
-     * Index/index. This is the home page.
+     * Index/index. This is the default action.
      */
     public function indexAction()
     {
@@ -320,7 +354,9 @@ class !nameController extends Controller
 code;
 
     return strtr($code, [
-        '!name' => ucwords($name),
+        '!name'        => strtolower($name),
+        '!upperName'   => ucwords($name),
+        '!description' => $description,
     ]);
 }
 
@@ -328,14 +364,17 @@ code;
  * Gets some default code for a controller action
  *
  * @param string $name The name of the action.
+ * @param string $description The description of what the action does.
  *
  * @return string The resulting code for the action.
  */
-function mvc_get_controller_action_code($name)
+function mvc_get_controller_action_code($name, $description = '')
 {
     $code = <<<code
     /**
-     * Index/index. This is the home page.
+     * !name action
+     *
+     * !description
      */
     public function !nameAction()
     {
@@ -344,7 +383,8 @@ function mvc_get_controller_action_code($name)
 code;
 
     return strtr($code, [
-        '!name' => $name,
+        '!name'        => $name,
+        '!description' => $description,
     ]);
 }
 
@@ -352,15 +392,18 @@ code;
  * Gets default code for a model.
  *
  * @param string $name The name of the model.
+ * @param string $description The description of what the model does.
  *
  * @return string The default code for a model.
  */
-function mvc_get_model_code($name)
+function mvc_get_model_code($name, $description = '')
 {
     $code = <<<code
 <?php
 /**
  * !name Model Code
+ *
+ * !description
  *
  * @category    MvcLite
  * @package     App
@@ -374,6 +417,8 @@ use MvcLite\ModelAbstract;
 /**
  * !name Model Code
  *
+ * !description
+ *
  * @category    MvcLite
  * @package     App
  * @subpackage  Model
@@ -381,14 +426,15 @@ use MvcLite\ModelAbstract;
 class !upperName
   extends ModelAbstract
 {
-
+    // Code goes here ;)
 }
 
 code;
 
     return strtr($code, [
-        '!name' => strtolower($name),
-        '!upperName' => ucwords($name),
+        '!name'        => strtolower($name),
+        '!upperName'   => ucwords($name),
+        '!description' => $description,
     ]);
 }
 
@@ -396,24 +442,30 @@ code;
  * Gets default code for a view script.
  *
  * @param string $name The name of the view script.
+ * @param string $description The description of what the view script does.
  *
  * @return string The code for a view script.
  */
-function mvc_get_view_script_code($name)
+function mvc_get_view_script_code($name, $description = '')
 {
     $code = <<<code
 <?php
 /**
  * !name view script.
+ *
+ * !description
  */
 ?>
 
+<h2>!upperName</h2>
 !name view script
 
 code;
 
     return strtr($code, [
-        '!name' => strtolower($name),
+        '!name'        => strtolower($name),
+        '!upperName'   => ucwords($name),
+        '!description' => $description,
     ]);
 }
 
@@ -431,15 +483,15 @@ function mvc_get_view_layout_code()
  */
 ?>
 <?php
-  $title = isset($title) ? $title : 'MVC Lite App';
-  $content = isset($content) ? $content :  '';
+  \$title = isset(\$title) ? \$title : 'MVC Lite App';
+  \$content = isset(\$content) ? \$content :  '';
 ?>
 <!doctype html>
 <html class="no-js" lang="">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title><?php echo $title; ?></title>
+        <title><?php echo \$title; ?></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -452,7 +504,7 @@ function mvc_get_view_layout_code()
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <?php echo $content; ?>
+        <?php echo \$content; ?>
     </body>
 </html>
 
