@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 // Setup the autoloader.
-define('ROOT', realpath(dirname(__FILE__) . '/../'));
+define('ROOT', realpath(dirname(__FILE__) . '/../../'));
 require ROOT . '/vendor/autoload.php';
 
 // Create the instance of the output and parser.
