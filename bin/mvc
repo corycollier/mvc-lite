@@ -187,11 +187,10 @@ function mvc_setup($parser, $output)
  */
 function mvc_controller_create($parser, $output)
 {
-    $template = ROOT . '/bin/skeleton/app/Controller/IndexController.php';
     $name     = strtolower($parser->getArg('name'));
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
-    $code     = strtr(file_get_contents($template), ['Index' => ucfirst($name)]);
+    $code     = mvc_get_controller_code($name);
 
     file_put_contents($filename, $code);
 }
@@ -204,11 +203,10 @@ function mvc_controller_create($parser, $output)
  */
 function mvc_model_create($parser, $output)
 {
-    $template = ROOT . '/bin/skeleton/app/Model/Sample.php';
     $name     = strtolower($parser->getArg('name'));
     $target   = ROOT . '/' . $parser->getArg("target");
     $filename = $target . '/app/Model/' . ucfirst($name) . '.php';
-    $code     = strtr(file_get_contents($template), ['Sample' => ucfirst($name)]);
+    $code     = mvc_get_model_code($name);
 
     file_put_contents($filename, $code);
 }
@@ -224,21 +222,7 @@ function mvc_action_create($parser, $output)
     $name       = strtolower($parser->getArg('name'));
     $controller = strtolower($parser->getArg('controller'));
     $target     = ROOT . '/' . $parser->getArg("target");
-    $filename   = $target . '/app/Controller/' . ucfirst($controller) . 'Controller.php';
-    $lines      = file($filename, FILE_IGNORE_NEW_LINES);
-    array_pop($lines);
-
-    $code = implode(PHP_EOL, $lines);
-
-    $code .= implode(PHP_EOL . str_repeat(' ', 4), ['', '',
-        '/**',
-        ' * ' .  ucfirst($name) . ' action',
-        ' */',
-        'public function ' . $name . 'Action()',
-        '{',
-        '',
-        '}',
-    ]) . PHP_EOL . '}' . PHP_EOL;
+    $code       = mvc_get_controller_action_code($name);
 
     file_put_contents($filename, $code);
     mvc_view_create($parser, $output);
@@ -260,15 +244,7 @@ function mvc_view_create($parser, $output)
         mkdir($directory);
     }
 
-    $code = implode(PHP_EOL, [
-        '<?php',
-        '/**',
-        ' *',
-        ' *',
-        ' */',
-        '?>',
-        '<h2>' . $name . '</h2>',
-    ]);
+    $code = mvc_get_view_script_code($name);
 
     file_put_contents($filename, $code);
 }
@@ -279,7 +255,7 @@ function mvc_view_create($parser, $output)
  * @param PhpCli\Parser $parser Instance of the Cli Parser.
  * @param PhpCli\Output $output Instance of the Cli Output.
  */
-function mvc_resource_create ($parser, $output)
+function mvc_resource_create($parser, $output)
 {
     $args = $parser->getArgs();
     $args = [
@@ -297,4 +273,190 @@ function mvc_resource_create ($parser, $output)
     mvc_model_create($parser, $output);
     mvc_controller_create($parser, $output);
     mvc_view_create($viewParser, $output);
+}
+
+
+/**
+ * Gets default code for a controller.
+ *
+ * @param string $name The name of the controller.
+ *
+ * @return string The default code for a controller.
+ */
+function mvc_get_controller_code($name)
+{
+    $code = <<<code
+<?php
+/**
+ * Application !name Controller
+ *
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  App
+ */
+
+namespace App;
+
+use MvcLite\Controller;
+
+/**
+ * Application !name Controller
+ *
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  App
+ */
+class !nameController extends Controller
+{
+    /**
+     * Index/index. This is the home page.
+     */
+    public function indexAction()
+    {
+
+    }
+}
+
+code;
+
+    return strtr($code, [
+        '!name' => ucwords($name),
+    ]);
+}
+
+/**
+ * Gets some default code for a controller action
+ *
+ * @param string $name The name of the action.
+ *
+ * @return string The resulting code for the action.
+ */
+function mvc_get_controller_action_code($name)
+{
+    $code = <<<code
+    /**
+     * Index/index. This is the home page.
+     */
+    public function !nameAction()
+    {
+
+    }
+code;
+
+    return strtr($code, [
+        '!name' => $name,
+    ]);
+}
+
+/**
+ * Gets default code for a model.
+ *
+ * @param string $name The name of the model.
+ *
+ * @return string The default code for a model.
+ */
+function mvc_get_model_code($name)
+{
+    $code = <<<code
+<?php
+/**
+ * !name Model Code
+ *
+ * @category    MvcLite
+ * @package     App
+ * @subpackage  Model
+ */
+
+namespace App;
+
+use MvcLite\ModelAbstract;
+
+/**
+ * !name Model Code
+ *
+ * @category    MvcLite
+ * @package     App
+ * @subpackage  Model
+ */
+class !upperName
+  extends ModelAbstract
+{
+
+}
+
+code;
+
+    return strtr($code, [
+        '!name' => strtolower($name),
+        '!upperName' => ucwords($name),
+    ]);
+}
+
+/**
+ * Gets default code for a view script.
+ *
+ * @param string $name The name of the view script.
+ *
+ * @return string The code for a view script.
+ */
+function mvc_get_view_script_code($name)
+{
+    $code = <<<code
+<?php
+/**
+ * !name view script.
+ */
+?>
+
+!name view script
+
+code;
+
+    return strtr($code, [
+        '!name' => strtolower($name),
+    ]);
+}
+
+/**
+ * Gets default code for a view layout.
+ *
+ * @return string The code for a sample layout page.
+ */
+function mvc_get_view_layout_code()
+{
+    $code = <<<code
+<?php
+/**
+ * Default layout script
+ */
+?>
+<?php
+  $title = isset($title) ? $title : 'MVC Lite App';
+  $content = isset($content) ? $content :  '';
+?>
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title><?php echo $title; ?></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong>
+            browser. Please <a href="http://browsehappy.com/">upgrade your browser</a>
+            to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <?php echo $content; ?>
+    </body>
+</html>
+
+code;
+
+    return $code;
 }
