@@ -32,5 +32,9 @@
             "MvcLite\\": "src/",
             "App\\" : "./App"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4": { "MvcLite\\Test\\": "tests/" }
+    },
+    "bin": ["bin/mvc"]
 }
