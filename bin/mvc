@@ -1,15 +1,23 @@
 #!/usr/bin/env php
 <?php
 // Setup the autoloader.
-define('ROOT', realpath(dirname(__FILE__) . '/../../'));
+define('ROOT', realpath(dirname(__FILE__) . '/../../../../'));
+
 require ROOT . '/vendor/autoload.php';
 
 // Create the instance of the output and parser.
-$func = $argv[1];
+$func = isset($argv[1]) ? $argv[1] : 'help';
 
 // List of supported arguments to functions.
 $map = [
+    'help' => [
+        'description' => 'This menu',
+        'callback'  => 'mvc_help',
+        'required'  => [],
+        'supported' => [],
+    ],
     'setup' => [
+        'description' => 'Setup an standard mvc-lite application',
         'callback'  => 'mvc_setup',
         'required' => ['target'],
         'supported' => [
@@ -17,6 +25,7 @@ $map = [
         ],
     ],
     'controller:create' => [
+        'description' => 'Create a controller',
         'callback'  => 'mvc_controller_create',
         'required' => ['target', 'name'],
         'supported' => [
@@ -25,6 +34,7 @@ $map = [
         ],
     ],
     'model:create' => [
+        'description' => 'Create a model',
         'callback'  => 'mvc_model_create',
         'required' => ['target', 'name'],
         'supported' => [
@@ -33,6 +43,7 @@ $map = [
         ]
     ],
     'action:create' => [
+        'description' => 'Create an action (creates a corresponding view script)',
         'callback'  => 'mvc_action_create',
         'required' => ['target', 'name', 'controller'],
         'supported' => [
@@ -42,6 +53,7 @@ $map = [
         ]
     ],
     'resource:create' => [
+        'description' => 'Create a resource (Controller, model, and default view)',
         'callback'  => 'mvc_resource_create',
         'required' => ['target', 'name'],
         'supported' => [
@@ -68,6 +80,33 @@ if (array_key_exists($func, $map)) {
             ->newline()
             ->newline();
     }
+}
+
+/**
+ * Shows a help menu to the user
+ */
+function mvc_help($parser, $output)
+{
+    global $map;
+    foreach ($map as $arg => $options) {
+        $output->newline()
+            ->write($arg, ['color' => 'red', 'bold' => true])
+            ->write(' - ')
+            ->write($options['description'])
+            ->newline();
+        if (count($options['required'])) {
+            $output->write('    Required arguments: ', ['color' => 'green'])
+            ->write('--'. implode('=value, --', $options['required']) . '=value')
+            ->newline();
+        }
+    }
+
+    $output->newline()
+        ->write('Example Usage: ', ['bold' => true])
+        ->newline()
+        ->write('  ./vendor/bin/mvc --resource:create --name=users --target=/path/to/app')
+        ->newline()
+        ->newline();
 }
 
 /**
