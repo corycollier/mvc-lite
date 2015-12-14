@@ -22,7 +22,6 @@ use MvcLite\FilterAbstract as FilterAbstract;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
 class SeparatorToUcwords extends FilterAbstract
 {
     /**

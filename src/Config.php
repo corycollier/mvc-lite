@@ -28,7 +28,7 @@ class Config extends ObjectAbstract
 {
     use SingletonTrait;
 
-    const MSG_ERR_BAD_CONFIG = 'Configuration not loaded. Options provided must be either an array, or the location to an ini file';
+    const MSG_ERR_BAD_CONFIG = 'Configuration not loaded. Bad file provided';
 
     /**
      * Where all the config stuff goes
