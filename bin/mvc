@@ -1,101 +1,169 @@
 #!/usr/bin/env php
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 // Setup the autoloader.
-// define('ROOT', realpath(dirname(__FILE__) . '/../'));
-define('ROOT', realpath(dirname(__FILE__) . '/../../../../'));
+define('ROOT', realpath(mvc_dirname(__FILE__) . '/../'));
+// define('ROOT', realpath(mvc_dirname(__FILE__) . '/../../'));
+// define('ROOT', realpath(mvc_dirname(__FILE__) . '/../../../../'));
 
 require ROOT . '/vendor/autoload.php';
 
-// Create the instance of the output and parser.
-$func = isset($argv[1]) ? $argv[1] : 'help';
+mvc_dispatch($argv);
 
-// List of supported arguments to functions.
-$map = [
-    'help' => [
-        'description' => 'This menu',
-        'callback'  => 'mvc_help',
-        'required'  => [],
-        'supported' => [],
-    ],
-    'setup' => [
-        'description' => 'Setup an standard mvc-lite application',
-        'callback'  => 'mvc_setup',
-        'required' => ['target'],
-        'supported' => [
-            'target' => 'Where to create the mvc application',
-        ],
-    ],
-    'controller:create' => [
-        'description' => 'Create a controller',
-        'callback'  => 'mvc_controller_create',
-        'required' => ['target', 'name'],
-        'supported' => [
-            'name'        => 'The name of the controller',
-            'target'      => 'The root of the application',
-            'description' => 'The description of the controller',
-        ],
-    ],
-    'model:create' => [
-        'description' => 'Create a model',
-        'callback'  => 'mvc_model_create',
-        'required' => ['target', 'name'],
-        'supported' => [
-            'name'        => 'The name of the model',
-            'target'      => 'The root of the application',
-            'description' => 'The description of the model',
-        ]
-    ],
-    'action:create' => [
-        'description' => 'Create an action (creates a corresponding view script)',
-        'callback'  => 'mvc_action_create',
-        'required' => ['target', 'name', 'controller'],
-        'supported' => [
-            'name'        => 'The name of the action',
-            'controller'  => 'The name of the controller',
-            'target'      => 'The root of the application',
-            'description' => 'The description of the action',
-        ]
-    ],
-    'resource:create' => [
-        'description' => 'Create a resource (Controller, model, and default view)',
-        'callback'  => 'mvc_resource_create',
-        'required' => ['target', 'name'],
-        'supported' => [
-            'name'        => 'The name of the resource',
-            'target'      => 'The root of the application',
-            'description' => 'The description of the resource',
-        ]
-    ],
-];
+// {{{ Administrative functions.
 
-// Dispatch the request.
-if (array_key_exists($func, $map)) {
-    // Try to run the function, but be prepared for bad things.
-    try {
-        $output = new PhpCli\Output;
-        $parser = new PhpCli\Parser($argv, $map[$func]['supported']);
-        mvc_check_requirements($parser, $output, $map[$func]['required']);
-        mvc_dispatch_request($parser, $output, $map[$func]['callback']);
-    } catch (PhpCli\Exception $exception) {
-    // Catch any namespaced exceptions, and send them to the output device.
-        $output->newline()
-            ->write(' Caught Exception', ['color' => 'red'])
-            ->newline()
-            ->write(' - ' . $exception->getMessage())
-            ->newline()
-            ->newline();
+/**
+ * Gets the supported functions, and their required params.
+ *
+ * @return array An array of function=>details.
+ */
+function mvc_get_function_map()
+{
+    // List of supported arguments to functions.
+    $map = [
+        'help' => [
+            'description' => 'This menu',
+            'callback'    => 'help',
+            'required'    => [],
+            'supported'   => [],
+        ],
+        'setup' => [
+            'description' => 'Setup an standard mvc-lite application',
+            'callback'    => 'setup',
+            'required'    => ['target'],
+            'supported'   => [
+                'target' => 'Where to create the mvc application',
+            ],
+        ],
+        'controller:create' => [
+            'description' => 'Create a controller',
+            'callback'    => 'controller_create',
+            'required'    => ['target', 'name'],
+            'supported'   => [
+                'name'        => 'The name of the controller',
+                'target'      => 'The root of the application',
+                'description' => 'The description of the controller',
+            ],
+        ],
+        'model:create' => [
+            'description' => 'Create a model',
+            'callback'    => 'model_create',
+            'required'    => ['target', 'name'],
+            'supported'   => [
+                'name'        => 'The name of the model',
+                'target'      => 'The root of the application',
+                'description' => 'The description of the model',
+            ]
+        ],
+        'action:create' => [
+            'description' => 'Create an action (creates a corresponding view script)',
+            'callback'    => 'action_create',
+            'required'    => ['target', 'name', 'controller'],
+            'supported'   => [
+                'name'        => 'The name of the action',
+                'controller'  => 'The name of the controller',
+                'target'      => 'The root of the application',
+                'description' => 'The description of the action',
+            ]
+        ],
+        'resource:create' => [
+            'description' => 'Create a resource (Controller, model, and default view)',
+            'callback'    => 'resource_create',
+            'required'    => ['target', 'name'],
+            'supported'   => [
+                'name'        => 'The name of the resource',
+                'target'      => 'The root of the application',
+                'description' => 'The description of the resource',
+            ]
+        ],
+    ];
+
+    return $map;
+}
+
+/**
+ * Standardizes arguments.
+ *
+ * @param array $args The array to standardize.
+ * @param array $defaults The default values.
+ *
+ * @return array The result.
+ */
+function mvc_get_standardized_args($args = [], $defaults = [])
+{
+    $sanitized = array_merge($defaults, $args);
+    $sanitized['target'] = isset($sanitized['target']) ? $sanitized['target'] : '';
+    $sanitized['target'] = ROOT . '/' . $sanitized['target'];
+    return $sanitized;
+}
+
+/**
+ * Checks to make sure that the arguments given, match required arguments.
+ *
+ * @param \PhpCli\Parser $parser The parser instance.
+ * @param \PhpCli\Outout $output The output instance.
+ * @param array $requirements A numerically indexed array of required arguments
+ */
+function mvc_check_requirements($parser, $output, $requirements)
+{
+    $args = $parser->getArgs();
+    foreach ($requirements as $requirement) {
+        if (! array_key_exists($requirement, $args)) {
+            throw new PhpCli\Exception('Missing required argument: --' . $requirement);
+        }
+    }
+}
+
+// }}}
+
+// {{{ Dispachable functions.
+
+/**
+ * Dispatches the request to the appropriate handling function.
+ *
+ * @param array $args A raw array of arguments
+ */
+function mvc_dispatch($args = [])
+{
+    $map  = mvc_get_function_map();
+    $func = isset($args[1]) ? $args[1] : 'help';
+
+    if (array_key_exists($func, $map)) {
+        // Try to run the function, but be prepared for bad things.
+        try {
+            $output = new PhpCli\Output;
+            $parser = new PhpCli\Parser($args, $map[$func]['supported']);
+            $args = $parser->getArgs();
+            $args = mvc_get_standardized_args($args);
+            $callback = 'mvc_dispatch_' . $map[$func]['callback'];
+
+            mvc_check_requirements($parser, $output, $map[$func]['required']);
+            call_user_func($callback, array_merge($args, [
+                'parser' => $parser,
+                'output' => $output,
+            ]));
+
+        } catch (PhpCli\Exception $exception) {
+        // Catch any namespaced exceptions, and send them to the output device.
+            $output->newline()
+                ->write(' Caught Exception', ['color' => 'red'])
+                ->newline()
+                ->write(' - ' . $exception->getMessage())
+                ->newline()
+                ->newline();
+        }
     }
 }
 
 /**
  * Shows a help menu to the user.
  *
- * @param \PhpCli\Parser $parser The parser instance.
- * @param \PhpCli\Outout $output The output instance.
+ * @param array $args An array of arguments.
  */
-function mvc_help($parser, $output)
+function mvc_dispatch_help($args = [])
 {
-    global $map;
+    $map = mvc_get_function_map();
+    $output = $args['output'];
     foreach ($map as $arg => $options) {
         $output->newline()
             ->write($arg, ['color' => 'red', 'bold' => true])
@@ -118,47 +186,18 @@ function mvc_help($parser, $output)
 }
 
 /**
- * Checks to make sure that the arguments given, match required arguments.
- *
- * @param \PhpCli\Parser $parser The parser instance.
- * @param \PhpCli\Outout $output The output instance.
- * @param array $requirements A numerically indexed array of required arguments
- */
-function mvc_check_requirements($parser, $output, $requirements)
-{
-    $args = $parser->getArgs();
-    foreach ($requirements as $requirement) {
-        if (! array_key_exists($requirement, $args)) {
-            throw new PhpCli\Exception('Missing required argument: --' . $requirement);
-        }
-    }
-}
-
-/**
- * Dispatches the request to the appropriate handling function.
- *
- * @param \PhpCli\Parser $parser The parser instance.
- * @param \PhpCli\Outout $output The output instance.
- * @param string $callback The function to call
- */
-function mvc_dispatch_request($parser, $output, $callback)
-{
-    call_user_func_array($callback, [$parser, $output]);
-}
-
-/**
  * Runs the setup
  *
- * @param \PhpCli\Parser $parser Instance of the Cli Parser.
- * @param \PhpCli\Output $output Instance of the Cli Output.
+ * @param array $args An array of arguments.
  */
-function mvc_setup($parser, $output)
+function mvc_dispatch_setup($args = [])
 {
-    $target = ROOT . '/' . $parser->getArg("target");
+    extract($args);
 
-    if (file_exists($target)) {
+    if (mvc_file_exists($target)) {
         throw new PhpCli\Exception('Target already exists');
     }
+
     $folders = [
         'App Controllers'    => $target . '/app/Controller',
         'App Models'         => $target . '/app/Model',
@@ -186,139 +225,142 @@ function mvc_setup($parser, $output)
             ->write($location)
             ->newline();
 
-        if (!file_exists($location)) {
-            mkdir($location, 0777, true);
+        if (!mvc_file_exists($location)) {
+            mvc_mkdir($location, 0777, true);
         }
     }
 
     // create default controllers, view layout, and view scripts
-    $code = mvc_get_controller_code('index', 'Default Controller.');
-    file_put_contents($target . '/app/Controller/IndexController.php', $code);
-    $code = mvc_get_controller_code('error', 'Handles Error situations.');
-    file_put_contents($target . '/app/Controller/ErrorController.php', $code);
-    $code = mvc_get_view_script_code('index', 'Default view, for default action.');
-    file_put_contents($target . '/app/View/scripts/index/index.phtml', $code);
-    $code = mvc_get_view_script_code('error', 'The standard error view.');
-    file_put_contents($target . '/app/View/scripts/error/error.phtml', $code);
-    $code = mvc_get_view_layout_code();
-    file_put_contents($target . '/app/View/layouts/default.phtml', $code);
+    mvc_dispatch_controller_create(array_merge($args, [
+        'name'   => 'index',
+    ]));
+
+    mvc_dispatch_controller_create(array_merge($args, [
+        'name'   => 'error',
+    ]));
+
+    mvc_dispatch_view_create(array_merge($args, [
+        'name'        => 'error',
+        'controller'  => 'error',
+        'description' => 'The standard error view script',
+    ]));
+
+    mvc_dispatch_view_create(array_merge($args, [
+        'name'        => 'index',
+        'controller'  => 'index',
+        'description' => 'The home page',
+    ]));
+
+
+    mvc_file_put_contents($args['target'] . '/app/View/layouts/default.phtml', mvc_get_view_layout_code());
+    mvc_file_put_contents($args['target'] . '/etc/app.ini', mvc_get_app_ini_file());
+    mvc_file_put_contents($args['target'] . '/pub/index.php', mvc_get_dispatch_script());
+    mvc_file_put_contents($args['target'] . '/pub/.htaccess', mvc_get_htaccess_code());
 }
 
 /**
  * Creates a controller.
  *
- * @param \PhpCli\Parser $parser Instance of the Cli Parser.
- * @param \PhpCli\Output $output Instance of the Cli Output.
+ * @param array $args An array of arguments.
  */
-function mvc_controller_create($parser, $output)
+function mvc_dispatch_controller_create($args = [])
 {
-    $name        = strtolower($parser->getArg('name'));
-    $description = $parser->getArg('description');
-    $target      = ROOT . '/' . $parser->getArg("target");
-    $filename    = $target . '/app/Controller/' . ucfirst($name) . 'Controller.php';
-    $code        = mvc_get_controller_code($name);
-
-    file_put_contents($filename, $code);
+    $file = mvc_get_controller_path($args);
+    $code = mvc_get_controller_code($args);
+    mvc_file_put_contents($file, $code);
 }
 
 /**
  * Creates a model.
  *
- * @param \PhpCli\Parser $parser Instance of the Cli Parser
- * @param \PhpCli\Output $output Instance of the Cli Output
+ * @param array $args An array of arguments.
  */
-function mvc_model_create($parser, $output)
+function mvc_dispatch_model_create($args = [])
 {
-    $name        = strtolower($parser->getArg('name'));
-    $description = $parser->getArg('description');
-    $target      = ROOT . '/' . $parser->getArg("target");
-    $filename    = $target . '/app/Model/' . ucfirst($name) . '.php';
-    $code        = mvc_get_model_code($name);
-
-    file_put_contents($filename, $code);
+    $file = mvc_get_model_path($args);
+    $code = mvc_get_model_code($args);
+    mvc_file_put_contents($file, $code);
 }
 
 /**
  * Creates a model.
  *
- * @param \PhpCli\Parser $parser Instance of the Cli Parser.
- * @param \PhpCli\Output $output Instance of the Cli Output.
+ * @param array $args An array of arguments.
  */
-function mvc_action_create($parser, $output)
+function mvc_dispatch_action_create($args = [])
 {
-    $name        = strtolower($parser->getArg('name'));
-    $description = $parser->getArg('description');
-    $controller  = strtolower($parser->getArg('controller'));
-    $target      = ROOT . '/' . $parser->getArg("target");
-    $lines       = file($filename, FILE_IGNORE_NEW_LINES);
+    $args = mvc_get_standardized_args($args, [
+        'name' => 'index',
+    ]);
+
+    $filename = mvc_get_controller_path($args);
+
+    $lines       = mvc_file($filename, FILE_IGNORE_NEW_LINES);
     array_pop($lines);
 
     $code = implode(PHP_EOL, $lines);
     $code .= mvc_get_controller_action_code($name) . PHP_EOL . '}' . PHP_EOL;
     $code = mvc_get_controller_action_code($name);
 
-    file_put_contents($filename, $code);
+    mvc_file_put_contents($filename, $code);
     mvc_view_create($parser, $output);
 }
 /**
  * Creates a view.
  *
- * @param \PhpCli\Parser $parser Instance of the Cli Parser.
- * @param \PhpCli\Output $output Instance of the Cli Output.
+ * @param array $args An array of arguments.
  */
-function mvc_view_create($parser, $output)
+function mvc_dispatch_view_create($args = [])
 {
-    $name        = strtolower($parser->getArg('name'));
-    $description = $parser->getArg('description');
-    $controller  = strtolower($parser->getArg('controller'));
-    $target      = ROOT . '/' . $parser->getArg("target");
-    $filename    = $target . '/app/View/scripts/' . $controller . '/' . $name . '.phtml';
-    $directory   = dirname($filename);
-    if (! file_exists($directory)) {
-        mkdir($directory);
+    $file = mvc_get_view_script_path($args);
+    $code = mvc_get_view_script_code($args);
+    mvc_view_sanity_check($args);
+    mvc_file_put_contents($file, $code);
+}
+
+/**
+ * Function to ensure the containing directory for a view exists.
+ *
+ * @param array $args An array of arguments.
+ */
+function mvc_view_sanity_check($args = [])
+{
+    $file = mvc_get_view_script_path($args);
+    $dir  = mvc_dirname($file);
+    if (! mvc_file_exists($dir)) {
+        mvc_mkdir($dir);
     }
-
-    $code = mvc_get_view_script_code($name);
-
-    file_put_contents($filename, $code);
 }
 
 /**
  * Handles the creation of MVC resources.
  *
- * @param PhpCli\Parser $parser Instance of the Cli Parser.
- * @param PhpCli\Output $output Instance of the Cli Output.
+ * @param array $args An array of arguments.
  */
-function mvc_resource_create($parser, $output)
+function mvc_dispatch_resource_create($args = [])
 {
-    $args = $parser->getArgs();
-    $args = [
-        '--name=index',
-        '--target=' . $args['target'],
-        '--controller=' . $args['name']
-    ];
-
-    $viewParser = new PhpCli\Parser($args, [
-        'name'       => 'The name of the resource',
-        'target'     => 'The root of the application',
-        'controller' => 'The name of the controller',
-    ]);
-
-    mvc_model_create($parser, $output);
-    mvc_controller_create($parser, $output);
-    mvc_view_create($viewParser, $output);
+    mvc_dispatch_model_create($args);
+    mvc_dispatch_controller_create($args);
+    mvc_dispatch_view_create(array_merge($args, [
+        'name' => 'index',
+        'controller' => $args['name']
+    ]));
 }
 
+// }}}
+
+// {{{ Code templates
 
 /**
  * Gets default code for a controller.
  *
- * @param string $name The name of the controller.
- *
- * @return string The default code for a controller.
+ * @param array $args An array of arguments.
  */
-function mvc_get_controller_code($name, $description = '')
+function mvc_get_controller_code($args = [])
 {
+    $defaults = ['name' => 'index', 'description' => ''];
+    $params = array_merge($defaults, $args);
+    extract($params);
     $code = <<<code
 <?php
 /**
@@ -363,13 +405,16 @@ code;
 /**
  * Gets some default code for a controller action
  *
- * @param string $name The name of the action.
- * @param string $description The description of what the action does.
+ * @param array $params An associative array of parameters.
  *
  * @return string The resulting code for the action.
  */
-function mvc_get_controller_action_code($name, $description = '')
+function mvc_get_controller_action_code($args = [])
 {
+    $defaults = ['name' => 'index', 'description' => ''];
+    $params = array_merge($defaults, $args);
+    extract($params);
+
     $code = <<<code
     /**
      * !name action
@@ -391,13 +436,16 @@ code;
 /**
  * Gets default code for a model.
  *
- * @param string $name The name of the model.
- * @param string $description The description of what the model does.
+ * @param array $params An associative array of parameters.
  *
  * @return string The default code for a model.
  */
-function mvc_get_model_code($name, $description = '')
+function mvc_get_model_code($args = [])
 {
+    $defaults = ['name' => 'index', 'description' => ''];
+    $params = array_merge($defaults, $args);
+    extract($params);
+
     $code = <<<code
 <?php
 /**
@@ -441,13 +489,16 @@ code;
 /**
  * Gets default code for a view script.
  *
- * @param string $name The name of the view script.
- * @param string $description The description of what the view script does.
+ * @param array $params An associative array of parameters.
  *
  * @return string The code for a view script.
  */
-function mvc_get_view_script_code($name, $description = '')
+function mvc_get_view_script_code($args = [])
 {
+    $defaults = ['name' => 'index', 'description' => ''];
+    $params = array_merge($defaults, $args);
+    extract($params);
+
     $code = <<<code
 <?php
 /**
@@ -512,3 +563,277 @@ code;
 
     return $code;
 }
+
+/**
+ * Returns the default ini file for the application.
+ *
+ * @return string The default ini file.
+ */
+function mvc_get_app_ini_file()
+{
+    $code = <<<code
+database.host = 127.0.0.1
+database.name = mvc_app
+database.user = mvc_user
+database.pass = mvc_pass
+code;
+
+    return $code;
+}
+
+/**
+ * Returns the dispatch script, to use in the application
+ *
+ * @return string The entry point code.
+ */
+function mvc_get_dispatch_script()
+{
+    $code = <<<code
+<?php
+/**
+ * Application bootstrapping file.
+ *
+ * This file acts as the main entry point to the application
+ *
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  App
+ * @since       File available since release 1.0.0
+ * @author      Cory Collier <corycollier@corycollier.com>
+ */
+
+// Define the path contants.
+define('ROOT', realpath(implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..'])));
+define('APP_PATH', implode(DIRECTORY_SEPARATOR, [ROOT, 'app']));
+define('CONFIG_PATH', implode(DIRECTORY_SEPARATOR, [ROOT, 'etc']));
+
+// Set the include path.
+set_include_path(implode(PATH_SEPARATOR, [ROOT, get_include_path()]));
+
+// Setup the autoloader.
+\$loader = require implode(DIRECTORY_SEPARATOR, [ROOT, '..', 'vendor', 'autoload.php']);
+\$loader->addPsr4('App\\\\', APP_PATH);
+\$loader->addPsr4('App\\\\', implode(DIRECTORY_SEPARATOR, [APP_PATH, 'Controller']));
+
+// Dispatch
+\$dispatcher = \MvcLite\Dispatcher::getInstance();
+\$dispatcher->init($\loader);
+// if this isn't being called from cli, then run it
+if ( PHP_SAPI != 'cli' ) \$dispatcher->dispatch();
+
+code;
+
+    return $code;
+}
+
+/**
+ * Function to get the htaccess code.
+ *
+ * @return string The apache rewrite code.
+ */
+function mvc_get_htaccess_code()
+{
+    $code = <<<code
+#
+# Apache/PHP/Drupal settings:
+#
+
+# Don't show directory listings for URLs which map to a directory.
+Options -Indexes
+
+# Follow symbolic links in this directory.
+Options +FollowSymLinks
+
+# Handle any 404 errors.
+ErrorDocument 404 /index.php
+
+# Set the default handler.
+DirectoryIndex index.php
+
+# Override PHP settings
+# PHP 5, Apache 1 and 2.
+<IfModule mod_php5.c>
+  php_flag magic_quotes_gpc                 off
+  php_flag magic_quotes_sybase              off
+  php_flag register_globals                 off
+  php_flag session.auto_start               off
+  php_value mbstring.http_input             pass
+  php_value mbstring.http_output            pass
+  php_flag mbstring.encoding_translation    off
+</IfModule>
+
+# Various rewrite rules.
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+
+  # If your site is running in a VirtualDocumentRoot at http://example.com/,
+  # uncomment the following line:
+  # RewriteBase /
+
+  # Pass all requests not referring directly to files in the filesystem to
+  # index.php.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico
+  RewriteRule ^ index.php?q=%{REQUEST_URI} [L]
+</IfModule>
+
+# Add headers to all responses.
+<IfModule mod_headers.c>
+  # Disable content sniffing, since it's an attack vector.
+  Header always set X-Content-Type-Options nosniff
+</IfModule>
+
+code;
+
+    return $code;
+}
+
+// }}}
+
+// {{{ Filepaths for resources (model, view, controller)
+
+/**
+ * Returns the path for a model, with a set of args.
+ *
+ * @param array $args An array of arguments.
+ *
+ * @return string The full filepath to the new model file.
+ */
+function mvc_get_controller_path($args = [])
+{
+    $path = '!target/app/Controller/!nameController.php';
+    return strtr($path, [
+        '!target'     => $args['target'],
+        '!name'       => ucwords($args['name'])
+    ]);
+}
+
+/**
+ * Returns the path for a model, with a set of args.
+ *
+ * @param array $args An array of arguments.
+ *
+ * @return string The full filepath to the new model file.
+ */
+function mvc_get_view_script_path($args = [])
+{
+    $path = '!target/app/View/scripts/!controller/!name.phtml';
+    return strtr($path, [
+        '!target'     => $args['target'],
+        '!controller' => $args['controller'],
+        '!name'       => $args['name']
+    ]);
+}
+
+/**
+ * Returns the path for a model, with a set of args.
+ *
+ * @param array $args An array of arguments.
+ *
+ * @return string The full filepath to the new model file.
+ */
+function mvc_get_view_layout_path($args = [])
+{
+    $path = '!target/app/View/layouts/!name.phtml';
+    return strtr($path, [
+        '!target'     => $args['target'],
+        '!name'       => $args['name']
+    ]);
+}
+
+/**
+ * Returns the path for a model, with a set of args.
+ *
+ * @param array $args An array of arguments.
+ *
+ * @return string The full filepath to the new model file.
+ */
+function mvc_get_config_path($args = [])
+{
+    $path = '!target/etc/!name.phtml';
+    return strtr($path, [
+        '!target'     => $args['target'],
+        '!name'       => $args['name']
+    ]);
+}
+
+/**
+ * Returns the path for a model, with a set of args.
+ *
+ * @param array $args An array of arguments.
+ *
+ * @return string The full filepath to the new model file.
+ */
+function mvc_get_model_path($args = [])
+{
+    $path = '!target/app/Model/!name.php';
+    return strtr($path, [
+        '!target'     => $args['target'],
+        '!name'       => ucwords($args['name'])
+    ]);
+}
+
+// }}}
+
+// {{{ Wrappers for native PHP file functions.
+
+/**
+ * Wrapper function for php native file_put_contents.
+ *
+ * @see http://php.net/manual/en/function.file-put-contents.php.
+ */
+function mvc_file_put_contents($file, $contents, $flags = 0)
+{
+    return file_put_contents($file, $contents, $flags);
+}
+
+/**
+ * Wrapper function for php native mkdir.
+ *
+ * @see http://php.net/manual/en/function.file-put-contents.php.
+ */
+function mvc_mkdir($dir, $mode = 0777, $recursive = false)
+{
+    return mkdir($dir, $mode, $recursive);
+}
+
+/**
+ * Wrapper function for php native file_put_contents.
+ *
+ * @see http://php.net/manual/en/function.file-put-contents.php.
+ */
+function mvc_file_exists($filename)
+{
+    return file_exists($filename);
+}
+
+/**
+ * Wrapper function for php native file_put_contents.
+ *
+ * @see http://php.net/manual/en/function.file-put-contents.php.
+ */
+function mvc_dirname($dir)
+{
+    return dirname($dir);
+}
+
+/**
+ * Wrapper function for php native file function.
+ *
+ * @see http://php.net/manual/en/function.file.php.
+ */
+function mvc_file($filename, $flags = 0)
+{
+    return file($filename, $flags);
+}
+
+// }}}
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * c-hanging-comment-ender-p: nil
+ * End:
+ */
