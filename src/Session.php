@@ -38,7 +38,7 @@ class Session extends ObjectAbstract
     /**
      * method to start the database up
      */
-    public function init(array $data = [])
+    public function init($data = [])
     {
         // if this isn't being called from cli, then start session
         if (PHP_SAPI != 'cli') {

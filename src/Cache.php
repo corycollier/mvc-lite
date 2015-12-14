@@ -41,7 +41,7 @@ class Cache extends ObjectAbstract
      *
      * @return \MvcLite\Cache $this for object-chaining.
      */
-    public function init(array $data = [])
+    public function init($data = [])
     {
         $defaults = ['prefix' => 'cache'];
         $this->config = array_merge($defaults, $data);

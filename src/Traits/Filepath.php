@@ -35,8 +35,6 @@ trait Filepath
             $path = explode('/', $path);
         }
 
-        // implode(DIRECTORY_SEPARATOR, $path); die;
-
         return implode(DIRECTORY_SEPARATOR, $path);
     }
 }

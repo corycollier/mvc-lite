@@ -221,7 +221,7 @@ class View extends ObjectAbstract
      * getter for the _vars property
      *
      * @param string $var
-     * @return unknown_type
+     * @return mixed
      */
     public function get($var)
     {
@@ -248,10 +248,10 @@ class View extends ObjectAbstract
             $className = "\\{$library}\\View\\Helper\\" . ucfirst("{$name}");
 
             // set the local instance of the class
-            $this->_helpers[$name] = new $className($this);
+            $this->helpers[$name] = new $className($this);
 
             // return the stored instance of the class
-            return $this->_helpers[$name];
+            return $this->helpers[$name];
         }
 
         // throw an exception if we get this far
