@@ -24,7 +24,6 @@ namespace MvcLite\Traits;
  */
 trait Config
 {
-
     /**
      * Config instance variable.
      *
