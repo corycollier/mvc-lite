@@ -5,6 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/corycollier/mvc-lite/downloads)](https://packagist.org/packages/corycollier/mvc-lite)
 [![Latest Unstable Version](https://poser.pugx.org/corycollier/mvc-lite/v/unstable)](https://packagist.org/packages/corycollier/mvc-lite)
 [![License](https://poser.pugx.org/corycollier/mvc-lite/license)](https://packagist.org/packages/corycollier/mvc-lite)
+[![Coverage Status](https://coveralls.io/repos/corycollier/mvc-lite/badge.svg?branch=master&service=github)](https://coveralls.io/github/corycollier/mvc-lite?branch=master)
 
 
 ## Introduction
