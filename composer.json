@@ -29,8 +29,7 @@
 
     "autoload": {
         "psr-4": {
-            "MvcLite\\": "src/",
-            "App\\" : "./App"
+            "MvcLite\\": "src/"
         }
     },
     "autoload-dev": {
