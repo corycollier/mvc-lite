@@ -617,7 +617,7 @@ set_include_path(implode(PATH_SEPARATOR, [ROOT, get_include_path()]));
 
 // Dispatch
 \$dispatcher = \MvcLite\Dispatcher::getInstance();
-\$dispatcher->init($\loader);
+\$dispatcher->init(\$loader);
 // if this isn't being called from cli, then run it
 if ( PHP_SAPI != 'cli' ) \$dispatcher->dispatch();
 
