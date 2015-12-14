@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * camelcase to dash filter
  *
@@ -21,7 +23,7 @@ namespace MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class CamelcaseToDash extends \MvcLite\FilterAbstract
+class CamelcaseToDash extends FilterAbstract
 {
     /**
      * (non-PHPdoc)

@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * camelcase to underscore filter
  *
@@ -21,7 +23,7 @@ namespace MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class CamelcaseToUnderscore extends \MvcLite\FilterAbstract
+class CamelcaseToUnderscore extends FilterAbstract
 {
     /**
      * (non-PHPdoc)

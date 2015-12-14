@@ -41,7 +41,7 @@ class Response extends ObjectAbstract
     protected $body = '';
 
     /**
-     * method to start the database up
+     * method to start the response up
      */
     public function init()
     {

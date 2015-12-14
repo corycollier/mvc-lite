@@ -1,6 +1,6 @@
 <?php
 /**
- * Database Trait
+ * Session Trait
  *
  * @category   PHP
  * @package    MvcLite
@@ -8,7 +8,6 @@
  * @since      File available since release 3.0.x
  * @author     Cory Collier <corycollier@corycollier.com>
  */
-
 
 namespace MvcLite\Traits;
 

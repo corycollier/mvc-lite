@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * pluralize filter
  *
@@ -21,7 +23,7 @@ namespace MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class SeparatorToUcwords extends \MvcLite\FilterAbstract
+class SeparatorToUcwords extends FilterAbstract
 {
     /**
      * Placeholder for the separator.

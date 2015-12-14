@@ -36,7 +36,7 @@ class Session extends ObjectAbstract
     protected $data = [];
 
     /**
-     * method to start the database up
+     * method to start the session.
      */
     public function init($data = [])
     {

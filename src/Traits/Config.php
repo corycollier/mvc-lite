@@ -14,7 +14,7 @@ namespace MvcLite\Traits;
 /**
  * Config Trait.
  *
- * Allows a getter for the database instance.
+ * Allows a getter for the config instance.
  *
  * @category   PHP
  * @package    MvcLite
@@ -26,6 +26,8 @@ trait Config
 {
 
     /**
+     * Config instance variable.
+     *
      * @var MvcLite\Config
      */
     protected $config;

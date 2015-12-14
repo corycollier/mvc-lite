@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * dash to underscore filter
  *
@@ -21,7 +23,7 @@ namespace MvcLite\Filter;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class DashToCamelcase extends \MvcLite\FilterAbstract
+class DashToCamelcase extends FilterAbstract
 {
     /**
      * Filter

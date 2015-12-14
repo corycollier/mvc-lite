@@ -23,6 +23,7 @@
             "homepage" : "http://corycollier.com/"
         }
     ],
+
     "require" : {
         "corycollier/php-cli": "^1.0.0",
         "doctrine/orm": "^2.5",
@@ -34,8 +35,10 @@
             "MvcLite\\": "src/"
         }
     },
+
     "autoload-dev": {
         "psr-4": { "MvcLite\\Test\\": "tests/" }
     },
+
     "bin": ["bin/mvc"]
 }

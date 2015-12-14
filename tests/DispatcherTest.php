@@ -23,13 +23,6 @@ namespace MvcLite;
 
 class DispatcherTest extends TestCase
 {
-
-        // $this->loader = $loader;
-        // $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
-        // $this->getRequest()->init();
-        // $this->getDatabase()->init();
-        // $this->getResponse()->init();
-
     /**
      * tests the init method of the lib dispatcher
      */
@@ -39,7 +32,7 @@ class DispatcherTest extends TestCase
 
         $sut = $this->getMockBuilder('MvcLite\Dispatcher')
             ->disableOriginalConstructor()
-            ->setMethods(['getConfig', 'getDatabase', 'getRequest', 'getResponse'])
+            ->setMethods(['getConfig', 'getRequest', 'getResponse'])
             ->getMock();
 
         $config = $this->getMockBuilder('MvcLite\Config')
@@ -47,12 +40,6 @@ class DispatcherTest extends TestCase
             ->setMethods(['init'])
             ->getMock();
         $config->expects($this->once())->method('init');
-
-        $database = $this->getMockBuilder('MvcLite\Database')
-            ->disableOriginalConstructor()
-            ->setMethods(['init'])
-            ->getMock();
-        $database->expects($this->once())->method('init');
 
         $request = $this->getMockBuilder('MvcLite\Request')
             ->disableOriginalConstructor()
@@ -69,10 +56,6 @@ class DispatcherTest extends TestCase
         $sut->expects($this->once())
             ->method('getConfig')
             ->will($this->returnValue($config));
-
-        $sut->expects($this->once())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
 
         $sut->expects($this->once())
             ->method('getRequest')
@@ -111,13 +94,7 @@ class DispatcherTest extends TestCase
                 'translateActionName',
                 'getRequest',
                 'getConfig',
-                'getDatabase'
             ])
-            ->getMock();
-
-        $database = $this->getMockBuilder('\MvcLite\Database')
-            ->disableOriginalConstructor()
-            ->setMethods(['init'])
             ->getMock();
 
         $config = $this->getMockBuilder('\MvcLite\Config')
@@ -141,10 +118,6 @@ class DispatcherTest extends TestCase
         $sut->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue($config));
-
-        $sut->expects($this->any())
-            ->method('getDatabase')
-            ->will($this->returnValue($database));
 
         $sut->expects($this->once())
             ->method('translateControllerName')

@@ -12,7 +12,6 @@
 namespace MvcLite;
 
 use \MvcLite\Traits\Config as ConfigTrait;
-use \MvcLite\Traits\Database as DatabaseTrait;
 use \MvcLite\Traits\Request as RequestTrait;
 use \MvcLite\Traits\Response as ResponseTrait;
 use \MvcLite\Traits\Session as SessionTrait;
@@ -33,7 +32,6 @@ use \MvcLite\Traits\Loader as LoaderTrait;
 class Dispatcher extends \MvcLite\ObjectAbstract
 {
     use ConfigTrait;
-    use DatabaseTrait;
     use RequestTrait;
     use ResponseTrait;
     use SessionTrait;
@@ -70,7 +68,6 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         $this->setLoader($loader);
         $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
         $this->getRequest()->init();
-        $this->getDatabase()->init();
         $this->getResponse()->init();
 
         return $this;

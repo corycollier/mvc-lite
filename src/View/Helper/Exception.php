@@ -11,6 +11,8 @@
 
 namespace MvcLite\View\Helper;
 
+use MvcLite\View\HelperAbstract as HelperAbstract;
+
 /**
  * Exception message view helper
  *
@@ -21,7 +23,7 @@ namespace MvcLite\View\Helper;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Exception extends \MvcLite\View\HelperAbstract
+class Exception extends HelperAbstract
 {
     /**
      * Returns a string representation of an expected exception

@@ -63,7 +63,7 @@ class View extends ObjectAbstract
     protected $viewScriptPaths = [];
 
     /**
-     * method to start the database up
+     * method to start the view.
      */
     public function init()
     {
@@ -197,6 +197,7 @@ class View extends ObjectAbstract
      * Method to filter string input
      *
      * @param $string the unfiltered output
+     *
      * @return string the filtered output
      */
     public function filter($string)
@@ -209,6 +210,7 @@ class View extends ObjectAbstract
      *
      * @param string $var
      * @param unknown_type $value
+     *
      * @return \MvcLite\View $this for object-chaining.
      */
     public function set($var, $value = '')
@@ -221,6 +223,7 @@ class View extends ObjectAbstract
      * getter for the _vars property
      *
      * @param string $var
+     *
      * @return mixed
      */
     public function get($var)
@@ -234,6 +237,7 @@ class View extends ObjectAbstract
      * getter for a view helper instance
      *
      * @param string $name
+     *
      * @return \MvcLite\View_Helper
      */
     public function getHelper($name)

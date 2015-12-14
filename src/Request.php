@@ -48,7 +48,7 @@ class Request extends ObjectAbstract
     protected $uri;
 
     /**
-     * method to start the database up
+     * method to start the request up
      */
     public function init()
     {
