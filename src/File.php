@@ -53,7 +53,7 @@ class File extends ObjectAbstract
      *
      * @param string $filename The full path and name of the file.
      *
-     * @return \MvcLite\File $this for object-chaining.
+     * @return MvcLite\File $this for object-chaining.
      */
     public function save($filename)
     {
@@ -73,7 +73,7 @@ class File extends ObjectAbstract
      *
      * @param string $filename The full path and name of the file.
      *
-     * @return \MvcLite\File $this for object-chaining.
+     * @return MvcLite\File $this for object-chaining.
      */
     public function load($filename)
     {
@@ -90,7 +90,7 @@ class File extends ObjectAbstract
      *
      * @param string $filename The full path and name of the file.
      *
-     * @return \MvcLite\File $this for object-chaining.
+     * @return MvcLite\File $this for object-chaining.
      */
     public function delete($filename)
     {
@@ -116,7 +116,7 @@ class File extends ObjectAbstract
      *
      * @param string|null $contents
      *
-     * @return \MvcLite\File $this for object-chaining.
+     * @return MvcLite\File $this for object-chaining.
      */
     public function setContents($contents = null)
     {

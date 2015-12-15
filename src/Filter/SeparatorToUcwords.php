@@ -49,8 +49,8 @@ class SeparatorToUcwords extends FilterAbstract
      */
     public function filter($word = '')
     {
-        $temp = strtr($word, [$this->separator => ' ']);
-        $temp = ucwords($temp);
-        return strtr($temp, [' ' => $this->separator]);
+        $parts = explode($this->separator, $word);
+        $string = implode(' ', $parts);
+        return ucwords($string);
     }
 }

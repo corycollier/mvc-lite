@@ -12,8 +12,8 @@
 namespace MvcLite;
 
 use MvcLite\Filter;
-use \MvcLite\Traits\Singleton as SingletonTrait;
-use \MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Filepath as FilepathTrait;
 
 /**
  * Defines the caching mechanism
@@ -39,7 +39,7 @@ class Cache extends ObjectAbstract
     /**
      * initialize the cache instance
      *
-     * @return \MvcLite\Cache $this for object-chaining.
+     * @return MvcLite\Cache $this for object-chaining.
      */
     public function init($data = [])
     {
@@ -53,11 +53,11 @@ class Cache extends ObjectAbstract
      *
      * The object is required, to determine the namespacing of the storage
      *
-     * @param \MvcLite\ObjectAbstract $object
+     * @param MvcLite\ObjectAbstract $object
      * @param string $name
      * @param unknown_type $data
      *
-     * @return \MvcLite\Cache $this for object-chaining.
+     * @return MvcLite\Cache $this for object-chaining.
      */
     public function set(ObjectAbstract $object, $name, $data)
     {
@@ -69,14 +69,14 @@ class Cache extends ObjectAbstract
     }
 
     /**
-     * returns the relative filepath for a given filename
+     * Returns the relative filepath for a given filename
      *
      * @param string $filename
      * @return string
      */
     protected function getFilePath($filename)
     {
-        $this->filepath($this->config['directory'] . '/' . $filename);
+        $this->filepath([$this->config['directory'], $filename]);
     }
 
     /**
@@ -84,7 +84,7 @@ class Cache extends ObjectAbstract
      *
      * The object is required, to determine the namespacing of the storage
      *
-     * @param \MvcLite\ObjectAbstract $object
+     * @param MvcLite\ObjectAbstract $object
      * @param string $name
      *
      * @return mixed
@@ -101,7 +101,7 @@ class Cache extends ObjectAbstract
     /**
      * Returns a string to namespace a cache entry.
      *
-     * @param \MvcLite\ObjectAbstract $object
+     * @param MvcLite\ObjectAbstract $object
      * @param string $name
      *
      * @return string

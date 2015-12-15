@@ -76,7 +76,7 @@ class View extends ObjectAbstract
      * Method to add a path to the list of paths used to search for view scripts
      *
      * @param string $path
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function addViewScriptPath($path)
     {
@@ -102,7 +102,7 @@ class View extends ObjectAbstract
      *
      * @param string $path
      *
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function setScript($path)
     {
@@ -126,7 +126,7 @@ class View extends ObjectAbstract
      *
      * @param string $path
      *
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function setLayout($path)
     {
@@ -214,7 +214,7 @@ class View extends ObjectAbstract
      * @param string $var
      * @param unknown_type $value
      *
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function set($var, $value = '')
     {
@@ -241,7 +241,7 @@ class View extends ObjectAbstract
      *
      * @param string $name
      *
-     * @return \MvcLite\View_Helper
+     * @return MvcLite\View_Helper
      */
     public function getHelper($name)
     {

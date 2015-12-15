@@ -44,7 +44,7 @@ class Dispatcher extends ObjectAbstract
     /**
      * Initialize the dispatcher.
      *
-     * @return \MvcLite\Dispatcher Returns $this for object-chaining.
+     * @return MvcLite\Dispatcher Returns $this for object-chaining.
      */
     public function init($loader)
     {

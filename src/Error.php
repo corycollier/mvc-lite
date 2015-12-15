@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Class to handle errors throughout the site
@@ -77,7 +77,7 @@ class Error extends ObjectAbstract
      *
      * @param array $error An array representing an error.
      *
-     * @return \MvcLite\Error $this for object-chaining.
+     * @return MvcLite\Error $this for object-chaining.
      */
     protected function addError($error = [])
     {

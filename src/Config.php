@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Registry
@@ -42,7 +42,7 @@ class Config extends ObjectAbstract
      *
      * @param string|array $config A filepath to an ini file, or an array of configuration options
      *
-     * @return \MvcLite\Config Returns $this, for object-chaining.
+     * @return MvcLite\Config Returns $this, for object-chaining.
      */
     public function init($config)
     {
@@ -62,7 +62,7 @@ class Config extends ObjectAbstract
      * @param string $name The name to store the value as.
      * @param mixed $value The value to store.
      *
-     * @return \MvcLite\Config Returns $this, for object-chaining.
+     * @return MvcLite\Config Returns $this, for object-chaining.
      */
     public function set($name, $value)
     {
@@ -76,7 +76,7 @@ class Config extends ObjectAbstract
      *
      * @param string $name The name of what to get.
      *
-     * @return \MvcLite\Config Returns $this, for object-chaining.
+     * @return MvcLite\Config Returns $this, for object-chaining.
      */
     public function get($name)
     {
@@ -90,7 +90,7 @@ class Config extends ObjectAbstract
      *
      * @param array $values A key/value array of things to store.
      *
-     * @return \MvcLite\Config Returns $this, for object-chaining.
+     * @return MvcLite\Config Returns $this, for object-chaining.
      */
     public function setAll($params = [])
     {

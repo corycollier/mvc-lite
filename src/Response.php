@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Base Response
@@ -103,7 +103,7 @@ class Response extends ObjectAbstract
     /**
      * Function to return a formatted header string
      *
-     * @return \MvcLite\Response $this for object-chaining.
+     * @return MvcLite\Response $this for object-chaining.
      */
     public function sendHeaders()
     {
@@ -120,7 +120,7 @@ class Response extends ObjectAbstract
      *
      * @param string $string
      *
-     * @return \MvcLite\Response $this for object-chaining.
+     * @return MvcLite\Response $this for object-chaining.
      */
     public function setBody($string)
     {
