@@ -76,7 +76,7 @@ class Cache extends ObjectAbstract
      */
     protected function getFilePath($filename)
     {
-        $this->filepath([$this->config['directory'], $filename]);
+        return $this->filepath([$this->config['directory'], $filename]);
     }
 
     /**
