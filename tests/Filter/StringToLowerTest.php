@@ -1,29 +1,31 @@
 <?php
 /**
- * class to camelcase filter test
+ * String to lower filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\Filter;
+use MvcLite\Filter;
+use MvcLite\TestCase as TestCase;
+use MvcLite\Filter\StringToLower as StringToLower;
 
 /**
- * class to camelcase filter test
+ * String to lower filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterStringToLowerTest extends \MvcLite\TestCase
+class FilterStringToLowerTest extends TestCase
 {
     /**
      *
@@ -36,7 +38,7 @@ class FilterStringToLowerTest extends \MvcLite\TestCase
      */
     public function testFilter($unfiltered, $expected)
     {
-        $filter = new \MvcLite\Filter\StringToLower;
+        $filter = new StringToLower;
         $this->assertSame($expected, $filter->filter($unfiltered));
     }
 

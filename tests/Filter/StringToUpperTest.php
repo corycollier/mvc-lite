@@ -1,29 +1,31 @@
 <?php
 /**
- * class to camelcase filter test
+ * String to upper filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\Filter;
+use MvcLite\Filter;
+use MvcLite\TestCase as TestCase;
+use MvcLite\Filter\StringToUpper as StringToUpper;
 
 /**
- * class to camelcase filter test
+ * String to upper filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterStringToUpperTest extends \MvcLite\TestCase
+class FilterStringToUpperTest extends TestCase
 {
     /**
      *
@@ -36,7 +38,7 @@ class FilterStringToUpperTest extends \MvcLite\TestCase
      */
     public function testFilter($unfiltered, $expected)
     {
-        $filter = new \MvcLite\Filter\StringToUpper;
+        $filter = new StringToUpper;
         $this->assertSame($expected, $filter->filter($unfiltered));
     }
 

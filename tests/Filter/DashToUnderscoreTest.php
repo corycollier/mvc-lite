@@ -1,29 +1,31 @@
 <?php
 /**
- * class to camelcase filter test
+ * Dash to underscore filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\Filter;
+use MvcLite\Filter;
+use MvcLite\TestCase as TestCase;
+use MvcLite\Filter\DashToUnderscore as DashToUnderscore;
 
 /**
- * class to camelcase filter test
+ * Dash to underscore filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterDashToUnderscoreTest extends \MvcLite\TestCase
+class FilterDashToUnderscoreTest extends TestCase
 {
     /**
      * method to test the DashToUnderscore filter's ability to filter a string
@@ -35,7 +37,7 @@ class FilterDashToUnderscoreTest extends \MvcLite\TestCase
      */
     public function testFilter($unfiltered, $expected)
     {
-        $filter = new \MvcLite\Filter\DashToUnderscore;
+        $filter = new DashToUnderscore;
         $this->assertSame($expected, $filter->filter($unfiltered));
     }
 

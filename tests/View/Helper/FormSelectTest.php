@@ -31,16 +31,11 @@ class ViewHelperFormSelectTest extends TestCase
      *
      * @dataProvider provideRender
      */
-    public function testRender($name, $attribs = [])
+    public function testRender($expected, $name, $attribs = [])
     {
         $helper = new \MvcLite\View\Helper\FormSelect;
-
         $result = $helper->render($name, $attribs);
-
-        $this->assertSame(0, strpos($result, '<label for'));
-        $this->assertTrue(strpos($result, '<select ') > 0);
-        $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
-        $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -50,10 +45,26 @@ class ViewHelperFormSelectTest extends TestCase
      */
     public function provideRender()
     {
+        $template = implode(PHP_EOL, [
+            '<label for="!id" class="form-select">',
+            '<span class="label">!label</span>',
+            '<select !attribs />',
+            '!options',
+            '</select>',
+        ]);
+
         return [
             [
-                'name' => 'passwd',
-                'attribs' => [],
+                'expected' => strtr($template, [
+                    '!id' => 'stuff',
+                    '!label' => '',
+                    '!attribs' => ' name="stuff" id="stuff"' ,
+                    '!options' => '',
+                ]),
+                'name' => 'stuff',
+                'attribs' => [
+                    'options' => []
+                ],
             ],
         ];
     }
