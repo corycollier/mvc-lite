@@ -26,19 +26,19 @@
     ],
 
     "require" : {
-        "corycollier/php-cli": "^1.0.0",
-        "doctrine/orm": "^2.5",
-        "php": ">=5.5"
+        "corycollier/php-cli" : "^1.0.0",
+        "doctrine/orm"        : "^2.5",
+        "php"                 : ">=5.5"
     },
 
     "autoload": {
         "psr-4": {
-            "MvcLite\\": "src/"
+            "MvcLite\\" : "src/"
         }
     },
 
     "autoload-dev": {
-        "psr-4": { "MvcLite\\Test\\": "tests/" }
+        "psr-4" : { "MvcLite\\Test\\": "tests/" }
     },
 
     "bin": ["bin/mvc"]
