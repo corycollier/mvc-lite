@@ -26,6 +26,7 @@ trait Loader
 {
     /**
      * Loader instance variable.
+     *
      * @var \Composer\Autoload\ClassLoader
      */
     protected $loader;
@@ -51,5 +52,4 @@ trait Loader
         $this->loader = $loader;
         return $this;
     }
-
 }

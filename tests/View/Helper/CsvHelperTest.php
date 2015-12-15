@@ -1,32 +1,33 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_Csv class
+ * Unit tests for the MvcLite\View\Helper\Csv class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper;
+use MvcLite\View\Helper;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_Csv class
+ * Unit tests for the MvcLite\View\Helper\Csv class.
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperCsvTest extends \MvcLite\TestCase
+class ViewHelperCsvTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_Csv
+     * tests the $helper->render() method of MvcLite\View\Helper\Csv
      *
      * @param array $items An array of data to use.
      * @param string $expected The expected string result.

@@ -1,29 +1,30 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormPassword class
+ * Unit tests for the MvcLite\View\Helper\FormPassword class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\FormPassword;
+use MvcLite\View\Helper\FormPassword;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_FormPassword class
+ * Unit tests for the MvcLite\View\Helper\FormPassword class
  *
  * @category    PHP
- * @package     MVCLite
- * @subpackage  View\Helper
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormPasswordTest extends \MvcLite\TestCase
+class ViewHelperFormPasswordTest extends TestCase
 {
     /**
      * Tests MvcLite\View\Helper\FormPassword::render().

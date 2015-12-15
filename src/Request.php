@@ -11,7 +11,8 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\FilterChain as FilterChainTrait;
 
 /**
  * Base Request
@@ -25,6 +26,7 @@ use \MvcLite\Traits\Singleton as SingletonTrait;
 class Request extends ObjectAbstract
 {
     use SingletonTrait;
+    use FilterChainTrait;
 
     /**
      * associative array representing the request params
@@ -48,7 +50,7 @@ class Request extends ObjectAbstract
     protected $uri;
 
     /**
-     * method to start the database up
+     * method to start the request up
      */
     public function init()
     {
@@ -56,31 +58,50 @@ class Request extends ObjectAbstract
         $this->params = array_merge($this->params, $_COOKIE);
         $this->params = array_merge($this->params, $_POST);
         $this->params = array_merge($this->params, $_GET);
-        $this->setHeaders();
+        $this->setHeaders($_SERVER);
         $this->setParams($this->buildFromString(@$_GET['q']));
     }
 
     /**
      *
-     * Method to set the headers
+     * Method to set the headers.
+     *
+     * @return MvcLite\Request Returns $this, for object-chaining.
      */
-    protected function setHeaders()
+    public function setHeaders($headers = [])
     {
         // Create the filter chain to transform _SERVER to headers.
-        $filter = new FilterChain;
-        $filter->addFilter(new Filter\UnderscoreToDash);
-        $filter->addFilter(new Filter\StringtoLower);
+        $filter = $this->getFilterChain([
+            'UnderscoreToDash',
+            'StringtoLower',
+        ]);
         $filter->addFilter(new Filter\SeparatorToUcwords('-'));
 
         // iterate over the $_SERVER superglobal values.
-        foreach ($_SERVER as $key => $value) {
+        foreach ($headers as $key => $value) {
             if (substr($key, 0, 5) != 'HTTP_') {
                 continue;
             }
             $key = $filter->filter($key);
             $key = strtr($key, ['Http-' => '']);
-            $this->headers[$key] = $value;
+            $this->setHeader($key, $value);
         }
+
+        return $this;
+    }
+
+    /**
+     * Sets a single header
+     *
+     * @param string $name The name of the header to set.
+     * @param string $value The value of the header.
+     *
+     * @return MvcLite\Request Returns $this, for object-chaining.
+     */
+    public function setHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+        return $this;
     }
 
     /**
@@ -109,6 +130,9 @@ class Request extends ObjectAbstract
                 $key = $parts[$i];
                 $value = $parts[$i + 1];
                 if (in_array($key, ['controller', 'action'])) {
+                    if ($i <= 2) {
+                        $i = $i + 2;
+                    }
                     continue;
                 }
 

@@ -11,6 +11,8 @@
 
 namespace MvcLite\View\Helper;
 
+use MvcLite\View\HelperAbstract as HelperAbstract;
+
 /**
  * Submit Input View Helper class
  *
@@ -20,7 +22,7 @@ namespace MvcLite\View\Helper;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormSubmit extends \MvcLite\View\HelperAbstract
+class FormSubmit extends HelperAbstract
 {
     /**
      * renders a submit element

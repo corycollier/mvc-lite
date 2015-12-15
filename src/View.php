@@ -11,8 +11,9 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
-use \MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\Loader as LoaderTrait;
 
 /**
  * Base View Class
@@ -27,6 +28,7 @@ class View extends ObjectAbstract
 {
     use SingletonTrait;
     use FilepathTrait;
+    use LoaderTrait;
 
     /**
      * Variables assigned to the view
@@ -57,25 +59,24 @@ class View extends ObjectAbstract
     protected $layout;
 
     /**
-     * the list of paths used to search for view scripts
-     * @var unknown_type
+     * The list of paths used to search for view scripts.
+     *
+     * @var array
      */
     protected $viewScriptPaths = [];
 
     /**
-     * method to start the database up
+     * method to start the view.
      */
     public function init()
     {
-        $path = $this->filepath(APP_PATH . '/view/scripts/default');
-        $this->addViewScriptPath($path);
     }
 
     /**
      * Method to add a path to the list of paths used to search for view scripts
      *
      * @param string $path
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function addViewScriptPath($path)
     {
@@ -101,7 +102,7 @@ class View extends ObjectAbstract
      *
      * @param string $path
      *
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function setScript($path)
     {
@@ -125,7 +126,7 @@ class View extends ObjectAbstract
      *
      * @param string $path
      *
-     * @return \MvcLite\View $this for object-chaining.
+     * @return MvcLite\View $this for object-chaining.
      */
     public function setLayout($path)
     {
@@ -151,9 +152,11 @@ class View extends ObjectAbstract
      */
     public function getViewScript()
     {
+        $paths = $this->getViewScriptPaths();
+        $script = $this->getScript();
         // iterate through the view paths
-        foreach ($this->getViewScriptPaths() as $path) {
-            $path = $this->filepath([$path, $this->getScript() . '.phtml']);
+        foreach ($paths as $path) {
+            $path = $this->filepath([$path, $script . '.phtml']);
             if (file_exists($path)) {
                 return $path;
             }
@@ -197,6 +200,7 @@ class View extends ObjectAbstract
      * Method to filter string input
      *
      * @param $string the unfiltered output
+     *
      * @return string the filtered output
      */
     public function filter($string)
@@ -209,7 +213,8 @@ class View extends ObjectAbstract
      *
      * @param string $var
      * @param unknown_type $value
-     * @return \MvcLite\View $this for object-chaining.
+     *
+     * @return MvcLite\View $this for object-chaining.
      */
     public function set($var, $value = '')
     {
@@ -221,7 +226,8 @@ class View extends ObjectAbstract
      * getter for the _vars property
      *
      * @param string $var
-     * @return unknown_type
+     *
+     * @return mixed
      */
     public function get($var)
     {
@@ -234,7 +240,8 @@ class View extends ObjectAbstract
      * getter for a view helper instance
      *
      * @param string $name
-     * @return \MvcLite\View_Helper
+     *
+     * @return MvcLite\View_Helper
      */
     public function getHelper($name)
     {
@@ -248,10 +255,10 @@ class View extends ObjectAbstract
             $className = "\\{$library}\\View\\Helper\\" . ucfirst("{$name}");
 
             // set the local instance of the class
-            $this->_helpers[$name] = new $className($this);
+            $this->helpers[$name] = new $className($this);
 
             // return the stored instance of the class
-            return $this->_helpers[$name];
+            return $this->helpers[$name];
         }
 
         // throw an exception if we get this far

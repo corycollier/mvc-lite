@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * string to upper filter
  *
@@ -20,8 +22,7 @@ namespace MvcLite\Filter;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class StringToProper extends \MvcLite\FilterAbstract
+class StringToProper extends FilterAbstract
 {
     /**
      * (non-PHPdoc)

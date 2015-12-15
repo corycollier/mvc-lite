@@ -162,7 +162,6 @@ class FormTest extends \MvcLite\TestCase
      */
     public function testElementFactory($expected, $column, $params, $value)
     {
-        $method = "create{$params['type']}Element";
         $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
             ->setMethods(['getView'])
             ->getMock();
@@ -173,20 +172,8 @@ class FormTest extends \MvcLite\TestCase
             ->getMock();
 
         $helper = $this->getMockBuilder('ViewHelperElement')
-            ->setMethods([
-                'createEnumElement',
-                'createPasswordElement',
-                'createIntElement',
-                'createTextElement',
-                'createVarcharElement',
-                'render'
-            ])
+            ->setMethods(['render'])
             ->getMock();
-
-        $helper->expects($this->any())
-            ->method($method)
-            ->with($this->equalTo($value), $this->equalTo($params))
-            ->will($this->returnValue($value));
 
         $helper->expects($this->any())
             ->method('render')
@@ -225,12 +212,7 @@ class FormTest extends \MvcLite\TestCase
             ],
 
             'not primary' => [
-                'expected' => implode('', [
-                    '<label for="name" class="form-text">',
-                    '<span class="label"></span>',
-                    '<input type="text"  placeholder="" value="" name="name" id="name" />',
-                    '</label>'
-                ]),
+                'expected' => 'expected value - not primary',
                 'column' => 'name',
                 'params' => [
                     'type'      => 'varchar',
@@ -240,12 +222,7 @@ class FormTest extends \MvcLite\TestCase
             ],
 
             'text' => [
-                'expected' => implode(PHP_EOL, [
-                    '<label for="name" class="form-text">',
-                    '<span class="label"></span>',
-                    '<textarea type="text"  placeholder="" value="" name="name" id="name"></textarea>',
-                    '</label>'
-                ]),
+                'expected' => 'expected value - text element',
                 'column' => 'name',
                 'params' => [
                     'type'      => 'text',
@@ -253,7 +230,38 @@ class FormTest extends \MvcLite\TestCase
                 ],
                 'value' => 'the name',
             ],
+
+            'enum' => [
+                'expected' => 'expected value - enum element',
+                'column' => 'name',
+                'params' => [
+                    'type'      => 'enum',
+                    'description' => 'description',
+                    'options' => ['value', 'value2'],
+                ],
+                'value' => 'the name',
+            ],
         ];
+    }
+
+    /**
+     * Tests MvcLite\View\Helper\Form::getElementTypeMap.
+     */
+    public function testGetElementTypeMap()
+    {
+        $expected = [
+            'enum'     => 'FormSelect',
+            'password' => 'FormPassword',
+            'int'      => 'FormText',
+            'text'     => 'FormTextarea',
+            'varchar'  => 'FormText'
+        ];
+
+        $sut = new View\Helper\Form;
+        $method = $this->getReflectedMethod('\MvcLite\View\Helper\Form', 'getElementTypeMap');
+        $result = $method->invoke($sut);
+        $this->assertEquals($expected, $result);
+
     }
 }
 

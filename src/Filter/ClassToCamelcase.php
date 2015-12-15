@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * class to camelcase filter
  *
@@ -20,8 +22,7 @@ namespace MvcLite\Filter;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class ClassToCamelcase extends \MvcLite\FilterAbstract
+class ClassToCamelcase extends FilterAbstract
 {
     /**
      * (non-PHPdoc)

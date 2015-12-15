@@ -2,31 +2,33 @@
 /**
  * Unit tests for the camelcase to dash class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Controller
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\Filter;
+use MvcLite\Filter;
+use MvcLite\TestCase as TestCase;
+use MvcLite\Filter\CamelcaseToDash as CamelcaseToDash;
 
 /**
  * Unit tests for the camelcase to dash class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Controller
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterCamelcaseToDashTest extends \MvcLite\TestCase
+class FilterCamelcaseToDashTest extends TestCase
 {
     /**
-     * method to test the camelcase-to-dash class's filter method
+     * Test the camelcase-to-dash class's filter method
      *
      * @param string $unfiltered
      * @param string $expected
@@ -35,12 +37,12 @@ class FilterCamelcaseToDashTest extends \MvcLite\TestCase
      */
     public function testFilter($unfiltered, $expected)
     {
-        $filter = new \MvcLite\Filter\CamelcaseToDash;
+        $filter = new CamelcaseToDash;
         $this->assertSame($expected, $filter->filter($unfiltered));
     }
 
     /**
-     * provider of data to test the camelcase-to-dash class's filter method.
+     * Data provider of data to test the camelcase-to-dash class's filter method.
      *
      * @return array An array of data to use for testing the filter.
      */

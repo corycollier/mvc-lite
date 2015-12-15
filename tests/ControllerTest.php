@@ -1,10 +1,10 @@
 <?php
 /**
- * Unit tests for the Lib_Controller class
+ * Unit tests for the MvcLite\Controller class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Controller
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -12,57 +12,17 @@
 namespace MvcLite;
 
 /**
- * Unit tests for the Lib_Controller class
+ * Unit tests for the MvcLite\Controller class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Controller
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 class ControllerTest extends TestCase
 {
-    /**
-     * Test the getter for the request object in the controller
-     */
-    public function testGetRequest()
-    {
-        $sut = new Controller;
-        $request = $sut->getRequest();
-        $this->assertInstanceOf('MvcLite\Request', $request);
-    }
-
-    /**
-     * Test the getter for the response object in the controller
-     */
-    public function testGetResponse()
-    {
-        $sut = new Controller;
-        $response = $sut->getResponse();
-        $this->assertInstanceOf('MvcLite\Response', $response);
-    }
-
-    /**
-     * Test the getter for the view object in the controller
-     */
-    public function testGetView()
-    {
-        $sut = new Controller;
-        $view = $sut->getView();
-        $this->assertInstanceOf('MvcLite\View', $view);
-    }
-
-    /**
-     * test the getter for the session object in the controller
-     */
-    public function testGetSession()
-    {
-        $sut = new Controller;
-        $session = $sut->getSession();
-        $this->assertInstanceOf('\MvcLite\Session', $session);
-    }
-
     /**
      * Tests MvcLite\Controller::init().
      */

@@ -13,6 +13,7 @@ namespace MvcLite\View;
 
 use MvcLite;
 use MvcLite\Traits\View as ViewTrait;
+use MvcLite\ObjectAbstract as ObjectAbstract;
 
 /**
  * Base View Helper class
@@ -23,22 +24,9 @@ use MvcLite\Traits\View as ViewTrait;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-abstract class HelperAbstract extends \MvcLite\ObjectAbstract
+abstract class HelperAbstract extends ObjectAbstract
 {
     use ViewTrait;
-
-    /**
-     * Constructor for all view helpers.
-     *
-     * @param \MvcLite\View $view
-     */
-    public function __construct(View $view = null)
-    {
-        if (! $view) {
-            $view = \MvcLite\View::getInstance();
-        }
-        $this->view = $view;
-    }
 
     /**
      * Method to return a string of key=value pairs.
@@ -48,18 +36,7 @@ abstract class HelperAbstract extends \MvcLite\ObjectAbstract
      */
     protected function getHtmlAttribs($attribs = [])
     {
-        // a list of acceptable html attributes
-        $whiteListAttribs = [
-            'name',
-            'id',
-            'placeholder',
-            'class',
-            'value',
-            'href',
-            'rel',
-            'action',
-            'method',
-        ];
+        $whiteListAttribs = $this->getAcceptableAttribs();
 
         // iterate over the attribs provided
         foreach ($attribs as $key => $value) {
@@ -75,5 +52,25 @@ abstract class HelperAbstract extends \MvcLite\ObjectAbstract
 
         // return the pairs, imploded by a single space
         return ' ' . implode(' ', $attribs);
+    }
+
+    /**
+     * Overridable function to return the list of Attributes that are ok.
+     *
+     * @return array An array of acceptable attributes.
+     */
+    public function getAcceptableAttribs()
+    {
+        return [
+            'name',
+            'id',
+            'placeholder',
+            'class',
+            'value',
+            'href',
+            'rel',
+            'action',
+            'method',
+        ];
     }
 }

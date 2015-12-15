@@ -1,32 +1,33 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormTextarea class
+ * Unit tests for the MvcLite\View\Helper\FormTextarea class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\FormTextarea;
+use MvcLite\View\Helper\FormTextarea;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_FormTextarea class
+ * Unit tests for the MvcLite\View\Helper\FormTextarea class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormTextareaTest extends \MvcLite\TestCase
+class ViewHelperFormTextareaTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormTextarea
+     * tests the $helper->render() method of MvcLite\View\Helper\FormTextarea
      *
      * @dataProvider provideRender
      */
