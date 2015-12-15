@@ -33,6 +33,14 @@ class ViewTest extends TestCase
     }
 
     /**
+     * Tests MvcLite\View::init.
+     */
+    public function testInit()
+    {
+        $this->sut->init();
+    }
+
+    /**
      * tests the filter method of the view object
      */
     public function testFilter()

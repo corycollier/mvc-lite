@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use MvcLite\View\Helper\FormSelect;
+use MvcLite\View\Helper\FormSelect as FormSelect;
 use MvcLite\TestCase as TestCase;
 
 /**
@@ -33,7 +33,7 @@ class ViewHelperFormSelectTest extends TestCase
      */
     public function testRender($expected, $name, $attribs = [])
     {
-        $helper = new \MvcLite\View\Helper\FormSelect;
+        $helper = new FormSelect;
         $result = $helper->render($name, $attribs);
         $this->assertEquals($expected, $result);
     }
@@ -66,6 +66,42 @@ class ViewHelperFormSelectTest extends TestCase
                     'options' => []
                 ],
             ],
+        ];
+    }
+
+    /**
+     * Tests MvcLite\View\Helper\FormSelect
+     *
+     * @dataProvider provideBuildOptions
+     */
+    public function testBuildOptions($expected, $options = [])
+    {
+        $sut = new FormSelect;
+        $method = $this->getReflectedMethod('\MvcLite\View\Helper\FormSelect', 'buildOptions');
+        $result = $method->invoke($sut, $options);
+        $this->assertEquals($expected, $result);
+
+    }
+
+    /**
+     * Data Provider for testBuildOptions.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideBuildOptions()
+    {
+        return [
+            'empty options' => [
+                'expected' => '',
+                'options' => [],
+            ],
+
+            'single option' => [
+                'expected' => '<option value="value">label</option>',
+                'options' => [
+                    'value' => 'label',
+                ]
+            ]
         ];
     }
 }

@@ -34,19 +34,40 @@ class RequestTest extends TestCase
 
     /**
      * Test the request object's build from string method
+     *
+     * @dataProvider provideBuildFromString
      */
-    public function testBuildFromString()
+    public function testBuildFromString($expected, $string)
     {
-        $string = '/controller/action/param1/value1/param2/value2/param3';
-
         $result = $this->sut->buildFromString($string);
+        $this->assertSame($expected, $result);
+    }
 
-        $this->assertSame($result, [
-            'controller'    => 'controller',
-            'action'        => 'action',
-            'param1'        => 'value1',
-            'param2'        => 'value2',
-        ]);
+    /**
+     * Data Provider for testBuildFromString.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideBuildFromString()
+    {
+        return [
+            'simple test' => [
+                'expected' => [
+                    'controller'    => 'controller',
+                    'action'        => 'action',
+                    'param1'        => 'value1',
+                    'param2'        => 'value2',
+                ],
+                'string' => '/controller/action/param1/value1/param2/value2/param3',
+            ],
+            'tricky test' => [
+                'expected' => [
+                    'controller'    => 'controller',
+                    'action'        => 'action',
+                ],
+                'string' => '/controller/action/controller/value1/action/value2',
+            ],
+        ];
     }
 
     /**
@@ -142,6 +163,66 @@ class RequestTest extends TestCase
     }
 
     /**
+     * Tests MvcLite\Request::setHeaders.
+     *
+     * @param  array $headers An array of headers to use for testing.
+     *
+     * @dataProvider provideSetHeaders
+     */
+    public function testSetHeaders($headers)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(['getFilterChain', 'setHeader'])
+            ->getMock();
+
+        $filterChain = $this->getMockBuilder('\MvcLite\FilterChain')
+            ->disableOriginalConstructor()
+            ->setMethods(['filter', 'addFilter'])
+            ->getMock();
+
+        $filterChain->expects($this->exactly(count($headers)))
+            ->method('filter');
+
+        $sut->expects($this->once())
+            ->method('getFilterChain')
+            ->will($this->returnValue($filterChain));
+
+        $result = $sut->setHeaders($headers);
+        $this->assertEquals($sut, $result);
+    }
+
+    /**
+     * Data provider for testSetHeaders.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideSetHeaders()
+    {
+        return [
+            'no http headers' => [
+                'headers' => [],
+            ],
+            'one http headers' => [
+                'headers' => [
+                    'HTTP_VALUE' => 'something',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Tests MvcLite\Request::setHeader.
+     */
+    public function testSetHeader()
+    {
+        $sut = \MvcLite\Request::getInstance();
+
+        $result = $sut->setHeader('name', 'value');
+        $this->assertEquals($sut, $result);
+    }
+
+    /**
      * tests the request instance's ability to determine if it's an ajax request
      */
     public function testIsAjax()
@@ -154,5 +235,17 @@ class RequestTest extends TestCase
             ]);
 
         $this->assertTrue($this->sut->isAjax());
+    }
+
+    /**
+     * Tests MvcLite\Request::getUri.
+     */
+    public function testGetUri()
+    {
+        $expected = 'the expected value';
+        $property = $this->getReflectedProperty('\MvcLite\Request', 'uri');
+        $property->setValue($this->sut, $expected);
+        $result = $this->sut->getUri();
+        $this->assertEquals($expected, $result);
     }
 }

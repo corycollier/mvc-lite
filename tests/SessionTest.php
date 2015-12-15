@@ -30,7 +30,6 @@ class SessionTest extends TestCase
     public function setUp()
     {
         $this->sut = Session::getInstance();
-        $this->sut->init();
     }
 
     /**
@@ -39,6 +38,7 @@ class SessionTest extends TestCase
      * @param array $data An array of data.
      *
      * @dataProvider provideData
+     * @runInSeparateProcess
      */
     public function testInit($data = [])
     {
@@ -73,8 +73,10 @@ class SessionTest extends TestCase
      */
     public function testGetParams($data = [])
     {
-        $this->sut->setParams($data);
-        $this->assertSame($data, $this->sut->getParams());
+        $property = $this->getReflectedProperty('\MvcLite\Session', 'data');
+        $property->setValue($this->sut, $data);
+        $result = $this->sut->getParams();
+        $this->assertSame($data, $result);
     }
 
     /**
@@ -92,9 +94,11 @@ class SessionTest extends TestCase
      * test the destroy method of the session object
      *
      * @dataProvider provideData
+     * @runInSeparateProcess
      */
     public function testDestroy($data = [])
     {
+        session_start();
         $this->sut->setParams($data);
         $this->sut->destroy();
         $this->assertNull($this->sut->getParams());

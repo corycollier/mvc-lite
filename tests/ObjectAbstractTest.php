@@ -57,4 +57,20 @@ class ObjectAbstractTest extends TestCase
         $this->setExpectedException('Exception');
         $result = $this->sut->nonExistantMethod('var');
     }
+
+    public function testIdentify()
+    {
+        $this->setExpectedException('Exception');
+        $result = $this->sut->identify();
+    }
+
+    /**
+     * Tests ObjectAbstract::__toString.
+     */
+    public function testMagicMethodToString()
+    {
+        $expected = get_class($this->sut);
+        $result = (string)$this->sut;
+        $this->assertEquals($expected, $result);
+    }
 }

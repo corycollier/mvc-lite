@@ -212,12 +212,7 @@ class FormTest extends \MvcLite\TestCase
             ],
 
             'not primary' => [
-                'expected' => implode('', [
-                    '<label for="name" class="form-text">',
-                    '<span class="label"></span>',
-                    '<input type="text"  placeholder="" value="" name="name" id="name" />',
-                    '</label>'
-                ]),
+                'expected' => 'expected value - not primary',
                 'column' => 'name',
                 'params' => [
                     'type'      => 'varchar',
@@ -227,16 +222,22 @@ class FormTest extends \MvcLite\TestCase
             ],
 
             'text' => [
-                'expected' => implode(PHP_EOL, [
-                    '<label for="name" class="form-text">',
-                    '<span class="label"></span>',
-                    '<textarea type="text"  placeholder="" value="" name="name" id="name"></textarea>',
-                    '</label>'
-                ]),
+                'expected' => 'expected value - text element',
                 'column' => 'name',
                 'params' => [
                     'type'      => 'text',
                     'description' => 'description',
+                ],
+                'value' => 'the name',
+            ],
+
+            'enum' => [
+                'expected' => 'expected value - enum element',
+                'column' => 'name',
+                'params' => [
+                    'type'      => 'enum',
+                    'description' => 'description',
+                    'options' => ['value', 'value2'],
                 ],
                 'value' => 'the name',
             ],

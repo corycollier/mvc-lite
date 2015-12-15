@@ -78,6 +78,10 @@ class ErrorTest extends TestCase
                 'errno'  => E_ERROR,
                 'errstr' => 'fatal error',
             ],
+            [
+                'errno'  => 911,
+                'errstr' => 'fatal error',
+            ],
         ];
     }
 
