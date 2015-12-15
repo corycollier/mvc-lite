@@ -13,6 +13,7 @@ namespace MvcLite\View;
 
 use MvcLite;
 use MvcLite\Traits\View as ViewTrait;
+use MvcLite\ObjectAbstract as ObjectAbstract;
 
 /**
  * Base View Helper class
@@ -23,7 +24,7 @@ use MvcLite\Traits\View as ViewTrait;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-abstract class HelperAbstract extends \MvcLite\ObjectAbstract
+abstract class HelperAbstract extends ObjectAbstract
 {
     use ViewTrait;
 

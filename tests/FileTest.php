@@ -1,10 +1,10 @@
 <?php
 /**
- * Test class to test the Lib_File class
+ * Test class to test the MvcLite\File class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  File
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 2.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -12,11 +12,11 @@
 namespace MvcLite;
 
 /**
- * Test class to test the Lib_File class
+ * Test class to test the MvcLite\File class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  File
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 2.0.1
  * @author      Cory Collier <corycollier@corycollier.com>
  */

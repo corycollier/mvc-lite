@@ -1,31 +1,32 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_Exception class
+ * Unit tests for the MvcLite\View\Helper\Exception class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\Exception;
+use MvcLite\View\Helper\Exception;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_Exception class
+ * Unit tests for the MvcLite\View\Helper\Exception class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class ViewHelperExceptionTest extends \MvcLite\TestCase
+class ViewHelperExceptionTest extends TestCase
 {
     /**
-     * Tests the render method of the lib's exception view helper.
+     * Tests the render method of the Exception view helper.
      *
      * @param string $expected The expected result.
      * @param \MvcLite\Exception $exception The exception instance.
@@ -51,6 +52,11 @@ class ViewHelperExceptionTest extends \MvcLite\TestCase
             'basic test' => [
                 'expected' => 'testing',
                 'exception' => new \MvcLite\Exception('testing'),
+            ],
+
+            'null exception' => [
+                'expected' => '',
+                'exception' => null,
             ],
         ];
     }

@@ -2,9 +2,9 @@
 /**
  * Unit tests for the MvcLite\Session class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Session
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.3
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -14,9 +14,9 @@ namespace MvcLite;
 /**
  * Unit tests for the MvcLite\Session class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Session
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.3
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -34,13 +34,13 @@ class SessionTest extends TestCase
     }
 
     /**
-     * tests the init method of the lib_session object
+     * tests the init method of the Session object
      *
      * @param array $data An array of data.
      *
      * @dataProvider provideData
      */
-    public function testInit(array $data = [])
+    public function testInit($data = [])
     {
         // define('PHP_SAPI', 'notcli');
 
@@ -71,7 +71,7 @@ class SessionTest extends TestCase
      *
      * @dataProvider provideData
      */
-    public function testGetParams(array $data = [])
+    public function testGetParams($data = [])
     {
         $this->sut->setParams($data);
         $this->assertSame($data, $this->sut->getParams());
@@ -93,7 +93,7 @@ class SessionTest extends TestCase
      *
      * @dataProvider provideData
      */
-    public function testDestroy(array $data = [])
+    public function testDestroy($data = [])
     {
         $this->sut->setParams($data);
         $this->sut->destroy();

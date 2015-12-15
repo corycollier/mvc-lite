@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_Dispatcher class
+ * Unit tests for the MvcLite\Dispatcher class
  *
  * @category    MVCLite
  * @package     Tests
@@ -12,7 +12,7 @@
 namespace MvcLite;
 
 /**
- * Unit tests for the Lib_Dispatcher class
+ * Unit tests for the MvcLite\Dispatcher class
  *
  * @category    MVCLite
  * @package     Tests
@@ -24,7 +24,7 @@ namespace MvcLite;
 class DispatcherTest extends TestCase
 {
     /**
-     * tests the init method of the lib dispatcher
+     * tests the init method of the Dispatcher
      */
     public function testInit()
     {
@@ -69,24 +69,12 @@ class DispatcherTest extends TestCase
     }
 
     /**
-     *
-     * Enter description here ...
-     */
-    public function testGetInstance()
-    {
-        $sut = Dispatcher::getInstance();
-        $this->assertInstanceOf('MvcLite\Dispatcher', $sut);
-    }
-
-    /**
      * tests the dispatch method of the dispatcher
      *
      * @dataProvider provideDispatch
      */
-    public function testDispatch($controller, $action, $params = [])
+    public function testDispatch($controller, $action, $loadClass = null, $params = [])
     {
-        global $loader;
-
         $sut = $this->getMockBuilder('\MvcLite\Dispatcher')
             ->disableOriginalConstructor()
             ->setMethods([
@@ -94,7 +82,13 @@ class DispatcherTest extends TestCase
                 'translateActionName',
                 'getRequest',
                 'getConfig',
+                'getLoader'
             ])
+            ->getMock();
+
+        $loader = $this->getMockBuilder('\Composer\Autoload\ClassLoader')
+            ->disableOriginalConstructor()
+            ->setMethods(['loadClass'])
             ->getMock();
 
         $config = $this->getMockBuilder('\MvcLite\Config')
@@ -111,6 +105,11 @@ class DispatcherTest extends TestCase
             ->method('getParams')
             ->will($this->returnValue($params));
 
+        $loader->expects($this->once())
+            ->method('loadClass')
+            ->with($this->equalTo($controller))
+            ->will($this->returnValue($loadClass));
+
         $sut->expects($this->any())
             ->method('getRequest')
             ->will($this->returnValue($request));
@@ -118,6 +117,10 @@ class DispatcherTest extends TestCase
         $sut->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue($config));
+
+        $sut->expects($this->once())
+            ->method('getLoader')
+            ->will($this->returnValue($loader));
 
         $sut->expects($this->once())
             ->method('translateControllerName')
@@ -144,13 +147,136 @@ class DispatcherTest extends TestCase
     public function provideDispatch()
     {
         return [
-            'simple params' => [
-                'controller' => 'IndexController',
+            'good controller request' => [
+                'controller' => '\App\IndexController',
                 'action'    => 'index',
+                'exception' => true,
                 'params' => [
                     'controller' => 'index',
                     'action'    => 'index'
                 ]
+            ],
+
+            'bad controller request' => [
+                'controller' => '\App\FailController',
+                'action'    => 'index',
+                'exception' => null,
+                'params' => [
+                    'controller' => 'index',
+                    'action'    => 'index'
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Tests testTranslateControllerName().
+     *
+     * @dataProvider provideTranslateControllerName
+     */
+    public function testTranslateControllerName($expected, $input, $filtered)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Dispatcher')
+            ->disableOriginalConstructor()
+            ->setMethods(['getFilterChain'])
+            ->getMock();
+
+        $chain = $this->getMockBuilder('\MvcLte\FilterChain')
+            ->disableOriginalConstructor()
+            ->setMethods(['filter'])
+            ->getMock();
+
+        $chain->expects($this->once())
+            ->method('filter')
+            ->with($this->equalTo($input))
+            ->will($this->returnValue($filtered));
+
+        $sut->expects($this->once())
+            ->method('getFilterChain')
+            ->with($this->equalTo(['DashToCamelcase', 'StringToProper']))
+            ->will($this->returnValue($chain));
+
+        $method = $this->getReflectedMethod('\MvcLite\Dispatcher', 'translateControllerName');
+        $result = $method->invoke($sut, $input);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testTranslateControllerName.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideTranslateControllerName()
+    {
+        return [
+            'simple' => [
+                'expected' => '\App\ValueController',
+                'input'    => 'value',
+                'filtered' => 'Value',
+            ],
+
+            'with dashes' => [
+                'expected' => '\App\SomeValueController',
+                'input'    => 'some-value',
+                'filtered' => 'SomeValue',
+            ],
+        ];
+    }
+
+    /**
+     * Tests MvcLite\Dispatcher::translateActionName.
+     *
+     * @param  string $expected The expected result
+     * @param  string $input    The input string
+     *
+     * @dataProvider provideTranslateActionName
+     */
+    public function testTranslateActionName($expected, $input, $filtered)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Dispatcher')
+            ->disableOriginalConstructor()
+            ->setMethods(['getFilterChain'])
+            ->getMock();
+
+        $chain = $this->getMockBuilder('\MvcLte\FilterChain')
+            ->disableOriginalConstructor()
+            ->setMethods(['filter'])
+            ->getMock();
+
+        $chain->expects($this->once())
+            ->method('filter')
+            ->with($this->equalTo($input))
+            ->will($this->returnValue($filtered));
+
+        $sut->expects($this->once())
+            ->method('getFilterChain')
+            ->with($this->equalTo(['DashToCamelcase']))
+            ->will($this->returnValue($chain));
+
+        $method = $this->getReflectedMethod('\MvcLite\Dispatcher', 'translateActionName');
+        $result = $method->invoke($sut, $input);
+        $this->assertEquals($expected, $result);
+
+    }
+
+    /**
+     * Data provider for testTranslateActionNAme
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideTranslateActionName()
+    {
+        return [
+            'simple' => [
+                'expected' => 'valueAction',
+                'input'    => 'value',
+                'filtered' => 'value',
+            ],
+
+            'with dashes' => [
+                'expected' => 'someValueAction',
+                'input'    => 'some-value',
+                'filtered' => 'someValue',
             ],
         ];
     }

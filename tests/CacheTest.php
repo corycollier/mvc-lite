@@ -1,10 +1,10 @@
 <?php
 /**
- * Class to test the Lib_Cache object
+ * Class to test the MvcLite\Cache object
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Lib_Cache
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -12,11 +12,11 @@
 namespace MvcLite;
 
 /**
- * Class to test the Lib_Cache object
+ * Class to test the MvcLite\Cache object
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Lib_Cache
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -135,7 +135,7 @@ class CacheTest extends TestCase
     }
 
     /**
-     * test the protected _getNamespace method of the Lib_Cache object
+     * test the protected getCacheKey method of the Cache object
      *
      * @param \MvcLite\ObjectAbstract $object
      * @param string $name
@@ -154,7 +154,7 @@ class CacheTest extends TestCase
     }
 
     /**
-     * provides data to use for testing the protected _getNamespace method
+     * Data Provider for testGetCacheKey
      *
      * @return array An array of data to use for testing.
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_Object class
+ * Unit tests for the Object class
  *
  * @category    PHP
  * @package     MvcLite
@@ -12,7 +12,7 @@
 namespace MvcLite;
 
 /**
- * Unit tests for the Lib_Object class
+ * Unit tests for the Object class
  *
  * @category    PHP
  * @package     MvcLite
@@ -23,7 +23,6 @@ namespace MvcLite;
 
 class ObjectAbstractTest extends TestCase
 {
-
     /**
      * The setup method, called before each test
      */
@@ -33,7 +32,7 @@ class ObjectAbstractTest extends TestCase
     }
 
     /**
-     * Test the __get method on the Lib_Object
+     * Test the __get method on the Object
      */
     public function testMagicMethodGet()
     {
@@ -42,7 +41,7 @@ class ObjectAbstractTest extends TestCase
     }
 
     /**
-     * Test the __set method on the Lib_Object
+     * Test the __set method on the Object
      */
     public function testMagicMethodSet()
     {
@@ -51,7 +50,7 @@ class ObjectAbstractTest extends TestCase
     }
 
     /**
-     * Test the __call method on the Lib_Object
+     * Test the __call method on the Object
      */
     public function testMagicMethodCall()
     {

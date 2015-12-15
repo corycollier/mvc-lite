@@ -31,8 +31,11 @@ class FormSelect extends HelperAbstract
      * @param array $attribs
      * @return string
      */
-    public function render($name, $options = [], $attribs = [])
+    public function render($name, $attribs = [])
     {
+        $options = $attribs['options'];
+        unset($attribs['options']);
+
         $displayAttribs = array_merge($attribs, [
             'name'  => "display-only-{$name}",
             'class' => "display-only",

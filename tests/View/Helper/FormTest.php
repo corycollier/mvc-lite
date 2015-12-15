@@ -162,7 +162,6 @@ class FormTest extends \MvcLite\TestCase
      */
     public function testElementFactory($expected, $column, $params, $value)
     {
-        $method = "create{$params['type']}Element";
         $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
             ->setMethods(['getView'])
             ->getMock();
@@ -173,20 +172,8 @@ class FormTest extends \MvcLite\TestCase
             ->getMock();
 
         $helper = $this->getMockBuilder('ViewHelperElement')
-            ->setMethods([
-                'createEnumElement',
-                'createPasswordElement',
-                'createIntElement',
-                'createTextElement',
-                'createVarcharElement',
-                'render'
-            ])
+            ->setMethods(['render'])
             ->getMock();
-
-        $helper->expects($this->any())
-            ->method($method)
-            ->with($this->equalTo($value), $this->equalTo($params))
-            ->will($this->returnValue($value));
 
         $helper->expects($this->any())
             ->method('render')
@@ -254,6 +241,26 @@ class FormTest extends \MvcLite\TestCase
                 'value' => 'the name',
             ],
         ];
+    }
+
+    /**
+     * Tests MvcLite\View\Helper\Form::getElementTypeMap.
+     */
+    public function testGetElementTypeMap()
+    {
+        $expected = [
+            'enum'     => 'FormSelect',
+            'password' => 'FormPassword',
+            'int'      => 'FormText',
+            'text'     => 'FormTextarea',
+            'varchar'  => 'FormText'
+        ];
+
+        $sut = new View\Helper\Form;
+        $method = $this->getReflectedMethod('\MvcLite\View\Helper\Form', 'getElementTypeMap');
+        $result = $method->invoke($sut);
+        $this->assertEquals($expected, $result);
+
     }
 }
 

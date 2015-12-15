@@ -1,9 +1,9 @@
 <?php
 /**
- * Unit Test class for testing the Lib_Error functionality
+ * Unit Test class for testing the Error functionality
  *
- * @category    MVCLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Tests
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -12,10 +12,10 @@
 namespace MvcLite;
 
 /**
- * Unit Test class for testing the Lib_Error functionality
+ * Unit Test class for testing the Error functionality
  *
- * @category    MVCLite
- * @package     Lib
+ * @category    PHP
+ * @package     MvcLite
  * @subpackage  Tests
  * @since       File available since release 1.2.x
  * @author      Cory Collier <corycollier@corycollier.com>
@@ -31,7 +31,7 @@ class ErrorTest extends TestCase
     }
 
     /**
-     * Test the Lib_Error class's ability to handle errors
+     * Test the Error class's ability to handle errors
      *
      * @param integer $errno
      * @param string $errstr
@@ -59,7 +59,7 @@ class ErrorTest extends TestCase
     }
 
     /**
-     * provide data to use to test the Lib_Error class's ability to handle errors
+     * provide data to use to test the Error class's ability to handle errors
      *
      * @return array
      */
@@ -85,6 +85,7 @@ class ErrorTest extends TestCase
      * Tests the getErrors method of the error handler
      *
      * @param array $expected
+     *
      * @dataProvider provideGetErrors
      */
     public function testGetErrors($expected = [])

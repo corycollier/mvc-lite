@@ -11,6 +11,8 @@
 
 namespace MvcLite;
 
+use MvcLite\Traits\Filepath as FilepathTrait;
+
 /**
  * Class to contain logic for accessing files
  *
@@ -22,6 +24,8 @@ namespace MvcLite;
  */
 class File extends ObjectAbstract
 {
+    use FilepathTrait;
+
     /**
      * The contents of the instance's file.
      *

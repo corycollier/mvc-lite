@@ -1,32 +1,33 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormSelect class
+ * Unit tests for the MvcLite\View\Helper\FormSelect class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\FormSelect;
+use MvcLite\View\Helper\FormSelect;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_FormSelect class
+ * Unit tests for the MvcLite\View\Helper\FormSelect class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormSelectTest extends \MvcLite\TestCase
+class ViewHelperFormSelectTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormSelect
+     * tests the $helper->render() method of MvcLite\View\Helper\FormSelect
      *
      * @dataProvider provideRender
      */

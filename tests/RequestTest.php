@@ -1,10 +1,10 @@
 <?php
 /**
- * Unit tests for the Lib_Request class
+ * Unit tests for the MvcLite\Request class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Request
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -12,11 +12,11 @@
 namespace MvcLite;
 
 /**
- * Unit tests for the Lib_Request class
+ * Unit tests for the MvcLite\Request class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Request
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */

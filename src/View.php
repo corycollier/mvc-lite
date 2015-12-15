@@ -11,8 +11,9 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
-use \MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\Loader as LoaderTrait;
 
 /**
  * Base View Class
@@ -27,6 +28,7 @@ class View extends ObjectAbstract
 {
     use SingletonTrait;
     use FilepathTrait;
+    use LoaderTrait;
 
     /**
      * Variables assigned to the view
@@ -57,8 +59,9 @@ class View extends ObjectAbstract
     protected $layout;
 
     /**
-     * the list of paths used to search for view scripts
-     * @var unknown_type
+     * The list of paths used to search for view scripts.
+     *
+     * @var array
      */
     protected $viewScriptPaths = [];
 
@@ -67,8 +70,6 @@ class View extends ObjectAbstract
      */
     public function init()
     {
-        $path = $this->filepath(APP_PATH . '/view/scripts/default');
-        $this->addViewScriptPath($path);
     }
 
     /**
@@ -151,9 +152,11 @@ class View extends ObjectAbstract
      */
     public function getViewScript()
     {
+        $paths = $this->getViewScriptPaths();
+        $script = $this->getScript();
         // iterate through the view paths
-        foreach ($this->getViewScriptPaths() as $path) {
-            $path = $this->filepath([$path, $this->getScript() . '.phtml']);
+        foreach ($paths as $path) {
+            $path = $this->filepath([$path, $script . '.phtml']);
             if (file_exists($path)) {
                 return $path;
             }

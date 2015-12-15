@@ -59,82 +59,33 @@ class Form extends HelperAbstract
             return '';
         }
 
+        $map = $this->getElementTypeMap();
+        $helper = $map[$params['type']];
         $params['placeholder'] = $params['description'];
 
-        $method = "create{$params['type']}Element";
-
-        return call_user_func([$this, $method], $column, $params);
-    }
-
-    /**
-     * hook to return a select element representing an enum data input
-     *
-     * @param string $column
-     * @param array $params
-     * @return string
-     */
-    public function createEnumElement($column, $params = [])
-    {
-        $options = array_combine($params['options'], $params['options']);
+        if ($params['type'] == 'enum') {
+            $params['options'] = array_combine($params['options'], $params['options']);
+        }
 
         return $this->getView()
-            ->getHelper('FormSelect')
-            ->render($column, $options, $params);
-    }
-
-    /**
-     * hook to return a password element representing a password data input
-     *
-     * @param string $column
-     * @param array $params
-     * @return string
-     */
-    public function createPasswordElement($column, $params = [])
-    {
-        return $this->getView()
-            ->getHelper('FormPassword')
+            ->getHelper($helper)
             ->render($column, $params);
     }
 
     /**
-     * hook to return a text element representing an integer data input
-     *
-     * @param string $column
-     * @param array $params
-     * @return string
+     * Gets the known element type map
+     * @return array An associative array mapping field types, to form element types.
      */
-    protected function createIntElement($column, $params = [])
+    protected function getElementTypeMap()
     {
-        return $this->getView()
-            ->getHelper('FormText')
-            ->render($column, $params);
-    }
+        $map = [
+            'enum'     => 'FormSelect',
+            'password' => 'FormPassword',
+            'int'      => 'FormText',
+            'text'     => 'FormTextarea',
+            'varchar'  => 'FormText'
+        ];
 
-    /**
-     * hook to return a textarea element representing a text data input
-     *
-     * @param string $column
-     * @param array $params
-     * @return string
-     */
-    protected function createTextElement($column, $params = [])
-    {
-        return $this->getView()
-            ->getHelper('FormTextarea')
-            ->render($column, $params);
-    }
-
-    /**
-     * hook to return a text element representing a varchar data input
-     *
-     * @param string $column
-     * @param array $params
-     * @return string
-     */
-    protected function createVarcharElement($column, $params = [])
-    {
-        return $this->getView()
-            ->getHelper('FormText')
-            ->render($column, $params);
+        return $map;
     }
 }

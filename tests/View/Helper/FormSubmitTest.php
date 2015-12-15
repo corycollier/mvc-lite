@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormSubmit class
+ * Unit tests for the MvcLite\View\Helper\FormSubmit class
  *
  * @category    MVCLite
  * @package     Tests
@@ -11,10 +11,11 @@
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\FormSubmit;
+use MvcLite\View\Helper\FormSubmit;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_FormSubmit class
+ * Unit tests for the MvcLite\View\Helper\FormSubmit class
  *
  * @category    MVCLite
  * @package     Tests
@@ -23,10 +24,10 @@ use \MvcLite\View\Helper\FormSubmit;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormSubmitTest extends \MvcLite\TestCase
+class ViewHelperFormSubmitTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormSubmit
+     * tests the $helper->render() method of MvcLite\View\Helper\FormSubmit
      *
      * @dataProvider provideRender
      */

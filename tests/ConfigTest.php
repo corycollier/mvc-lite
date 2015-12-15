@@ -23,27 +23,119 @@ namespace MvcLite;
 
 class ConfigTest extends TestCase
 {
-    /**
-     * Test the registry's setter and getter method
-     *
-     * @param string $key
-     * @param mixed $value
-     * @dataProvider provideSetAndGet
-     */
-    public function testSetAndGet($key, $value)
-    {
-        $sut = Config::getInstance();
-        $sut->set($key, $value);
 
-        $this->assertSame($sut->get($key), $value);
+    /**
+     * Tests MvcLite\Config::init()
+     *
+     * @dataProvider provideInit
+     */
+    public function testInit($config, $exception = null)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['setAll'])
+            ->getMock();
+
+        if ($exception) {
+            $this->setExpectedException($exception);
+        } else {
+            $sut->expects($this->once())->method('setAll');
+        }
+
+
+        $sut->init($config);
     }
 
     /**
-     * Data provider for ConfigTest::testSetAndGet()
+     * Data provider for testInit.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideInit()
+    {
+        return [
+            'simple config, no exception' => [
+                'config' => [],
+            ],
+
+            'invalid file location, expect exception' => [
+                'config' => '/bad/file/path',
+                'exception' => 'MvcLite\Exception',
+            ],
+
+            'valid file location, no exception' => [
+                'config' => ROOT . '/tests/_file/testing.ini',
+            ],
+        ];
+    }
+
+    /**
+     * Test the config's setter method
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     * @dataProvider provideSet
+     */
+    public function testSet($key, $value)
+    {
+        $sut = Config::getInstance();
+        $result = $sut->set($key, $value);
+        $this->assertSame($sut, $result);
+
+        $data = $this->getReflectedProperty('\MvcLite\Config', 'data')->getValue($sut);
+        $result = $data[$key];
+        $this->assertEquals($value, $result);
+    }
+
+    /**
+     * Tests the config's get method.
+     *
+     * @param  string $key   The key to lookup
+     * @param  mixed $value The value that should exist
+     *
+     * @dataProvider provideGet
+     */
+    public function testGet($expected, $key, $data)
+    {
+        $sut      = Config::getInstance();
+        $property = $this->getReflectedProperty('\MvcLite\Config', 'data');
+        $data     = $property->setValue($sut, $data);
+        $result   = $sut->get($key);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data Provider for the testGet method.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGet()
+    {
+        return [
+            'key exists, expect value' => [
+                'expected' => 'value',
+                'key'      => 'key',
+                'data'     => [
+                    'key' => 'value'
+                ],
+            ],
+            'key does not exist, do notexpect value' => [
+                'expected' => null,
+                'key'      => 'key2',
+                'data'     => [
+                    'key' => 'value'
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Data provider for ConfigTest::testSet()
      *
      * @return array
      */
-    public function provideSetAndGet()
+    public function provideSet()
     {
         // return an array of things to test
         return [
@@ -78,8 +170,23 @@ class ConfigTest extends TestCase
      */
     public function testSetAll($params)
     {
-        $this->markTestIncomplete('still working on this one');
+        $sut = $this->getMockBuilder('\MvcLite\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['set'])
+            ->getMock();
+
+        $sut->expects($this->exactly(count($params)))
+            ->method('set');
+
+        $sut->setAll($params);
     }
+
+        // itereate through the built results, setting their values to registry
+        // foreach ($params as $setting => $values) {
+        //     $this->set($setting, $values);
+        // }
+
+        // return $this;
 
     /**
      * Data provider for ConfigTest::testSetAll().
@@ -97,6 +204,15 @@ class ConfigTest extends TestCase
                     'test1' => [],
                     'test2' => [],
                     'test4' => [],
+                ],
+            ],
+            'nested test' => [
+                'params' => [
+                    'test1' => [],
+                    'test2' => [],
+                    'test4' => [
+                        'child' => ['value1', 'value2'],
+                    ],
                 ],
             ],
         ];

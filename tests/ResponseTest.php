@@ -188,4 +188,38 @@ class ResponseTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Tests MvcLite\Response::sendHeaders()
+     *
+     * @runInSeparateProcess
+     * @dataProvider provideSendHeaders
+     */
+    public function testSendHeaders($headers = [])
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(['getHeaders'])
+            ->getMock();
+
+        $sut->expects($this->once())
+            ->method('getHeaders')
+            ->will($this->returnValue($headers));
+
+        $result = $sut->sendHeaders();
+        $this->assertEquals($sut, $result);
+    }
+
+    public function provideSendHeaders()
+    {
+        return [
+            'simple test' => [
+                'headers' => [
+                    'var1'   => 'val1',
+                    'var2'   => 'val2',
+                    'var3'   => 'val3',
+                ]
+            ],
+        ];
+    }
 }
