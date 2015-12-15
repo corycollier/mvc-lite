@@ -11,6 +11,8 @@
 
 namespace MvcLite\View\Helper;
 
+use MvcLite\View\HelperAbstract as HelperAbstract;
+
 /**
  * Select Input View Helper class
  *
@@ -20,7 +22,7 @@ namespace MvcLite\View\Helper;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormSelect extends \MvcLite\View\HelperAbstract
+class FormSelect extends HelperAbstract
 {
     /**
      * Method to render a select element
@@ -29,8 +31,11 @@ class FormSelect extends \MvcLite\View\HelperAbstract
      * @param array $attribs
      * @return string
      */
-    public function render($name, $options = [], $attribs = [])
+    public function render($name, $attribs = [])
     {
+        $options = $attribs['options'];
+        unset($attribs['options']);
+
         $displayAttribs = array_merge($attribs, [
             'name'  => "display-only-{$name}",
             'class' => "display-only",

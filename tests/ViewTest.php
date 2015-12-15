@@ -33,6 +33,14 @@ class ViewTest extends TestCase
     }
 
     /**
+     * Tests MvcLite\View::init.
+     */
+    public function testInit()
+    {
+        $this->sut->init();
+    }
+
+    /**
      * tests the filter method of the view object
      */
     public function testFilter()
@@ -58,8 +66,11 @@ class ViewTest extends TestCase
         }
 
         foreach ($variables as $name => $value) {
-            $this->assertSame($this->sut->get($name), $value);
+            $result = $this->sut->get($name);
+            $this->assertSame($result, $value);
         }
+
+        $this->assertNull($this->sut->get('bad-value'));
     }
 
     /**
@@ -77,6 +88,58 @@ class ViewTest extends TestCase
                     'var3'  => 'val3',
                 ],
             ]
+        ];
+    }
+
+    /**
+     * Tests the MvcLite\View::getViewScript method.
+     *
+     * @dataProvider provideGetViewScript
+     */
+    public function testGetViewScript($expected, $script, $filepath, $paths)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\View')
+            ->disableOriginalConstructor()
+            ->setMethods(['getViewScriptPaths', 'getScript', 'filepath'])
+            ->getMock();
+
+        $sut->expects($this->once())
+            ->method('getViewScriptPaths')
+            ->will($this->returnValue($paths));
+
+        $sut->expects($this->once())
+            ->method('getScript')
+            ->will($this->returnValue($script));
+
+        $sut->expects($this->exactly(count($paths)))
+            ->method('filepath')
+            ->will($this->returnValue($filepath));
+
+        $result = $sut->getViewScript();
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data Provider for testGetViewScript.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetViewScript()
+    {
+        return [
+            'file does not exist' => [
+                'expected'  => '',
+                'script'    => '',
+                'filepaths' => '',
+                'paths'     => [''],
+            ],
+
+            'file does exist' => [
+                'expected'  => __FILE__,
+                'script'    => '',
+                'filepaths' => __FILE__,
+                'paths'     => [''],
+            ],
         ];
     }
 }

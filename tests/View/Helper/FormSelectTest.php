@@ -1,45 +1,41 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormSelect class
+ * Unit tests for the MvcLite\View\Helper\FormSelect class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\FormSelect;
+use MvcLite\View\Helper\FormSelect as FormSelect;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_FormSelect class
+ * Unit tests for the MvcLite\View\Helper\FormSelect class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormSelectTest extends \MvcLite\TestCase
+class ViewHelperFormSelectTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormSelect
+     * tests the $helper->render() method of MvcLite\View\Helper\FormSelect
      *
      * @dataProvider provideRender
      */
-    public function testRender($name, $attribs = [])
+    public function testRender($expected, $name, $attribs = [])
     {
-        $helper = new \MvcLite\View\Helper\FormSelect;
-
+        $helper = new FormSelect;
         $result = $helper->render($name, $attribs);
-
-        $this->assertSame(0, strpos($result, '<label for'));
-        $this->assertTrue(strpos($result, '<select ') > 0);
-        $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
-        $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -49,11 +45,63 @@ class ViewHelperFormSelectTest extends \MvcLite\TestCase
      */
     public function provideRender()
     {
+        $template = implode(PHP_EOL, [
+            '<label for="!id" class="form-select">',
+            '<span class="label">!label</span>',
+            '<select !attribs />',
+            '!options',
+            '</select>',
+        ]);
+
         return [
             [
-                'name' => 'passwd',
-                'attribs' => [],
+                'expected' => strtr($template, [
+                    '!id' => 'stuff',
+                    '!label' => '',
+                    '!attribs' => ' name="stuff" id="stuff"' ,
+                    '!options' => '',
+                ]),
+                'name' => 'stuff',
+                'attribs' => [
+                    'options' => []
+                ],
             ],
+        ];
+    }
+
+    /**
+     * Tests MvcLite\View\Helper\FormSelect
+     *
+     * @dataProvider provideBuildOptions
+     */
+    public function testBuildOptions($expected, $options = [])
+    {
+        $sut = new FormSelect;
+        $method = $this->getReflectedMethod('\MvcLite\View\Helper\FormSelect', 'buildOptions');
+        $result = $method->invoke($sut, $options);
+        $this->assertEquals($expected, $result);
+
+    }
+
+    /**
+     * Data Provider for testBuildOptions.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideBuildOptions()
+    {
+        return [
+            'empty options' => [
+                'expected' => '',
+                'options' => [],
+            ],
+
+            'single option' => [
+                'expected' => '<option value="value">label</option>',
+                'options' => [
+                    'value' => 'label',
+                ]
+            ]
         ];
     }
 }

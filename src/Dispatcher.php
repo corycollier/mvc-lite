@@ -11,14 +11,14 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Config as ConfigTrait;
-use \MvcLite\Traits\Database as DatabaseTrait;
-use \MvcLite\Traits\Request as RequestTrait;
-use \MvcLite\Traits\Response as ResponseTrait;
-use \MvcLite\Traits\Session as SessionTrait;
-use \MvcLite\Traits\Singleton as SingletonTrait;
-use \MvcLite\Traits\Filepath as FilepathTrait;
-use \MvcLite\Traits\Loader as LoaderTrait;
+use MvcLite\Traits\Config as ConfigTrait;
+use MvcLite\Traits\Request as RequestTrait;
+use MvcLite\Traits\Response as ResponseTrait;
+use MvcLite\Traits\Session as SessionTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\Loader as LoaderTrait;
+use MvcLite\Traits\FilterChain as FilterChainTrait;
 
 /**
  * Base Dispatcher
@@ -30,48 +30,29 @@ use \MvcLite\Traits\Loader as LoaderTrait;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class Dispatcher extends \MvcLite\ObjectAbstract
+class Dispatcher extends ObjectAbstract
 {
     use ConfigTrait;
-    use DatabaseTrait;
     use RequestTrait;
     use ResponseTrait;
     use SessionTrait;
     use SingletonTrait;
     use FilepathTrait;
     use LoaderTrait;
-
-    /**
-     * placeholder for the controller object
-     *
-     * @var Lib_Controller
-     */
-    protected $controller;
-
-    /**
-     * an overridable list of environments allowed for configuration
-     *
-     * @var array $_environments
-     */
-    protected $environments = [
-        'production',
-        'staging',
-        'development',
-        'testing',
-    ];
+    use FilterChainTrait;
 
     /**
      * Initialize the dispatcher.
      *
-     * @return \MvcLite\Dispatcher Returns $this for object-chaining.
+     * @return MvcLite\Dispatcher Returns $this for object-chaining.
      */
     public function init($loader)
     {
         $this->setLoader($loader);
         $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
         $this->getRequest()->init();
-        $this->getDatabase()->init();
         $this->getResponse()->init();
+        // $this->getView()->setLoader($loader);
 
         return $this;
     }
@@ -95,9 +76,11 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         try {
             // First, make sure the controller is callable.
             $result = $loader->loadClass($controller);
+
             if (is_null($result)) {
                 throw new Exception('Invalid controller specified');
             }
+
 
             // Now, instantiate the controller and try to run it's action.
             $controller = new $controller;
@@ -108,6 +91,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
             $this->handleDispatchException($exception);
             $controller = new \App\ErrorController;
             $action = 'errorAction';
+            $controller->getView()->set('error', $exception);
         }
 
         // run the init hook
@@ -124,9 +108,7 @@ class Dispatcher extends \MvcLite\ObjectAbstract
         $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers
-        if (PHP_SAPI != 'cli') {
-            $response->sendHeaders();
-        }
+        $response->sendHeaders();
 
         // echo the body
         echo $response->getBody();
@@ -136,7 +118,6 @@ class Dispatcher extends \MvcLite\ObjectAbstract
      * Handle exceptions that occur during dispatch.
      *
      * @param  MvcLite\Exception $exception The exception that was thrown.
-     * @return [type]            [description]
      */
     protected function handleDispatchException($exception)
     {
@@ -147,84 +128,29 @@ class Dispatcher extends \MvcLite\ObjectAbstract
     }
 
     /**
-     * Translates a raw request param for a controller into a class name
+     * Translates a raw request param for a controller into a class name.
      *
      * @param string $controller
      * @return string
      */
     protected function translateControllerName($controller = '')
     {
-        $filter = new FilterChain;
-        $filter->addFilter(new Filter\DashToCamelcase);
-        $filter->addFilter(new Filter\StringToProper);
-
+        $filter = $this->getFilterChain(['DashToCamelcase', 'StringToProper']);
         $controller = $filter->filter($controller);
-
-        // return the controller class name.
         return '\\App\\' . $controller . 'Controller';
     }
 
     /**
-     *
      * Translates a raw request param for an action into an action name.
      *
      * @param string $action
+     *
      * @return string
      */
     protected function translateActionName($action = '')
     {
-        $words = explode('-', $action);
-        foreach ($words as $i => $word) {
-            if (! $i) {
-                $words[$i] = strtolower($word);
-                continue;
-            }
-            $words[$i] = ucwords($word);
-        }
-
-        $action = implode('', $words);
-
+        $filter = $this->getFilterChain(['DashToCamelcase']);
+        $action = $filter->filter($action);
         return "{$action}Action";
-
-    }
-
-    /**
-     * method to parse an array and create nested arrays where necessary.
-     *
-     * @param array $config
-     * @return array
-     */
-    public function parseConfiguration($config = [])
-    {
-        $results = [];
-
-        // iterate through the parsed INI file
-        foreach ($config as $key => $values) {
-            $parts = explode('.', $key);
-            if (! array_key_exists($parts[0], $results)) {
-                $results[$parts[0]] = [];
-            }
-
-            $results[$parts[0]][$parts[1]] = $values;
-        }
-
-        return $results;
-
-    }
-
-    /**
-     * returns the provide value, if it's in the environments list.
-     *
-     * @param string $value
-     * @return string
-     */
-    public function getApplicationEnv($value = null)
-    {
-        if (in_array($value, $this->environments)) {
-            return $value;
-        }
-
-        return current($this->environments);
-
     }
 }

@@ -2,28 +2,30 @@
 /**
  * class to camelcase filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\Filter;
+use MvcLite\Filter;
+use MvcLite\TestCase as TestCase;
+use MvcLite\Filter\ClassToCamelcase as ClassToCamelcase;
 
 /**
  * class to camelcase filter test
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FilterClassToCamelcaseTest extends \MvcLite\TestCase
+class FilterClassToCamelcaseTest extends TestCase
 {
     /**
      *
@@ -36,7 +38,7 @@ class FilterClassToCamelcaseTest extends \MvcLite\TestCase
      */
     public function testFilter($unfiltered, $expected)
     {
-        $filter = new \MvcLite\Filter\ClassToCamelcase;
+        $filter = new ClassToCamelcase;
         $this->assertSame($expected, $filter->filter($unfiltered));
     }
 

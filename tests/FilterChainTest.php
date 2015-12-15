@@ -1,10 +1,10 @@
 <?php
 /**
- * Unit tests for the Lib_Filter class
+ * Unit tests for the MvcLite\Filter class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -12,11 +12,11 @@
 namespace MvcLite;
 
 /**
- * Unit tests for the Lib_Filter class
+ * Unit tests for the MvcLite\Filter class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Filter
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.6
  * @author      Cory Collier <corycollier@corycollier.com>
  */

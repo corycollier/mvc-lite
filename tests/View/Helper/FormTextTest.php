@@ -1,24 +1,25 @@
 <?php
 /**
- * Unit tests for the Lib_View_Helper_FormText class
+ * Unit tests for the MvcLite\View\Helper\FormText class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
-use \MvcLite\View\Helper\FormText;
+use MvcLite\View\Helper\FormText;
+use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the Lib_View_Helper_FormText class
+ * Unit tests for the MvcLite\View\Helper\FormText class
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       Class available since release 1.0.2
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -26,7 +27,7 @@ use \MvcLite\View\Helper\FormText;
 class ViewHelperFormTextTest extends \MvcLite\TestCase
 {
     /**
-     * tests the $helper->render() method of Lib_View_Helper_FormText
+     * tests the $helper->render() method of MvcLite\View\Helper\FormText
      *
      * @dataProvider provideRender
      */

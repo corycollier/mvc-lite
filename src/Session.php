@@ -11,7 +11,7 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Singleton as SingletonTrait;
+use MvcLite\Traits\Singleton as SingletonTrait;
 
 /**
  * Session handling class
@@ -36,16 +36,11 @@ class Session extends ObjectAbstract
     protected $data = [];
 
     /**
-     * method to start the database up
+     * method to start the session.
      */
-    public function init(array $data = [])
+    public function init($data = [])
     {
-        // if this isn't being called from cli, then start session
-        if (PHP_SAPI != 'cli') {
-            session_start();
-           // unset($_SESSION);
-        }
-
+        session_start();
         $this->data = $data;
     }
 
@@ -75,7 +70,7 @@ class Session extends ObjectAbstract
      *
      * @param string $param
      * @param string $value
-     * @return \MvcLite\Session $this for object-chaining.
+     * @return MvcLite\Session $this for object-chaining.
      */
     public function setParam($param, $value = '')
     {
@@ -90,7 +85,7 @@ class Session extends ObjectAbstract
      * Utility method to allow for the setting of multiple parameters
      *
      * @param array $params
-     * @return \MvcLite\Session $this for object-chaining.
+     * @return MvcLite\Session $this for object-chaining.
      */
     public function setParams($params = [])
     {
@@ -110,10 +105,7 @@ class Session extends ObjectAbstract
     {
         $this->data = null;
 
-        // if this isn't being called from cli, then run it
-        if (PHP_SAPI != 'cli') {
-            session_destroy();
-        }
+        session_destroy();
 
         $this->__destruct();
     }

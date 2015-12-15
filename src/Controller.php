@@ -11,12 +11,11 @@
 
 namespace MvcLite;
 
-use \MvcLite\Traits\Database as DatabaseTrait;
-use \MvcLite\Traits\Request as RequestTrait;
-use \MvcLite\Traits\Response as ResponseTrait;
-use \MvcLite\Traits\Session as SessionTrait;
-use \MvcLite\Traits\Filepath as FilepathTrait;
-use \MvcLite\Traits\View as ViewTrait;
+use MvcLite\Traits\Request as RequestTrait;
+use MvcLite\Traits\Response as ResponseTrait;
+use MvcLite\Traits\Session as SessionTrait;
+use MvcLite\Traits\Filepath as FilepathTrait;
+use MvcLite\Traits\View as ViewTrait;
 
 /**
  * Base Controller
@@ -29,7 +28,6 @@ use \MvcLite\Traits\View as ViewTrait;
  */
 class Controller extends ObjectAbstract
 {
-    use DatabaseTrait;
     use RequestTrait;
     use ResponseTrait;
     use SessionTrait;

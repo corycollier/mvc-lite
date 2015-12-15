@@ -1,6 +1,6 @@
 <?php
 /**
- * Filepath Trait
+ * Filter Chain Trait
  *
  * @category   PHP
  * @package    MvcLite
@@ -12,9 +12,10 @@
 namespace MvcLite\Traits;
 
 /**
- * Filepath Trait.
+ * Filter Chain Trait.
  *
- * Allows a cross platform way to get filepaths
+ * Allows for a simple interface to create a filter chain instance, and add
+ * multiple new filters to that chain
  *
  * @category   PHP
  * @package    MvcLite
@@ -22,19 +23,20 @@ namespace MvcLite\Traits;
  * @since      File available since release 3.0.x
  * @author     Cory Collier <corycollier@corycollier.com>
  */
-trait Filepath
+trait FilterChain
 {
     /**
      * Getter for the Request instance.
      *
      * @return MvcLite\Request The Request instance.
      */
-    public function filepath($path)
+    public function getFilterChain($filters = [])
     {
-        if (!is_array($path)) {
-            $path = explode('/', $path);
+        $chain = new \MvcLite\FilterChain;
+        foreach ($filters as $filter) {
+          $class = '\MvcLite\Filter\\' . $filter;
+          $chain->addFilter(new $class);
         }
-
-        return implode(DIRECTORY_SEPARATOR, $path);
+        return $chain;
     }
 }

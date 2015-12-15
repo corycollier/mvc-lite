@@ -11,6 +11,8 @@
 
 namespace MvcLite\View\Helper;
 
+use MvcLite\View\HelperAbstract as HelperAbstract;
+
 /**
  * Text Input View Helper class
  *
@@ -20,7 +22,7 @@ namespace MvcLite\View\Helper;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormText extends \MvcLite\View\HelperAbstract
+class FormText extends HelperAbstract
 {
     /**
      * Render a input[type=text] element.

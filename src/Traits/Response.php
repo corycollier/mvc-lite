@@ -1,6 +1,6 @@
 <?php
 /**
- * Database Trait
+ * Response Trait
  *
  * @category   PHP
  * @package    MvcLite
@@ -26,6 +26,7 @@ trait Response
 {
     /**
      * Response instance variable.
+     *
      * @var MvcLite\Response
      */
     protected $response;

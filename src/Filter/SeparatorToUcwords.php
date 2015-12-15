@@ -11,6 +11,8 @@
 
 namespace MvcLite\Filter;
 
+use MvcLite\FilterAbstract as FilterAbstract;
+
 /**
  * pluralize filter
  *
@@ -20,8 +22,7 @@ namespace MvcLite\Filter;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-
-class SeparatorToUcwords extends \MvcLite\FilterAbstract
+class SeparatorToUcwords extends FilterAbstract
 {
     /**
      * Placeholder for the separator.
@@ -48,8 +49,8 @@ class SeparatorToUcwords extends \MvcLite\FilterAbstract
      */
     public function filter($word = '')
     {
-        $temp = strtr($word, [$this->separator => ' ']);
-        $temp = ucwords($temp);
-        return strtr($temp, [' ' => $this->separator]);
+        $parts = explode($this->separator, $word);
+        $string = implode(' ', $parts);
+        return ucwords($string);
     }
 }

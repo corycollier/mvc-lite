@@ -1,6 +1,6 @@
 <?php
 /**
- * Database Trait
+ * Request Trait
  *
  * @category   PHP
  * @package    MvcLite
@@ -26,6 +26,7 @@ trait Request
 {
     /**
      * Request instance variable.
+     *
      * @var MvcLite\Request
      */
     protected $request;

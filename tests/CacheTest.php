@@ -1,22 +1,24 @@
 <?php
 /**
- * Class to test the Lib_Cache object
+ * Class to test the MvcLite\Cache object
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Lib_Cache
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite;
 
+use MvcLite\Cache as Cache;
+
 /**
- * Class to test the Lib_Cache object
+ * Class to test the MvcLite\Cache object
  *
- * @category    MVCLite
- * @package     Tests
- * @subpackage  Lib_Cache
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  Tests
  * @since       File available since release 2.0.0
  * @author      Cory Collier <corycollier@corycollier.com>
  */
@@ -32,8 +34,7 @@ class CacheTest extends TestCase
         $sut = Cache::getInstance();
         $sut->init($config);
 
-        $property = new \ReflectionProperty('\\MvcLite\\Cache', 'config');
-        $property->setAccessible(true);
+        $property = $this->getReflectedProperty('\MvcLite\Cache', 'config');
         $result = $property->getValue($sut);
 
         $this->assertSame($result, $config);
@@ -135,7 +136,7 @@ class CacheTest extends TestCase
     }
 
     /**
-     * test the protected _getNamespace method of the Lib_Cache object
+     * test the protected getCacheKey method of the Cache object
      *
      * @param \MvcLite\ObjectAbstract $object
      * @param string $name
@@ -154,7 +155,7 @@ class CacheTest extends TestCase
     }
 
     /**
-     * provides data to use for testing the protected _getNamespace method
+     * Data Provider for testGetCacheKey
      *
      * @return array An array of data to use for testing.
      */
@@ -168,6 +169,49 @@ class CacheTest extends TestCase
                 'name'     => 'var',
                 'expected' => '-' . $prefix . '-var'
             ]
+        ];
+    }
+
+    /**
+     * Tests MvcLite\Cache::getFilepath.
+     *
+     * @param  string $expected The expected result.
+     * @param  string $filename The input filename.
+     *
+     * @dataProvider provideGetFilepath
+     */
+    public function testGetFilepath($expected, $filename)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Cache')
+            ->disableOriginalConstructor()
+            ->setMethods(['filepath'])
+            ->getMock();
+
+        $sut->expects($this->once())
+            ->method('filepath')
+            ->will($this->returnValue($expected));
+
+        $method = $this->getReflectedMethod('\MvcLite\Cache', 'getFilePath');
+        $result = $method->invoke($sut, $filename);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetFilepath.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetFilepath()
+    {
+        return [
+            'string filepath, string expectations' => [
+                'expected' => 'some/location',
+                'filename' => 'location',
+            ],
+            'empty filepath, empty expectations' => [
+                'expected' => '',
+                'filename' => '',
+            ],
         ];
     }
 }

@@ -13,7 +13,8 @@
         "phploc/phploc"                : "^2.1",
         "theseer/phpdox"               : "0.8.1.1",
         "phpunit/phpunit"              : "^5.0",
-        "sebastian/phpcpd"             : "^2.0"
+        "sebastian/phpcpd"             : "^2.0",
+        "satooshi/php-coveralls"       : "^0.6.1"
     },
     "authors" : [
         {
@@ -23,18 +24,22 @@
             "homepage" : "http://corycollier.com/"
         }
     ],
+
     "require" : {
-        "corycollier/php-cli": "^1.0.0"
+        "corycollier/php-cli" : "^1.0.0",
+        "doctrine/orm"        : "^2.5",
+        "php"                 : ">=5.5"
     },
 
     "autoload": {
         "psr-4": {
-            "MvcLite\\": "src/",
-            "App\\" : "./App"
+            "MvcLite\\" : "src/"
         }
     },
+
     "autoload-dev": {
-        "psr-4": { "MvcLite\\Test\\": "tests/" }
+        "psr-4" : { "MvcLite\\Test\\": "tests/" }
     },
+
     "bin": ["bin/mvc"]
 }
