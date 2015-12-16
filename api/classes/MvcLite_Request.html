@@ -71,7 +71,7 @@
             <a href="#history">History</a>
           </li>
           <li>
-            <a href="../source/Request.php.html#line25">Source</a>
+            <a href="../source/Request.php.html#line26">Source</a>
           </li>
         </ul>
       </nav>
@@ -91,7 +91,8 @@
                         ;
                     </li><li>protected  <a href="#members">$uri</a>;
                     </li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\Request" href="../classes/MvcLite_Request/init.html">init</a>()
-                    </li><li>protected void <a title="MvcLite\Request" href="../classes/MvcLite_Request/setHeaders.html">setHeaders</a>()
+                    </li><li>public Request <a title="MvcLite\Request" href="../classes/MvcLite_Request/setHeaders.html">setHeaders</a>()
+                    </li><li>public Request <a title="MvcLite\Request" href="../classes/MvcLite_Request/setHeader.html">setHeader</a>()
                     </li><li>public array <a title="MvcLite\Request" href="../classes/MvcLite_Request/buildFromString.html">buildFromString</a>()
                     </li><li>public Request <a title="MvcLite\Request" href="../classes/MvcLite_Request/setParams.html">setParams</a>()
                     </li><li>public array <a title="MvcLite\Request" href="../classes/MvcLite_Request/getParams.html">getParams</a>()
@@ -108,6 +109,7 @@
                         </li><li>public void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__toString.html">__toString</a>()
                         </li><li>public string <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify</a>()
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Singleton">Singleton</span></li><li>public static Singleton <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\FilterChain">FilterChain</span></li><li>public Request <a title="MvcLite\Traits\FilterChain" href="../traits/MvcLite_Traits_FilterChain/getFilterChain.html">getFilterChain</a>()
                         </li></ul>
 
             }<br/></div>
@@ -124,19 +126,22 @@
             <li>
               <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton.html">MvcLite\Traits\Singleton</a>
             </li>
+            <li>
+              <a title="MvcLite\Traits\FilterChain" href="../traits/MvcLite_Traits_FilterChain.html">MvcLite\Traits\FilterChain</a>
+            </li>
           </ul>
         </div>
         <h2 id="coverage">Coverage</h2>
         <table class="styled">
           <tr>
             <td>Methods</td>
-            <td class="percent">75%</td>
-            <td class="nummeric">9 / 12</td>
+            <td class="percent">100%</td>
+            <td class="nummeric">13 / 13</td>
           </tr>
           <tr>
             <td>Lines</td>
-            <td class="percent">91.8%</td>
-            <td class="nummeric">56 / 61</td>
+            <td class="percent">100%</td>
+            <td class="nummeric">67 / 67</td>
           </tr>
         </table>
         <h2 id="constants">Constants</h2>
@@ -174,11 +179,6 @@
         </div>
         <h2 id="methods">Methods</h2>
         <div class="styled">
-          <h4>protected</h4>
-          <ul>
-            <li id="setHeaders"><a title="MvcLite\Request" href="../classes/MvcLite_Request/setHeaders.html">setHeaders()</a>
-                — Method to set the headers</li>
-          </ul>
           <h4>public</h4>
           <ul>
             <li id="buildFromString"><a title="MvcLite\Request" href="../classes/MvcLite_Request/buildFromString.html">buildFromString()</a>
@@ -194,11 +194,15 @@
             <li id="getUri"><a title="MvcLite\Request" href="../classes/MvcLite_Request/getUri.html">getUri()</a>
                 — getter for the uri value</li>
             <li id="init"><a title="MvcLite\Request" href="../classes/MvcLite_Request/init.html">init()</a>
-                — method to start the database up</li>
+                — method to start the request up</li>
             <li id="isAjax"><a title="MvcLite\Request" href="../classes/MvcLite_Request/isAjax.html">isAjax()</a>
                 — Method to indicate whether the current request is AJAX or not</li>
             <li id="isPost"><a title="MvcLite\Request" href="../classes/MvcLite_Request/isPost.html">isPost()</a>
                 — Determines if the request is post or not</li>
+            <li id="setHeader"><a title="MvcLite\Request" href="../classes/MvcLite_Request/setHeader.html">setHeader()</a>
+                — Sets a single header</li>
+            <li id="setHeaders"><a title="MvcLite\Request" href="../classes/MvcLite_Request/setHeaders.html">setHeaders()</a>
+                — Method to set the headers.</li>
             <li id="setParam"><a title="MvcLite\Request" href="../classes/MvcLite_Request/setParam.html">setParam()</a>
                 — method to set a param manually</li>
             <li id="setParams"><a title="MvcLite\Request" href="../classes/MvcLite_Request/setParams.html">setParams()</a>
@@ -224,9 +228,35 @@
             <li id="getInstance"><a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance()</a>
                 — Getter for the instance variable.</li>
           </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\FilterChain" href="../traits/MvcLite_Traits_FilterChain.html">MvcLite\Traits\FilterChain</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getFilterChain"><a title="MvcLite\Traits\FilterChain" href="../traits/MvcLite_Traits_FilterChain/getFilterChain.html">getFilterChain()</a>
+                — Getter for the Request instance.</li>
+          </ul>
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-15T09:42:10-05:00 (commit #<span title="0bcf0896cde8e73600cc0613e980554d9f547cf2">0bcf089</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">A lot of code minor code cleanup. Updating some methods to split up code a bit</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-14T07:03:35-05:00 (commit #<span title="ca452e09f565043f591bc2505e9e28ed74fdbfba">ca452e0</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Removing the Database class, trait, and associated tests. Cleaning up some of the declarations on the filter and view helper classes</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-04T09:29:36-05:00 (commit #<span title="1e201d52c200f0b59b517cb287e05a0c206fdbd9">1e201d5</span>)</h3>
             <div>

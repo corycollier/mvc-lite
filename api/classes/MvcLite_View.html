@@ -71,7 +71,7 @@
             <a href="#history">History</a>
           </li>
           <li>
-            <a href="../source/View.php.html#line26">Source</a>
+            <a href="../source/View.php.html#line27">Source</a>
           </li>
         </ul>
       </nav>
@@ -91,7 +91,7 @@
                         ;
                     </li><li>protected  <a href="#members">$script</a>;
                     </li><li>protected  <a href="#members">$layout</a>;
-                    </li><li>protected <span title="MvcLite\unknown_type">unknown_type</span> <a href="#members">$viewScriptPaths</a> =
+                    </li><li>protected array <a href="#members">$viewScriptPaths</a> =
                         ;
                     </li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View" href="../classes/MvcLite_View/init.html">init</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/addViewScriptPath.html">addViewScriptPath</a>()
@@ -104,7 +104,7 @@
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/render.html">render</a>()
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/filter.html">filter</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/set.html">set</a>()
-                    </li><li>public unknown_type <a title="MvcLite\View" href="../classes/MvcLite_View/get.html">get</a>()
+                    </li><li>public mixed <a title="MvcLite\View" href="../classes/MvcLite_View/get.html">get</a>()
                     </li><li>public View_Helper <a title="MvcLite\View" href="../classes/MvcLite_View/getHelper.html">getHelper</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
@@ -113,6 +113,8 @@
                         </li><li>public string <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/identify.html">identify</a>()
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Singleton">Singleton</span></li><li>public static Singleton <a title="MvcLite\Traits\Singleton" href="../traits/MvcLite_Traits_Singleton/getInstance.html">getInstance</a>()
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Filepath">Filepath</span></li><li>public Request <a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath/filepath.html">filepath</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Loader">Loader</span></li><li>public ClassLoader <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/getLoader.html">getLoader</a>()
+                        </li><li>public Loader <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/setLoader.html">setLoader</a>()
                         </li></ul>
 
             }<br/></div>
@@ -131,6 +133,9 @@
             </li>
             <li>
               <a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath.html">MvcLite\Traits\Filepath</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader.html">MvcLite\Traits\Loader</a>
             </li>
           </ul>
         </div>
@@ -175,6 +180,9 @@
             <li id="layout"><strong>$layout</strong>
                 —
                 string<br/><span class="indent">The name of the layout script to be used</span></li>
+            <li id="loader"><strong>$loader</strong>
+                —
+                <a title="\Composer\Autoload\ClassLoader" href="../classes/_Composer_Autoload_ClassLoader.html">\Composer\Autoload\ClassLoader</a><br/><span class="indent">Loader instance variable.</span></li>
             <li id="script"><strong>$script</strong>
                 —
                 string<br/><span class="indent">The name of the view script to be used</span></li>
@@ -183,7 +191,7 @@
                 array<br/><span class="indent">Variables assigned to the view</span></li>
             <li id="viewScriptPaths"><strong>$viewScriptPaths</strong>
                 —
-                <a title="MvcLite\unknown_type" href="../classes/MvcLite_unknown_type.html">MvcLite\unknown_type</a><br/><span class="indent">the list of paths used to search for view scripts</span></li>
+                array<br/><span class="indent">The list of paths used to search for view scripts.</span></li>
           </ul>
         </div>
         <h2 id="methods">Methods</h2>
@@ -207,7 +215,7 @@
             <li id="getViewScriptPaths"><a title="MvcLite\View" href="../classes/MvcLite_View/getViewScriptPaths.html">getViewScriptPaths()</a>
                 — return the view script paths, reversed to enforce LIFO</li>
             <li id="init"><a title="MvcLite\View" href="../classes/MvcLite_View/init.html">init()</a>
-                — method to start the database up</li>
+                — method to start the view.</li>
             <li id="render"><a title="MvcLite\View" href="../classes/MvcLite_View/render.html">render()</a>
                 — Method to render the view</li>
             <li id="set"><a title="MvcLite\View" href="../classes/MvcLite_View/set.html">set()</a>
@@ -243,9 +251,67 @@
             <li id="filepath"><a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath/filepath.html">filepath()</a>
                 — Getter for the Request instance.</li>
           </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader.html">MvcLite\Traits\Loader</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getLoader"><a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/getLoader.html">getLoader()</a>
+                — Getter for the Loader instance.</li>
+            <li id="setLoader"><a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/setLoader.html">setLoader()</a>
+                — Setter for the Loader instance.</li>
+          </ul>
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-16T10:02:24-05:00 (commit #<span title="567d8def52399ee76bb98a5d41308c8cd73d9276">567d8de</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Adding unit test coverage to the View class, and giving the addViewScript method a return value ()</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-15T09:42:10-05:00 (commit #<span title="0bcf0896cde8e73600cc0613e980554d9f547cf2">0bcf089</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">A lot of code minor code cleanup. Updating some methods to split up code a bit</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-14T22:01:17-05:00 (commit #<span title="3ca33f87177778d0cd55a5ccc0fffd3bbecdfbbd">3ca33f8</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">General code cleanup. Also getting unit test coverage for the Dispatcher up to 100%</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-14T07:03:35-05:00 (commit #<span title="ca452e09f565043f591bc2505e9e28ed74fdbfba">ca452e0</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Removing the Database class, trait, and associated tests. Cleaning up some of the declarations on the filter and view helper classes</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-14T06:40:22-05:00 (commit #<span title="dd3ea258340e81233276cc108ababf6d6e4da393">dd3ea25</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Updating a few source files, adding a coveralls config file, adding an abstract model class</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-02T16:43:15-05:00 (commit #<span title="55a67b01c98df6dc281d70e97c1216b5039d15b4">55a67b0</span>)</h3>
             <div>

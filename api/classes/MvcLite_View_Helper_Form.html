@@ -71,7 +71,7 @@
             <a href="#history">History</a>
           </li>
           <li>
-            <a href="../source/View/Helper/Form.php.html#line23">Source</a>
+            <a href="../source/View/Helper/Form.php.html#line25">Source</a>
           </li>
         </ul>
       </nav>
@@ -87,13 +87,9 @@
                 extends <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract.html">HelperAbstract</a>
             {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/render.html">render</a>()
                     </li><li>public void <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/elementFactory.html">elementFactory</a>()
-                    </li><li>public string <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createEnumElement.html">createEnumElement</a>()
-                    </li><li>public string <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createPasswordElement.html">createPasswordElement</a>()
-                    </li><li>protected string <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createIntElement.html">createIntElement</a>()
-                    </li><li>protected string <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createTextElement.html">createTextElement</a>()
-                    </li><li>protected string <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createVarcharElement.html">createVarcharElement</a>()
-                    </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\View\HelperAbstract">HelperAbstract</span></li><li>public void <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/__construct.html">__construct</a>()
-                        </li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
+                    </li><li>protected array <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/getElementTypeMap.html">getElementTypeMap</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\View\HelperAbstract">HelperAbstract</span></li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
+                        </li><li>public array <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs</a>()
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
@@ -116,13 +112,13 @@
         <table class="styled">
           <tr>
             <td>Methods</td>
-            <td class="percent">28.57%</td>
-            <td class="nummeric">2 / 7</td>
+            <td class="percent">100%</td>
+            <td class="nummeric">3 / 3</td>
           </tr>
           <tr>
             <td>Lines</td>
-            <td class="percent">51.52%</td>
-            <td class="nummeric">17 / 33</td>
+            <td class="percent">100%</td>
+            <td class="nummeric">29 / 29</td>
           </tr>
         </table>
         <h2 id="constants">Constants</h2>
@@ -153,19 +149,11 @@
         <div class="styled">
           <h4>protected</h4>
           <ul>
-            <li id="createIntElement"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createIntElement.html">createIntElement()</a>
-                — hook to return a text element representing an integer data input</li>
-            <li id="createTextElement"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createTextElement.html">createTextElement()</a>
-                — hook to return a textarea element representing a text data input</li>
-            <li id="createVarcharElement"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createVarcharElement.html">createVarcharElement()</a>
-                — hook to return a text element representing a varchar data input</li>
+            <li id="getElementTypeMap"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/getElementTypeMap.html">getElementTypeMap()</a>
+                — Gets the known element type map</li>
           </ul>
           <h4>public</h4>
           <ul>
-            <li id="createEnumElement"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createEnumElement.html">createEnumElement()</a>
-                — hook to return a select element representing an enum data input</li>
-            <li id="createPasswordElement"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/createPasswordElement.html">createPasswordElement()</a>
-                — hook to return a password element representing a password data input</li>
             <li id="elementFactory"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/elementFactory.html">elementFactory()</a>
                 — method to return an input element from a given parameter array</li>
             <li id="render"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/render.html">render()</a>
@@ -176,6 +164,11 @@
           <ul>
             <li id="getHtmlAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs()</a>
                 — Method to return a string of key=value pairs.</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="getAcceptableAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs()</a>
+                — Overridable function to return the list of Attributes that are ok.</li>
           </ul>
           <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
           <h4>public</h4>
@@ -200,6 +193,26 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-14T22:01:17-05:00 (commit #<span title="3ca33f87177778d0cd55a5ccc0fffd3bbecdfbbd">3ca33f8</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">General code cleanup. Also getting unit test coverage for the Dispatcher up to 100%</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-14T07:03:35-05:00 (commit #<span title="ca452e09f565043f591bc2505e9e28ed74fdbfba">ca452e0</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Removing the Database class, trait, and associated tests. Cleaning up some of the declarations on the filter and view helper classes</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-12T08:31:23-05:00 (commit #<span title="da72fc686020fbfa8e01bab84adafa844a6c3704">da72fc6</span>)</h3>
             <div>

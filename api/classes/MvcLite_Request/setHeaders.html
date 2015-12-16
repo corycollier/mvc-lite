@@ -56,34 +56,57 @@
             <a href="#synopsis">Synopsis</a>
           </li>
           <li>
+            <a href="#parameter">Parameter</a>
+          </li>
+          <li>
+            <a href="#return">Return</a>
+          </li>
+          <li>
             <a href="#tests">Tests</a>
           </li>
           <li>
-            <a href="../../source/Request.php.html#line67">Source</a>
+            <a href="../../source/Request.php.html#line71">Source</a>
           </li>
         </ul>
       </nav>
       <section>
         <h1><small>MvcLite\Request::</small>setHeaders</h1>
-        <h4>Method to set the headers</h4>
+        <h4>Method to set the headers.</h4>
         <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>protected function setHeaders()
+          <code>public function setHeaders([array
+        $headers = ] )
             </code>
         </div>
+        <h2 id="parameterlist">Parameters</h2>
+        <dl class="styled">
+          <dt><code>$headers</code>
+                —
+                array</dt>
+          <dd/>
+        </dl>
+        <h2 id="return">Returns</h2>
+        <dl class="styled">
+          <dt>Request</dt>
+          <dd>Returns $this, for object-chaining.<br/>
+        </dd>
+        </dl>
         <h2 id="tests">Test Coverage</h2>
         <div class="styled">
           <h3>Information</h3>
           <ul class="styled">
-            <li>Coverage: 9/12 Lines (75%)</li>
-            <li>Tests: 1</li>
-            <li>Passed: 1 (100%)</li>
+            <li>Coverage: 13/13 Lines (100%)</li>
+            <li>Tests: 4</li>
+            <li>Passed: 4 (100%)</li>
           </ul>
           <h3>Tests</h3>
           <ul class="styled">
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\DispatcherTest::testDispatch with data set "simple params"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\DispatcherTest::testDispatch with data set "good controller request"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\DispatcherTest::testDispatch with data set "bad controller request"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testSetHeaders with data set "no http headers"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testSetHeaders with data set "one http headers"</li>
           </ul>
         </div>
       </section>

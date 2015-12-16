@@ -71,7 +71,7 @@
             <a href="#history">History</a>
           </li>
           <li>
-            <a href="../source/View/HelperAbstract.php.html#line26">Source</a>
+            <a href="../source/View/HelperAbstract.php.html#line27">Source</a>
           </li>
         </ul>
       </nav>
@@ -85,8 +85,8 @@
         <h2 id="synopsis">Synopsis</h2>
         <div class="synopsis">class HelperAbstract
                 extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
-            {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/__construct.html">__construct</a>()
-                    </li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
+            {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// methods</li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
+                    </li><li>public array <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
@@ -121,7 +121,7 @@
           <tr>
             <td>Lines</td>
             <td class="percent">100%</td>
-            <td class="nummeric">24 / 24</td>
+            <td class="nummeric">20 / 20</td>
           </tr>
         </table>
         <h2 id="constants">Constants</h2>
@@ -155,6 +155,11 @@
             <li id="getHtmlAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs()</a>
                 — Method to return a string of key=value pairs.</li>
           </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="getAcceptableAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs()</a>
+                — Overridable function to return the list of Attributes that are ok.</li>
+          </ul>
           <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
           <h4>public</h4>
           <ul>
@@ -178,6 +183,26 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-15T06:58:42-05:00 (commit #<span title="05d27408f1a892d4c5af669889630b191ac0c578">05d2740</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Cleaning up a lot of unit tests. Splitting up the getHtmlAttribs method of the Abstract View Helper</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-14T22:01:17-05:00 (commit #<span title="3ca33f87177778d0cd55a5ccc0fffd3bbecdfbbd">3ca33f8</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">General code cleanup. Also getting unit test coverage for the Dispatcher up to 100%</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-12T08:16:47-05:00 (commit #<span title="f22ff8c54a3a335ce6a60b98162b76ffc5747c75">f22ff8c</span>)</h3>
             <div>
