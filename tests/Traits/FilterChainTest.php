@@ -35,7 +35,10 @@ class FilterChainTraitsTest extends TestCase
     }
 }
 
+// @codingStandardsIgnoreStart
+// testing classes
 class TestFixtureFilterChainTrait
 {
     use FilterChainTrait;
 }
+// @codingStandardsIgnoreEnd

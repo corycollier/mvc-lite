@@ -35,7 +35,10 @@ class SessionTraitsTest extends TestCase
     }
 }
 
+// @codingStandardsIgnoreStart
+// testing classes
 class TestFixtureSessionTrait
 {
     use SessionTrait;
 }
+// @codingStandardsIgnoreEnd
