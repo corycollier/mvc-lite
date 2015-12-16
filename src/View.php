@@ -85,6 +85,8 @@ class View extends ObjectAbstract
         }
 
         $this->viewScriptPaths[] = $path;
+
+        return $this;
     }
 
     /**

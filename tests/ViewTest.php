@@ -142,4 +142,38 @@ class ViewTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Tests MvcLite\View::addViewScriptPath
+     *
+     * @dataProvider provideAddViewScriptPath
+     */
+    public function testAddViewScriptPath($path)
+    {
+        $sut = $this->getMockBuilder('MvcLite\View')
+            ->disableOriginalConstructor()
+            ->setMethods(['filepath'])
+            ->getMock();
+
+        $sut->expects($this->any())
+            ->method('filepath')
+            ->will($this->returnValue($path));
+
+        $result = $sut->addViewScriptPath($path);
+        $this->assertSame($sut, $result);
+
+    }
+
+    public function provideAddViewScriptPath()
+    {
+        return [
+            'path not in APP_PATH' => [
+                'path'     => '/some/path',
+            ],
+
+            'path in APP_PATH' => [
+                'path'     => APP_PATH . '/some/path',
+            ]
+        ];
+    }
 }
