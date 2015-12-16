@@ -164,6 +164,11 @@ class ViewTest extends TestCase
 
     }
 
+    /**
+     * Data Provider for testAddViewScriptPath.
+     *
+     * @return array An array of data to use for testing.
+     */
     public function provideAddViewScriptPath()
     {
         return [

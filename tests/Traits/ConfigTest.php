@@ -33,10 +33,12 @@ class ConfigTraitsTest extends TestCase
         $result = $sut->getConfig();
         $this->assertInstanceOf('\MvcLite\Config', $result);
     }
-
 }
 
+// @codingStandardsIgnoreStart
+// testing classes
 class TestFixtureConfigTrait
 {
     use ConfigTrait;
 }
+// @codingStandardsIgnoreEnd

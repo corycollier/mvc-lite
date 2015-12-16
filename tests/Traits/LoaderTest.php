@@ -49,7 +49,10 @@ class LoaderTraitsTest extends TestCase
     }
 }
 
+// @codingStandardsIgnoreStart
+// testing classes
 class TestFixtureLoaderTrait
 {
     use LoaderTrait;
 }
+// @codingStandardsIgnoreEnd

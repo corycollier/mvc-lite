@@ -34,8 +34,8 @@ trait FilterChain
     {
         $chain = new \MvcLite\FilterChain;
         foreach ($filters as $filter) {
-          $class = '\MvcLite\Filter\\' . $filter;
-          $chain->addFilter(new $class);
+            $class = '\MvcLite\Filter\\' . $filter;
+            $chain->addFilter(new $class);
         }
         return $chain;
     }
