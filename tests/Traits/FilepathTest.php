@@ -50,10 +50,12 @@ class FilepathTraitsTest extends TestCase
             ]
         ];
     }
-
 }
 
+// @codingStandardsIgnoreStart
+// testing classes
 class TestFixtureFilepathTrait
 {
     use FilepathTrait;
 }
+// @codingStandardsIgnoreEnd
