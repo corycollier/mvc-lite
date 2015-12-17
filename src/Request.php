@@ -29,6 +29,11 @@ class Request extends ObjectAbstract
     use FilterChainTrait;
 
     /**
+     * Constants
+     */
+    const ERR_BAD_CONTENT_TYPE = 'Content type [%s] not recognized';
+
+    /**
      * associative array representing the request params
      *
      * @var array
@@ -85,6 +90,10 @@ class Request extends ObjectAbstract
             $key = $filter->filter($key);
             $key = strtr($key, ['Http-' => '']);
             $this->setHeader($key, $value);
+        }
+
+        if (isset($headers['CONTENT_TYPE'])) {
+            $this->setHeader('Content-Type', $headers['CONTENT_TYPE']);
         }
 
         return $this;
@@ -260,5 +269,46 @@ class Request extends ObjectAbstract
     public function getUri()
     {
         return $this->uri;
+    }
+
+    /**
+     * Getter for the content type of the request.
+     *
+     * @return string The content type.
+     */
+    public function getContentType()
+    {
+        $contentType = $this->getHeader('Content-Type');
+        if (! $contentType) {
+            var_dump($this->headers); die;
+            $accept = $this->getHeader('Accept');
+            $parts = explode(',', $accept);
+            $contentType = $parts[0];
+        }
+        return $contentType;
+    }
+
+    /**
+     * Gets a friendly version of the format.
+     *
+     * @param string $contentType The raw content type.
+     *
+     * @return string The machine friendly name for the request type (aka Format).
+     */
+    public function getFormat($contentType)
+    {
+        $map = [
+            'application/json'       => 'json',
+            'application/javascript' => 'json',
+            'text/html'              => 'html',
+            'text/plain'             => 'text',
+            'text/csv'               => 'csv',
+        ];
+
+        if (!array_key_exists($contentType, $map)) {
+            throw new Exception(sprintf(self::ERR_BAD_CONTENT_TYPE, $contentType));
+        }
+
+        return $map[$contentType];
     }
 }

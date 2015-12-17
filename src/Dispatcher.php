@@ -64,12 +64,14 @@ class Dispatcher extends ObjectAbstract
      */
     public function dispatch()
     {
-        $request    = $this->getRequest();
-        $params     = $request->getParams();
-        $controller = $this->translateControllerName($params['controller']);
-        $action     = $this->translateActionName($params['action']);
-        $response   = $this->getResponse();
-        $loader     = $this->getLoader();
+        $request     = $this->getRequest();
+        $params      = $request->getParams();
+        $controller  = $this->translateControllerName($params['controller']);
+        $action      = $this->translateActionName($params['action']);
+        $response    = $this->getResponse();
+        $loader      = $this->getLoader();
+        $contentType = $request->getContentType();
+        $format      = $request->getFormat($contentType);
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
@@ -104,7 +106,10 @@ class Dispatcher extends ObjectAbstract
         $controller->postDispatch();
 
         // send the response
-        $body = $controller->getView()->render();
+        $body = $controller->getView()
+            ->setFormat($format)
+            ->render();
+
         $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers
