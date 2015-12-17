@@ -52,7 +52,6 @@ class Dispatcher extends ObjectAbstract
         $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
         $this->getRequest()->init();
         $this->getResponse()->init();
-        // $this->getView()->setLoader($loader);
 
         return $this;
     }
@@ -106,6 +105,8 @@ class Dispatcher extends ObjectAbstract
 
         // send the response
         $body = $controller->getView()
+            ->init()
+            ->setLoader($loader)
             ->setFormat($format)
             ->render();
 

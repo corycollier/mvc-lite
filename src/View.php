@@ -87,9 +87,26 @@ class View extends ObjectAbstract
 
     /**
      * method to start the view.
+     *
+     * @return MvcLite\View Return s$his for object-chaining.
      */
     public function init()
     {
+        $config = $this->getConfig();
+
+        $this->set('title', $config->get('app.title'));
+
+        $settings = $config->getSection('layout');
+        foreach ($settings as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        $settings = $config->getSection('view');
+        foreach ($settings as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        return $this;
     }
 
     /**

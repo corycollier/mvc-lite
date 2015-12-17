@@ -301,10 +301,11 @@ function mvc_dispatch_action_create($args = [])
 
     $code = implode(PHP_EOL, $lines);
     $code .= mvc_get_controller_action_code($args) . PHP_EOL . '}' . PHP_EOL;
-    $code = mvc_get_controller_action_code($args);
 
     mvc_file_put_contents($filename, $code);
-    mvc_dispatch_view_create($args);
+    mvc_dispatch_view_create(array_merge($args, [
+        'controller' => $args['name'],
+    ])) ;
 }
 /**
  * Creates a view.
@@ -343,7 +344,7 @@ function mvc_dispatch_resource_create($args = [])
     mvc_dispatch_model_create($args);
     mvc_dispatch_controller_create($args);
     mvc_dispatch_view_create(array_merge($args, [
-        'name' => 'index',
+        'name'       => 'index',
         'controller' => $args['name']
     ]));
 }
@@ -496,21 +497,31 @@ code;
  */
 function mvc_get_view_script_code($args = [])
 {
-    $defaults = ['name' => 'index', 'description' => ''];
+    $defaults = [
+        'name'        => 'index',
+        'controller'  => 'index',
+        'description' => '',
+    ];
     $params = array_merge($defaults, $args);
     extract($params);
 
     $code = <<<code
 <?php
 /**
- * !name view script.
+ * !controller/!name view script.
  *
  * !description
  */
 ?>
 
-<h2>!upperName</h2>
-!name view script
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>!controller !upperName</h2>
+            <p>!name view script for the !controllerController</p>
+        </div>
+    </div>
+</div>
 
 code;
 
@@ -518,6 +529,7 @@ code;
         '!name'        => strtolower($name),
         '!upperName'   => ucwords($name),
         '!description' => $description,
+        '!controller'  => ucwords($controller),
     ]);
 }
 
@@ -543,16 +555,39 @@ function mvc_get_view_layout_code()
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+         <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+            integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+            crossorigin="anonymous" />
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+            integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+            crossorigin="anonymous" />
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
     <body>
+
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong>
             browser. Please <a href="http://browsehappy.com/">upgrade your browser</a>
             to improve your experience.</p>
         <![endif]-->
-
         <!-- Add your site or application content here -->
         <?php echo \$this->get('content'); ?>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
     </body>
 </html>
 

@@ -181,7 +181,7 @@ class RequestTest extends TestCase
             ->setMethods(['filter', 'addFilter'])
             ->getMock();
 
-        $filterChain->expects($this->exactly(count($headers)))
+        $filterChain->expects($this->any())
             ->method('filter');
 
         $sut->expects($this->once())
@@ -349,7 +349,6 @@ class RequestTest extends TestCase
                 'expected' => 'text/plain',
                 'headers'  => []
             ],
-
         ];
     }
 }
