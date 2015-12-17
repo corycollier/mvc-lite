@@ -208,6 +208,12 @@ class RequestTest extends TestCase
                     'HTTP_VALUE' => 'something',
                 ],
             ],
+            'with content type' => [
+                'headers' => [
+                    'HTTP_VALUE' => 'something',
+                    'CONTENT_TYPE' => 'text/html',
+                ],
+            ],
         ];
     }
 
@@ -247,5 +253,60 @@ class RequestTest extends TestCase
         $property->setValue($this->sut, $expected);
         $result = $this->sut->getUri();
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests MvcLite\Request::getFormat.
+     *
+     * @param string $expected The expected return value.
+     * @param string $contentType The contentType to use for testing the response.
+     * @param boolean $exception if true, expect an exception.
+     *
+     * @dataProvider provideGetFormat
+     */
+    public function testGetFormat($expected, $contentType, $exception = false)
+    {
+        if ($exception) {
+            $this->setExpectedException('\MvcLite\Exception');
+        }
+
+        $result = $this->sut->getFormat($contentType);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetFormat.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetFormat()
+    {
+        return [
+            'application/json' => [
+                'expected'    => 'json',
+                'contentType' => 'application/json',
+            ],
+            'application/javascript' => [
+                'expected'    => 'json',
+                'contentType' => 'application/json',
+            ],
+            'text/html' => [
+                'expected'    => 'html',
+                'contentType' => 'text/html',
+            ],
+            'text/plain' => [
+                'expected'    => 'text',
+                'contentType' => 'text/plain',
+            ],
+            'text/csv' => [
+                'expected'    => 'csv',
+                'contentType' => 'text/csv',
+            ],
+            'bad content type, expect exception' => [
+                'expected'    => '',
+                'contentType' => 'not/real',
+                'exception'   => true,
+            ]
+        ];
     }
 }

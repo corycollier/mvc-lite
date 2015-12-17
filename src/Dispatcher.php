@@ -83,7 +83,6 @@ class Dispatcher extends ObjectAbstract
                 throw new Exception('Invalid controller specified');
             }
 
-
             // Now, instantiate the controller and try to run it's action.
             $controller = new $controller;
             if (! method_exists($controller, $action)) {
@@ -142,7 +141,7 @@ class Dispatcher extends ObjectAbstract
     {
         $filter = $this->getFilterChain(['DashToCamelcase', 'StringToProper']);
         $controller = $filter->filter($controller);
-        return '\\App\\' . $controller . 'Controller';
+        return '\App\\' . $controller . 'Controller';
     }
 
     /**
@@ -156,6 +155,6 @@ class Dispatcher extends ObjectAbstract
     {
         $filter = $this->getFilterChain(['DashToCamelcase']);
         $action = $filter->filter($action);
-        return "{$action}Action";
+        return $action . 'Action';
     }
 }

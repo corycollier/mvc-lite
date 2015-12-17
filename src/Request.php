@@ -122,8 +122,13 @@ class Request extends ObjectAbstract
      */
     public function buildFromString($string = '', $separator = '/')
     {
+        global $argv;
         // create a list of parts by separator
         $parts = array_filter(explode($separator, $string));
+        if (!$string && PHP_SAPI == 'cli') {
+            $parts = $argv;
+            array_shift($parts);
+        }
 
         $controller = array_shift($parts);
         $action = array_shift($parts);
@@ -278,12 +283,17 @@ class Request extends ObjectAbstract
      */
     public function getContentType()
     {
+        if (PHP_SAPI == 'cli') {
+            return 'text/plain';
+        }
+
         $contentType = $this->getHeader('Content-Type');
         if (! $contentType) {
             $accept = $this->getHeader('Accept');
             $parts = explode(',', $accept);
             $contentType = $parts[0];
         }
+
         return $contentType ? $contentType : 'text/html';
     }
 

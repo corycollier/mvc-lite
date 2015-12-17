@@ -112,7 +112,7 @@ class View extends ObjectAbstract
     public function setFormat($format)
     {
         $formats = [
-            'html', 'json', 'xml'
+            'html', 'json', 'xml', 'text'
         ];
 
         if (!in_array($format, $formats)) {
@@ -313,6 +313,7 @@ class View extends ObjectAbstract
      */
     public function getHelper($name)
     {
+        $loader = $this->getLoader();
         // if the helper has already been loaded, just return the instance
         if (@$this->helpers[$name]) {
             return $this->helpers[$name];
@@ -322,11 +323,10 @@ class View extends ObjectAbstract
             // create the full class name
             $className = "\\{$library}\\View\\Helper\\" . ucfirst("{$name}");
 
-            // set the local instance of the class
-            $this->helpers[$name] = new $className($this);
-
-            // return the stored instance of the class
-            return $this->helpers[$name];
+            if ($loader->loadClass($className)) {
+                $this->helpers[$name] = new $className($this);
+                return $this->helpers[$name];
+            }
         }
 
         // throw an exception if we get this far
