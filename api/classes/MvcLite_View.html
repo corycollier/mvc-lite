@@ -56,7 +56,7 @@
             <a href="#hierarchy">Hierarchy</a>
           </li>
           <li>
-            <a href="#coverage">Coverage</a>
+            <a href="#violations">Violations</a>
           </li>
           <li>
             <a href="#constants">Constants</a>
@@ -71,7 +71,7 @@
             <a href="#history">History</a>
           </li>
           <li>
-            <a href="../source/View.php.html#line27">Source</a>
+            <a href="../source/View.php.html#line30">Source</a>
           </li>
         </ul>
       </nav>
@@ -85,15 +85,19 @@
         <h2 id="synopsis">Synopsis</h2>
         <div class="synopsis">class View
                 extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
-            {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$vars</a> =
+            {<br/><ul class="none"><li>// constants</li><li>const DEFAULT_FORMAT = 'html';</li><li>const ERR_BAD_HELPER_NAME = "Requested view helper [%s] could not be found";</li><li>const ERR_BAD_FORMAT = "The format given [%s] is not supported";</li></ul><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$vars</a> =
                         ;
                     </li><li>protected array <a href="#members">$helpers</a> =
                         ;
                     </li><li>protected  <a href="#members">$script</a>;
                     </li><li>protected  <a href="#members">$layout</a>;
+                    </li><li>protected string <a href="#members">$format</a> =
+                        self::DEFAULT_FORMAT;
                     </li><li>protected array <a href="#members">$viewScriptPaths</a> =
                         ;
                     </li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View" href="../classes/MvcLite_View/init.html">init</a>()
+                    </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/getFormat.html">getFormat</a>()
+                    </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/setFormat.html">setFormat</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/addViewScriptPath.html">addViewScriptPath</a>()
                     </li><li>public array <a title="MvcLite\View" href="../classes/MvcLite_View/getViewScriptPaths.html">getViewScriptPaths</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/setScript.html">setScript</a>()
@@ -101,6 +105,7 @@
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/setLayout.html">setLayout</a>()
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/getLayout.html">getLayout</a>()
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/getViewScript.html">getViewScript</a>()
+                    </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/getLayoutScript.html">getLayoutScript</a>()
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/render.html">render</a>()
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/filter.html">filter</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/set.html">set</a>()
@@ -115,6 +120,9 @@
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Filepath">Filepath</span></li><li>public Request <a title="MvcLite\Traits\Filepath" href="../traits/MvcLite_Traits_Filepath/filepath.html">filepath</a>()
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Loader">Loader</span></li><li>public ClassLoader <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/getLoader.html">getLoader</a>()
                         </li><li>public Loader <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/setLoader.html">setLoader</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Request">Request</span></li><li>public Request <a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request/getRequest.html">getRequest</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Session">Session</span></li><li>public Session <a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session/getSession.html">getSession</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\Traits\Config">Config</span></li><li>public Config <a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config/getConfig.html">getConfig</a>()
                         </li></ul>
 
             }<br/></div>
@@ -137,21 +145,39 @@
             <li>
               <a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader.html">MvcLite\Traits\Loader</a>
             </li>
+            <li>
+              <a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request.html">MvcLite\Traits\Request</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session.html">MvcLite\Traits\Session</a>
+            </li>
+            <li>
+              <a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config.html">MvcLite\Traits\Config</a>
+            </li>
           </ul>
         </div>
-        <h2 id="coverage">Coverage</h2>
-        <table class="styled">
-          <tr>
-            <td>Methods</td>
-            <td class="percent">0%</td>
-            <td class="nummeric">0 / 13</td>
-          </tr>
-          <tr>
-            <td>Lines</td>
-            <td class="percent">0%</td>
-            <td class="nummeric"> / </td>
-          </tr>
-        </table>
+        <h2 id="violations">Violations</h2>
+        <div class="styled">
+          <h3>Checkstyle</h3>
+          <table class="styled">
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Column</th>
+                <th>Severity</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tr>
+              <td class="line">95</td>
+              <td>31</td>
+              <td>
+                <span title="Generic.Formatting.DisallowMultipleStatements.SameLine">error</span>
+              </td>
+              <td>Each PHP statement must be on a line by itself</td>
+            </tr>
+          </table>
+        </div>
         <h2 id="constants">Constants</h2>
         <table class="styled">
           <thead>
@@ -162,6 +188,18 @@
           </thead>
           <tbody>
             <tr>
+              <td id="DEFAULT_FORMAT">DEFAULT_FORMAT</td>
+              <td>'html'</td>
+            </tr>
+            <tr>
+              <td id="ERR_BAD_HELPER_NAME">ERR_BAD_HELPER_NAME</td>
+              <td>"Requested view helper [%s] could not be found"</td>
+            </tr>
+            <tr>
+              <td id="ERR_BAD_FORMAT">ERR_BAD_FORMAT</td>
+              <td>"The format given [%s] is not supported"</td>
+            </tr>
+            <tr>
               <td id="MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</td>
               <td>'Descendents must implement the identify method'</td>
             </tr>
@@ -171,6 +209,12 @@
         <div class="styled members">
           <h4>protected</h4>
           <ul class="members">
+            <li id="config"><strong>$config</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Config" href="../classes/MvcLite_Traits_MvcLite_Config.html">MvcLite\Traits\MvcLite\Config</a><br/><span class="indent">Config instance variable.</span></li>
+            <li id="format"><strong>$format</strong>
+                —
+                string<br/><span class="indent">The format type for the view</span></li>
             <li id="helpers"><strong>$helpers</strong>
                 —
                 array<br/><span class="indent">a list of previously loaded view helpers</span></li>
@@ -183,9 +227,15 @@
             <li id="loader"><strong>$loader</strong>
                 —
                 <a title="\Composer\Autoload\ClassLoader" href="../classes/_Composer_Autoload_ClassLoader.html">\Composer\Autoload\ClassLoader</a><br/><span class="indent">Loader instance variable.</span></li>
+            <li id="request"><strong>$request</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Request" href="../classes/MvcLite_Traits_MvcLite_Request.html">MvcLite\Traits\MvcLite\Request</a><br/><span class="indent">Request instance variable.</span></li>
             <li id="script"><strong>$script</strong>
                 —
                 string<br/><span class="indent">The name of the view script to be used</span></li>
+            <li id="session"><strong>$session</strong>
+                —
+                <a title="MvcLite\Traits\MvcLite\Session" href="../classes/MvcLite_Traits_MvcLite_Session.html">MvcLite\Traits\MvcLite\Session</a><br/><span class="indent">Session instance variable.</span></li>
             <li id="vars"><strong>$vars</strong>
                 —
                 array<br/><span class="indent">Variables assigned to the view</span></li>
@@ -204,10 +254,14 @@
                 — Method to filter string input</li>
             <li id="get"><a title="MvcLite\View" href="../classes/MvcLite_View/get.html">get()</a>
                 — getter for the _vars property</li>
+            <li id="getFormat"><a title="MvcLite\View" href="../classes/MvcLite_View/getFormat.html">getFormat()</a>
+                — Getter for the format.</li>
             <li id="getHelper"><a title="MvcLite\View" href="../classes/MvcLite_View/getHelper.html">getHelper()</a>
                 — getter for a view helper instance</li>
             <li id="getLayout"><a title="MvcLite\View" href="../classes/MvcLite_View/getLayout.html">getLayout()</a>
                 — Returns the layout script name</li>
+            <li id="getLayoutScript"><a title="MvcLite\View" href="../classes/MvcLite_View/getLayoutScript.html">getLayoutScript()</a>
+                — Returns the layout script;</li>
             <li id="getScript"><a title="MvcLite\View" href="../classes/MvcLite_View/getScript.html">getScript()</a>
                 — Method to get the script attribute</li>
             <li id="getViewScript"><a title="MvcLite\View" href="../classes/MvcLite_View/getViewScript.html">getViewScript()</a>
@@ -220,6 +274,8 @@
                 — Method to render the view</li>
             <li id="set"><a title="MvcLite\View" href="../classes/MvcLite_View/set.html">set()</a>
                 — Setter for the _vars property.</li>
+            <li id="setFormat"><a title="MvcLite\View" href="../classes/MvcLite_View/setFormat.html">setFormat()</a>
+                — Setter for the format.</li>
             <li id="setLayout"><a title="MvcLite\View" href="../classes/MvcLite_View/setLayout.html">setLayout()</a>
                 — Method to set the layout attribute</li>
             <li id="setScript"><a title="MvcLite\View" href="../classes/MvcLite_View/setScript.html">setScript()</a>
@@ -259,9 +315,47 @@
             <li id="setLoader"><a title="MvcLite\Traits\Loader" href="../traits/MvcLite_Traits_Loader/setLoader.html">setLoader()</a>
                 — Setter for the Loader instance.</li>
           </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request.html">MvcLite\Traits\Request</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getRequest"><a title="MvcLite\Traits\Request" href="../traits/MvcLite_Traits_Request/getRequest.html">getRequest()</a>
+                — Getter for the Request instance.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session.html">MvcLite\Traits\Session</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getSession"><a title="MvcLite\Traits\Session" href="../traits/MvcLite_Traits_Session/getSession.html">getSession()</a>
+                — Getter for the session instance variable.</li>
+          </ul>
+          <h3>Inherited from <a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config.html">MvcLite\Traits\Config</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getConfig"><a title="MvcLite\Traits\Config" href="../traits/MvcLite_Traits_Config/getConfig.html">getConfig()</a>
+                — Getter for the config.</li>
+          </ul>
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-17T00:04:48-05:00 (commit #<span title="afe544640453f565b3e5e06034d2542b86faf91f">afe5446</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Adding text as a recognized content type. This is to accomodate cli requests</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-16T21:16:45-05:00 (commit #<span title="56c2c5b5cc2f639923c18f979f68ef595330a73b">56c2c5b</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">First commit of the 3.2.0 release branch. Adding format changing for the response</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-16T10:02:24-05:00 (commit #<span title="567d8def52399ee76bb98a5d41308c8cd73d9276">567d8de</span>)</h3>
             <div>

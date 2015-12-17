@@ -56,9 +56,6 @@
             <a href="#hierarchy">Hierarchy</a>
           </li>
           <li>
-            <a href="#coverage">Coverage</a>
-          </li>
-          <li>
             <a href="#constants">Constants</a>
           </li>
           <li>
@@ -85,7 +82,7 @@
         <h2 id="synopsis">Synopsis</h2>
         <div class="synopsis">class Request
                 extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
-            {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$params</a> =
+            {<br/><ul class="none"><li>// constants</li><li>const ERR_BAD_CONTENT_TYPE = 'Content type [%s] not recognized';</li></ul><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$params</a> =
                         ;
                     </li><li>protected array <a href="#members">$headers</a> =
                         ;
@@ -103,6 +100,8 @@
                     </li><li>public void <a title="MvcLite\Request" href="../classes/MvcLite_Request/getHeader.html">getHeader</a>()
                     </li><li>public boolean <a title="MvcLite\Request" href="../classes/MvcLite_Request/isAjax.html">isAjax</a>()
                     </li><li>public string <a title="MvcLite\Request" href="../classes/MvcLite_Request/getUri.html">getUri</a>()
+                    </li><li>public string <a title="MvcLite\Request" href="../classes/MvcLite_Request/getContentType.html">getContentType</a>()
+                    </li><li>public string <a title="MvcLite\Request" href="../classes/MvcLite_Request/getFormat.html">getFormat</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
@@ -131,19 +130,6 @@
             </li>
           </ul>
         </div>
-        <h2 id="coverage">Coverage</h2>
-        <table class="styled">
-          <tr>
-            <td>Methods</td>
-            <td class="percent">100%</td>
-            <td class="nummeric">13 / 13</td>
-          </tr>
-          <tr>
-            <td>Lines</td>
-            <td class="percent">100%</td>
-            <td class="nummeric">67 / 67</td>
-          </tr>
-        </table>
         <h2 id="constants">Constants</h2>
         <table class="styled">
           <thead>
@@ -153,6 +139,10 @@
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td id="ERR_BAD_CONTENT_TYPE">ERR_BAD_CONTENT_TYPE</td>
+              <td>'Content type [%s] not recognized'</td>
+            </tr>
             <tr>
               <td id="MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</td>
               <td>'Descendents must implement the identify method'</td>
@@ -183,6 +173,10 @@
           <ul>
             <li id="buildFromString"><a title="MvcLite\Request" href="../classes/MvcLite_Request/buildFromString.html">buildFromString()</a>
                 — Build an associative array from a string</li>
+            <li id="getContentType"><a title="MvcLite\Request" href="../classes/MvcLite_Request/getContentType.html">getContentType()</a>
+                — Getter for the content type of the request.</li>
+            <li id="getFormat"><a title="MvcLite\Request" href="../classes/MvcLite_Request/getFormat.html">getFormat()</a>
+                — Gets a friendly version of the format.</li>
             <li id="getHeader"><a title="MvcLite\Request" href="../classes/MvcLite_Request/getHeader.html">getHeader()</a>
                 — method to get the value for a single header</li>
             <li id="getHeaders"><a title="MvcLite\Request" href="../classes/MvcLite_Request/getHeaders.html">getHeaders()</a>
@@ -237,6 +231,46 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-17T07:41:54-05:00 (commit #<span title="8ec4f8af3b7fcb66cdc508f831ac668bf6357415">8ec4f8a</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Updating unit test coverage for the request class.</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-17T00:04:48-05:00 (commit #<span title="afe544640453f565b3e5e06034d2542b86faf91f">afe5446</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Adding text as a recognized content type. This is to accomodate cli requests</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-16T21:21:57-05:00 (commit #<span title="95249b7d7aeaf84145eec9c2681f3170e24c86a3">95249b7</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Adding a default content type value to the return of MvcLite\Request::getContentType. Updating the unit tests for the Separator to Ucwords filter</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-16T21:16:45-05:00 (commit #<span title="56c2c5b5cc2f639923c18f979f68ef595330a73b">56c2c5b</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">First commit of the 3.2.0 release branch. Adding format changing for the response</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-15T09:42:10-05:00 (commit #<span title="0bcf0896cde8e73600cc0613e980554d9f547cf2">0bcf089</span>)</h3>
             <div>
