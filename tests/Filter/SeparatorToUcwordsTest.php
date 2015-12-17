@@ -54,8 +54,8 @@ class FilterSeparatorToUcwordsTest extends TestCase
             ['Lion', '-', 'Lion'],
             ['tIer', '-', 'TIer'],
             ['the dog', ' ', 'The Dog'],
-            ['123/SomethinG', '/', '123 SomethinG'],
-            ['wow_AWeSoME', '_', 'Wow AWeSoME'],
+            ['123/SomethinG', '/', '123/SomethinG'],
+            ['wow_AWeSoME', '_', 'Wow_AWeSoME'],
         ];
     }
 }

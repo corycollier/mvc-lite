@@ -280,12 +280,11 @@ class Request extends ObjectAbstract
     {
         $contentType = $this->getHeader('Content-Type');
         if (! $contentType) {
-            var_dump($this->headers); die;
             $accept = $this->getHeader('Accept');
             $parts = explode(',', $accept);
             $contentType = $parts[0];
         }
-        return $contentType;
+        return $contentType ? $contentType : 'text/html';
     }
 
     /**
