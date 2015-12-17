@@ -181,7 +181,7 @@ class RequestTest extends TestCase
             ->setMethods(['filter', 'addFilter'])
             ->getMock();
 
-        $filterChain->expects($this->exactly(count($headers)))
+        $filterChain->expects($this->any())
             ->method('filter');
 
         $sut->expects($this->once())
@@ -206,6 +206,12 @@ class RequestTest extends TestCase
             'one http headers' => [
                 'headers' => [
                     'HTTP_VALUE' => 'something',
+                ],
+            ],
+            'with content type' => [
+                'headers' => [
+                    'HTTP_VALUE' => 'something',
+                    'CONTENT_TYPE' => 'text/html',
                 ],
             ],
         ];
@@ -247,5 +253,102 @@ class RequestTest extends TestCase
         $property->setValue($this->sut, $expected);
         $result = $this->sut->getUri();
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests MvcLite\Request::getFormat.
+     *
+     * @param string $expected The expected return value.
+     * @param string $contentType The contentType to use for testing the response.
+     * @param boolean $exception if true, expect an exception.
+     *
+     * @dataProvider provideGetFormat
+     */
+    public function testGetFormat($expected, $contentType, $exception = false)
+    {
+        if ($exception) {
+            $this->setExpectedException('\MvcLite\Exception');
+        }
+
+        $result = $this->sut->getFormat($contentType);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetFormat.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetFormat()
+    {
+        return [
+            'application/json' => [
+                'expected'    => 'json',
+                'contentType' => 'application/json',
+            ],
+            'application/javascript' => [
+                'expected'    => 'json',
+                'contentType' => 'application/json',
+            ],
+            'text/html' => [
+                'expected'    => 'html',
+                'contentType' => 'text/html',
+            ],
+            'text/plain' => [
+                'expected'    => 'text',
+                'contentType' => 'text/plain',
+            ],
+            'text/csv' => [
+                'expected'    => 'csv',
+                'contentType' => 'text/csv',
+            ],
+            'bad content type, expect exception' => [
+                'expected'    => '',
+                'contentType' => 'not/real',
+                'exception'   => true,
+            ]
+        ];
+    }
+
+    /**
+     * Tests MvcLite\Request::getContentType
+     *
+     * @dataProvider provideGetContentType
+     */
+    public function testGetContentType($expected, $headers = [])
+    {
+        $sut = \MvcLite\Request::getInstance();
+        $sut->setHeaders($headers);
+        $result = $sut->getContentType();
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetContentType.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetContentType()
+    {
+        return [
+            'has content type text/plain' => [
+                'expected' => 'text/plain',
+                'headers'  => [
+                    'CONTENT_TYPE' => 'text/plain'
+                ]
+            ],
+
+            'has no content type, but has accept headers' => [
+                'expected' => 'text/plain',
+                'headers'  => [
+                    'HTTP_ACCEPT' => 'text/plain,text/html'
+                ]
+            ],
+
+            'has nothing' => [
+                'expected' => 'text/plain',
+                'headers'  => []
+            ],
+        ];
     }
 }

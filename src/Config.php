@@ -86,6 +86,25 @@ class Config extends ObjectAbstract
     }
 
     /**
+     * Gets an entire section of the configuration, by name.
+     *
+     * @param string $name The section name to retreive.
+     *
+     * @return array       The results of the request.
+     */
+    public function getSection($name)
+    {
+        $results = [];
+        foreach ($this->data as $key => $value) {
+            $parts = explode('.', $key);
+            if ($name === $parts[0]) {
+                $results[$key] = $value;
+            }
+        }
+        return $results;
+    }
+
+    /**
      * Assigns multiple values to the config in a single method call.
      *
      * @param array $values A key/value array of things to store.

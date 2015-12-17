@@ -51,6 +51,8 @@ class SeparatorToUcwords extends FilterAbstract
     {
         $parts = explode($this->separator, $word);
         $string = implode(' ', $parts);
-        return ucwords($string);
+        $string = ucwords($string);
+        $parts = explode(' ', $string);
+        return implode($this->separator, $parts);
     }
 }

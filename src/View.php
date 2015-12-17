@@ -14,6 +14,9 @@ namespace MvcLite;
 use MvcLite\Traits\Singleton as SingletonTrait;
 use MvcLite\Traits\Filepath as FilepathTrait;
 use MvcLite\Traits\Loader as LoaderTrait;
+use MvcLite\Traits\Request as RequestTrait;
+use MvcLite\Traits\Session as SessionTrait;
+use MvcLite\Traits\Config as ConfigTrait;
 
 /**
  * Base View Class
@@ -29,6 +32,16 @@ class View extends ObjectAbstract
     use SingletonTrait;
     use FilepathTrait;
     use LoaderTrait;
+    use RequestTrait;
+    use SessionTrait;
+    use ConfigTrait;
+
+    /**
+     * Constants
+     */
+    const DEFAULT_FORMAT = 'html';
+    const ERR_BAD_HELPER_NAME = "Requested view helper [%s] could not be found";
+    const ERR_BAD_FORMAT = "The format given [%s] is not supported";
 
     /**
      * Variables assigned to the view
@@ -59,6 +72,13 @@ class View extends ObjectAbstract
     protected $layout;
 
     /**
+     * The format type for the view
+     *
+     * @var string
+     */
+    protected $format = self::DEFAULT_FORMAT;
+
+    /**
      * The list of paths used to search for view scripts.
      *
      * @var array
@@ -67,9 +87,58 @@ class View extends ObjectAbstract
 
     /**
      * method to start the view.
+     *
+     * @return MvcLite\View Return s$his for object-chaining.
      */
     public function init()
     {
+        $config = $this->getConfig();
+
+        $this->set('title', $config->get('app.title'));
+
+        $settings = $config->getSection('layout');
+        foreach ($settings as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        $settings = $config->getSection('view');
+        foreach ($settings as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Getter for the format.
+     *
+     * @return string The format for the view.
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
+
+    /**
+     * Setter for the format.
+     *
+     * @param string $format The format for the view.
+     *
+     * @return MvcLite\View Returns $this for object-chaining.
+     */
+    public function setFormat($format)
+    {
+        $formats = [
+            'html', 'json', 'xml', 'text'
+        ];
+
+        if (!in_array($format, $formats)) {
+            throw new Exception(sprintf(self::ERR_BAD_FORMAT, $format));
+        }
+
+        $this->format = $format;
+
+        return $this;
     }
 
     /**
@@ -156,13 +225,27 @@ class View extends ObjectAbstract
     {
         $paths = $this->getViewScriptPaths();
         $script = $this->getScript();
+        $format = $this->getFormat();
         // iterate through the view paths
         foreach ($paths as $path) {
-            $path = $this->filepath([$path, $script . '.phtml']);
+            $path = $this->filepath([$path, $script . '.' . $format . '.php']);
             if (file_exists($path)) {
                 return $path;
             }
         }
+    }
+
+    /**
+     * Returns the layout script;
+     * @return string The filename of the layout script.
+     */
+    public function getLayoutScript()
+    {
+        $format      = $this->getFormat();
+        $layoutScript = $this->getLayout() . '.' . $format . '.php';
+        return $this->filepath([
+            APP_PATH, 'View', 'layouts', $layoutScript
+        ]);
     }
 
     /**
@@ -172,27 +255,27 @@ class View extends ObjectAbstract
      */
     public function render()
     {
+        $format       = $this->getFormat();
         $script       = $this->getScript();
         $viewScript   = $this->getViewScript();
-        $layoutScript = $this->getLayout() . '.phtml';
+        $layoutScript = $this->getLayoutScript();
 
         if (! $this->getScript() || ! $this->getViewScript()) {
             return null;
         }
 
         ob_start();
-        extract($this->vars);
         include $viewScript;
         $content = ob_get_clean();
+        $this->set('content', $content);
 
         // if there is no layout, then return the content
-        if (! $this->getLayout()) {
+        if (! $layoutScript || $format !== 'html') {
             return $this->filter($content);
         }
 
         ob_start();
-        $layout = $this->filepath([APP_PATH, 'View', 'layouts', $layoutScript]);
-        include($layout);
+        include $layoutScript;
         $contents = ob_get_clean();
 
         return $this->filter($contents);
@@ -247,6 +330,7 @@ class View extends ObjectAbstract
      */
     public function getHelper($name)
     {
+        $loader = $this->getLoader();
         // if the helper has already been loaded, just return the instance
         if (@$this->helpers[$name]) {
             return $this->helpers[$name];
@@ -256,14 +340,13 @@ class View extends ObjectAbstract
             // create the full class name
             $className = "\\{$library}\\View\\Helper\\" . ucfirst("{$name}");
 
-            // set the local instance of the class
-            $this->helpers[$name] = new $className($this);
-
-            // return the stored instance of the class
-            return $this->helpers[$name];
+            if ($loader->loadClass($className)) {
+                $this->helpers[$name] = new $className($this);
+                return $this->helpers[$name];
+            }
         }
 
         // throw an exception if we get this far
-        throw new Exception("Requested view helper [$name] could not be found");
+        throw new Exception(sprintf(self::ERR_BAD_HELPER_NAME, $name));
     }
 }
