@@ -56,6 +56,9 @@
             <a href="#hierarchy">Hierarchy</a>
           </li>
           <li>
+            <a href="#coverage">Coverage</a>
+          </li>
+          <li>
             <a href="#constants">Constants</a>
           </li>
           <li>
@@ -87,6 +90,7 @@
                     </li></ul><ul class="none"><li>// methods</li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/init.html">init</a>()
                     </li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/set.html">set</a>()
                     </li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/get.html">get</a>()
+                    </li><li>public array <a title="MvcLite\Config" href="../classes/MvcLite_Config/getSection.html">getSection</a>()
                     </li><li>public Config <a title="MvcLite\Config" href="../classes/MvcLite_Config/setAll.html">setAll</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
@@ -112,6 +116,19 @@
             </li>
           </ul>
         </div>
+        <h2 id="coverage">Coverage</h2>
+        <table class="styled">
+          <tr>
+            <td>Methods</td>
+            <td class="percent">80%</td>
+            <td class="nummeric">4 / 5</td>
+          </tr>
+          <tr>
+            <td>Lines</td>
+            <td class="percent">91.67%</td>
+            <td class="nummeric">22 / 24</td>
+          </tr>
+        </table>
         <h2 id="constants">Constants</h2>
         <table class="styled">
           <thead>
@@ -149,6 +166,8 @@
           <ul>
             <li id="get"><a title="MvcLite\Config" href="../classes/MvcLite_Config/get.html">get()</a>
                 — Getter for data.</li>
+            <li id="getSection"><a title="MvcLite\Config" href="../classes/MvcLite_Config/getSection.html">getSection()</a>
+                — Gets an entire section of the configuration, by name.</li>
             <li id="init"><a title="MvcLite\Config" href="../classes/MvcLite_Config/init.html">init()</a>
                 — Init hook.</li>
             <li id="set"><a title="MvcLite\Config" href="../classes/MvcLite_Config/set.html">set()</a>
@@ -179,6 +198,16 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-17T11:21:34-05:00 (commit #<span title="b93b11281e3f74cdf7a56407a8b20438b6cfce24">b93b112</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Adding support for section reading from the Config object. Setting default values to the view from the configuration. Adding the autoloader to the View, and using it to check for helper classes. Updating unit tests for the Request object. Implementation of Bootstrap in the default views created by the mvc script</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-15T09:42:10-05:00 (commit #<span title="0bcf0896cde8e73600cc0613e980554d9f547cf2">0bcf089</span>)</h3>
             <div>

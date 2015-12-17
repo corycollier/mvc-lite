@@ -56,7 +56,7 @@
             <a href="#hierarchy">Hierarchy</a>
           </li>
           <li>
-            <a href="#violations">Violations</a>
+            <a href="#coverage">Coverage</a>
           </li>
           <li>
             <a href="#constants">Constants</a>
@@ -95,7 +95,7 @@
                         self::DEFAULT_FORMAT;
                     </li><li>protected array <a href="#members">$viewScriptPaths</a> =
                         ;
-                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View" href="../classes/MvcLite_View/init.html">init</a>()
+                    </li></ul><ul class="none"><li>// methods</li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/init.html">init</a>()
                     </li><li>public string <a title="MvcLite\View" href="../classes/MvcLite_View/getFormat.html">getFormat</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/setFormat.html">setFormat</a>()
                     </li><li>public View <a title="MvcLite\View" href="../classes/MvcLite_View/addViewScriptPath.html">addViewScriptPath</a>()
@@ -156,28 +156,19 @@
             </li>
           </ul>
         </div>
-        <h2 id="violations">Violations</h2>
-        <div class="styled">
-          <h3>Checkstyle</h3>
-          <table class="styled">
-            <thead>
-              <tr>
-                <th>Line</th>
-                <th>Column</th>
-                <th>Severity</th>
-                <th>Message</th>
-              </tr>
-            </thead>
-            <tr>
-              <td class="line">95</td>
-              <td>31</td>
-              <td>
-                <span title="Generic.Formatting.DisallowMultipleStatements.SameLine">error</span>
-              </td>
-              <td>Each PHP statement must be on a line by itself</td>
-            </tr>
-          </table>
-        </div>
+        <h2 id="coverage">Coverage</h2>
+        <table class="styled">
+          <tr>
+            <td>Methods</td>
+            <td class="percent">0%</td>
+            <td class="nummeric">0 / 16</td>
+          </tr>
+          <tr>
+            <td>Lines</td>
+            <td class="percent">0%</td>
+            <td class="nummeric"> / </td>
+          </tr>
+        </table>
         <h2 id="constants">Constants</h2>
         <table class="styled">
           <thead>
@@ -336,6 +327,16 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-17T11:21:34-05:00 (commit #<span title="b93b11281e3f74cdf7a56407a8b20438b6cfce24">b93b112</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Adding support for section reading from the Config object. Setting default values to the view from the configuration. Adding the autoloader to the View, and using it to check for helper classes. Updating unit tests for the Request object. Implementation of Bootstrap in the default views created by the mvc script</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-17T00:04:48-05:00 (commit #<span title="afe544640453f565b3e5e06034d2542b86faf91f">afe5446</span>)</h3>
             <div>

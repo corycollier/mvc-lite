@@ -62,6 +62,9 @@
             <a href="#return">Return</a>
           </li>
           <li>
+            <a href="#tests">Tests</a>
+          </li>
+          <li>
             <a href="../../source/Request.php.html#line76">Source</a>
           </li>
         </ul>
@@ -90,6 +93,26 @@
           <dd>Returns $this, for object-chaining.<br/>
         </dd>
         </dl>
+        <h2 id="tests">Test Coverage</h2>
+        <div class="styled">
+          <h3>Information</h3>
+          <ul class="styled">
+            <li>Coverage: 16/16 Lines (100%)</li>
+            <li>Tests: 8</li>
+            <li>Passed: 8 (100%)</li>
+          </ul>
+          <h3>Tests</h3>
+          <ul class="styled">
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\DispatcherTest::testDispatch with data set "good controller request"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\DispatcherTest::testDispatch with data set "bad controller request"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testSetHeaders with data set "no http headers"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testSetHeaders with data set "one http headers"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testSetHeaders with data set "with content type"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testGetContentType with data set "has content type text/plain"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testGetContentType with data set "has no content type, but has accept headers"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\RequestTest::testGetContentType with data set "has nothing"</li>
+          </ul>
+        </div>
       </section>
     </div>
     <footer>
