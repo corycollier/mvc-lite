@@ -309,4 +309,47 @@ class RequestTest extends TestCase
             ]
         ];
     }
+
+    /**
+     * Tests MvcLite\Request::getContentType
+     *
+     * @dataProvider provideGetContentType
+     */
+    public function testGetContentType($expected, $headers = [])
+    {
+        $sut = \MvcLite\Request::getInstance();
+        $sut->setHeaders($headers);
+        $result = $sut->getContentType();
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetContentType.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetContentType()
+    {
+        return [
+            'has content type text/plain' => [
+                'expected' => 'text/plain',
+                'headers'  => [
+                    'CONTENT_TYPE' => 'text/plain'
+                ]
+            ],
+
+            'has no content type, but has accept headers' => [
+                'expected' => 'text/plain',
+                'headers'  => [
+                    'HTTP_ACCEPT' => 'text/plain,text/html'
+                ]
+            ],
+
+            'has nothing' => [
+                'expected' => 'text/plain',
+                'headers'  => []
+            ],
+
+        ];
+    }
 }

@@ -125,7 +125,7 @@ class Request extends ObjectAbstract
         global $argv;
         // create a list of parts by separator
         $parts = array_filter(explode($separator, $string));
-        if (!$string && PHP_SAPI == 'cli') {
+        if (!$parts && PHP_SAPI == 'cli') {
             $parts = $argv;
             array_shift($parts);
         }
@@ -283,15 +283,15 @@ class Request extends ObjectAbstract
      */
     public function getContentType()
     {
-        if (PHP_SAPI == 'cli') {
-            return 'text/plain';
-        }
-
         $contentType = $this->getHeader('Content-Type');
         if (! $contentType) {
             $accept = $this->getHeader('Accept');
             $parts = explode(',', $accept);
             $contentType = $parts[0];
+        }
+
+        if (! $contentType && PHP_SAPI == 'cli') {
+            return 'text/plain';
         }
 
         return $contentType ? $contentType : 'text/html';
