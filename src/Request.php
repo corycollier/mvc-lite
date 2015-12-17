@@ -29,6 +29,11 @@ class Request extends ObjectAbstract
     use FilterChainTrait;
 
     /**
+     * Constants
+     */
+    const ERR_BAD_CONTENT_TYPE = 'Content type [%s] not recognized';
+
+    /**
      * associative array representing the request params
      *
      * @var array
@@ -87,6 +92,10 @@ class Request extends ObjectAbstract
             $this->setHeader($key, $value);
         }
 
+        if (isset($headers['CONTENT_TYPE'])) {
+            $this->setHeader('Content-Type', $headers['CONTENT_TYPE']);
+        }
+
         return $this;
     }
 
@@ -113,8 +122,13 @@ class Request extends ObjectAbstract
      */
     public function buildFromString($string = '', $separator = '/')
     {
+        global $argv;
         // create a list of parts by separator
         $parts = array_filter(explode($separator, $string));
+        if (!$parts && PHP_SAPI == 'cli') {
+            $parts = $argv;
+            array_shift($parts);
+        }
 
         $controller = array_shift($parts);
         $action = array_shift($parts);
@@ -260,5 +274,50 @@ class Request extends ObjectAbstract
     public function getUri()
     {
         return $this->uri;
+    }
+
+    /**
+     * Getter for the content type of the request.
+     *
+     * @return string The content type.
+     */
+    public function getContentType()
+    {
+        $contentType = $this->getHeader('Content-Type');
+        if (! $contentType) {
+            $accept = $this->getHeader('Accept');
+            $parts = explode(',', $accept);
+            $contentType = $parts[0];
+        }
+
+        if (! $contentType && PHP_SAPI == 'cli') {
+            return 'text/plain';
+        }
+
+        return $contentType ? $contentType : 'text/html';
+    }
+
+    /**
+     * Gets a friendly version of the format.
+     *
+     * @param string $contentType The raw content type.
+     *
+     * @return string The machine friendly name for the request type (aka Format).
+     */
+    public function getFormat($contentType)
+    {
+        $map = [
+            'application/json'       => 'json',
+            'application/javascript' => 'json',
+            'text/html'              => 'html',
+            'text/plain'             => 'text',
+            'text/csv'               => 'csv',
+        ];
+
+        if (!array_key_exists($contentType, $map)) {
+            throw new Exception(sprintf(self::ERR_BAD_CONTENT_TYPE, $contentType));
+        }
+
+        return $map[$contentType];
     }
 }

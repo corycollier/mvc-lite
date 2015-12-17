@@ -245,6 +245,12 @@ function mvc_dispatch_setup($args = [])
         'description' => 'The standard error view script',
     ]));
 
+    mvc_dispatch_action_create(array_merge($args, [
+        'name'        => 'error',
+        'controller'  => 'error',
+        'description' => 'error handler',
+    ]));
+
     mvc_dispatch_view_create(array_merge($args, [
         'name'        => 'index',
         'controller'  => 'index',
@@ -252,7 +258,7 @@ function mvc_dispatch_setup($args = [])
     ]));
 
 
-    mvc_file_put_contents($args['target'] . '/app/View/layouts/default.phtml', mvc_get_view_layout_code());
+    mvc_file_put_contents($args['target'] . '/app/View/layouts/default.html.php', mvc_get_view_layout_code());
     mvc_file_put_contents($args['target'] . '/etc/app.ini', mvc_get_app_ini_file());
     mvc_file_put_contents($args['target'] . '/pub/index.php', mvc_get_dispatch_script());
     mvc_file_put_contents($args['target'] . '/pub/.htaccess', mvc_get_htaccess_code());
@@ -289,21 +295,17 @@ function mvc_dispatch_model_create($args = [])
  */
 function mvc_dispatch_action_create($args = [])
 {
-    $args = mvc_get_standardized_args($args, [
-        'name' => 'index',
-    ]);
-
     $filename = mvc_get_controller_path($args);
-
-    $lines       = mvc_file($filename, FILE_IGNORE_NEW_LINES);
+    $lines = mvc_file($filename, FILE_IGNORE_NEW_LINES);
     array_pop($lines);
 
     $code = implode(PHP_EOL, $lines);
-    $code .= mvc_get_controller_action_code($name) . PHP_EOL . '}' . PHP_EOL;
-    $code = mvc_get_controller_action_code($name);
+    $code .= mvc_get_controller_action_code($args) . PHP_EOL . '}' . PHP_EOL;
 
     mvc_file_put_contents($filename, $code);
-    mvc_view_create($parser, $output);
+    mvc_dispatch_view_create(array_merge($args, [
+        'controller' => $args['name'],
+    ])) ;
 }
 /**
  * Creates a view.
@@ -342,7 +344,7 @@ function mvc_dispatch_resource_create($args = [])
     mvc_dispatch_model_create($args);
     mvc_dispatch_controller_create($args);
     mvc_dispatch_view_create(array_merge($args, [
-        'name' => 'index',
+        'name'       => 'index',
         'controller' => $args['name']
     ]));
 }
@@ -495,21 +497,31 @@ code;
  */
 function mvc_get_view_script_code($args = [])
 {
-    $defaults = ['name' => 'index', 'description' => ''];
+    $defaults = [
+        'name'        => 'index',
+        'controller'  => 'index',
+        'description' => '',
+    ];
     $params = array_merge($defaults, $args);
     extract($params);
 
     $code = <<<code
 <?php
 /**
- * !name view script.
+ * !controller/!name view script.
  *
  * !description
  */
 ?>
 
-<h2>!upperName</h2>
-!name view script
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>!controller !upperName</h2>
+            <p>!name view script for the !controllerController</p>
+        </div>
+    </div>
+</div>
 
 code;
 
@@ -517,6 +529,7 @@ code;
         '!name'        => strtolower($name),
         '!upperName'   => ucwords($name),
         '!description' => $description,
+        '!controller'  => ucwords($controller),
     ]);
 }
 
@@ -533,29 +546,48 @@ function mvc_get_view_layout_code()
  * Default layout script
  */
 ?>
-<?php
-  \$title = isset(\$title) ? \$title : 'MVC Lite App';
-  \$content = isset(\$content) ? \$content :  '';
-?>
 <!doctype html>
 <html class="no-js" lang="">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title><?php echo \$title; ?></title>
+        <title><?php echo \$this->get('title'); ?></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+         <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+            integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+            crossorigin="anonymous" />
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+            integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+            crossorigin="anonymous" />
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
     <body>
+
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong>
             browser. Please <a href="http://browsehappy.com/">upgrade your browser</a>
             to improve your experience.</p>
         <![endif]-->
-
         <!-- Add your site or application content here -->
-        <?php echo \$content; ?>
+        <?php echo \$this->get('content'); ?>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
     </body>
 </html>
 
@@ -718,7 +750,7 @@ function mvc_get_controller_path($args = [])
  */
 function mvc_get_view_script_path($args = [])
 {
-    $path = '!target/app/View/scripts/!controller/!name.phtml';
+    $path = '!target/app/View/scripts/!controller/!name.html.php';
     return strtr($path, [
         '!target'     => $args['target'],
         '!controller' => $args['controller'],
@@ -735,7 +767,7 @@ function mvc_get_view_script_path($args = [])
  */
 function mvc_get_view_layout_path($args = [])
 {
-    $path = '!target/app/View/layouts/!name.phtml';
+    $path = '!target/app/View/layouts/!name.html.php';
     return strtr($path, [
         '!target'     => $args['target'],
         '!name'       => $args['name']
@@ -743,7 +775,7 @@ function mvc_get_view_layout_path($args = [])
 }
 
 /**
- * Returns the path for a model, with a set of args.
+ * Returns the path for a config, with a set of args.
  *
  * @param array $args An array of arguments.
  *
@@ -751,7 +783,7 @@ function mvc_get_view_layout_path($args = [])
  */
 function mvc_get_config_path($args = [])
 {
-    $path = '!target/etc/!name.phtml';
+    $path = '!target/etc/!name.ini';
     return strtr($path, [
         '!target'     => $args['target'],
         '!name'       => $args['name']

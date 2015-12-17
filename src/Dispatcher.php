@@ -52,7 +52,6 @@ class Dispatcher extends ObjectAbstract
         $this->getConfig()->init($this->filepath(CONFIG_PATH . '/app.ini'));
         $this->getRequest()->init();
         $this->getResponse()->init();
-        // $this->getView()->setLoader($loader);
 
         return $this;
     }
@@ -64,12 +63,14 @@ class Dispatcher extends ObjectAbstract
      */
     public function dispatch()
     {
-        $request    = $this->getRequest();
-        $params     = $request->getParams();
-        $controller = $this->translateControllerName($params['controller']);
-        $action     = $this->translateActionName($params['action']);
-        $response   = $this->getResponse();
-        $loader     = $this->getLoader();
+        $request     = $this->getRequest();
+        $params      = $request->getParams();
+        $controller  = $this->translateControllerName($params['controller']);
+        $action      = $this->translateActionName($params['action']);
+        $response    = $this->getResponse();
+        $loader      = $this->getLoader();
+        $contentType = $request->getContentType();
+        $format      = $request->getFormat($contentType);
 
         // If the controller doesn't exist, or the action isn't callable,
         // use the error controller
@@ -80,7 +81,6 @@ class Dispatcher extends ObjectAbstract
             if (is_null($result)) {
                 throw new Exception('Invalid controller specified');
             }
-
 
             // Now, instantiate the controller and try to run it's action.
             $controller = new $controller;
@@ -104,7 +104,12 @@ class Dispatcher extends ObjectAbstract
         $controller->postDispatch();
 
         // send the response
-        $body = $controller->getView()->render();
+        $body = $controller->getView()
+            ->init()
+            ->setLoader($loader)
+            ->setFormat($format)
+            ->render();
+
         $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers
@@ -137,7 +142,7 @@ class Dispatcher extends ObjectAbstract
     {
         $filter = $this->getFilterChain(['DashToCamelcase', 'StringToProper']);
         $controller = $filter->filter($controller);
-        return '\\App\\' . $controller . 'Controller';
+        return '\App\\' . $controller . 'Controller';
     }
 
     /**
@@ -151,6 +156,6 @@ class Dispatcher extends ObjectAbstract
     {
         $filter = $this->getFilterChain(['DashToCamelcase']);
         $action = $filter->filter($action);
-        return "{$action}Action";
+        return $action . 'Action';
     }
 }
