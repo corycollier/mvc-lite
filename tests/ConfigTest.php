@@ -217,4 +217,60 @@ class ConfigTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Tests MvcLite\Config::getSection.
+     *
+     * @dataProvider provideGetSection
+     */
+    public function testGetSection($expected, $name, $data)
+    {
+        $sut = \MvcLite\Config::getInstance();
+        $sut->setAll($data);
+        $result = $sut->getSection($name);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetSection.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetSection()
+    {
+        return [
+            'empty everything' => [
+                'expected' => [],
+                'name' => '',
+                'data' => []
+            ],
+
+            'empty data' => [
+                'expected' => [],
+                'name' => 'app',
+                'data' => []
+            ],
+
+            'empty expected' => [
+                'expected' => [],
+                'name' => 'app',
+                'data' => [
+                    'test.thing1' => 'test.value',
+                    'test.thing2' => 'test.value',
+                    'test.thing3' => 'test.value',
+                ]
+            ],
+
+            'expectations' => [
+                'expected' => ['app.name' => 'value'],
+                'name' => 'app',
+                'data' => [
+                    'test.thing1' => 'test.value',
+                    'test.thing2' => 'test.value',
+                    'test.thing3' => 'test.value',
+                    'app.name' => 'value'
+                ]
+            ],
+        ];
+    }
 }

@@ -37,7 +37,36 @@ class ViewTest extends TestCase
      */
     public function testInit()
     {
-        $this->sut->init();
+        $title = 'App title testing';
+        $section = [
+            'key' => 'value',
+        ];
+        $sut = $this->getMockBuilder('\MvcLite\View')
+            ->disableOriginalConstructor()
+            ->setMethods(['getConfig'])
+            ->getMock();
+
+        $config = $this->getMockBuilder('\MvcLite\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['get', 'getSection'])
+            ->getMock();
+
+        $config->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('app.title'))
+            ->will($this->returnValue($title));
+
+        $config->expects($this->exactly(2))
+            ->method('getSection')
+            ->will($this->returnValue($section));
+
+        $sut->expects($this->once())
+            ->method('getConfig')
+            ->will($this->returnValue($config));
+
+        $result = $sut->init();
+
+        $this->assertEquals($sut, $result);
     }
 
     /**
@@ -178,6 +207,64 @@ class ViewTest extends TestCase
 
             'path in APP_PATH' => [
                 'path'     => APP_PATH . '/some/path',
+            ]
+        ];
+    }
+
+    /**
+     * Tests \MvcLite\View::getFormat.
+     */
+    public function testGetFormat()
+    {
+        $expected = 'json';
+        $sut = \MvcLite\View::getInstance();
+        $property = $this->getReflectedProperty('\MvcLite\View', 'format');
+        $property->setValue($sut, $expected);
+        $result = $sut->getFormat();
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests MvcLite\View::setFormat.
+     *
+     * @param string $format The format to send to the view
+     * @param boolean $exception If true, expect an exception.
+     *
+     * @dataProvider provideSetFormat
+     */
+    public function testSetFormat($format, $exception = false)
+    {
+        if ($exception) {
+            $this->setExpectedException('\MvcLite\Exception');
+        }
+        $sut = \MvcLite\View::getInstance();
+        $result = $sut->setFormat($format);
+        $this->assertSame($sut, $result);
+    }
+
+    /**
+     * Data provider for testSetFormat.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideSetFormat()
+    {
+        return [
+            'json' => [
+                'format'    => 'json',
+            ],
+            'html' => [
+                'format'    => 'html',
+            ],
+            'plain' => [
+                'format'    => 'text',
+            ],
+            'xml' => [
+                'format'    => 'xml',
+            ],
+            'bad content type, expect exception' => [
+                'contentType' => 'notreal',
+                'exception'   => true,
             ]
         ];
     }

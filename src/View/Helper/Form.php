@@ -31,7 +31,7 @@ class Form extends HelperAbstract
      */
     public function render($fields, $attribs = [])
     {
-        $template = '<form!attribs><fieldset>!elements</fieldset></form>';
+        $template = '<form!attribs>!elements</form>';
         $elements = '';
 
         foreach ($fields as $column => $field) {
