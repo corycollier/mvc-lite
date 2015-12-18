@@ -257,7 +257,6 @@ function mvc_dispatch_setup($args = [])
         'description' => 'The home page',
     ]));
 
-
     mvc_file_put_contents($args['target'] . '/app/View/layouts/default.html.php', mvc_get_view_layout_code());
     mvc_file_put_contents($args['target'] . '/etc/app.ini', mvc_get_app_ini_file());
     mvc_file_put_contents($args['target'] . '/pub/index.php', mvc_get_dispatch_script());

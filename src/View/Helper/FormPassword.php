@@ -32,13 +32,14 @@ class FormPassword extends HelperAbstract
      */
     public function render($name, $attribs = [])
     {
-        $template = '<label for="!id" class="form-text">'
-            . '<span class="label">!label</span>'
-            . '<input type="password" !attribs />'
-            . '</label>';
+        $template = '<div class="form-group">'
+            . '<label for="!id">!label</label>'
+            . '<input!attribs />'
+            . '</div>';
 
         $attribs['name'] = $name;
         $attribs['id'] = $name;
+        $attribs['type'] = 'password';
 
         return strtr($template, [
             '!id'       => $name,
