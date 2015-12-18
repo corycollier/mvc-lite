@@ -12,6 +12,7 @@
 namespace MvcLite;
 
 use MvcLite\View\Helper\Form;
+use \MvcLite\TestCase as TestCase;
 
 /**
  * Test Suite for the Form View Helper
@@ -23,7 +24,7 @@ use MvcLite\View\Helper\Form;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class FormTest extends \MvcLite\TestCase
+class FormTest extends TestCase
 {
     /**
      * tests the render method of the form view helper
@@ -92,9 +93,9 @@ class FormTest extends \MvcLite\TestCase
         return [
             // test with 2 elements
             'test with 2 elements' => [
-                'expected' => '<form><fieldset>'
+                'expected' => '<form>'
                     . '<element /><element />'
-                    . '</fieldset></form>',
+                    . '</form>',
                 'fields' => [
                     'id' => [
                         'type'      => 'integer',
@@ -108,9 +109,9 @@ class FormTest extends \MvcLite\TestCase
             ],
             // test with 3 elements
             'test with 3 elements' => [
-                'expected' => '<form><fieldset>'
+                'expected' => '<form>'
                     . '<element /><element /><element />'
-                    . '</fieldset></form>',
+                    . '</form>',
                 'fields' => [
                     'id'    => [
                         'type'    => 'integer',
@@ -130,7 +131,7 @@ class FormTest extends \MvcLite\TestCase
             // test with attributes
             'test with attributes' => [
                 'expected' => '<form class="testing" method="get">'
-                    . '<fieldset><element /><element /></fieldset>'
+                    . '<element /><element />'
                     . '</form>',
                 'fields' => [
                     'id'    => [

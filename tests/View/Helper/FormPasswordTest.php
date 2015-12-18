@@ -34,18 +34,11 @@ class ViewHelperFormPasswordTest extends TestCase
      *
      * @dataProvider provideRender
      */
-    public function testRender($name, $attribs = [])
+    public function testRender($expected, $name, $attribs = [])
     {
-        // $sut = $this->getMockBuilder('\MvcLite\View\Helper\FormPassword')
-        //     ->disableOriginalConstructor()
-        //     ->setMethods(['getHtmlAttribs'])
-        //     ->getMock();
-
         $sut = new \MvcLite\View\Helper\FormPassword;
-
         $result = $sut->render($name, $attribs);
-        $this->assertSame(0, strpos($result, '<label for'));
-        $this->assertTrue(strpos($result, '<input type="password"') > 0);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -57,8 +50,9 @@ class ViewHelperFormPasswordTest extends TestCase
     {
         return [
             [
-                'name'    => 'passwd',
-                'attribs' => [],
+                'expected' => '<div class="form-group"><label for="passwd"></label><input name="passwd" id="passwd" /></div>',
+                'name'     => 'passwd',
+                'attribs'  => [],
             ],
         ];
     }
