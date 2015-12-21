@@ -232,11 +232,8 @@ class ViewTest extends TestCase
      *
      * @dataProvider provideSetFormat
      */
-    public function testSetFormat($format, $exception = false)
+    public function testSetFormat($format)
     {
-        if ($exception) {
-            $this->setExpectedException('\MvcLite\Exception');
-        }
         $sut = \MvcLite\View::getInstance();
         $result = $sut->setFormat($format);
         $this->assertSame($sut, $result);
@@ -262,10 +259,6 @@ class ViewTest extends TestCase
             'xml' => [
                 'format'    => 'xml',
             ],
-            'bad content type, expect exception' => [
-                'contentType' => 'notreal',
-                'exception'   => true,
-            ]
         ];
     }
 }

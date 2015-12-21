@@ -71,6 +71,7 @@ class DispatcherTest extends TestCase
     /**
      * tests the dispatch method of the dispatcher
      *
+     * @runInSeparateProcess
      * @dataProvider provideDispatch
      */
     public function testDispatch($controller, $action, $loadClass = null, $params = [])

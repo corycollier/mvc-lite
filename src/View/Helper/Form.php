@@ -55,7 +55,7 @@ class Form extends HelperAbstract
      */
     public function elementFactory($column, $params = [])
     {
-        if (@$params['primary']) {
+        if (isset($params['primary'])) {
             return '';
         }
 
