@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the MvcLite\View\Helper\FormSubmit class
+ * Unit tests for the MvcLite\View\Helper\InputSubmit class
  *
  * @category    MVCLite
  * @package     Tests
@@ -11,11 +11,11 @@
 
 namespace MvcLite;
 
-use MvcLite\View\Helper\FormSubmit;
+use MvcLite\View\Helper\InputSubmit;
 use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the MvcLite\View\Helper\FormSubmit class
+ * Unit tests for the MvcLite\View\Helper\InputSubmit class
  *
  * @category    MVCLite
  * @package     Tests
@@ -24,19 +24,18 @@ use MvcLite\TestCase as TestCase;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormSubmitTest extends TestCase
+class ViewHelperInputSubmitTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of MvcLite\View\Helper\FormSubmit
+     * tests the $helper->render() method of MvcLite\View\Helper\InputSubmit
      *
      * @dataProvider provideRender
      */
-    public function testRender($attribs = [])
+    public function testRender($expected, $attribs = [])
     {
-        $helper = new \MvcLite\View\Helper\FormSubmit;
+        $helper = new \MvcLite\View\Helper\InputSubmit;
         $result = $helper->render($attribs);
-        $this->assertSame(0, strpos($result, '<label for'));
-        $this->assertTrue(strpos($result, '<input type="submit"') > 0);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -48,6 +47,7 @@ class ViewHelperFormSubmitTest extends TestCase
     {
         return [
             'empty atttribs array test' => [
+                'expected' => '<input type="submit" value="Submit" class="btn btn-default">',
                 'attribs' => [],
             ],
 

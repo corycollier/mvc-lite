@@ -251,11 +251,13 @@ class FormTest extends TestCase
     public function testGetElementTypeMap()
     {
         $expected = [
-            'enum'     => 'FormSelect',
-            'password' => 'FormPassword',
-            'int'      => 'FormText',
-            'text'     => 'FormTextarea',
-            'varchar'  => 'FormText'
+            'enum'     => 'InputSelect',
+            'password' => 'InputPassword',
+            'int'      => 'InputText',
+            'text'     => 'InputTextarea',
+            'varchar'  => 'InputText',
+            'submit'   => 'InputSubmit',
+            'checkbox' => 'InputCheckbox',
         ];
 
         $sut = new View\Helper\Form;

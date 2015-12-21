@@ -31,17 +31,16 @@ abstract class HelperAbstract extends ObjectAbstract
     /**
      * Method to return a string of key=value pairs.
      *
-     * @param array $attribs
-     * @return string
+     * @param array $attribs An array of attributes.
+     *
+     * @return string The resulting string of attributes.
      */
     protected function getHtmlAttribs($attribs = [])
     {
-        $whiteListAttribs = $this->getAcceptableAttribs();
-
         // iterate over the attribs provided
         foreach ($attribs as $key => $value) {
             unset($attribs[$key]);
-            if (in_array($key, $whiteListAttribs)) {
+            if ($this->isValidAttribute($key)) {
                 $attribs[] = "{$key}=\"{$value}\"";
             }
         }
@@ -55,22 +54,28 @@ abstract class HelperAbstract extends ObjectAbstract
     }
 
     /**
-     * Overridable function to return the list of Attributes that are ok.
+     * Gets any additional classes that might be required from the attributes.
      *
-     * @return array An array of acceptable attributes.
+     * This method is better left to chidl classes to implement.
+     *
+     * @param array $attribs The array of attributes.
+     *
+     * @return string The resulting string of css classes
      */
-    public function getAcceptableAttribs()
+    protected function getAdditionalClasses($attribs = [])
     {
-        return [
-            'name',
-            'id',
-            'placeholder',
-            'class',
-            'value',
-            'href',
-            'rel',
-            'action',
-            'method',
-        ];
+        return '';
+    }
+
+    /**
+     * Checks an attribute name to see if it's valid.
+     *
+     * @param string $name The name of the attribute.
+     *
+     * @return boolean True if the attribute is ok, false if not.
+     */
+    protected function isValidAttribute($name)
+    {
+        return true;
     }
 }

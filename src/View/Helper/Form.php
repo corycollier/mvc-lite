@@ -39,7 +39,7 @@ class Form extends HelperAbstract
         }
 
         $elements .= $this->getView()
-            ->getHelper('FormSubmit')
+            ->getHelper('InputSubmit')
             ->render();
 
         return strtr($template, [
@@ -79,11 +79,13 @@ class Form extends HelperAbstract
     protected function getElementTypeMap()
     {
         $map = [
-            'enum'     => 'FormSelect',
-            'password' => 'FormPassword',
-            'int'      => 'FormText',
-            'text'     => 'FormTextarea',
-            'varchar'  => 'FormText'
+            'enum'     => 'InputSelect',
+            'password' => 'InputPassword',
+            'int'      => 'InputText',
+            'text'     => 'InputTextarea',
+            'varchar'  => 'InputText',
+            'submit'   => 'InputSubmit',
+            'checkbox' => 'InputCheckbox',
         ];
 
         return $map;
