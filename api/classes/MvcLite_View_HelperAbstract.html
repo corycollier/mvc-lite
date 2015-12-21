@@ -86,7 +86,8 @@
         <div class="synopsis">class HelperAbstract
                 extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
             {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// methods</li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
-                    </li><li>public array <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs</a>()
+                    </li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAdditionalClasses.html">getAdditionalClasses</a>()
+                    </li><li>protected boolean <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/isValidAttribute.html">isValidAttribute</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
@@ -116,12 +117,12 @@
           <tr>
             <td>Methods</td>
             <td class="percent">100%</td>
-            <td class="nummeric">2 / 2</td>
+            <td class="nummeric">3 / 3</td>
           </tr>
           <tr>
             <td>Lines</td>
             <td class="percent">100%</td>
-            <td class="nummeric">20 / 20</td>
+            <td class="nummeric">11 / 11</td>
           </tr>
         </table>
         <h2 id="constants">Constants</h2>
@@ -152,13 +153,12 @@
         <div class="styled">
           <h4>protected</h4>
           <ul>
+            <li id="getAdditionalClasses"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAdditionalClasses.html">getAdditionalClasses()</a>
+                — Gets any additional classes that might be required from the attributes.</li>
             <li id="getHtmlAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs()</a>
                 — Method to return a string of key=value pairs.</li>
-          </ul>
-          <h4>public</h4>
-          <ul>
-            <li id="getAcceptableAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs()</a>
-                — Overridable function to return the list of Attributes that are ok.</li>
+            <li id="isValidAttribute"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/isValidAttribute.html">isValidAttribute()</a>
+                — Checks an attribute name to see if it's valid.</li>
           </ul>
           <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
           <h4>public</h4>
@@ -183,6 +183,16 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-21T12:13:19-05:00 (commit #<span title="3f2c9f1cadf7aae664867ebaa61c7ce7ff17f97e">3f2c9f1</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Moving form element view helpers around. Updating unit tests. Altering the way that attributes are created</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-15T06:58:42-05:00 (commit #<span title="05d27408f1a892d4c5af669889630b191ac0c578">05d2740</span>)</h3>
             <div>

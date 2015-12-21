@@ -98,34 +98,36 @@
       </p>
 
       <h2>
+        <a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true">
+          <span class="octicon octicon-link"></span>
+        </a>
+        Quick Start
+      </h2>
+
+      <p>The <code>mvc</code> script can be used to help start an application quickly. It's usage is:</p>
+      <pre><code>./bin/mvc setup --target=/local/path/to/app</code></pre>
+      <p>Once created, adding an entire resources (i.e. Users) can be done like this:</p>
+      <pre><code>./bin/mvc resource:create --target=/local/path/to/app --name=users</code></pre>
+
+      <h2>
         <a id="usage" class="anchor" href="#purpose" aria-hidden="true">
           <span class="octicon octicon-link"></span>
         </a>
-        Purpose
+        Documentation
       </h2>
-
-      <p>This purpose of this library is to create very simple MVC applications.
-        There is no model implementation here. There is only stubs. The 'how' for
-        model implementation is left to the developer.
-      </p>
-      <p>
-        There <i>are</i> some utility classes included:
-      </p>
-      <ul>
-        <li>Form and Form Helpers</li>
-        <li>Filters (for string manipulation)</li>
-        <li>Session</li>
-      </ul>
+      <h3>Traits</h3>
       <p>There are a list of traits available as well. This allows for simple access
         to commonly used classes (i.e. Request, Config, Session). Including them in
         your code is as simple as:
       </p>
       <pre><code>use MvcLite\Traits\Session as SessionTrait;</code></pre>
 
+      <h3>Configuration</h3>
       <p>An application configuration file allows for easy configuration of the
         application. You can modify that file at <code>etc/app.ini</code>
       </p>
 
+      <h3>Same Code, Multiple Formats</h3>
       <p>
         Multiple formats are supported for each endpoint as well. Switching the
         Content-Type header in the response will return a corresponding output.
@@ -142,22 +144,14 @@
         <li>json</li>
       </ul>
 
-
-
-      <h2>
-        <a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true">
-          <span class="octicon octicon-link"></span>
-        </a>
-        Quick Start
-      </h2>
-
-      <p>The <code>mvc</code> script can be used to help start an application quickly. It's usage is:</p>
-
-      <pre><code>./bin/mvc setup --target=/local/path/to/app</code></pre>
-
-      <p>Once created, adding an entire resources (i.e. Users) can be done like this:</p>
-
-      <pre><code>./bin/mvc resource:create --target=/local/path/to/app --name=users</code></pre>
+      <h3>View Helpers</h3>
+      <p>
+        By default, view helpers generate bootstrap-friendly markup. We love
+        <a href="http://getboostrap.com">Bootstrap</a>,
+        and we think you should too! The view helpers are overridable however. Simply
+        Create <code>App\View\Helper\&lt;HelperName&gt;</code> and it's render method
+        will be used instead.
+      </p>
 
       <h2>
         <a id="full-documentation" class="anchor" href="#full-documentation" aria-hidden="true">

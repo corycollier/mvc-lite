@@ -87,7 +87,8 @@
                 extends <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract.html">HelperAbstract</a>
             {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View\Helper\Csv" href="../classes/MvcLite_View_Helper_Csv/render.html">render</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\View\HelperAbstract">HelperAbstract</span></li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
-                        </li><li>public array <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs</a>()
+                        </li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAdditionalClasses.html">getAdditionalClasses</a>()
+                        </li><li>protected boolean <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/isValidAttribute.html">isValidAttribute</a>()
                         </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
@@ -153,13 +154,12 @@
           <h3>Inherited from <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract.html">MvcLite\View\HelperAbstract</a></h3>
           <h4>protected</h4>
           <ul>
+            <li id="getAdditionalClasses"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAdditionalClasses.html">getAdditionalClasses()</a>
+                — Gets any additional classes that might be required from the attributes.</li>
             <li id="getHtmlAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs()</a>
                 — Method to return a string of key=value pairs.</li>
-          </ul>
-          <h4>public</h4>
-          <ul>
-            <li id="getAcceptableAttribs"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getAcceptableAttribs.html">getAcceptableAttribs()</a>
-                — Overridable function to return the list of Attributes that are ok.</li>
+            <li id="isValidAttribute"><a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/isValidAttribute.html">isValidAttribute()</a>
+                — Checks an attribute name to see if it's valid.</li>
           </ul>
           <h3>Inherited from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">MvcLite\ObjectAbstract</a></h3>
           <h4>public</h4>
