@@ -50,10 +50,8 @@ class ViewHelperInputPasswordTest extends TestCase
     {
         return [
             [
-                'expected' => '<div class="form-group">'
-                    . '<label for="passwd">Passwd</label>'
-                    . '<input id="passwd" type="password" name="passwd" class="form-control" label="Passwd" />'
-                    . '</div>',
+                'expected' => '<label for="passwd">Passwd</label>'
+                    . '<input id="passwd" type="password" name="passwd" class="form-control" label="Passwd" />',
                 'name'     => 'passwd',
                 'attribs'  => [],
             ],

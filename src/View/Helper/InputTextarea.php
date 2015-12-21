@@ -35,10 +35,8 @@ class InputTextarea extends InputElementAbstract
     {
         $defaults = $this->getDefaultAttribs($name, 'text');
         $attribs  = array_merge($defaults, $attribs);
-        $template = '<div class="form-group">'
-            . '<label for="!id" class="form-text">!label</label>'
-            . '<textarea!attribs>!value</textarea>'
-            . '</div>';
+        $template = '<label for="!id" class="form-text">!label</label>'
+            . '<textarea!attribs>!value</textarea>';
 
         return strtr($template, [
             '!label'    => $attribs['label'],

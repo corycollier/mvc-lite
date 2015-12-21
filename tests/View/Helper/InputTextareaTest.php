@@ -47,12 +47,10 @@ class ViewHelperInputTextareaTest extends TestCase
     {
         return [
             [
-                'expected' => '<div class="form-group">'
-                    . '<label for="passwd" class="form-text">Passwd</label>'
+                'expected' => '<label for="passwd" class="form-text">Passwd</label>'
                     . '<textarea id="passwd" name="passwd" class="form-control">'
                     . 'the value'
-                    . '</textarea>'
-                    . '</div>',
+                    . '</textarea>',
                 'name'     => 'passwd',
                 'attribs'  => [
                     'value' => 'the value',

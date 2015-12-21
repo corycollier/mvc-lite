@@ -94,7 +94,8 @@ class FormTest extends TestCase
             // test with 2 elements
             'test with 2 elements' => [
                 'expected' => '<form>'
-                    . '<element /><element />'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
                     . '</form>',
                 'fields' => [
                     'id' => [
@@ -110,7 +111,9 @@ class FormTest extends TestCase
             // test with 3 elements
             'test with 3 elements' => [
                 'expected' => '<form>'
-                    . '<element /><element /><element />'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
                     . '</form>',
                 'fields' => [
                     'id'    => [
@@ -131,7 +134,8 @@ class FormTest extends TestCase
             // test with attributes
             'test with attributes' => [
                 'expected' => '<form class="testing" method="get">'
-                    . '<element /><element />'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
                     . '</form>',
                 'fields' => [
                     'id'    => [

@@ -47,10 +47,8 @@ class ViewHelperInputTextTest extends \MvcLite\TestCase
     {
         return [
             [
-                'expected' => '<div class="form-group">'
-                    . '<label for="passwd">Passwd</label>'
-                    . '<input id="passwd" type="text" name="passwd" class="form-control" value="the value" />'
-                    . '</div>',
+                'expected' => '<label for="passwd">Passwd</label>'
+                    . '<input id="passwd" type="text" name="passwd" class="form-control" value="the value" />',
                 'name'    => 'passwd',
                 'attribs' => [
                     'value' => 'the value',

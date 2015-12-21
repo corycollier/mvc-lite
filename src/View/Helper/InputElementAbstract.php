@@ -53,9 +53,6 @@ abstract class InputElementAbstract extends HelperAbstract
      */
     public function getStandardTemplate()
     {
-        return '<div class="form-group">'
-            . '<label for="!id">!label</label>'
-            . '<input!attribs />'
-            . '</div>';
+        return '<label for="!id">!label</label><input!attribs />';
     }
 }

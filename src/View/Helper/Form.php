@@ -35,7 +35,16 @@ class Form extends HelperAbstract
         $elements = '';
 
         foreach ($fields as $column => $field) {
-            $elements .= $this->elementFactory($column, $field);
+            if (!is_int($column)) {
+                $elements .= $this->getGroupWrapper($this->elementFactory($column, $field));
+                continue;
+            }
+
+            $group = '';
+            foreach ($field as $name => $attribs) {
+                $group .= $this->elementFactory($name, $attribs);
+            }
+            $elements .= $this->getGroupWrapper($group);
         }
 
         $elements .= $this->getView()
@@ -46,6 +55,18 @@ class Form extends HelperAbstract
             '!attribs'  => $this->getHtmlAttribs($attribs),
             '!elements' => $elements,
         ]);
+    }
+
+    /**
+     * Gets a wrapping string around an element(s) string.
+     *
+     * @param string $string The element markup.
+     *
+     * @return string The wrapped markup.
+     */
+    public function getGroupWrapper($string)
+    {
+        return sprintf('<div class="form-group">%s</div>', $string);
     }
 
     /**

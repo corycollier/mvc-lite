@@ -45,12 +45,10 @@ class ViewHelperInputSelectTest extends TestCase
      */
     public function provideRender()
     {
-        $template = '<div class="form-group">'
-            . '<label for="!id">!label</label>'
+        $template = '<label for="!id">!label</label>'
             . '<select !attribs>'
             . '!options'
-            . '</select>'
-            . '</div>';
+            . '</select>';
 
         return [
             [

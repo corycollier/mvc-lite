@@ -38,10 +38,8 @@ class InputSelect extends InputElementAbstract
 
         $defaults = $this->getDefaultAttribs($name, 'select');
         $attribs  = array_merge($defaults, $attribs);
-        $template = '<div class="form-group">'
-            . '<label for="!id">!label</label>'
-            . '<select!attribs>!options</select>'
-            . '</div>';
+        $template = '<label for="!id">!label</label>'
+            . '<select!attribs>!options</select>';
 
         return strtr($template, [
             '!id'      => $attribs['id'],
