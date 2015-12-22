@@ -284,6 +284,7 @@ class Request extends ObjectAbstract
     public function getContentType()
     {
         $contentType = $this->getHeader('Content-Type');
+        $contentType = trim(explode(';', $contentType)[0]);
         if (! $contentType) {
             $accept = $this->getHeader('Accept');
             $parts = explode(',', $accept);
@@ -312,6 +313,7 @@ class Request extends ObjectAbstract
             'text/html'              => 'html',
             'text/plain'             => 'text',
             'text/csv'               => 'csv',
+            '*/*'                    => 'json',
         ];
 
         if (!array_key_exists($contentType, $map)) {

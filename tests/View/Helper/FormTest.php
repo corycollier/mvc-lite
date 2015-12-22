@@ -41,7 +41,7 @@ class FormTest extends TestCase
         $sut = $this->getMockBuilder('\MvcLite\View\Helper\Form')
             ->setMethods([
                 'elementFactory',
-                'htmlAttribs',
+                'getHtmlAttribs',
                 'getView'
             ])
             ->getMock();
@@ -55,21 +55,16 @@ class FormTest extends TestCase
             ->setMethods(['render'])
             ->getMock();
 
-        $view->expects($this->any())
+        $view->expects($this->once())
             ->method('getHelper')
             ->will($this->returnValue($element));
 
         $sut->expects($this->any())
             ->method('elementFactory')
-            // ->with(
-            //     $this->equalTo($model),
-            //     $this->contains(array_keys($fields)),
-            //     $this->contains(array_values($fields))
-            // )
             ->will($this->returnValue('<element />'));
 
         $sut->expects($this->any())
-            ->method('htmlAttribs')
+            ->method('getHtmlAttribs')
             ->with($this->equalTo($attribs))
             ->will($this->returnValue(' attributes '));
 
@@ -91,10 +86,35 @@ class FormTest extends TestCase
     public function provideRender()
     {
         return [
+            // test with grouped elements
+            'test with groups' => [
+                'expected' => '<form attributes >'
+                    . '<div class="form-group"><element /><element /></div>'
+                    . '</form>',
+                'fields' => [
+                    [
+                        'id'    => [
+                            'type'    => 'integer',
+                            'primary' => true,
+                        ],
+                        'name'  => [
+                            'type'    => 'varchar',
+                            'primary' => false,
+                        ],
+                    ],
+                ],
+                // The needs for attributes here is screwy. Need to find out what's wrong here.
+                'attribs' => [
+                    'type'  => 'varchar',
+                    'primary' => false,
+                ],
+            ],
+
             // test with 2 elements
             'test with 2 elements' => [
-                'expected' => '<form>'
-                    . '<element /><element />'
+                'expected' => '<form attributes >'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
                     . '</form>',
                 'fields' => [
                     'id' => [
@@ -109,8 +129,10 @@ class FormTest extends TestCase
             ],
             // test with 3 elements
             'test with 3 elements' => [
-                'expected' => '<form>'
-                    . '<element /><element /><element />'
+                'expected' => '<form attributes >'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
                     . '</form>',
                 'fields' => [
                     'id'    => [
@@ -130,8 +152,9 @@ class FormTest extends TestCase
 
             // test with attributes
             'test with attributes' => [
-                'expected' => '<form class="testing" method="get">'
-                    . '<element /><element />'
+                'expected' => '<form attributes >'
+                    . '<div class="form-group"><element /></div>'
+                    . '<div class="form-group"><element /></div>'
                     . '</form>',
                 'fields' => [
                     'id'    => [
@@ -148,6 +171,7 @@ class FormTest extends TestCase
                     'method' => 'get',
                 ],
             ],
+
         ];
     }
 
@@ -251,11 +275,13 @@ class FormTest extends TestCase
     public function testGetElementTypeMap()
     {
         $expected = [
-            'enum'     => 'FormSelect',
-            'password' => 'FormPassword',
-            'int'      => 'FormText',
-            'text'     => 'FormTextarea',
-            'varchar'  => 'FormText'
+            'enum'     => 'InputSelect',
+            'password' => 'InputPassword',
+            'int'      => 'InputText',
+            'text'     => 'InputTextarea',
+            'varchar'  => 'InputText',
+            'submit'   => 'InputSubmit',
+            'checkbox' => 'InputCheckbox',
         ];
 
         $sut = new View\Helper\Form;
@@ -263,6 +289,38 @@ class FormTest extends TestCase
         $result = $method->invoke($sut);
         $this->assertEquals($expected, $result);
 
+    }
+
+    /**
+     * Tests the MvcLite\View\Helper\Form::getGroupWrapper method
+     *
+     * @dataProvider provideGetGroupWrapper
+     */
+    public function testGetGroupWrapper($expected, $string)
+    {
+        $sut = new View\Helper\Form;
+        $result = $sut->getGroupWrapper($string);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetGroupWrapper.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetGroupWrapper()
+    {
+        return [
+            'empty string' => [
+                'expected' => '<div class="form-group"></div>',
+                'string'   => '',
+            ],
+
+            'simple string' => [
+                'expected' => '<div class="form-group">simple</div>',
+                'string'   => 'simple',
+            ]
+        ];
     }
 }
 

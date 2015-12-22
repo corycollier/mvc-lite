@@ -2,27 +2,27 @@
 /**
  * Submit Input View Helper
  *
- * @category    MvcLite
- * @package     Lib
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  View\Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite\View\Helper;
 
-use MvcLite\View\HelperAbstract as HelperAbstract;
+use MvcLite\View\Helper\InputElementAbstract as InputElementAbstract;
 
 /**
  * Submit Input View Helper class
  *
- * @category    MvcLite
- * @package     Lib
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  View\Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormSubmit extends HelperAbstract
+class InputSubmit extends InputElementAbstract
 {
     /**
      * renders a submit element
@@ -32,11 +32,14 @@ class FormSubmit extends HelperAbstract
      */
     public function render($attribs = [])
     {
-        $template = implode(PHP_EOL, [
-            '<label for="submit">',
-            '<input type="submit" !attribs />',
-            '</label>',
-        ]);
+        $defaults = [
+            'value' => 'Submit',
+            'class' => 'btn btn-default',
+        ];
+
+        $attribs = array_merge($defaults, $attribs);
+
+        $template = '<input type="submit"!attribs>';
 
         return strtr($template, [
             '!attribs'  => $this->getHtmlAttribs($attribs),
