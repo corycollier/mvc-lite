@@ -128,16 +128,7 @@ class View extends ObjectAbstract
      */
     public function setFormat($format)
     {
-        $formats = [
-            'html', 'json', 'xml', 'text'
-        ];
-
-        if (!in_array($format, $formats)) {
-            throw new Exception(sprintf(self::ERR_BAD_FORMAT, $format));
-        }
-
         $this->format = $format;
-
         return $this;
     }
 

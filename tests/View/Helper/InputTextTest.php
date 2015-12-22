@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the MvcLite\View\Helper\FormTextarea class
+ * Unit tests for the MvcLite\View\Helper\InputText class
  *
  * @category    PHP
  * @package     MvcLite
@@ -11,11 +11,11 @@
 
 namespace MvcLite;
 
-use MvcLite\View\Helper\FormTextarea;
+use MvcLite\View\Helper\InputText;
 use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the MvcLite\View\Helper\FormTextarea class
+ * Unit tests for the MvcLite\View\Helper\InputText class
  *
  * @category    PHP
  * @package     MvcLite
@@ -24,24 +24,18 @@ use MvcLite\TestCase as TestCase;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormTextareaTest extends TestCase
+class ViewHelperInputTextTest extends \MvcLite\TestCase
 {
     /**
-     * tests the $helper->render() method of MvcLite\View\Helper\FormTextarea
+     * tests the $helper->render() method of MvcLite\View\Helper\InputText
      *
      * @dataProvider provideRender
      */
-    public function testRender($name, $attribs = [])
+    public function testRender($expected, $name, $attribs = [])
     {
-        $helper = new  \MvcLite\View\Helper\FormTextarea;
-
+        $helper = new \MvcLite\View\Helper\InputText;
         $result = $helper->render($name, $attribs);
-
-        $this->assertSame(0, strpos($result, '<label for'));
-
-        $this->assertTrue(strpos($result, '<textarea type="text"') > 0);
-        $this->assertTrue(strpos($result, " name=\"{$name}\"") > 0);
-        $this->assertTrue(strpos($result, " id=\"{$name}\"") > 0);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -53,6 +47,8 @@ class ViewHelperFormTextareaTest extends TestCase
     {
         return [
             [
+                'expected' => '<label for="passwd">Passwd</label>'
+                    . '<input id="passwd" type="text" name="passwd" class="form-control" value="the value" />',
                 'name'    => 'passwd',
                 'attribs' => [
                     'value' => 'the value',

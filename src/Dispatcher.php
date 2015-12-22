@@ -110,6 +110,7 @@ class Dispatcher extends ObjectAbstract
             ->setFormat($format)
             ->render();
 
+        $response->setContentType($request->getContentType());
         $response->setBody($body);
 
         // if this is an actual request, not a unit test, send headers

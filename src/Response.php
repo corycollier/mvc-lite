@@ -26,6 +26,9 @@ class Response extends ObjectAbstract
 {
     use SingletonTrait;
 
+    const DEFAULT_CONTENT_TYPE = 'application/json';
+    const ERR_INVALID_CONTENT_TYPE = 'The given content-type [%s] is not valid';
+
     /**
      * A list of headers to be output
      *
@@ -136,5 +139,51 @@ class Response extends ObjectAbstract
     public function getBody()
     {
         return $this->body;
+    }
+
+    /**
+     * Setter for the content type.
+     *
+     * @param string $contentType The value to set the content type to.
+     *
+     * @return MvcLite\Response Returns $this, for object-chaining.
+     *
+     * @throws MvcLite\Exception If the content type is invalid, an exception is thrown.
+     */
+    public function setContentType($contentType = '')
+    {
+        if (! $contentType) {
+            $contentType = self::DEFAULT_CONTENT_TYPE;
+        }
+
+        $types = [
+            'application/json',
+            'application/javascript',
+            'text/html',
+            'text/plain',
+            'text/csv',
+        ];
+
+        if (!in_array($contentType, $types)) {
+            throw new Exception(sprintf(SELF::ERR_INVALID_CONTENT_TYPE, $contentType));
+        }
+
+        $this->setHeader('Content-Type', $contentType);
+
+        return $this;
+    }
+
+    /**
+     * Getter for the content type.
+     *
+     * @return string The content type for the response
+     */
+    public function getContentType()
+    {
+        $contentType = $this->getHeader('Content-Type');
+        if (! $contentType) {
+            $contentType = self::DEFAULT_CONTENT_TYPE;
+        }
+        return $contentType;
     }
 }

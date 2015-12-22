@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the MvcLite\View\Helper\FormPassword class
+ * Unit tests for the MvcLite\View\Helper\InputPassword class
  *
  * @category    PHP
  * @package     MvcLite
@@ -11,11 +11,11 @@
 
 namespace MvcLite;
 
-use MvcLite\View\Helper\FormPassword;
+use MvcLite\View\Helper\InputPassword;
 use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the MvcLite\View\Helper\FormPassword class
+ * Unit tests for the MvcLite\View\Helper\InputPassword class
  *
  * @category    PHP
  * @package     MvcLite
@@ -24,10 +24,10 @@ use MvcLite\TestCase as TestCase;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormPasswordTest extends TestCase
+class ViewHelperInputPasswordTest extends TestCase
 {
     /**
-     * Tests MvcLite\View\Helper\FormPassword::render().
+     * Tests MvcLite\View\Helper\InputPassword::render().
      *
      * @param string $name The name of the element.
      * @param array $attribs An array of attributes to pass to the render method.
@@ -36,7 +36,7 @@ class ViewHelperFormPasswordTest extends TestCase
      */
     public function testRender($expected, $name, $attribs = [])
     {
-        $sut = new \MvcLite\View\Helper\FormPassword;
+        $sut = new \MvcLite\View\Helper\InputPassword;
         $result = $sut->render($name, $attribs);
         $this->assertEquals($expected, $result);
     }
@@ -50,7 +50,8 @@ class ViewHelperFormPasswordTest extends TestCase
     {
         return [
             [
-                'expected' => '<div class="form-group"><label for="passwd"></label><input name="passwd" id="passwd" /></div>',
+                'expected' => '<label for="passwd">Passwd</label>'
+                    . '<input id="passwd" type="password" name="passwd" class="form-control" label="Passwd" />',
                 'name'     => 'passwd',
                 'attribs'  => [],
             ],

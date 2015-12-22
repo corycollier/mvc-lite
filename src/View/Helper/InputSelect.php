@@ -2,27 +2,27 @@
 /**
  * Select Input View Helper
  *
- * @category    MvcLite
- * @package     Lib
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  View\Helper
  * @since       File available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
 namespace MvcLite\View\Helper;
 
-use MvcLite\View\HelperAbstract as HelperAbstract;
+use MvcLite\View\Helper\InputElementAbstract as InputElementAbstract;
 
 /**
  * Select Input View Helper class
  *
- * @category    MvcLite
- * @package     Lib
- * @subpackage  View_Helper
+ * @category    PHP
+ * @package     MvcLite
+ * @subpackage  View\Helper
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormSelect extends HelperAbstract
+class InputSelect extends InputElementAbstract
 {
     /**
      * Method to render a select element
@@ -36,29 +36,16 @@ class FormSelect extends HelperAbstract
         $options = $attribs['options'];
         unset($attribs['options']);
 
-        $displayAttribs = array_merge($attribs, [
-            'name'  => "display-only-{$name}",
-            'class' => "display-only",
-            'value' => @$attribs['displayValue'],
-        ]);
-
-        $template = implode(PHP_EOL, [
-            '<label for="!id" class="form-select">',
-            '<span class="label">!label</span>',
-            '<select !attribs />',
-            '!options',
-            '</select>',
-        ]);
-
-        $attribs['name'] = $name;
-        $attribs['id'] = $name;
+        $defaults = $this->getDefaultAttribs($name, 'select');
+        $attribs  = array_merge($defaults, $attribs);
+        $template = '<label for="!id">!label</label>'
+            . '<select!attribs>!options</select>';
 
         return strtr($template, [
-            '!id'               => $name,
-            '!label'            => @$attribs['label'],
-            '!attribs'          => $this->getHtmlAttribs($attribs),
-            '!displayAttribs'   => $this->getHtmlAttribs($displayAttribs),
-            '!options'          => $this->buildOptions($options),
+            '!id'      => $attribs['id'],
+            '!label'   => $attribs['label'],
+            '!attribs' => $this->getHtmlAttribs($attribs),
+            '!options' => $this->buildOptions($options),
         ]);
     }
 
@@ -83,5 +70,24 @@ class FormSelect extends HelperAbstract
 
         // return the array imploded into a string by newline characters
         return implode(PHP_EOL, $options);
+    }
+
+    /**
+     * Local override of the isValidAttribute method.
+     *
+     * @param string $name The name of the attribute.
+     *
+     * @return boolean True if valid, false if not.
+     */
+    protected function isValidAttribute($name)
+    {
+        $no = [
+            'label'
+        ];
+
+        if (in_array($name, $no)) {
+            return false;
+        }
+        return true;
     }
 }

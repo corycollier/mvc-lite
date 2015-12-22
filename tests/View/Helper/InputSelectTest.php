@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit tests for the MvcLite\View\Helper\FormSelect class
+ * Unit tests for the MvcLite\View\Helper\InputSelect class
  *
  * @category    PHP
  * @package     MvcLite
@@ -11,11 +11,11 @@
 
 namespace MvcLite;
 
-use MvcLite\View\Helper\FormSelect as FormSelect;
+use MvcLite\View\Helper\InputSelect as InputSelect;
 use MvcLite\TestCase as TestCase;
 
 /**
- * Unit tests for the MvcLite\View\Helper\FormSelect class
+ * Unit tests for the MvcLite\View\Helper\InputSelect class
  *
  * @category    PHP
  * @package     MvcLite
@@ -24,16 +24,16 @@ use MvcLite\TestCase as TestCase;
  * @author      Cory Collier <corycollier@corycollier.com>
  */
 
-class ViewHelperFormSelectTest extends TestCase
+class ViewHelperInputSelectTest extends TestCase
 {
     /**
-     * tests the $helper->render() method of MvcLite\View\Helper\FormSelect
+     * tests the $helper->render() method of MvcLite\View\Helper\InputSelect
      *
      * @dataProvider provideRender
      */
     public function testRender($expected, $name, $attribs = [])
     {
-        $helper = new FormSelect;
+        $helper = new InputSelect;
         $result = $helper->render($name, $attribs);
         $this->assertEquals($expected, $result);
     }
@@ -45,20 +45,17 @@ class ViewHelperFormSelectTest extends TestCase
      */
     public function provideRender()
     {
-        $template = implode(PHP_EOL, [
-            '<label for="!id" class="form-select">',
-            '<span class="label">!label</span>',
-            '<select !attribs />',
-            '!options',
-            '</select>',
-        ]);
+        $template = '<label for="!id">!label</label>'
+            . '<select !attribs>'
+            . '!options'
+            . '</select>';
 
         return [
             [
                 'expected' => strtr($template, [
                     '!id' => 'stuff',
-                    '!label' => '',
-                    '!attribs' => ' name="stuff" id="stuff"' ,
+                    '!label' => 'Stuff',
+                    '!attribs' => 'id="stuff" type="select" name="stuff" class="form-control"' ,
                     '!options' => '',
                 ]),
                 'name' => 'stuff',
@@ -70,14 +67,14 @@ class ViewHelperFormSelectTest extends TestCase
     }
 
     /**
-     * Tests MvcLite\View\Helper\FormSelect
+     * Tests MvcLite\View\Helper\InputSelect
      *
      * @dataProvider provideBuildOptions
      */
     public function testBuildOptions($expected, $options = [])
     {
-        $sut = new FormSelect;
-        $method = $this->getReflectedMethod('\MvcLite\View\Helper\FormSelect', 'buildOptions');
+        $sut = new InputSelect;
+        $method = $this->getReflectedMethod('\MvcLite\View\Helper\InputSelect', 'buildOptions');
         $result = $method->invoke($sut, $options);
         $this->assertEquals($expected, $result);
 

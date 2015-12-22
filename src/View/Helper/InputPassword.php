@@ -11,7 +11,7 @@
 
 namespace MvcLite\View\Helper;
 
-use MvcLite\View\HelperAbstract as HelperAbstract;
+use MvcLite\View\Helper\InputElementAbstract as InputElementAbstract;
 
 /**
  * Password Input View Helper class
@@ -22,7 +22,7 @@ use MvcLite\View\HelperAbstract as HelperAbstract;
  * @since       Class available since release 1.1.x
  * @author      Cory Collier <corycollier@corycollier.com>
  */
-class FormPassword extends HelperAbstract
+class InputPassword extends InputElementAbstract
 {
     /**
      * method to render a input[type=password] element
@@ -32,18 +32,13 @@ class FormPassword extends HelperAbstract
      */
     public function render($name, $attribs = [])
     {
-        $template = '<div class="form-group">'
-            . '<label for="!id">!label</label>'
-            . '<input!attribs />'
-            . '</div>';
-
-        $attribs['name'] = $name;
-        $attribs['id'] = $name;
-        $attribs['type'] = 'password';
+        $defaults = $this->getDefaultAttribs($name, 'password');
+        $attribs  = array_merge($defaults, $attribs);
+        $template = $this->getStandardTemplate();
 
         return strtr($template, [
-            '!id'       => $name,
-            '!label'    => @$attribs['label'],
+            '!id'       => $attribs['id'],
+            '!label'    => $attribs['label'],
             '!attribs'  => $this->getHtmlAttribs($attribs),
         ]);
     }

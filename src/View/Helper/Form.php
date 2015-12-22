@@ -35,11 +35,20 @@ class Form extends HelperAbstract
         $elements = '';
 
         foreach ($fields as $column => $field) {
-            $elements .= $this->elementFactory($column, $field);
+            if (!is_int($column)) {
+                $elements .= $this->getGroupWrapper($this->elementFactory($column, $field));
+                continue;
+            }
+
+            $group = '';
+            foreach ($field as $name => $attribs) {
+                $group .= $this->elementFactory($name, $attribs);
+            }
+            $elements .= $this->getGroupWrapper($group);
         }
 
         $elements .= $this->getView()
-            ->getHelper('FormSubmit')
+            ->getHelper('InputSubmit')
             ->render();
 
         return strtr($template, [
@@ -49,13 +58,25 @@ class Form extends HelperAbstract
     }
 
     /**
+     * Gets a wrapping string around an element(s) string.
+     *
+     * @param string $string The element markup.
+     *
+     * @return string The wrapped markup.
+     */
+    public function getGroupWrapper($string)
+    {
+        return sprintf('<div class="form-group">%s</div>', $string);
+    }
+
+    /**
      * method to return an input element from a given parameter array
      *
      * @param array $params
      */
     public function elementFactory($column, $params = [])
     {
-        if (@$params['primary']) {
+        if (isset($params['primary'])) {
             return '';
         }
 
@@ -79,11 +100,13 @@ class Form extends HelperAbstract
     protected function getElementTypeMap()
     {
         $map = [
-            'enum'     => 'FormSelect',
-            'password' => 'FormPassword',
-            'int'      => 'FormText',
-            'text'     => 'FormTextarea',
-            'varchar'  => 'FormText'
+            'enum'     => 'InputSelect',
+            'password' => 'InputPassword',
+            'int'      => 'InputText',
+            'text'     => 'InputTextarea',
+            'varchar'  => 'InputText',
+            'submit'   => 'InputSubmit',
+            'checkbox' => 'InputCheckbox',
         ];
 
         return $map;

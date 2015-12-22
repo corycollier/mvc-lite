@@ -210,6 +210,11 @@ class ResponseTest extends TestCase
         $this->assertEquals($sut, $result);
     }
 
+    /**
+     * Data provider for testSendHeaders.
+     *
+     * @return array An array of data to use for testing.
+     */
     public function provideSendHeaders()
     {
         return [
@@ -219,6 +224,111 @@ class ResponseTest extends TestCase
                     'var2'   => 'val2',
                     'var3'   => 'val3',
                 ]
+            ],
+        ];
+    }
+
+    /**
+     * Tests MvcLite\Response::setContentType.
+     *
+     * @dataProvider provideSetContentType
+     */
+    public function testSetContentType($contentType, $exception = false)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(['setHeader'])
+            ->getMock();
+
+        if ($exception) {
+            $this->setExpectedException('\MvcLite\Exception');
+        } else {
+            $sut->expects($this->once())
+                ->method('setHeader')
+                ->with(
+                    $this->equalTo('Content-Type'),
+                    $this->equalTo(
+                        $contentType ? $contentType : \MvcLite\Response::DEFAULT_CONTENT_TYPE
+                    )
+                );
+        }
+
+        $result = $sut->setContentType($contentType);
+        $this->assertEquals($sut, $result);
+    }
+
+    /**
+     * Data provider for testSetContentType.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideSetContentType()
+    {
+        return [
+            'No content type' => [
+                'contentType' => '',
+            ],
+
+            'Good content type (application/json)' => [
+                'contentType' => 'application/json',
+            ],
+            'Good content type (application/javascript)' => [
+                'contentType' => 'application/javascript',
+            ],
+            'Good content type (text/html)' => [
+                'contentType' => 'text/html',
+            ],
+            'Good content type (text/plain)' => [
+                'contentType' => 'text/plain',
+            ],
+            'Good content type (text/csv)' => [
+                'contentType' => 'text/csv',
+            ],
+
+            'Bad content type, expect exception' => [
+                'contentType' => 'not-gonna-work',
+                'exception' => true,
+            ],
+        ];
+    }
+
+    /**
+     * Tests the MvcLite\Response::getContentType method.
+     *
+     * @dataProvider provideGetContentType
+     */
+    public function testGetContentType($expected, $header)
+    {
+        $sut = $this->getMockBuilder('\MvcLite\Response')
+            ->disableOriginalConstructor()
+            ->setMethods(['getHeader'])
+            ->getMock();
+
+        $sut->expects($this->once())
+            ->method('getHeader')
+            ->with($this->equalTo('Content-Type'))
+            ->will($this->returnValue($header));
+
+        $result = $sut->getContentType();
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Data provider for testGetContentType.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetContentType()
+    {
+        return [
+            'has header, expect it' => [
+                'expected' => 'expected value',
+                'header'   => 'expected value',
+            ],
+
+            'does not have header, expect default' => [
+                'expected' => \MvcLite\Response::DEFAULT_CONTENT_TYPE,
+                'header'   => '',
             ],
         ];
     }
