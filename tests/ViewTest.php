@@ -261,4 +261,95 @@ class ViewTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Tests the MvcLite\View::getHelper method.
+     *
+     * @dataProvider provideGetHelper
+     * @runInSeparateProcess
+     */
+    public function testGetHelper($helper, $helpers = [], $exception = false)
+    {
+        if ($exception) {
+            $this->setExpectedException('\MvcLite\Exception');
+        }
+
+        $loader = $this->getMockBuilder(('\Composer\Loader\Autoloader'))
+            ->disableOriginalConstructor()
+            ->setMethods(['loadClass'])
+            ->getMock();
+
+        $loader->expects($this->any())
+            ->method('loadClass')
+            ->will($this->returnValueMap([
+                ['\App\View\Helper\\' . ucfirst($helper), false],
+                ['\MvcLite\View\Helper\\' . ucfirst($helper), $exception ? false : true],
+            ]));
+
+        $sut = \MvcLite\View::getInstance();
+        $this->getReflectedProperty('\MvcLite\View', 'helpers')->setValue($sut, $helpers);
+        $sut->setLoader($loader);
+        $result = $sut->getHelper($helper);
+        $this->assertInstanceOf('\MvcLite\View\HelperAbstract', $result);
+    }
+
+    /**
+     * Data provider for testGetHelper.
+     *
+     * @return array An array of data to use for testing.
+     */
+    public function provideGetHelper()
+    {
+        return [
+            'Csv helper' => [
+                'helper' => 'csv',
+            ],
+
+            'Exception helper' => [
+                'helper' => 'exception',
+            ],
+
+            'InputCheckbox helper' => [
+                'helper' => 'InputCheckbox',
+            ],
+
+            'InputPassword helper' => [
+                'helper' => 'InputPassword',
+            ],
+
+            'InputPassword helper' => [
+                'helper' => 'InputPassword',
+            ],
+
+            'InputSelect helper' => [
+                'helper' => 'InputSelect',
+            ],
+
+            'InputSubmit helper' => [
+                'helper' => 'InputSubmit',
+            ],
+
+            'InputTextarea helper' => [
+                'helper' => 'InputTextarea',
+            ],
+
+            'InputText helper' => [
+                'helper' => 'InputText',
+            ],
+
+            'InputText helper, but already has it' => [
+                'Helper' => 'InputText',
+                'helpers' => [
+                    'InputText' => new \MvcLite\View\Helper\InputText,
+                ],
+            ],
+
+            'Bad Helper, expect exception' => [
+                'helper' => 'does not exist',
+                'helpers' => [],
+                'exception' => true,
+            ]
+
+        ];
+    }
 }
