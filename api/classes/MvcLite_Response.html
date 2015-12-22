@@ -85,7 +85,7 @@
         <h2 id="synopsis">Synopsis</h2>
         <div class="synopsis">class Response
                 extends <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a>
-            {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$headers</a> =
+            {<br/><ul class="none"><li>// constants</li><li>const DEFAULT_CONTENT_TYPE = 'application/json';</li><li>const ERR_INVALID_CONTENT_TYPE = 'The given content-type [%s] is not valid';</li></ul><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// members</li><li>protected array <a href="#members">$headers</a> =
                         ;
                     </li><li>protected string <a href="#members">$body</a> =
                         '';
@@ -97,6 +97,8 @@
                     </li><li>public Response <a title="MvcLite\Response" href="../classes/MvcLite_Response/sendHeaders.html">sendHeaders</a>()
                     </li><li>public Response <a title="MvcLite\Response" href="../classes/MvcLite_Response/setBody.html">setBody</a>()
                     </li><li>public string <a title="MvcLite\Response" href="../classes/MvcLite_Response/getBody.html">getBody</a>()
+                    </li><li>public Response <a title="MvcLite\Response" href="../classes/MvcLite_Response/setContentType.html">setContentType</a>()
+                    </li><li>public string <a title="MvcLite\Response" href="../classes/MvcLite_Response/getContentType.html">getContentType</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\ObjectAbstract">ObjectAbstract</span></li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__get.html">__get</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__set.html">__set</a>()
                         </li><li>public final void <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract/__call.html">__call</a>()
@@ -126,12 +128,12 @@
           <tr>
             <td>Methods</td>
             <td class="percent">100%</td>
-            <td class="nummeric">8 / 8</td>
+            <td class="nummeric">10 / 10</td>
           </tr>
           <tr>
             <td>Lines</td>
             <td class="percent">100%</td>
-            <td class="nummeric">16 / 16</td>
+            <td class="nummeric">34 / 34</td>
           </tr>
         </table>
         <h2 id="constants">Constants</h2>
@@ -143,6 +145,14 @@
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td id="DEFAULT_CONTENT_TYPE">DEFAULT_CONTENT_TYPE</td>
+              <td>'application/json'</td>
+            </tr>
+            <tr>
+              <td id="ERR_INVALID_CONTENT_TYPE">ERR_INVALID_CONTENT_TYPE</td>
+              <td>'The given content-type [%s] is not valid'</td>
+            </tr>
             <tr>
               <td id="MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</td>
               <td>'Descendents must implement the identify method'</td>
@@ -170,6 +180,8 @@
           <ul>
             <li id="getBody"><a title="MvcLite\Response" href="../classes/MvcLite_Response/getBody.html">getBody()</a>
                 — gets the response body</li>
+            <li id="getContentType"><a title="MvcLite\Response" href="../classes/MvcLite_Response/getContentType.html">getContentType()</a>
+                — Getter for the content type.</li>
             <li id="getHeader"><a title="MvcLite\Response" href="../classes/MvcLite_Response/getHeader.html">getHeader()</a>
                 — gets the header by name</li>
             <li id="getHeaders"><a title="MvcLite\Response" href="../classes/MvcLite_Response/getHeaders.html">getHeaders()</a>
@@ -180,6 +192,8 @@
                 — Function to return a formatted header string</li>
             <li id="setBody"><a title="MvcLite\Response" href="../classes/MvcLite_Response/setBody.html">setBody()</a>
                 — set the body of the response</li>
+            <li id="setContentType"><a title="MvcLite\Response" href="../classes/MvcLite_Response/setContentType.html">setContentType()</a>
+                — Setter for the content type.</li>
             <li id="setHeader"><a title="MvcLite\Response" href="../classes/MvcLite_Response/setHeader.html">setHeader()</a>
                 — Set's a header value</li>
             <li id="setHeaders"><a title="MvcLite\Response" href="../classes/MvcLite_Response/setHeaders.html">setHeaders()</a>
@@ -208,6 +222,16 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-21T13:08:25-05:00 (commit #<span title="561753802e6a888c18973c663a037759a22cf310">5617538</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Updating the response class to allow for setting/getting of content type. Updating the request to read the content type, allowing for semicolon separated values, implementing the content-type acknowledgement in the dispatcher</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-15T09:42:10-05:00 (commit #<span title="0bcf0896cde8e73600cc0613e980554d9f547cf2">0bcf089</span>)</h3>
             <div>

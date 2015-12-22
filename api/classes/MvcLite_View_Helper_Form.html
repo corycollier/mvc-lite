@@ -86,6 +86,7 @@
         <div class="synopsis">class Form
                 extends <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract.html">HelperAbstract</a>
             {<br/><ul class="none"><li>// Inherited constants from <a title="MvcLite\ObjectAbstract" href="../classes/MvcLite_ObjectAbstract.html">ObjectAbstract</a></li><li>const <a href="#MSG_ERR_IDENTIFY">MSG_ERR_IDENTIFY</a> = 'Descendents must implement the identify method';</li></ul><ul class="none"><li>// methods</li><li>public void <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/render.html">render</a>()
+                    </li><li>public string <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/getGroupWrapper.html">getGroupWrapper</a>()
                     </li><li>public void <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/elementFactory.html">elementFactory</a>()
                     </li><li>protected array <a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/getElementTypeMap.html">getElementTypeMap</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="MvcLite\View\HelperAbstract">HelperAbstract</span></li><li>protected string <a title="MvcLite\View\HelperAbstract" href="../classes/MvcLite_View_HelperAbstract/getHtmlAttribs.html">getHtmlAttribs</a>()
@@ -114,12 +115,12 @@
           <tr>
             <td>Methods</td>
             <td class="percent">100%</td>
-            <td class="nummeric">3 / 3</td>
+            <td class="nummeric">4 / 4</td>
           </tr>
           <tr>
             <td>Lines</td>
             <td class="percent">100%</td>
-            <td class="nummeric">32 / 32</td>
+            <td class="nummeric">40 / 40</td>
           </tr>
         </table>
         <h2 id="constants">Constants</h2>
@@ -157,6 +158,8 @@
           <ul>
             <li id="elementFactory"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/elementFactory.html">elementFactory()</a>
                 — method to return an input element from a given parameter array</li>
+            <li id="getGroupWrapper"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/getGroupWrapper.html">getGroupWrapper()</a>
+                — Gets a wrapping string around an element(s) string.</li>
             <li id="render"><a title="MvcLite\View\Helper\Form" href="../classes/MvcLite_View_Helper_Form/render.html">render()</a>
                 — renders a form from a model</li>
           </ul>
@@ -193,6 +196,26 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2015-12-21T13:27:11-05:00 (commit #<span title="a6ce5daa7c2554f2bb7f05c8bf896aec1698ac55">a6ce5da</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Moving the responsibility to declare groups of form elements to the form itself. This reduces the amount of markup required by input elements, and reduces code bloat</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2015-12-21T13:08:25-05:00 (commit #<span title="561753802e6a888c18973c663a037759a22cf310">5617538</span>)</h3>
+            <div>
+              <p>
+                        Author: Cory Collier (corycollier@corycollier.com) /
+                        Commiter: Cory Collier (corycollier@corycollier.com)
+                    </p>
+              <pre class="wrapped">Updating the response class to allow for setting/getting of content type. Updating the request to read the content type, allowing for semicolon separated values, implementing the content-type acknowledgement in the dispatcher</pre>
+            </div>
+          </li>
           <li>
             <h3>2015-12-21T12:13:19-05:00 (commit #<span title="3f2c9f1cadf7aae664867ebaa61c7ce7ff17f97e">3f2c9f1</span>)</h3>
             <div>

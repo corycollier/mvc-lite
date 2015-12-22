@@ -42,9 +42,9 @@
             <a href="../../classes.html#MvcLite_View_Helper">MvcLite\View\Helper</a>
           </li>
           <li class="separator">
-            <a title="MvcLite\View\Helper\InputSelect" href="../../classes/MvcLite_View_Helper_InputSelect.html">InputSelect</a>
+            <a title="MvcLite\View\Helper\Form" href="../../classes/MvcLite_View_Helper_Form.html">Form</a>
           </li>
-          <li class="separator">buildOptions</li>
+          <li class="separator">getGroupWrapper</li>
         </ul>
       </div>
       <nav class="box">
@@ -65,46 +65,45 @@
             <a href="#tests">Tests</a>
           </li>
           <li>
-            <a href="../../source/View/Helper/InputSelect.php.html#line58">Source</a>
+            <a href="../../source/View/Helper/Form.php.html#line67">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>MvcLite\View\Helper\InputSelect::</small>buildOptions</h1>
-        <h4>method to take an array and turn it into a string of li elements</h4>
+        <h1><small>MvcLite\View\Helper\Form::</small>getGroupWrapper</h1>
+        <h4>Gets a wrapping string around an element(s) string.</h4>
         <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>protected function buildOptions([array
-        $options = ] )
+          <code>public function getGroupWrapper(string
+        $string )
             </code>
         </div>
         <h2 id="parameterlist">Parameters</h2>
         <dl class="styled">
-          <dt><code>$options</code>
+          <dt><code>$string</code>
                 —
-                array</dt>
-          <dd/>
+                string</dt>
+          <dd>The element markup.</dd>
         </dl>
         <h2 id="return">Returns</h2>
         <dl class="styled">
           <dt>string</dt>
-          <dd/>
+          <dd>The wrapped markup.</dd>
         </dl>
         <h2 id="tests">Test Coverage</h2>
         <div class="styled">
           <h3>Information</h3>
           <ul class="styled">
-            <li>Coverage: 9/9 Lines (100%)</li>
-            <li>Tests: 3</li>
-            <li>Passed: 3 (100%)</li>
+            <li>Coverage: 1/1 Lines (100%)</li>
+            <li>Tests: 2</li>
+            <li>Passed: 2 (100%)</li>
           </ul>
           <h3>Tests</h3>
           <ul class="styled">
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ViewHelperInputSelectTest::testRender with data set #0</li>
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ViewHelperInputSelectTest::testBuildOptions with data set "empty options"</li>
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ViewHelperInputSelectTest::testBuildOptions with data set "single option"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\FormTest::testGetGroupWrapper with data set "empty string"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\FormTest::testGetGroupWrapper with data set "simple string"</li>
           </ul>
         </div>
       </section>

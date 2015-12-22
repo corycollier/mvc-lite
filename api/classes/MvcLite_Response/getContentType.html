@@ -39,12 +39,12 @@
             <a href="../../classes.html">Classes</a>
           </li>
           <li class="separator">
-            <a href="../../classes.html#MvcLite_View_Helper">MvcLite\View\Helper</a>
+            <a href="../../classes.html#MvcLite">MvcLite</a>
           </li>
           <li class="separator">
-            <a title="MvcLite\View\Helper\InputSelect" href="../../classes/MvcLite_View_Helper_InputSelect.html">InputSelect</a>
+            <a title="MvcLite\Response" href="../../classes/MvcLite_Response.html">Response</a>
           </li>
-          <li class="separator">buildOptions</li>
+          <li class="separator">getContentType</li>
         </ul>
       </div>
       <nav class="box">
@@ -56,55 +56,43 @@
             <a href="#synopsis">Synopsis</a>
           </li>
           <li>
-            <a href="#parameter">Parameter</a>
-          </li>
-          <li>
             <a href="#return">Return</a>
           </li>
           <li>
             <a href="#tests">Tests</a>
           </li>
           <li>
-            <a href="../../source/View/Helper/InputSelect.php.html#line58">Source</a>
+            <a href="../../source/Response.php.html#line181">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>MvcLite\View\Helper\InputSelect::</small>buildOptions</h1>
-        <h4>method to take an array and turn it into a string of li elements</h4>
+        <h1><small>MvcLite\Response::</small>getContentType</h1>
+        <h4>Getter for the content type.</h4>
         <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>protected function buildOptions([array
-        $options = ] )
+          <code>public function getContentType()
             </code>
         </div>
-        <h2 id="parameterlist">Parameters</h2>
-        <dl class="styled">
-          <dt><code>$options</code>
-                —
-                array</dt>
-          <dd/>
-        </dl>
         <h2 id="return">Returns</h2>
         <dl class="styled">
           <dt>string</dt>
-          <dd/>
+          <dd>The content type for the response</dd>
         </dl>
         <h2 id="tests">Test Coverage</h2>
         <div class="styled">
           <h3>Information</h3>
           <ul class="styled">
-            <li>Coverage: 9/9 Lines (100%)</li>
-            <li>Tests: 3</li>
-            <li>Passed: 3 (100%)</li>
+            <li>Coverage: 5/5 Lines (100%)</li>
+            <li>Tests: 2</li>
+            <li>Passed: 2 (100%)</li>
           </ul>
           <h3>Tests</h3>
           <ul class="styled">
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ViewHelperInputSelectTest::testRender with data set #0</li>
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ViewHelperInputSelectTest::testBuildOptions with data set "empty options"</li>
-            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ViewHelperInputSelectTest::testBuildOptions with data set "single option"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ResponseTest::testGetContentType with data set "has header, expect it"</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — MvcLite\ResponseTest::testGetContentType with data set "does not have header, expect default"</li>
           </ul>
         </div>
       </section>
