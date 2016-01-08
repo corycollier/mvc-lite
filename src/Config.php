@@ -50,7 +50,7 @@ class Config extends ObjectAbstract
             if (!file_exists($config)) {
                 throw new Exception(self::MSG_ERR_BAD_CONFIG);
             }
-            $config = parse_ini_file($config);
+            $config = parse_ini_file($config, 1);
         }
 
         $this->setAll($config);

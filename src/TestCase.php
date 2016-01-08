@@ -23,7 +23,8 @@ namespace MvcLite;
 class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Subject Under Testing
+     * Subject Under Testing.
+     *
      * @var mixed
      */
     protected $sut;
