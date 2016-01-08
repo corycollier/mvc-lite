@@ -2,9 +2,9 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 // Setup the autoloader.
-define('ROOT', realpath(mvc_dirname(__FILE__) . '/../'));
+// define('ROOT', realpath(mvc_dirname(__FILE__) . '/../'));
 // define('ROOT', realpath(mvc_dirname(__FILE__) . '/../../'));
-// define('ROOT', realpath(mvc_dirname(__FILE__) . '/../../../../'));
+define('ROOT', realpath(mvc_dirname(__FILE__) . '/../../../../'));
 
 require ROOT . '/vendor/autoload.php';
 
