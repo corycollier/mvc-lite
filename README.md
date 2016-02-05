@@ -1,5 +1,7 @@
 # MVC Lite
 
+[![Join the chat at https://gitter.im/corycollier/mvc-lite](https://badges.gitter.im/corycollier/mvc-lite.svg)](https://gitter.im/corycollier/mvc-lite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/corycollier/mvc-lite.svg?branch=master)](https://travis-ci.org/corycollier/mvc-lite)
 [![Latest Stable Version](https://poser.pugx.org/corycollier/mvc-lite/v/stable)](https://packagist.org/packages/corycollier/mvc-lite)
 [![Total Downloads](https://poser.pugx.org/corycollier/mvc-lite/downloads)](https://packagist.org/packages/corycollier/mvc-lite)
